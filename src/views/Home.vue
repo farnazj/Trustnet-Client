@@ -1,18 +1,27 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <v-app>
+    <custom-toolbar></custom-toolbar>
+
+    <v-content>
+      <HelloWorld/>
+    </v-content>
+  </v-app>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import HelloWorld from '../components/HelloWorld'
+import CustomToolbar from '../components/CustomToolbar'
 
 export default {
-  name: 'home',
+  name: 'App',
   components: {
-    HelloWorld
+    HelloWorld,
+    'custom-toolbar': CustomToolbar
+  },
+  data () {
+    return {
+      //
+    }
   }
 }
 </script>
