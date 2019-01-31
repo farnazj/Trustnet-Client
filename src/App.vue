@@ -6,6 +6,7 @@
 
 <script>
 
+
 export default {
   name: 'App',
   components: {
@@ -14,6 +15,18 @@ export default {
     return {
       //
     }
+  },
+  created() {
+
+    //TODO: change
+    this.$http.post('http://localhost:3000/login', {
+      'username': 'saruman', 'password':"i'mevil"},
+      {credentials: true}
+    ).then(response => {
+      console.log(response)
+    });
+
+
   }
 }
 </script>

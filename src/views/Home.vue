@@ -2,9 +2,7 @@
   <v-container>
     <custom-toolbar></custom-toolbar>
     <article-holder></article-holder>
-    <v-content>
-      <HelloWorld/>
-    </v-content>
+    <HelloWorld></HelloWorld>
   </v-container>
 </template>
 
@@ -22,8 +20,10 @@ export default {
   },
   data () {
     return {
-      //
     }
+  },
+  created() {
+
   }
 }
 </script>

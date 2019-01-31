@@ -1,10 +1,9 @@
 <template>
   <v-container>
-    <v-container>
       <v-layout v-for="article in articles" v-bind:key="article.id">
-        <article-preview v-bind:post="article"></article-preview>
+        <article-preview v-bind:post="article.Post"
+        v-bind:boosters="article.Boosters"></article-preview>
       </v-layout>
-    </v-container>
   </v-container>
 </template>
 
@@ -17,11 +16,19 @@ import ArticlePreview from '../components/ArticlePreview'
     },
     data: () => {
       return {
-        articles: []
+        articles: [],
+        users: []
       }
   },
   created() {
-    //fetch boosts (articles)
+    this.$http.get('http://localhost:3000/',
+      {credentials: true}
+    ).then(response => {
+      return response.body;
+    }).then(posts => {
+      this.articles = posts;
+    }).catch(error => console.log(error))
+
   }
 }
 </script>
