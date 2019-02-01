@@ -3,12 +3,12 @@
     <v-layout row>
       <v-flex xs12>
 
-        <v-card>
+        <v-card class="pa-1">
           <v-layout row>
             <v-flex xs4>
-              <v-layout col align-center justify-center fill-height>
+              <v-layout col fill-height>
                 <v-flex xs12>
-                  <v-img v-if="post.image" v-bind:src="post.image" contain> </v-img>
+                  <v-img v-if="post.image" v-bind:src="post.image" contain class="rounded"> </v-img>
 
 
                 </v-flex>
@@ -19,10 +19,10 @@
             <v-flex xs5>
               <v-layout row>
                 <v-flex xs12>
-                  <v-card-title primary-title>
+                  <v-card-title primary-title class="pt-0">
                    <div>
-                     <h2 class="mb-2">{{post.title}}</h2>
-                     <div>{{post.description}}</div>
+                     <h3 class="mb-2">{{post.title}}</h3>
+                     <p>{{post.description}}</p>
                    </div>
                 </v-card-title>
 
@@ -36,9 +36,8 @@
 
                     <v-flex d-flex xs12>
                       <v-icon>fas fa-check</v-icon>
-                      <!-- <v-avatar v-for: color="red">
-                        <span class="white--text headline">J</span>
-                      </v-avatar> -->
+
+                      <!-- <custom-avatar></custom-avatar> -->
                     </v-flex>
 
                     <v-flex d-flex xs12>
@@ -57,7 +56,11 @@
 
           </v-layout>
 
-          <v-layout row>
+          <v-layout row >
+            <v-flex xs12 >
+              <v-icon >fas fa-rocket</v-icon> <span class="mr-3"> Boosted by</span>
+              <custom-avatar v-for="booster in boosters" v-bind:key="booster.id" v-bind:user="booster"></custom-avatar>
+            </v-flex>
           </v-layout>
 
           </v-card>
@@ -71,38 +74,47 @@
 </template>
 
 <script>
+  import customAvatar from '../components/CustomAvatar'
 
   export default {
+    components: {
+     'custom-avatar': customAvatar
+    },
     props: ['post', 'boosters'],
     data: () => {
       return {
-        assessments: [],
+        assessments: []
       }
     },
     methods: {
     },
     created() {
+
+      //this.boosters.forEach(boos)
+      //this.$http.get('')
+      // console.log('beginning')
+      // this.$http.get('http://localhost:3000/trusteds',
+      //   {credentials: true}
+      // ).then(response => {
+      //   response.body.forEach(user => {
+      //     this.$http.get('http://localhost:3000/' + this.post.id + '/' + user.userName + '/assessment/',
+      //     {credentials: true}
+      //   ).then(assessment => {
+      //     console.log(assessment, user.userName);
+      //   }).catch(err => console.log(err))
+      //
+      //   })
+      // })
     }
-  //   watch: {
-  //     post: function(){
-  //       console.log('beginning')
-  //       this.$http.get('http://localhost:3000/follows',
-  //         {credentials: true}
-  //       ).then(response => {
-  //         response.body.forEach(user => {
-  //           this.$http.get('http://localhost:3000/' + this.post.id + '/' + user.userName + '/assessment/',
-  //           {credentials: true}
-  //         ).then(assessment => {
-  //           console.log(assessment, user.userName);
-  //           })
-  //         })
-  //       })
-  //     }
-  //
-  // }
+
+
+
 }
 </script>
 
-<style>
+<style scoped>
 
+.rounded {
+  border-radius: 2%;
+}
 </style>

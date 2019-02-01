@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container class="pt-5">
       <v-layout v-for="article in articles" v-bind:key="article.id">
         <article-preview v-bind:post="article.Post"
         v-bind:boosters="article.Boosters"></article-preview>
