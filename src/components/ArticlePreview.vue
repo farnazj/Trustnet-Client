@@ -10,7 +10,6 @@
                 <v-flex xs12>
                   <v-img v-if="post.image" v-bind:src="post.image" contain class="rounded"> </v-img>
 
-
                 </v-flex>
               </v-layout>
 
@@ -34,21 +33,15 @@
             <v-flex xs3>
               <v-layout col justify-space-around fill-height wrap>
 
-                    <v-flex d-flex xs12>
-                      <v-icon>fas fa-check</v-icon>
+                    <v-flex xs12 v-for="(item, key) in assessments" >
+                        <v-icon class="mr-3" v-if="key == 'confirmed'">fas fa-check</v-icon>
+                        <v-icon class="mr-3" v-else-if="key == 'refuted'">fas fa-times</v-icon>
+                        <v-icon class="mr-3" v-else>fas fa-question</v-icon>
 
-                      <!-- <custom-avatar></custom-avatar> -->
+                        <custom-avatar v-for="assessment in item.slice(0,3)" v-bind:key="assessment.id"
+                        v-bind:user="assessment.assessor"></custom-avatar>
+
                     </v-flex>
-
-                    <v-flex d-flex xs12>
-                      <v-icon>fas fa-times</v-icon>
-                    </v-flex>
-
-
-                    <v-flex d-flex xs12>
-                      <v-icon>fas fa-question</v-icon>
-                    </v-flex>
-
 
               </v-layout>
 
@@ -56,7 +49,7 @@
 
           </v-layout>
 
-          <v-layout row >
+          <v-layout row class="pt-2">
             <v-flex xs12 >
               <v-icon >fas fa-rocket</v-icon> <span class="mr-3"> Boosted by</span>
               <custom-avatar v-for="booster in boosters" v-bind:key="booster.id" v-bind:user="booster"></custom-avatar>
@@ -76,6 +69,9 @@
 <script>
   import customAvatar from '../components/CustomAvatar'
 
+  const validityMapping = { '0': 'refuted', '1': 'confirmed', '2': 'questioned'};
+
+
   export default {
     components: {
      'custom-avatar': customAvatar
@@ -83,30 +79,35 @@
     props: ['post', 'boosters'],
     data: () => {
       return {
-        assessments: []
+        assessments: {'confirmed': [], 'refuted': [], 'questioned': []}
       }
-    },
-    methods: {
     },
     created() {
 
-      //this.boosters.forEach(boos)
-      //this.$http.get('')
-      // console.log('beginning')
-      // this.$http.get('http://localhost:3000/trusteds',
-      //   {credentials: true}
-      // ).then(response => {
-      //   response.body.forEach(user => {
-      //     this.$http.get('http://localhost:3000/' + this.post.id + '/' + user.userName + '/assessment/',
-      //     {credentials: true}
-      //   ).then(assessment => {
-      //     console.log(assessment, user.userName);
-      //   }).catch(err => console.log(err))
-      //
-      //   })
-      // })
-    }
+      /*
+      Fetches the user objects of sourceIds in each PostAssessment and organizes
+      assessments by validity status
+      */
+      this.post.PostAssessments.forEach(post_assessment => {
+        let assessment_obj = {};
+        for (const [key, value] of Object.entries(post_assessment)) {
+          assessment_obj[key] = value;
+        }
+        this.$http.get('http://localhost:3000/sources/ids/' + post_assessment.SourceId,
+          {credentials: true}
+        ).then(response => {
+          assessment_obj['assessor'] = response.body;
 
+          let cred_value = validityMapping[post_assessment.postCredibility.toString()];
+          this.assessments[cred_value].push(assessment_obj);
+        })
+
+      })
+
+    },
+    computed : {
+
+    }
 
 
 }
