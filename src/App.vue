@@ -23,7 +23,7 @@ export default {
       'username': 'saruman', 'password':"i'mevil"},
       {credentials: true}
     ).then(response => {
-      console.log(response)
+      console.log("inja", response)
     });
 
 

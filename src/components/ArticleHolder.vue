@@ -9,6 +9,7 @@
 
 <script>
 import ArticlePreview from '../components/ArticlePreview'
+import infiniteScroll from '../mixins/infiniteScroll'
 
   export default {
     components: {
@@ -17,11 +18,11 @@ import ArticlePreview from '../components/ArticlePreview'
     data: () => {
       return {
         articles: [],
-        users: []
+        url: 'http://localhost:3000/boosts'
       }
   },
   created() {
-    this.$http.get('http://localhost:3000/',
+    this.$http.get(this.url + '?limit='+ this.limit + "&offset=" + this.offset,
       {credentials: true}
     ).then(response => {
       return response.body;
@@ -29,7 +30,14 @@ import ArticlePreview from '../components/ArticlePreview'
       this.articles = posts;
     }).catch(error => console.log(error))
 
-  }
+  },
+  computed : {
+    extension: function() {
+      return this.articles;
+    }
+  },
+  mixins : [infiniteScroll]
+
 }
 </script>
 

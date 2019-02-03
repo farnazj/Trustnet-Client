@@ -52,7 +52,8 @@
           <v-layout row class="pt-2">
             <v-flex xs12 >
               <v-icon >fas fa-rocket</v-icon> <span class="mr-3"> Boosted by</span>
-              <custom-avatar v-for="booster in boosters" v-bind:key="booster.id" v-bind:user="booster"></custom-avatar>
+              <custom-avatar v-for="booster in boosters" v-bind:key="booster.id" v-bind:user="booster">
+              </custom-avatar>
             </v-flex>
           </v-layout>
 
@@ -69,8 +70,7 @@
 <script>
   import customAvatar from '../components/CustomAvatar'
 
-  const validityMapping = { '0': 'refuted', '1': 'confirmed', '2': 'questioned'};
-
+  const validityMapping = { '0': 'refuted', '1': 'questioned', '2': 'confirmed'};
 
   export default {
     components: {
@@ -101,15 +101,9 @@
           let cred_value = validityMapping[post_assessment.postCredibility.toString()];
           this.assessments[cred_value].push(assessment_obj);
         })
-
       })
 
-    },
-    computed : {
-
     }
-
-
 }
 </script>
 
