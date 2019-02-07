@@ -30,7 +30,6 @@ export default {
       return (this.user.firstName.charAt(0) + this.user.lastName.charAt(0)).toUpperCase();
     },
     getCroppedUserName: function() {
-      console.log("user", this.user)
       return this.user.userName.substring(0,3);
     }
   },

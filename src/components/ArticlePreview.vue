@@ -14,7 +14,8 @@
               </v-layout>
 
               <v-layout row class="py-2" align-center>
-                <span class="mr-2">By</span> <custom-avatar v-bind:user="initiator"></custom-avatar>
+                <span class="mr-2">By</span>
+                <custom-avatar v-if="Object.entries(initiator).length != 0" v-bind:user="initiator"></custom-avatar>
                 <span> </span>
               </v-layout>
 
