@@ -8,6 +8,8 @@
 </template>
 
 <script>
+import {mapState, mapActions} from 'vuex';
+
 import ArticlePreview from '../components/ArticlePreview'
 import infiniteScroll from '../mixins/infiniteScroll'
 
@@ -17,24 +19,35 @@ import infiniteScroll from '../mixins/infiniteScroll'
     },
     data: () => {
       return {
-        articles: [],
-        url: 'http://localhost:3000/boosts'
+        //articles: [],
+        //url: 'http://localhost:3000/boosts'
       }
   },
   created() {
-    this.$http.get(this.url + '?limit='+ this.limit + "&offset=" + this.offset,
-      {credentials: true}
-    ).then(response => {
-      return response.body;
-    }).then(posts => {
-      this.articles = posts;
-    }).catch(error => console.log(error))
+    // this.$http.get(this.url + '?limit='+ this.limit + "&offset=" + this.offset,
+    //   {credentials: true}
+    // ).then(response => {
+    //   return response.body;
+    // }).then(posts => {
+    //   this.articles = posts;
+    // }).catch(error => console.log(error))
+    this.$store.dispatch('articleFilters/getMoreBoosts')
 
   },
   computed : {
-    extension: function() {
-      return this.articles;
-    }
+    ...mapState('articleFilters', {
+      articles: state => state.articles,
+      offset: state => state.offset,
+      limit: state => state.limit
+    })
+  },
+  methods: {
+    extend: function() {
+      this.$store.dispatch('articleFilters/getMoreBoosts')
+    },
+    ...mapActions('articleFilters', [
+      'getMoreBoosts'
+    ])
   },
   mixins : [infiniteScroll]
 

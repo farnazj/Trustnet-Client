@@ -6,8 +6,9 @@
 
 <script>
 
-
+import axios from 'axios'
 export default {
+
   name: 'App',
   components: {
   },
@@ -16,17 +17,20 @@ export default {
       //
     }
   },
-  created() {
-
-    //TODO: change
-    this.$http.post('http://localhost:3000/login', {
-      'username': 'saruman', 'password':"i'mevil"},
-      {credentials: true}
-    ).then(response => {
-      console.log("inja", response)
-    });
+  mounted() {
 
 
-  }
+  },
+  computed : {
+      isLoggedIn : function(){ return this.$store.getters.isLoggedIn}
+    },
+    methods: {
+      logout: function () {
+        this.$store.dispatch('logout')
+        .then(() => {
+          this.$router.push('/login')
+        })
+      }
+    },
 }
 </script>

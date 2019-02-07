@@ -16,7 +16,6 @@ import CustomToolbar from '../components/CustomToolbar'
 import ArticleHolder from '../components/ArticleHolder'
 
 export default {
-  name: 'App',
   components: {
     'custom-toolbar': CustomToolbar,
     'article-holder': ArticleHolder

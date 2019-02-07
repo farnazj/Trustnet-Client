@@ -1,8 +1,6 @@
 export default {
   data: () => {
     return {
-      offset: 0,
-      limit: 15,
       endOfResults: false
     }
   },
@@ -13,21 +11,17 @@ export default {
 
         if (!this.endOfResults && bottomOfWindow) {
           console.log('bottom of window')
-          this.$http.get(this.url + '?limit='+ this.limit + "&offset=" + this.offset,
-          {credentials: true}
-          ).then(response => {
-            this.offset += response.body.length;
-            this.extension.push(...response.body);
+          this.extend();
 
-            if (response.body.length < this.limit)
-              this.endOfResults = true;
-          });
+          // if (response.body.length < this.limit)
+          //   this.endOfResults = true;
         }
+
+
       };
     },
   },
   mounted() {
-    this.offset = this.limit;
     this.scroll();
   }
 }
