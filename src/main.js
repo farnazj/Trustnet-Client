@@ -10,8 +10,6 @@ import App from './App.vue'
 import router from './router'
 import store from './store/store'
 
-var moment = require('moment')
-
 Vue.config.productionTip = false
 
 //Vue.use(VueResource);

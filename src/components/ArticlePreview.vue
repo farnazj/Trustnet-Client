@@ -16,7 +16,7 @@
               <v-layout row class="py-2" align-center>
                 <span class="mr-2">By</span>
                 <custom-avatar v-if="Object.entries(initiator).length != 0" v-bind:user="initiator"></custom-avatar>
-                <span> </span>
+                <span class="ml-2"> {{timeElapsed}} </span>
               </v-layout>
 
             </v-flex>
@@ -83,7 +83,7 @@
 <script>
   import customAvatar from '../components/CustomAvatar'
   import sourceServices from '../../services/sourceServices'
-
+  var moment = require('moment')
 
   const validityMapping = { '0': 'refuted', '1': 'questioned', '2': 'confirmed'};
 
@@ -96,6 +96,11 @@
       return {
         assessments: {'confirmed': [], 'refuted': [], 'questioned': []},
         initiator: {}
+      }
+    },
+    computed: {
+      timeElapsed: function() {
+        return moment(this.post.updatedAt, "YYYYMMDD").fromNow();
       }
     },
     created() {
