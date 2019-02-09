@@ -1,14 +1,16 @@
 <template>
-  <v-container class="pt-5">
+  <v-layout row class="pt-5">
+    <v-flex xs12>
       <v-layout v-for="article in articles" v-bind:key="article.id">
         <article-preview v-bind:post="article.Post"
         v-bind:boosters="article.Boosters"></article-preview>
       </v-layout>
-  </v-container>
+    </v-flex>
+  </v-layout>
 </template>
 
 <script>
-import {mapState, mapActions} from 'vuex';
+import { mapState, mapActions } from 'vuex';
 
 import ArticlePreview from '../components/ArticlePreview'
 import infiniteScroll from '../mixins/infiniteScroll'
@@ -19,20 +21,11 @@ import infiniteScroll from '../mixins/infiniteScroll'
     },
     data: () => {
       return {
-        //articles: [],
-        //url: 'http://localhost:3000/boosts'
       }
   },
   created() {
-    // this.$http.get(this.url + '?limit='+ this.limit + "&offset=" + this.offset,
-    //   {credentials: true}
-    // ).then(response => {
-    //   return response.body;
-    // }).then(posts => {
-    //   this.articles = posts;
-    // }).catch(error => console.log(error))
-    this.$store.dispatch('articleFilters/getMoreBoosts')
 
+    this.$store.dispatch('articleFilters/getMoreBoosts')
   },
   computed : {
     ...mapState('articleFilters', {

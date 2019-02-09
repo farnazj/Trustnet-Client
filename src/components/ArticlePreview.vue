@@ -16,7 +16,7 @@
               <v-layout row class="py-2" align-center>
                 <span class="mr-2">By</span>
                 <custom-avatar v-if="Object.entries(initiator).length != 0" v-bind:user="initiator"></custom-avatar>
-                <span class="ml-2"> {{timeElapsed}} </span>
+                <span class="ml-2"> {{timeElapsed(post.updatedAt)}} </span>
               </v-layout>
 
             </v-flex>
@@ -39,12 +39,12 @@
             <v-flex xs3>
               <v-layout col justify-space-around fill-height wrap>
 
-                    <v-flex xs12 >
-                      <v-layout row v-for="(item, key, index) in assessments" v-bind:key="index">
+                    <v-flex xs12 v-on:click="showAssessments" >
+                      <v-layout row v-for="(item, key, index) in assessments" v-bind:key="index" class="mb-1">
                         <v-flex xs12>
                           <v-icon class="mr-3" v-if="key == 'confirmed' && item.length">fas fa-check</v-icon>
-                          <v-icon class="mr-3" v-else-if="key == 'refuted' && item.length">fas fa-times</v-icon>
-                          <v-icon class="mr-3" v-else-if="key == 'questioned' && item.length">fas fa-question</v-icon>
+                          <v-icon class="mr-4" v-else-if="key == 'refuted' && item.length">fas fa-times</v-icon>
+                          <v-icon class="mr-4" v-else-if="key == 'questioned' && item.length">fas fa-question</v-icon>
 
                           <custom-avatar v-for="assessment in item.slice(0,3)" v-bind:key="assessment.id"
                           v-bind:user="assessment.assessor"></custom-avatar>
@@ -83,7 +83,7 @@
 <script>
   import customAvatar from '../components/CustomAvatar'
   import sourceServices from '../../services/sourceServices'
-  var moment = require('moment')
+  import timeHelpers from '../mixins/timeHelpers'
 
   const validityMapping = { '0': 'refuted', '1': 'questioned', '2': 'confirmed'};
 
@@ -98,9 +98,9 @@
         initiator: {}
       }
     },
-    computed: {
-      timeElapsed: function() {
-        return moment(this.post.updatedAt, "YYYYMMDD").fromNow();
+    methods: {
+      showAssessments: function() {
+        this.$store.dispatch('assessments/showAssessments', this.assessments)
       }
     },
     created() {
@@ -130,6 +130,7 @@
       })
 
     },
+    mixins: [timeHelpers]
 
 }
 </script>
