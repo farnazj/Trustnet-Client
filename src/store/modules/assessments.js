@@ -23,7 +23,6 @@ export default {
       context.commit('show_assessments');
     },
     hideContainer: (context) => {
-      console.log('yeay')
       context.commit('hide_assessments');
     }
   }

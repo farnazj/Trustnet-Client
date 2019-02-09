@@ -1,5 +1,6 @@
 <template>
 
+<v-fade-transition>
   <v-layout row class="pt-5" id="assessment_container">
     <v-flex xs12>
       <v-card>
@@ -61,13 +62,12 @@
 
         </v-flex>
 
-
       </v-layout>
 
       </v-card>
     </v-flex>
   </v-layout>
-
+</v-fade-transition>
 
 </template>
 
