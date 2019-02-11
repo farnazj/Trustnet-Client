@@ -20,7 +20,7 @@
 
         <v-list-tile v-for="(validity, i) in validity_filters"
           :key="i" @click="filter(validity, 'validity')"
-          :class="{highlighted:validity == selected['validity']}">
+          :class="{highlighted:validity == selected_filters['validity']}">
           <v-list-tile-title v-text="validity"></v-list-tile-title>
         </v-list-tile>
       </v-list-group>
@@ -38,7 +38,7 @@
 
         <v-list-tile v-for="(source, i) in source_filters"
           :key="i" @click="filter(source, 'sources')"
-          :class="{highlighted:source == selected['sources']}">
+          :class="{highlighted:source == selected_filters['sources']}">
           <v-list-tile-title v-text="source"></v-list-tile-title>
         </v-list-tile>
       </v-list-group>
@@ -55,7 +55,8 @@
       return {
         validity_filters: [ 'Confirmed', 'Refuted', 'Debated'],
         source_filters: ['Me', 'Trusted', 'Selected Sources'],
-        selected: {'validity': undefined, 'sources': undefined }
+        selected_filters: {'validity': undefined, 'sources': undefined },
+        selected_sources: []
       }
   },
   created() {
@@ -68,10 +69,12 @@
     filter: function(name, type) {
 
       if (name == 'All')
-        this.selected[type] = undefined;
+        this.selected_filters[type] = undefined;
       else
-        this.selected[type] = name
+        this.selected_filters[type] = name
 
+    this.$store.dispatch('articleFilters/applyFilter',
+    {'filters': this.selected_filters, 'source_usernames': this.selected_sources});
     }
   }
 

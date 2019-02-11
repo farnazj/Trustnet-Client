@@ -3,13 +3,12 @@ import postServices from '../../../services/postServices'
 export default {
   namespaced: true,
   state: {
-    validity_filter: 'all',
-    cred_filter: 'all',
+    validity_filter: 'All',
+    source_filter: 'All',
+    source_usernames: [],
     articles: [],
     offset: 0,
     limit: 10,
-    //validity_filter: 'all' // values in: [confirmed, refuted, debated, all]
-    //cred_filter: '' //values in : [trusted, me, arr_of_usernames, all] -> all unmuted followees
   },
   getters: {
     articles: state => {return state.articles;}
@@ -17,18 +16,47 @@ export default {
   mutations: {
     append_articles: (state, posts) => {
       state.articles.push(...posts);
-      state.offset += state.limit;
+      state.offset += posts.length;
+    },
+
+    refresh_articles: (state, posts) => {
+      state.articles = posts;
+      state.offset = posts.length;
+    },
+
+    change_filter_value: (state, filters) => {
+      state.validity_filter = filters.filters.validity ? filters.filters.validity : 'All';
+      state.source_filter = filters.filters.sources ?
+        (filters.filters.sources == 'Selected Sources' ?  'usernames' : filters.filters.sources)
+        : 'All';
+
+      state.validity_filter = state.validity_filter.toLowerCase();
+      state.source_filter = state.source_filter.toLowerCase();
+
+      state.source_usernames = filters.source_usernames;
     }
   },
   actions: {
-    getMoreBoosts: (context) => {
+
+    getArticles: (context) => {
+
       return new Promise((resolve, reject) => {
 
         postServices.getBoosts({offset: context.state.offset, limit: context.state.limit},
-          { source: context.cred_filter,
-            validity: context.validity_filter})
+          { source: context.state.source_filter,
+            validity: context.state.validity_filter,
+            source_usernames: context.state.source_usernames.toString()})
         .then(response => {
-          return response.data; })
+          resolve(response.data);
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+    getMoreBoosts: (context) => {
+      return new Promise((resolve, reject) => {
+
+        context.dispatch('getArticles')
         .then(posts => {
            context.commit('append_articles', posts);
            resolve(); })
@@ -37,6 +65,17 @@ export default {
           reject(error);
         })
 
+      })
+    },
+
+    applyFilter: (context, payload) => {
+      context.commit('change_filter_value', payload);
+      context.dispatch('getArticles')
+      .then(posts => {
+         context.commit('refresh_articles', posts);
+       })
+      .catch(error => {
+        console.log("in actions", error);
       })
     }
   }
