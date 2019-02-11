@@ -5,7 +5,7 @@
     <v-flex xs12>
       <v-card>
       <v-layout row justify-end class="pr-1">
-        <v-icon v-on:click="hideContainer">fas fa-times</v-icon>
+        <v-icon v-on:click="hideContainer">clear</v-icon>
       </v-layout>
 
       <v-layout row wrap v-if="assessments.questioned.length != 0">

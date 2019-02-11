@@ -6,7 +6,9 @@
 
     <v-layout row>
 
-      <v-flex xs2></v-flex>
+      <v-flex xs2>
+        <filters class="left-frozen"></filters>
+      </v-flex>
       <v-flex xs7>
         <article-holder></article-holder>
       </v-flex>
@@ -21,6 +23,7 @@
 import CustomToolbar from '../components/CustomToolbar'
 import ArticleHolder from '../components/ArticleHolder'
 import AssessmentsContainer from '../components/AssessmentsContainer'
+import Filters from '../components/Filters'
 
 import { mapGetters } from 'vuex'
 
@@ -29,7 +32,8 @@ export default {
   components: {
     'custom-toolbar': CustomToolbar,
     'article-holder': ArticleHolder,
-    'assessments-container': AssessmentsContainer
+    'assessments-container': AssessmentsContainer,
+    'filters': Filters
   },
   data () {
     return {
@@ -50,5 +54,9 @@ export default {
   position: fixed;
   right: 0px;
   width: 22%;
+}
+
+.left-frozen {
+  position: fixed;
 }
 </style>
