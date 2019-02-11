@@ -7,7 +7,7 @@ export default {
   },
   methods: {
     timeElapsed: function(time) {
-      return moment(time, "YYYYMMDD").fromNow();
+      return moment(time).startOf('minute').fromNow();
     }
   }
 }

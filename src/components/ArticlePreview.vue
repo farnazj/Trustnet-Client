@@ -62,10 +62,10 @@
 
           </v-layout>
 
-          <v-layout row class="pt-2">
+          <v-layout row class="pt-2" wrap>
             <v-flex xs12 >
               <v-icon >fas fa-rocket</v-icon> <span class="mr-3"> Boosted by</span>
-              <custom-avatar v-for="booster in boosters" v-bind:key="booster.id" v-bind:user="booster">
+              <custom-avatar v-for="booster in boosters.slice(0,15)" v-bind:key="booster.id" v-bind:user="booster">
               </custom-avatar>
             </v-flex>
           </v-layout>
