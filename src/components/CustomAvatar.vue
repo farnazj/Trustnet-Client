@@ -1,6 +1,6 @@
 <template>
 
-    <v-avatar color="teal" v-on:click="goToPage">
+    <v-avatar color="teal" v-bind:size="size" v-on:click="goToPage">
 
       <img v-if="user.photo" v-bind:src="user.photo">
       <span v-else-if="user.firstName" class="white--text"> {{getInitials}}</span>
@@ -14,7 +14,14 @@
 
 export default {
   props: {
-    user: { type: Object }
+    user: {
+      type: Object,
+      required: true
+    },
+    size: {
+      type: Number,
+      required: false
+    }
   },
   data () {
     return {
