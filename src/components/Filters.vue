@@ -1,11 +1,11 @@
 <template>
 
-  <v-list class="pt-5 full-height" expand>
+  <v-list class="pt-5 full-height scrollable" expand>
     <v-list-tile>
       <v-list-tile-action>
           <v-icon>filter_list</v-icon>
         </v-list-tile-action>
-      <v-list-tile-title class="bold">Filters</v-list-tile-title>
+      <v-list-tile-sub-title class="bold">Filters</v-list-tile-sub-title>
     </v-list-tile>
 
     <v-list-group prepend-icon="gavel" value="true">
@@ -43,40 +43,74 @@
         </v-list-tile>
       </v-list-group>
     </v-list-group>
-</v-list>
+
+
+    <v-divider></v-divider>
+
+    <div>
+      <v-list subheader>
+        <v-subheader>Followed Sources</v-subheader>
+        <v-list-tile v-for="source in followed_sources"
+            :key="source.id" avatar @click="">
+          <v-list-tile-avatar>
+            <custom-avatar v-bind:user="source" v-bind:size="38"></custom-avatar>
+          </v-list-tile-avatar>
+
+          <v-list-tile-content>
+            <v-list-tile-sub-title>{{sourceDisplayName(source)}} </v-list-tile-sub-title>
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
+    </div>
+
+  </v-list>
 
 </template>
 
 <script>
+  import relationServices from '../../services/relationServices'
+  import customAvatar from '../components/CustomAvatar'
+  import utils from '../mixins/utils'
+  import timeHelpers from '../mixins/timeHelpers'
 
   export default {
-
+    components: {
+      'custom-avatar': customAvatar
+    },
     data: () => {
       return {
         validity_filters: [ 'Confirmed', 'Refuted', 'Debated'],
         source_filters: ['Me', 'Trusted', 'Selected Sources'],
         selected_filters: {'validity': undefined, 'sources': undefined },
-        selected_sources: []
+        selected_sources: [],
+        followed_sources: []
       }
-  },
-  created() {
+    },
+    created() {
+      relationServices.getFollows()
+      .then(response => {
+        let follows = response.data;
+        follows.sort(this.compareSources);
+        this.followed_sources = follows;
+      })
 
-  },
-  computed : {
+    },
+    methods: {
+      filter: function(name, type) {
 
-  },
-  methods: {
-    filter: function(name, type) {
+        if (name == 'All')
+          this.selected_filters[type] = undefined;
+        else
+          this.selected_filters[type] = name
 
-      if (name == 'All')
-        this.selected_filters[type] = undefined;
-      else
-        this.selected_filters[type] = name
-
-    this.$store.dispatch('articleFilters/applyFilter',
-    {'filters': this.selected_filters, 'source_usernames': this.selected_sources});
-    }
-  }
+        this.$store.dispatch('articleFilters/applyFilter',
+          {'filters': this.selected_filters, 'source_usernames': this.selected_sources});
+      },
+      sourceDisplayName: function(source) {
+          return source.systemMade ? source.userName : source.firstName + ' ' + source.lastName;
+      }
+    },
+    mixins: [utils]
 
 }
 </script>
@@ -87,11 +121,15 @@
   height: 95vh;
 }
 .bold {
-  font-size: 130%;
+  font-size: 120%;
 }
 
 .highlighted {
   background-color: #90CAF9;
+}
+
+.scrollable {
+  overflow-y: auto;
 }
 
 </style>

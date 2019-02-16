@@ -17,6 +17,7 @@ export default {
     append_articles: (state, posts) => {
       state.articles.push(...posts);
       state.offset += posts.length;
+
     },
 
     refresh_articles: (state, posts) => {
@@ -34,6 +35,7 @@ export default {
       state.source_filter = state.source_filter.toLowerCase();
 
       state.source_usernames = filters.source_usernames;
+      state.offset = 0;
     }
   },
   actions: {
@@ -53,6 +55,7 @@ export default {
         })
       })
     },
+
     getMoreBoosts: (context) => {
       return new Promise((resolve, reject) => {
 
