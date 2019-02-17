@@ -30,7 +30,6 @@ export default {
      { 'username': username,
       'password': password })
     .then(() => {
-      console.log(' sth')
       this.$router.push('/');
     }).catch(err => console.log(err))
    }

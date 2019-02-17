@@ -5,7 +5,7 @@
     <v-flex xs12>
       <v-card>
       <v-layout row justify-end class="pr-1">
-        <v-icon v-on:click="hideContainer">clear</v-icon>
+        <v-icon @click="hideContainer">clear</v-icon>
       </v-layout>
 
       <v-layout row wrap v-if="assessments.questioned.length != 0">
@@ -17,7 +17,7 @@
          </v-card-title>
 
           <custom-avatar v-for="item in assessments.questioned"
-          v-bind:key="item.id" v-bind:user="item.assessor" class="mr-1">
+          :key="item.id" :user="item.assessor" class="mr-1">
           </custom-avatar>
 
           <v-divider></v-divider>
@@ -44,7 +44,7 @@
 
                 <v-layout row class="mb-2">
                   <v-flex xs12>
-                    <custom-avatar v-bind:user="assessment.assessor"></custom-avatar>
+                    <custom-avatar :user="assessment.assessor"></custom-avatar>
                     <span class="ml-2"> {{timeElapsed(assessment.updatedAt)}} </span>
                   </v-flex>
                 </v-layout>
@@ -72,8 +72,8 @@
 </template>
 
 <script>
-import customAvatar from '../components/CustomAvatar'
-import timeHelpers from '../mixins/timeHelpers'
+import customAvatar from '@/components/CustomAvatar'
+import timeHelpers from '@/mixins/timeHelpers'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {

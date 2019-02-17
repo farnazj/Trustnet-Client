@@ -2,8 +2,7 @@
   <v-container>
     <v-layout
       text-xs-center
-      wrap
-    >
+      wrap>
       <v-flex xs12>
         <v-img
           :src="require('../assets/logo.svg')"
@@ -85,14 +84,9 @@
 </template>
 
 <script>
-import { VCard, VCardText, VCardMedia } from 'vuetify/lib'
 
   export default {
-    components: {
-      VCard,
-      VCardText,
-      VCardMedia
-    },
+
     data: () => ({
       ecosystem: [
         {

@@ -20,10 +20,10 @@
 </template>
 
 <script>
-import CustomToolbar from '../components/CustomToolbar'
-import ArticleHolder from '../components/ArticleHolder'
-import AssessmentsContainer from '../components/AssessmentsContainer'
-import Filters from '../components/Filters'
+import CustomToolbar from '@/components/CustomToolbar'
+import ArticleHolder from '@/components/ArticleHolder'
+import AssessmentsContainer from '@/components/AssessmentsContainer'
+import Filters from '@/components/Filters'
 
 import { mapGetters } from 'vuex'
 

@@ -1,9 +1,9 @@
 <template>
   <v-layout row class="pt-5">
     <v-flex xs12>
-      <v-layout v-for="article in articles" v-bind:key="article.id">
-        <article-preview v-bind:post="article.Post"
-        v-bind:boosters="article.Boosters"></article-preview>
+      <v-layout v-for="article in articles" :key="article.id">
+        <article-preview :post="article.Post"
+        :boosters="article.Boosters"></article-preview>
       </v-layout>
     </v-flex>
   </v-layout>
@@ -12,8 +12,8 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 
-import ArticlePreview from '../components/ArticlePreview'
-import infiniteScroll from '../mixins/infiniteScroll'
+import ArticlePreview from '@/components/ArticlePreview'
+import infiniteScroll from '@/mixins/infiniteScroll'
 
   export default {
     components: {

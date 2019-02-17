@@ -1,8 +1,8 @@
 <template>
 
-    <v-avatar color="teal" v-bind:size="size" v-on:click="goToPage">
+    <v-avatar color="teal" :size="size" @click="goToPage">
 
-      <img v-if="user.photo" v-bind:src="user.photo">
+      <img v-if="user.photo" :src="user.photo">
       <span v-else-if="user.firstName" class="white--text"> {{getInitials}}</span>
       <span v-else class="white--text"> {{getCroppedUserName}} </span>
 

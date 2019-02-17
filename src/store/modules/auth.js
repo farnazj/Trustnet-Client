@@ -1,4 +1,4 @@
-import authServices from '../../../services/authServices'
+import authServices from '@/services/authServices'
 
 export default {
   namespaced: true,
@@ -31,7 +31,6 @@ export default {
   actions: {
 
     login: (context, user) => {
-      console.log('hereeee')
       return new Promise((resolve, reject) => {
         context.commit('auth_request')
         authServices.login(user)

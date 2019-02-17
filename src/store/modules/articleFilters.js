@@ -1,4 +1,4 @@
-import postServices from '../../../services/postServices'
+import postServices from '@/services/postServices'
 
 export default {
   namespaced: true,

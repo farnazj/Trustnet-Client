@@ -8,14 +8,14 @@
             <v-flex xs4>
               <v-layout row>
                 <v-flex xs12>
-                  <v-img v-if="post.image" v-bind:src="post.image" contain class="rounded"> </v-img>
+                  <v-img v-if="post.image" :src="post.image" contain class="rounded"> </v-img>
 
                 </v-flex>
               </v-layout>
 
               <v-layout row class="py-2" align-center>
                 <span class="mr-2">By</span>
-                <custom-avatar v-if="Object.entries(initiator).length != 0" v-bind:user="initiator"></custom-avatar>
+                <custom-avatar v-if="Object.entries(initiator).length != 0" :user="initiator"></custom-avatar>
                 <span class="ml-2"> {{timeElapsed(post.updatedAt)}} </span>
               </v-layout>
 
@@ -39,15 +39,15 @@
             <v-flex xs3>
               <v-layout col justify-space-around fill-height wrap>
 
-                    <v-flex xs12 v-on:click="showAssessments" >
-                      <v-layout row v-for="(item, key, index) in assessments" v-bind:key="index" class="mb-1">
+                    <v-flex xs12 @click="showAssessments" >
+                      <v-layout row v-for="(item, key, index) in assessments" :key="index" class="mb-1">
                         <v-flex xs12>
                           <v-icon class="mr-3" v-if="key == 'confirmed' && item.length">fas fa-check</v-icon>
                           <v-icon class="mr-4" v-else-if="key == 'refuted' && item.length">fas fa-times</v-icon>
                           <v-icon class="mr-4" v-else-if="key == 'questioned' && item.length">fas fa-question</v-icon>
 
-                          <custom-avatar v-for="assessment in item.slice(0,3)" v-bind:key="assessment.id"
-                          v-bind:user="assessment.assessor"></custom-avatar>
+                          <custom-avatar v-for="assessment in item.slice(0,3)" :key="assessment.id"
+                          :user="assessment.assessor"></custom-avatar>
 
                           <span v-if="item.length > 3">...</span>
 
@@ -65,7 +65,7 @@
           <v-layout row class="pt-2" wrap>
             <v-flex xs12 >
               <v-icon >fas fa-rocket</v-icon> <span class="mr-3"> Boosted by</span>
-              <custom-avatar v-for="booster in boosters.slice(0,15)" v-bind:key="booster.id" v-bind:user="booster">
+              <custom-avatar v-for="booster in boosters.slice(0,15)" :key="booster.id" :user="booster">
               </custom-avatar>
             </v-flex>
           </v-layout>
@@ -81,9 +81,9 @@
 </template>
 
 <script>
-  import customAvatar from '../components/CustomAvatar'
-  import sourceServices from '../../services/sourceServices'
-  import timeHelpers from '../mixins/timeHelpers'
+  import customAvatar from '@/components/CustomAvatar'
+  import sourceServices from '@/services/sourceServices'
+  import timeHelpers from '@/mixins/timeHelpers'
 
   const validityMapping = { '0': 'refuted', '1': 'questioned', '2': 'confirmed'};
 

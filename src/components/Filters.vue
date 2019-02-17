@@ -1,6 +1,6 @@
 <template>
 
-  <v-list class="pt-5 full-height scrollable" expand>
+  <v-list class="pt-5 article-filters scrollable" expand>
     <v-list-tile>
       <v-list-tile-action>
           <v-icon>filter_list</v-icon>
@@ -47,14 +47,13 @@
 
     <v-divider></v-divider>
 
-    <div>
       <v-list subheader>
         <v-subheader>Followed Sources</v-subheader>
         <v-list-tile v-for="source in followed_sources"
             :key="source.id" avatar @click="selectSource(source)"
             :class="{highlighted:selected_sources.includes(source.userName)}">
           <v-list-tile-avatar>
-            <custom-avatar v-bind:user="source" v-bind:size="38"></custom-avatar>
+            <custom-avatar :user="source" :size="38"></custom-avatar>
           </v-list-tile-avatar>
 
           <v-list-tile-content>
@@ -62,17 +61,16 @@
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
-    </div>
 
   </v-list>
 
 </template>
 
 <script>
-  import relationServices from '../../services/relationServices'
-  import customAvatar from '../components/CustomAvatar'
-  import utils from '../mixins/utils'
-  import timeHelpers from '../mixins/timeHelpers'
+  import relationServices from '@/services/relationServices'
+  import customAvatar from '@/components/CustomAvatar'
+  import utils from '@/mixins/utils'
+  import timeHelpers from '@/mixins/timeHelpers'
 
   export default {
     components: {
@@ -130,8 +128,9 @@
 
 <style scoped>
 
-.full-height {
+.article-filters {
   height: 95vh;
+  background-color: #EEEEEE;
 }
 .bold {
   font-size: 120%;
