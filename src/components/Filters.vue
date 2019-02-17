@@ -51,7 +51,8 @@
       <v-list subheader>
         <v-subheader>Followed Sources</v-subheader>
         <v-list-tile v-for="source in followed_sources"
-            :key="source.id" avatar @click="">
+            :key="source.id" avatar @click="selectSource(source)"
+            :class="{highlighted:selected_sources.includes(source.userName)}">
           <v-list-tile-avatar>
             <custom-avatar v-bind:user="source" v-bind:size="38"></custom-avatar>
           </v-list-tile-avatar>
@@ -103,6 +104,18 @@
         else
           this.selected_filters[type] = name
 
+        this.filterBoosts();
+      },
+      selectSource: function(source) {
+        if (this.selected_sources.includes(source.userName))
+          this.selected_sources.splice(this.selected_sources.indexOf(source.userName), 1);
+        else
+          this.selected_sources.push(source.userName);
+
+        if (this.selected_filters.sources == 'Selected Sources')
+          this.filterBoosts();
+      },
+      filterBoosts: function() {
         this.$store.dispatch('articleFilters/applyFilter',
           {'filters': this.selected_filters, 'source_usernames': this.selected_sources});
       },
