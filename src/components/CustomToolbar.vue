@@ -5,27 +5,28 @@
       </v-toolbar-title>
       <v-spacer></v-spacer>
 
-      <a href="#">
-        <v-avatar color="indigo">
-          <v-icon dark>account_circle</v-icon>
-          <!--   <span class="white--text headline">FJ</span> -->
-        </v-avatar>
-      </a>
+      <custom-avatar :user="user"></custom-avatar>
 
     </v-toolbar>
 </template>
 
 <script>
+import customAvatar from '@/components/CustomAvatar'
+import { mapGetters } from 'vuex'
 
 export default {
+  components: {
+   'custom-avatar': customAvatar
+  },
   data () {
     return {
-      //
     }
   },
-  created() {
-    //build the href for avatar
-    //replace the text in span inside the avatar
+  computed: {
+
+    ...mapGetters('auth', [
+     'user'
+   ])
   }
 }
 </script>

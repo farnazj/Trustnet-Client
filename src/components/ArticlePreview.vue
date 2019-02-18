@@ -106,7 +106,6 @@
     },
     created() {
 
-
       this.boosters = [...new Set(this.post.Boosteds.map(boost => boost.Boosters).flat())];
 
       sourceServices.getSourceById(this.post.SourceId)

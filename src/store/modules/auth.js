@@ -9,8 +9,9 @@ export default {
   },
   getters: {
 
-    isLoggedIn: state => state.status == 'success',
-    authStatus: state => state.status
+    isLoggedIn: (state) => { return state.status == 'success' },
+    authStatus: (state) => { return state.status },
+    user: (state) => { return state.user }
   },
   mutations: {
 
