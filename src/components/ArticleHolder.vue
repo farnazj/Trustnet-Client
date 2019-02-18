@@ -2,8 +2,7 @@
   <v-layout row class="pt-5">
     <v-flex xs12>
       <v-layout v-for="article in articles" :key="article.id">
-        <article-preview :post="article.Post"
-        :boosters="article.Boosters"></article-preview>
+        <article-preview :post="article"></article-preview>
       </v-layout>
     </v-flex>
   </v-layout>

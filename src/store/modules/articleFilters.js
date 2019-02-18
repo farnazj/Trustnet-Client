@@ -17,11 +17,9 @@ export default {
     append_articles: (state, posts) => {
       state.articles.push(...posts);
       state.offset += posts.length;
-
     },
 
     refresh_articles: (state, posts) => {
-
       state.articles = posts;
       state.offset = posts.length;
     },
@@ -76,7 +74,6 @@ export default {
       context.commit('change_filter_value', payload);
       context.dispatch('getArticles')
       .then(posts => {
-        console.log('going to refresh page with ', posts.length)
         context.commit('refresh_articles', posts);
        })
       .catch(error => {

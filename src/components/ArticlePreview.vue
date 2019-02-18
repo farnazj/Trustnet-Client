@@ -91,9 +91,10 @@
     components: {
      'custom-avatar': customAvatar
     },
-    props: ['post', 'boosters'],
+    props: ['post'],
     data: () => {
       return {
+        boosters: [],
         assessments: {'confirmed': [], 'refuted': [], 'questioned': []},
         initiator: {}
       }
@@ -104,6 +105,9 @@
       }
     },
     created() {
+
+
+      this.boosters = [...new Set(this.post.Boosteds.map(boost => boost.Boosters).flat())];
 
       sourceServices.getSourceById(this.post.SourceId)
       .then(response => {
