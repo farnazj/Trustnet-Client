@@ -53,7 +53,7 @@
             :key="source.id" avatar @click="selectSource(source)"
             :class="{highlighted:selected_sources.includes(source.userName)}">
           <v-list-tile-avatar>
-            <custom-avatar :user="source" :size="38"></custom-avatar>
+            <custom-avatar :user="source" :size="36"></custom-avatar>
           </v-list-tile-avatar>
 
           <v-list-tile-content>

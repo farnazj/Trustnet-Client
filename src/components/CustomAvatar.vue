@@ -1,6 +1,6 @@
 <template>
 
-    <v-avatar color="teal" :size="size" @click="goToPage">
+    <v-avatar color="teal" :size="getSize" @click="goToPage">
 
       <img v-if="user.photo" :src="user.photo">
       <span v-else-if="user.firstName" class="white--text"> {{getInitials}}</span>
@@ -25,7 +25,7 @@ export default {
   },
   data () {
     return {
-      //
+      defaultSize: 40
     }
   },
   created() {
@@ -38,6 +38,9 @@ export default {
     },
     getCroppedUserName: function() {
       return this.user.userName.substring(0,3);
+    },
+    getSize: function() {
+      return this.size ? this.size : this.defaultSize;
     }
   },
   methods: {
