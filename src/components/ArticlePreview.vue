@@ -39,7 +39,7 @@
             <v-flex xs3>
               <v-layout col justify-space-around fill-height wrap>
 
-                    <v-flex xs12 @click="showAssessments" >
+                    <v-flex xs12 @click="revealAssessments" >
                       <v-layout row v-for="(item, key, index) in assessments" :key="index" class="mb-1">
                         <v-flex xs12>
                           <v-icon class="mr-3" v-if="key == 'confirmed' && item.length">fas fa-check</v-icon>
@@ -84,6 +84,7 @@
   import customAvatar from '@/components/CustomAvatar'
   import sourceServices from '@/services/sourceServices'
   import timeHelpers from '@/mixins/timeHelpers'
+  import { mapActions } from 'vuex';
 
   const validityMapping = { '0': 'refuted', '1': 'questioned', '2': 'confirmed'};
 
@@ -100,9 +101,12 @@
       }
     },
     methods: {
-      showAssessments: function() {
-        this.$store.dispatch('assessments/showAssessments', this.assessments)
-      }
+      revealAssessments: function() {
+        this.showAssessments(this.assessments);
+      },
+      ...mapActions('assessments', [
+        'showAssessments'
+      ])
     },
     created() {
 

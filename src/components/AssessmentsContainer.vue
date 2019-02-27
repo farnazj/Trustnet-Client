@@ -74,7 +74,7 @@
 <script>
 import customAvatar from '@/components/CustomAvatar'
 import timeHelpers from '@/mixins/timeHelpers'
-import { mapGetters, mapActions } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
 export default {
   components: {
@@ -89,7 +89,7 @@ export default {
     isDebated: function () {
       return this.assessments.confirmed.length && this.assessments.refuted.length;
     },
-    ...mapGetters('assessments', [
+    ...mapState('assessments', [
      'assessments',
      'visible',
    ])

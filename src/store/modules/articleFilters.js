@@ -11,7 +11,6 @@ export default {
     limit: 10,
   },
   getters: {
-    articles: state => {return state.articles;}
   },
   mutations: {
     append_articles: (state, posts) => {

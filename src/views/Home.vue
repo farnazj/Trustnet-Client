@@ -25,7 +25,7 @@ import ArticleHolder from '@/components/ArticleHolder'
 import AssessmentsContainer from '@/components/AssessmentsContainer'
 import Filters from '@/components/Filters'
 
-import { mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 
 
 export default {
@@ -40,7 +40,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('assessments', [
+    ...mapState('assessments', [
      'visible',
    ])
   }

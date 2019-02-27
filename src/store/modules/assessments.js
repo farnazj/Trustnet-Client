@@ -1,17 +1,16 @@
 export default {
   namespaced: true,
   state: {
-    show: false,
+    visible: false,
     assessments: {}
   },
   getters: {
-    assessments: state => { return state.assessments; },
-    visible: state => { return state.show; }
+
   },
   mutations: {
-    show_assessments: (state) => { state.show = true; },
+    show_assessments: (state) => { state.visible = true; },
 
-    hide_assessments: (state) => { state.show = false; },
+    hide_assessments: (state) => { state.visible = false; },
 
     populate_assessments: (state, assessments) => {
       state.assessments = assessments;

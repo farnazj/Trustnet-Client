@@ -28,9 +28,7 @@ import infiniteScroll from '@/mixins/infiniteScroll'
   },
   computed : {
     ...mapState('articleFilters', {
-      articles: state => state.articles,
-      offset: state => state.offset,
-      limit: state => state.limit
+      articles: state => state.articles
     })
   },
   methods: {
