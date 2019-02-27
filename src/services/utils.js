@@ -7,10 +7,6 @@ export default {
       source.firstName.toLowerCase() + ' ' + source.lastName.toLowerCase()));
 
     return source_names[0].localeCompare(source_names[1]);
-  },
-  
-  timeElapsed: function(time) {
-    return moment(time).startOf('minute').fromNow();
   }
 
 }

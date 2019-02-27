@@ -69,8 +69,9 @@
 <script>
   import relationServices from '@/services/relationServices'
   import customAvatar from '@/components/CustomAvatar'
-  import utils from '@/mixins/utils'
   import timeHelpers from '@/mixins/timeHelpers'
+  import sourceHelpers from '@/mixins/sourceHelpers'
+  import { mapState, mapActions } from 'vuex';
 
   export default {
     components: {
@@ -82,16 +83,16 @@
         source_filters: ['Me', 'Trusted', 'Selected Sources'],
         selected_filters: {'validity': undefined, 'sources': undefined },
         selected_sources: [],
-        followed_sources: []
       }
     },
     created() {
-      relationServices.getFollows()
-      .then(response => {
-        let follows = response.data;
-        follows.sort(this.compareSources);
-        this.followed_sources = follows;
-      })
+      if (!this.followed_sources.length)
+        this.fetchFollows();
+    },
+    computed: {
+      ...mapState('relatedSources', [
+       'followed_sources',
+     ])
 
     },
     methods: {
@@ -113,15 +114,20 @@
         if (this.selected_filters.sources == 'Selected Sources')
           this.filterBoosts();
       },
+
       filterBoosts: function() {
-        this.$store.dispatch('articleFilters/applyFilter',
-          {'filters': this.selected_filters, 'source_usernames': this.selected_sources});
+        this.applyFilter({'filters': this.selected_filters,
+          'source_usernames': this.selected_sources});
       },
-      sourceDisplayName: function(source) {
-          return source.systemMade ? source.userName : source.firstName + ' ' + source.lastName;
-      }
+      ...mapActions('articleFilters', [
+        'applyFilter',
+      ]),
+      ...mapActions('relatedSources', [
+        'fetchFollows'
+      ])
+
     },
-    mixins: [utils]
+    mixins: [sourceHelpers]
 
 }
 </script>
