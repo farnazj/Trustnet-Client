@@ -3,155 +3,209 @@
   <div class="text-xs-center">
       <v-menu v-model="menu"
         :close-on-content-click="false"
-        :nudge-width="300"
-        offset-y left
+        :nudge-width="350"
+        offset-y left attach
       >
-        <v-btn flat icon slot="activator" color="red lighten-2">
+        <v-btn flat icon slot="activator"  color="red lighten-2">
           <v-icon>create</v-icon>
         </v-btn>
 
-        <v-form v-model="valid">
-          <v-card>
-            <v-container fluid>
+        <v-tabs left color="blue darken-1" dark icons-and-text height=50
+          slider-color="amber lighten-1" v-model="tabs">
+          <v-tab >
+            Create
+          </v-tab>
 
-              <v-layout row>
-                <v-flex xs12>
-                    <v-text-field v-model="title"
-                      label="Title for your post" required>
-                    </v-text-field>
-                </v-flex>
-              </v-layout>
+          <v-tab >
+            Import
+          </v-tab>
 
-              <v-layout row>
-                <v-flex xs12>
+          <v-tab-item>
+            <v-form >
+              <v-card>
+                <v-container fluid>
+
+                  <v-layout row>
+                    <v-flex xs12>
+                        <v-text-field v-model="title"
+                          label="Title for your post" required>
+                        </v-text-field>
+                    </v-flex>
+                  </v-layout>
+
+                  <v-layout row>
+                    <v-flex xs12>
+                      <v-flex xs12>
+                        <v-textarea v-model="body" label="Post body"
+                        required auto-grow>
+                        </v-textarea>
+                      </v-flex>
+                    </v-flex>
+                  </v-layout>
+
+                <v-layout row>
                   <v-flex xs12>
-                    <v-textarea v-model="body" label="Post body"
-                    required auto-grow>
-                    </v-textarea>
+                    <span>Select your target audience or leave this empty to
+                      include everyone</span>
+                    <source-selector ref="initiateTargets" class="mt-2">
+                    </source-selector>
+
                   </v-flex>
-                </v-flex>
-              </v-layout>
+                </v-layout>
 
-            <v-layout row>
-              <v-flex xs12>
-                <template>
-                  <span>Select your target audience or leave this empty to
-                    include everyone</span>
-                  <v-autocomplete v-model="targets" :items="getFriends"
-                  box chips color="blue-grey lighten-2" label="Select target audience"
-                  item-text="userName" item-value="userName" multiple class="mt-2" >
+                <v-divider></v-divider>
+                <v-layout row>
+                  <v-flex xs12>
 
-                    <template slot="selection" slot-scope="data" >
-                      <v-chip
-                        :selected="data.selected" close
-                        class="chip--select-multi"
-                        @input="remove(data.item)" >
-                        <v-avatar>
-                          <custom-avatar :user="data.item"></custom-avatar>
-                        </v-avatar>
-                      {{ sourceDisplayName(data.item) }}
-                      </v-chip>
-                    </template>
+                    <div class="uploaded-media">
+                    </div>
 
-                    <template slot="item" slot-scope="data">
+                    <v-btn small round color="primary" dark>
+                      <v-icon right dark class="pr-1 ml-1">photo_camera</v-icon>
+                      Photo/Video
+                    </v-btn>
 
-                      <template>
-                        <v-list-tile-avatar>
-                          <custom-avatar :user="data.item"></custom-avatar>
-                        </v-list-tile-avatar>
-                        <v-list-tile-content>
-                          <v-list-tile-title v-html="sourceDisplayName(data.item)"></v-list-tile-title>
-                        </v-list-tile-content>
-                      </template>
+                  </v-flex>
+                </v-layout>
 
-                    </template>
-                  </v-autocomplete>
+               <v-divider></v-divider>
 
-                </template>
+              </v-container>
 
-              </v-flex>
-            </v-layout>
+              <v-card-actions>
+                <v-spacer></v-spacer>
 
-            <v-divider></v-divider>
-            <v-layout row>
-              <v-flex xs12>
-
-                <div class="uploaded-media">
-                </div>
-
-                <v-btn small round color="primary" dark>
-                  <v-icon right dark class="pr-1 ml-1">photo_camera</v-icon>
-                  Photo/Video
+                <v-btn flat @click="menu = false">Cancel</v-btn>
+                <v-btn color="primary" flat @click="menu = false">
+                  <v-icon class="pr-1" >fas fa-rocket</v-icon> Boost
                 </v-btn>
+              </v-card-actions>
+            </v-card>
+            </v-form>
 
-              </v-flex>
-            </v-layout>
+          </v-tab-item>
 
-            <v-divider></v-divider>
+          <v-tab-item>
+            <v-form >
+              <v-card>
+                <v-container fluid>
 
-          </v-container>
+                  <v-layout row>
+                    <v-flex xs12>
+                      <v-textarea v-model="article_link"
+                        label="Import an article by pasting its URL" required>
+                      </v-textarea>
+                    </v-flex>
+                  </v-layout>
 
-          <v-card-actions>
-            <v-spacer></v-spacer>
+                  <v-layout row>
+                    <v-flex xs12>
+                      <v-select :items="validity_status"
+                        item-text="label" item-value="value"
+                        label="Article Validity" outline required>
 
-            <v-btn flat @click="menu = false">Cancel</v-btn>
-            <v-btn color="primary" flat @click="menu = false">
-              <v-icon class="pr-1" >fas fa-rocket</v-icon> Boost
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-form>
+                        <template slot="item" slot-scope="data" >
+                          <div v-html="data.item.label" :class="data.item.color">
+                          </div>
+                        </template>
+
+                        <template slot="selection" slot-scope="data" >
+                          <div v-html="data.item.label" :class="data.item.color">
+                          </div>
+                        </template>
+
+                      </v-select>
+
+                    </v-flex>
+                  </v-layout>
+
+                  <v-layout row>
+                    <v-flex xs12>
+                      <v-textarea v-model="assessment_body"
+                        label="Provide your reasoning(?)">
+                      </v-textarea>
+                    </v-flex>
+                  </v-layout>
+
+                  <v-layout row>
+                    <v-flex xs12>
+                      <span>Select your target audience or leave this empty to
+                        include everyone</span>
+                      <source-selector ref="importTargets" class="mt-2">
+                      </source-selector>
+                    </v-flex>
+                  </v-layout>
+
+                </v-container>
+
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+
+                  <v-btn flat @click="menu = false">Cancel</v-btn>
+                  <v-btn color="primary" flat @click="menu = false">
+                    <v-icon class="pr-1" >fas fa-rocket</v-icon> Boost
+                  </v-btn>
+                </v-card-actions>
+
+              </v-card>
+            </v-form>
+
+          </v-tab-item>
+        </v-tabs>
 
       </v-menu>
     </div>
 
-
 </template>
 
 <script>
-import customAvatar from '@/components/CustomAvatar'
-import { mapState, mapActions } from 'vuex';
-import sourceHelpers from '@/mixins/sourceHelpers'
+import sourceSelector from '@/components/SourceSelector'
 
 export default {
   components: {
-    'custom-avatar': customAvatar
+    'source-selector': sourceSelector
   },
   data () {
     return {
       valid: false,
       menu: false,
+      tabs: null,
       title: '',
       body: '',
-      targets: [],
+      article_link: '',
+      validity_status : [
+        {
+          label: 'This article is accurate',
+          value: 2,
+          color: 'green--text text--darken-2'
+        },
+        {
+          label: 'This article is inaccurate',
+          value: 0,
+          color: 'red--text text--accent-3'
+        },
+        {
+          label: 'I want to know about the validity of this article',
+          value: 1,
+          color: 'amber--text text--darken-3'
+        }
+      ],
+      assessment_body: ''
     }
   },
   created(){
-    if (!this.followed_sources.length)
-      this.fetchFollows();
+
   },
   computed: {
-    getFriends: function() {
-      let friends = this.followed_sources.filter(source => !source.systemMade);
-      return friends;
-
-    },
-    ...mapState('relatedSources', [
-     'followed_sources',
-    ])
 
   },
   methods: {
-     remove (item) {
-       const index = this.targets.indexOf(item.userName)
-       if (index >= 0) this.targets.splice(index, 1)
-     },
-     ...mapActions('relatedSources', [
-       'fetchFollows'
-     ])
-   },
-  mixins : [sourceHelpers]
 
+  }
 
 }
 </script>
+
+<style scoped>
+
+</style>
