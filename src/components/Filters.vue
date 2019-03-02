@@ -67,7 +67,6 @@
 </template>
 
 <script>
-  import relationServices from '@/services/relationServices'
   import customAvatar from '@/components/CustomAvatar'
   import timeHelpers from '@/mixins/timeHelpers'
   import sourceHelpers from '@/mixins/sourceHelpers'

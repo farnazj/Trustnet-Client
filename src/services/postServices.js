@@ -6,6 +6,10 @@ export default {
       withCredentials: true,
       headers: headers
     })
+  },
+  initiatePost(params) {
+    return Api().post('/posts',
+     params, { withCredentials: true })
   }
 
 }

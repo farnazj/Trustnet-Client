@@ -7,37 +7,40 @@
         offset-y left attach
       >
         <v-btn flat icon slot="activator"  color="red lighten-2">
-          <v-icon>create</v-icon>
+          <v-icon>note_add</v-icon>
         </v-btn>
 
-        <v-tabs left color="blue darken-1" dark icons-and-text height=50
+        <v-tabs left color="blue darken-1" dark height=50
           slider-color="amber lighten-1" v-model="tabs">
           <v-tab >
+            <v-icon class="mr-1">create</v-icon>
             Create
           </v-tab>
 
           <v-tab >
+            <v-icon class="mr-1">link</v-icon>
             Import
           </v-tab>
 
           <v-tab-item>
-            <v-form >
+            <v-form ref="createPostForm" lazy-validation>
               <v-card>
                 <v-container fluid>
 
                   <v-layout row>
                     <v-flex xs12>
-                        <v-text-field v-model="title"
-                          label="Title for your post" required>
-                        </v-text-field>
+                      <v-text-field v-model="title"
+                        label="Title for your post" required
+                        :rules="createPostFormRules.titleRules">
+                      </v-text-field>
                     </v-flex>
                   </v-layout>
 
                   <v-layout row>
                     <v-flex xs12>
                       <v-flex xs12>
-                        <v-textarea v-model="body" label="Post body"
-                        required auto-grow>
+                        <v-textarea v-model="body" label="Post body" rows=8
+                        required :rules="createPostFormRules.bodyRules">
                         </v-textarea>
                       </v-flex>
                     </v-flex>
@@ -75,8 +78,8 @@
               <v-card-actions>
                 <v-spacer></v-spacer>
 
-                <v-btn flat @click="menu = false">Cancel</v-btn>
-                <v-btn color="primary" flat @click="menu = false">
+                <v-btn flat @click="cancel">Cancel</v-btn>
+                <v-btn color="primary" flat @click="createPost">
                   <v-icon class="pr-1" >fas fa-rocket</v-icon> Boost
                 </v-btn>
               </v-card-actions>
@@ -86,14 +89,15 @@
           </v-tab-item>
 
           <v-tab-item>
-            <v-form >
+            <v-form ref="importArticleForm" lazy-validation>
               <v-card>
                 <v-container fluid>
 
                   <v-layout row>
                     <v-flex xs12>
                       <v-textarea v-model="article_link"
-                        label="Import an article by pasting its URL" required>
+                        label="Import an article by pasting its URL" required
+                        :rules="importArticleFormRules.urlRules">
                       </v-textarea>
                     </v-flex>
                   </v-layout>
@@ -102,7 +106,8 @@
                     <v-flex xs12>
                       <v-select :items="validity_status"
                         item-text="label" item-value="value"
-                        label="Article Validity" outline required>
+                        label="Article Validity" outline required
+                        :rules="importArticleFormRules.validityRules">
 
                         <template slot="item" slot-scope="data" >
                           <div v-html="data.item.label" :class="data.item.color">
@@ -141,8 +146,8 @@
                 <v-card-actions>
                   <v-spacer></v-spacer>
 
-                  <v-btn flat @click="menu = false">Cancel</v-btn>
-                  <v-btn color="primary" flat @click="menu = false">
+                  <v-btn flat @click="cancel">Cancel</v-btn>
+                  <v-btn color="primary" flat @click="importArticle">
                     <v-icon class="pr-1" >fas fa-rocket</v-icon> Boost
                   </v-btn>
                 </v-card-actions>
@@ -153,12 +158,18 @@
           </v-tab-item>
         </v-tabs>
 
+        <v-alert v-model="alert" type="error" dismissible>
+          Something went wrong. Try again later.
+        </v-alert>
       </v-menu>
+
+
     </div>
 
 </template>
 
 <script>
+import postServices from '@/services/postServices'
 import sourceSelector from '@/components/SourceSelector'
 
 export default {
@@ -167,7 +178,7 @@ export default {
   },
   data () {
     return {
-      valid: false,
+      // valid: true,
       menu: false,
       tabs: null,
       title: '',
@@ -190,17 +201,55 @@ export default {
           color: 'amber--text text--darken-3'
         }
       ],
-      assessment_body: ''
+      assessment_body: '',
+      createPostFormRules: {
+        titleRules: [
+          v => !!v || 'Title is required'
+        ],
+        bodyRules: [
+          v => !!v || 'Body is required'
+        ]
+      },
+      importArticleFormRules: {
+        urlRules: [
+          v => !!v || 'URL is required'
+        ],
+        validityRules: [
+          v => !!v || 'Assess the accuracy of the article'
+        ]
+      },
+      alert: false
+
     }
   },
-  created(){
-
-  },
-  computed: {
-
-  },
   methods: {
+    createPost: function() {
+      if (this.$refs.createPostForm.validate()) {
+        let params = {
+          title: this.title,
+          body: this.body,
+          target_usernames: this.$refs.initiateTargets.targets
+        }
+        postServices.initiatePost(params)
+        .then(response => {
+          if (response.status != 200) {
+            this.alert = true;
+          }
+          else
+            this.menu = false;
+        })
+      }
 
+    },
+    importArticle: function() {
+      if (this.$refs.importArticleForm.validate()) {
+      }
+    },
+    cancel: function() {
+      for (let form of ['createPostForm', 'importArticleForm'])
+        this.$refs[form].reset()
+      this.menu = false;
+    }
   }
 
 }
