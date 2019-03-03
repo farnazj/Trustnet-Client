@@ -14,7 +14,9 @@ export default {
   },
   mutations: {
     append_articles: (state, posts) => {
-      state.articles.push(...posts);
+      let article_ids = state.articles.map(article => article.id);
+      let filtered_posts = posts.filter(post => !article_ids.includes(post.id) );
+      state.articles.push(...filtered_posts);
       state.offset += posts.length;
     },
 

@@ -26,7 +26,7 @@ import infiniteScroll from '@/mixins/infiniteScroll'
 
     this.$store.dispatch('articleFilters/getMoreBoosts')
   },
-  computed : {
+  computed: {
     ...mapState('articleFilters', {
       articles: state => state.articles
     })
