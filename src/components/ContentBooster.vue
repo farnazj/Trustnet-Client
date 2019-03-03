@@ -95,7 +95,7 @@
 
                   <v-layout row>
                     <v-flex xs12>
-                      <v-textarea v-model="article_link"
+                      <v-textarea v-model="articleLink"
                         label="Import an article by pasting its URL" required
                         :rules="importArticleFormRules.urlRules">
                       </v-textarea>
@@ -104,7 +104,7 @@
 
                   <v-layout row>
                     <v-flex xs12>
-                      <v-select :items="validity_status"
+                      <v-select :items="validity_status" v-model="postCredibility"
                         item-text="label" item-value="value"
                         label="Article Validity" outline required
                         :rules="importArticleFormRules.validityRules">
@@ -126,7 +126,7 @@
 
                   <v-layout row>
                     <v-flex xs12>
-                      <v-textarea v-model="assessment_body"
+                      <v-textarea v-model="assessmentBody"
                         label="Provide your reasoning(?)">
                       </v-textarea>
                     </v-flex>
@@ -183,25 +183,26 @@ export default {
       tabs: null,
       title: '',
       body: '',
-      article_link: '',
+      articleLink: '',
       validity_status : [
         {
           label: 'This article is accurate',
-          value: 2,
+          value: 3,
           color: 'green--text text--darken-2'
         },
         {
           label: 'This article is inaccurate',
-          value: 0,
+          value: 1,
           color: 'red--text text--accent-3'
         },
         {
           label: 'I want to know about the validity of this article',
-          value: 1,
+          value: 2,
           color: 'amber--text text--darken-3'
         }
       ],
-      assessment_body: '',
+      postCredibility: null,
+      assessmentBody: '',
       createPostFormRules: {
         titleRules: [
           v => !!v || 'Title is required'
@@ -243,6 +244,25 @@ export default {
     },
     importArticle: function() {
       if (this.$refs.importArticleForm.validate()) {
+
+        let params = {
+          postUrl: this.articleLink,
+          postCredibility: this.postCredibility - 1,
+          assessmentBody: this.assessmentBody,
+          target_usernames: this.$refs.importTargets.targets
+        };
+        postServices.importArticle(params)
+        .then(response => {
+          if (response.status != 200) {
+            this.alert = true;
+          }
+          else
+            this.menu = false;
+        })
+
+      }
+      else {
+        console.log('invalid')
       }
     },
     cancel: function() {

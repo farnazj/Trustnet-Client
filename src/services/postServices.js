@@ -10,6 +10,9 @@ export default {
   initiatePost(params) {
     return Api().post('/posts',
      params, { withCredentials: true })
-  }
+  },
+  importArticle(params) {
+    return Api().post('/posts/import',
+    params, { withCredentials: true })}
 
 }

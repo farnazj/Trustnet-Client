@@ -14,9 +14,11 @@
               </v-layout>
 
               <v-layout row class="py-2" align-center>
-                <span class="mr-2">By</span>
-                <custom-avatar v-if="Object.entries(initiator).length != 0" :user="initiator"></custom-avatar>
-                <span class="ml-2"> {{timeElapsed(post.updatedAt)}} </span>
+                <div v-if="Object.entries(initiator).length != 0" class="mr-2">
+                  <span class="mr-2">By</span>
+                  <custom-avatar :user="initiator"></custom-avatar>
+                </div>
+                <span> {{timeElapsed(post.updatedAt)}} </span>
               </v-layout>
 
             </v-flex>
