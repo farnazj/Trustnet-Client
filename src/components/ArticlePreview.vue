@@ -98,7 +98,6 @@
       return {
         boosters: [],
         assessments: {'confirmed': [], 'refuted': [], 'questioned': []},
-        initiator: {}
       }
     },
     methods: {

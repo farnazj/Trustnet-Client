@@ -13,7 +13,8 @@
              <v-icon >gavel</v-icon>
            </v-btn>
 
-           <v-btn flat icon color="blue darken-1" class="mr-4">
+           <v-btn flat icon color="blue darken-1" class="mr-4"
+           :disabled="disableBoost">
              <v-icon >fas fa-rocket</v-icon>
            </v-btn>
 
@@ -84,6 +85,8 @@
 
 <script>
 import initiatorDisplay from '@/components/InitiatorDisplay'
+import sourceServices from '@/services/sourceServices'
+import assessmentServices from '@/services/assessmentServices'
 import { mapState, mapActions } from 'vuex';
 
 export default {
@@ -92,7 +95,7 @@ export default {
   },
   data: () => {
     return {
-
+      disableBoost: false
     }
   },
   created() {
@@ -112,6 +115,20 @@ export default {
      'drawerVisible',
      'article'
    ])
+
+  },
+  watch: {
+    article: function(val) {
+      let auth_userid = this.$store.getters['auth/user'];
+
+      assessmentServices.getPostSourceAssessment(auth_userid, val.id)
+      .then(assessment => {
+        if (Object.entries(assessment.data).length != 0)
+          this.disableBoost = false;
+        else
+          this.disableBoost = true;
+      })
+    }
 
   },
   methods: {
