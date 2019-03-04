@@ -13,12 +13,9 @@
                 </v-flex>
               </v-layout>
 
-              <v-layout row class="py-2" align-center>
-                <div v-if="Object.entries(initiator).length != 0" class="mr-2">
-                  <span class="mr-2">By</span>
-                  <custom-avatar :user="initiator"></custom-avatar>
-                </div>
-                <span> {{timeElapsed(post.updatedAt)}} </span>
+              <v-layout row class="py-2" >
+                <initiator-display :userId="post.SourceId" :postDate="post.updatedAt">
+                </initiator-display>
               </v-layout>
 
             </v-flex>
@@ -85,15 +82,16 @@
 
 <script>
   import customAvatar from '@/components/CustomAvatar'
+  import initiatorDisplay from '@/components/InitiatorDisplay'
   import sourceServices from '@/services/sourceServices'
-  import timeHelpers from '@/mixins/timeHelpers'
   import { mapActions } from 'vuex';
 
   const validityMapping = { '0': 'refuted', '1': 'questioned', '2': 'confirmed'};
 
   export default {
     components: {
-     'custom-avatar': customAvatar
+     'custom-avatar': customAvatar,
+     'initiator-display': initiatorDisplay
     },
     props: ['post'],
     data: () => {
@@ -115,11 +113,6 @@
 
       this.boosters = [...new Set(this.post.Boosteds.map(boost => boost.Boosters).flat())];
 
-      sourceServices.getSourceById(this.post.SourceId)
-      .then(response => {
-        this.initiator = response.data;
-      })
-
       /*
       Fetches the user objects of sourceIds in each PostAssessment and organizes
       assessments by validity status
@@ -139,8 +132,7 @@
         })
       })
 
-    },
-    mixins: [timeHelpers]
+    }
 
 }
 </script>

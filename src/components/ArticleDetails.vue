@@ -29,9 +29,15 @@
              <v-flex xs8>
 
                <v-card-title primary-title>
-                  <div>
+                  <div class="mb-2">
                     <div class="headline">{{article.title}}</div>
                   </div>
+
+
+                  <initiator-display :userId="article.SourceId"
+                  :postDate="article.updatedAt">
+                  </initiator-display>
+
                 </v-card-title>
 
                <v-img v-if="article.image" :src="article.image" contain class="rounded">
@@ -56,7 +62,7 @@
 
            <v-layout row justify-center class="mt-2">
              <v-flex xs6>
-               <v-card-actions>
+               <v-card-actions v-if="article.url">
                  <v-btn outline block color="blue darken-1"
                   :href="article.url" target="_blank">
                    Visit Website</v-btn>
@@ -77,16 +83,16 @@
 </template>
 
 <script>
+import initiatorDisplay from '@/components/InitiatorDisplay'
 import { mapState, mapActions } from 'vuex';
 
 export default {
+  components: {
+   'initiator-display': initiatorDisplay
+  },
   data: () => {
     return {
-      drawer: null,
-      items: [
-        { title: 'Home', icon: 'dashboard' },
-        { title: 'About', icon: 'question_answer' }
-      ]
+
     }
   },
   created() {
@@ -112,9 +118,6 @@ export default {
     ...mapActions('articleDetails', [
       'setDrawerVisibility'
     ])
-  },
-  directives: {
-
   }
 }
 </script>
