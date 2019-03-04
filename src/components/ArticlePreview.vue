@@ -3,7 +3,7 @@
     <v-layout row>
       <v-flex xs12>
 
-        <v-card class="pa-1">
+        <v-card class="pa-1" flat>
           <v-layout row>
             <v-flex xs4>
               <v-layout row>
@@ -29,7 +29,7 @@
                   <v-card-title primary-title class="pt-0">
                    <div>
                      <h3 class="mb-2">{{post.title}}</h3>
-                     <p>{{post.description}}</p>
+                     <p class="grey--text text--darken-3">{{post.description}}</p>
                    </div>
                 </v-card-title>
 
@@ -41,22 +41,22 @@
             <v-flex xs3>
               <v-layout col justify-space-around fill-height wrap>
 
-                    <v-flex xs12 @click="revealAssessments" >
-                      <v-layout row v-for="(item, key, index) in assessments" :key="index" class="mb-1">
-                        <v-flex xs12>
-                          <v-icon class="mr-3" v-if="key == 'confirmed' && item.length">fas fa-check</v-icon>
-                          <v-icon class="mr-4" v-else-if="key == 'refuted' && item.length">fas fa-times</v-icon>
-                          <v-icon class="mr-4" v-else-if="key == 'questioned' && item.length">fas fa-question</v-icon>
+                  <v-flex xs12 @click.stop="revealAssessments" >
+                    <v-layout row v-for="(item, key, index) in assessments" :key="index" class="mb-1">
+                      <v-flex xs12>
+                        <v-icon class="mr-3" v-if="key == 'confirmed' && item.length">fas fa-check</v-icon>
+                        <v-icon class="mr-4" v-else-if="key == 'refuted' && item.length">fas fa-times</v-icon>
+                        <v-icon class="mr-4" v-else-if="key == 'questioned' && item.length">fas fa-question</v-icon>
 
-                          <custom-avatar v-for="assessment in item.slice(0,3)" :key="assessment.id"
-                          :user="assessment.assessor" class="mr-1"></custom-avatar>
+                        <custom-avatar v-for="assessment in item.slice(0,3)" :key="assessment.id"
+                        :user="assessment.assessor" class="mr-1"></custom-avatar>
 
-                          <span v-if="item.length > 3">...</span>
+                        <span v-if="item.length > 3">...</span>
 
-                          </v-flex>
-                      </v-layout>
+                        </v-flex>
+                    </v-layout>
 
-                    </v-flex>
+                  </v-flex>
 
               </v-layout>
 

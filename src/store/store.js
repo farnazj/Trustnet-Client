@@ -4,15 +4,13 @@ import articleFilters from './modules/articleFilters'
 import assessments from './modules/assessments'
 import auth from './modules/auth'
 import relatedSources from './modules/relatedSources'
+import articleDetails from './modules/articleDetails'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
 
-    //articles: [],
-    //show_assessment_box: false,
-    //asssessments
   },
   getters: {
 
@@ -28,6 +26,7 @@ export default new Vuex.Store({
     auth,
     articleFilters,
     assessments,
-    relatedSources
+    relatedSources,
+    articleDetails
   }
 })

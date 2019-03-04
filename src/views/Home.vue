@@ -16,12 +16,16 @@
         <assessments-container v-if="visible"></assessments-container>
       </v-flex>
     </v-layout>
+
+    <article-details> </article-details>
+
   </v-container>
 </template>
 
 <script>
 import CustomToolbar from '@/components/CustomToolbar'
 import ArticleHolder from '@/components/ArticleHolder'
+import ArticleDetails from '@/components/ArticleDetails'
 import AssessmentsContainer from '@/components/AssessmentsContainer'
 import Filters from '@/components/Filters'
 
@@ -32,6 +36,7 @@ export default {
   components: {
     'custom-toolbar': CustomToolbar,
     'article-holder': ArticleHolder,
+    'article-details': ArticleDetails,
     'assessments-container': AssessmentsContainer,
     'filters': Filters
   },

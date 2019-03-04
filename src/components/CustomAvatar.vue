@@ -30,7 +30,6 @@ export default {
   },
   created() {
     //build the href for avatar
-    //replace the text in span inside the avatar
   },
   computed: {
     getInitials: function() {
