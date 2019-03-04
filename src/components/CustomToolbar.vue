@@ -8,7 +8,8 @@
       <content-booster></content-booster>
 
       <v-divider vertical inset class="mr-3"></v-divider>
-      <custom-avatar :user="user"></custom-avatar>
+      <custom-avatar v-if="Object.entries(authUser).length"
+        :user="authUser"></custom-avatar>
 
     </v-toolbar>
 </template>
@@ -16,6 +17,7 @@
 <script>
 import customAvatar from '@/components/CustomAvatar'
 import contentBooster from '@/components/ContentBooster'
+import sourceServices from '@/services/sourceServices'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -25,6 +27,7 @@ export default {
   },
   data () {
     return {
+      authUser: {}
     }
   },
   computed: {
@@ -32,7 +35,14 @@ export default {
     ...mapGetters('auth', [
      'user'
    ])
-  }
+ },
+ created() {
+
+   let id = this.$store.getters['auth/user'];
+   sourceServices.getSourceById(id).then(response => {
+    this.authUser = response.data;
+   })
+ }
 }
 </script>
 
