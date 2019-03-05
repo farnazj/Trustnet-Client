@@ -104,9 +104,17 @@
 
 
                   <assessment-collector ref="assessmentColl" :validityRules="importArticleFormRules.validityRules"
-                    :postCredibility="postCredibility" :assessmentBody:"assessmentBody">
+                    :postCredibility="postCredibility" :assessmentBody="assessmentBody">
                   </assessment-collector>
 
+                  <v-layout row>
+                    <v-flex xs12>
+                      <span>Select your target audience or leave this empty to
+                        include everyone</span>
+                      <source-selector ref="importTargets" class="mt-2">
+                      </source-selector>
+                    </v-flex>
+                  </v-layout>
 
                 </v-container>
 
@@ -200,10 +208,10 @@ export default {
         let params = {
           postUrl: this.articleLink,
           postCredibility: this.$refs.assessmentColl.credibility - 1,
-          assessmentBody: this.$refs.assessmentColl.assessmentBody,
-          target_usernames: this.$refs.assessmentColl.$refs.importTargets.targets
+          assessmentBody: this.$refs.assessmentColl.assessmentText,
+          target_usernames: this.$refs.importTargets.targets
         };
-        console.log(params)
+
         postServices.importArticle(params)
         .then(response => {
           if (response.status != 200) {

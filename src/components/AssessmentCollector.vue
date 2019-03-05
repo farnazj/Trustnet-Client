@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container class="pa-0">
 
     <v-layout row>
 
@@ -26,19 +26,9 @@
 
     <v-layout row>
       <v-flex xs12>
-        <v-textarea v-model="assessmentBody"
+        <v-textarea v-model="assessmentText"
           label="Provide your reasoning(?)">
         </v-textarea>
-      </v-flex>
-    </v-layout>
-
-
-    <v-layout row>
-      <v-flex xs12>
-        <span>Select your target audience or leave this empty to
-          include everyone</span>
-        <source-selector ref="importTargets" class="mt-2">
-        </source-selector>
       </v-flex>
     </v-layout>
 
@@ -59,7 +49,7 @@ export default {
   data () {
     return {
       credibility: this.postCredibility,
-      assessmentText: assessmentBody,
+      assessmentText: this.assessmentBody,
       validity_status : [
         {
           label: 'This article is accurate',
