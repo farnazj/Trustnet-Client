@@ -29,17 +29,16 @@
            <v-layout row justify-center class="centered">
              <v-flex xs8>
 
-               <v-card-title primary-title>
-                  <div class="mb-2">
+               <v-card-title primary-title class="mb-2">
+                  <v-layout row justify-center>
                     <div class="headline">{{article.title}}</div>
-                  </div>
-
-
-                  <initiator-display :userId="article.SourceId"
-                  :postDate="article.updatedAt">
-                  </initiator-display>
+                  </v-layout>
 
                 </v-card-title>
+
+                <initiator-display :userId="article.SourceId"
+                :postDate="article.updatedAt" class="mb-2">
+                </initiator-display>
 
                <v-img v-if="article.image" :src="article.image" contain class="rounded">
                </v-img>

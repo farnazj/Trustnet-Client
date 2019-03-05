@@ -8,11 +8,11 @@
         <v-icon @click="hideContainer">clear</v-icon>
       </v-layout>
 
-      <v-layout row wrap v-if="assessments.questioned.length != 0">
+      <v-layout row wrap v-if="assessments.questioned.length != 0" class="pa-1">
         <v-flex xs12>
           <v-card-title>
            <div>
-             <h4 class="headline mb-1">Questioned by</h4>
+             <h4 class="mb-1">Questioned by</h4>
            </div>
          </v-card-title>
 
@@ -21,7 +21,6 @@
           </custom-avatar>
 
           <v-divider></v-divider>
-
         </v-flex>
       </v-layout>
 
