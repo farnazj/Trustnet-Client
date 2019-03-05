@@ -6,7 +6,7 @@
         :nudge-width="350"
         offset-y left attach
       >
-        <v-btn flat icon slot="activator"  color="red lighten-2">
+        <v-btn flat icon slot="activator" color="red lighten-2">
           <v-icon>note_add</v-icon>
         </v-btn>
 
@@ -102,44 +102,11 @@
                     </v-flex>
                   </v-layout>
 
-                  <v-layout row>
-                    <v-flex xs12>
-                      <v-select :items="validity_status" v-model="postCredibility"
-                        item-text="label" item-value="value"
-                        label="Article Validity" outline required
-                        :rules="importArticleFormRules.validityRules">
 
-                        <template slot="item" slot-scope="data" >
-                          <div v-html="data.item.label" :class="data.item.color">
-                          </div>
-                        </template>
+                  <assessment-collector ref="assessmentColl" :validityRules="importArticleFormRules.validityRules"
+                    :postCredibility="postCredibility" :assessmentBody:"assessmentBody">
+                  </assessment-collector>
 
-                        <template slot="selection" slot-scope="data" >
-                          <div v-html="data.item.label" :class="data.item.color">
-                          </div>
-                        </template>
-
-                      </v-select>
-
-                    </v-flex>
-                  </v-layout>
-
-                  <v-layout row>
-                    <v-flex xs12>
-                      <v-textarea v-model="assessmentBody"
-                        label="Provide your reasoning(?)">
-                      </v-textarea>
-                    </v-flex>
-                  </v-layout>
-
-                  <v-layout row>
-                    <v-flex xs12>
-                      <span>Select your target audience or leave this empty to
-                        include everyone</span>
-                      <source-selector ref="importTargets" class="mt-2">
-                      </source-selector>
-                    </v-flex>
-                  </v-layout>
 
                 </v-container>
 
@@ -169,12 +136,14 @@
 </template>
 
 <script>
-import postServices from '@/services/postServices'
 import sourceSelector from '@/components/SourceSelector'
+import assessmentCollector from '@/components/AssessmentCollector'
+import postServices from '@/services/postServices'
 
 export default {
   components: {
-    'source-selector': sourceSelector
+    'source-selector': sourceSelector,
+    'assessment-collector': assessmentCollector
   },
   data () {
     return {
@@ -184,23 +153,6 @@ export default {
       title: '',
       body: '',
       articleLink: '',
-      validity_status : [
-        {
-          label: 'This article is accurate',
-          value: 3,
-          color: 'green--text text--darken-2'
-        },
-        {
-          label: 'This article is inaccurate',
-          value: 1,
-          color: 'red--text text--accent-3'
-        },
-        {
-          label: 'I want to know about the validity of this article',
-          value: 2,
-          color: 'amber--text text--darken-3'
-        }
-      ],
       postCredibility: null,
       assessmentBody: '',
       createPostFormRules: {
@@ -247,10 +199,11 @@ export default {
 
         let params = {
           postUrl: this.articleLink,
-          postCredibility: this.postCredibility - 1,
-          assessmentBody: this.assessmentBody,
-          target_usernames: this.$refs.importTargets.targets
+          postCredibility: this.$refs.assessmentColl.credibility - 1,
+          assessmentBody: this.$refs.assessmentColl.assessmentBody,
+          target_usernames: this.$refs.assessmentColl.$refs.importTargets.targets
         };
+        console.log(params)
         postServices.importArticle(params)
         .then(response => {
           if (response.status != 200) {
