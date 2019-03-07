@@ -8,6 +8,11 @@ export default {
    signup (user) {
      return Api().post('/signup',
        user, { withCredentials: true })
+   },
+   logout() {
+     return Api().post('/logout', {
+       withCredentials: true
+     })
    }
 
 }
