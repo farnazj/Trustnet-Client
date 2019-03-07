@@ -7,12 +7,17 @@ export default {
       headers: headers
     })
   },
-  initiatePost(params) {
+  initiatePost(reqBody) {
     return Api().post('/posts',
-     params, { withCredentials: true })
+     reqBody, { withCredentials: true })
   },
-  importArticle(params) {
+  importArticle(reqBody) {
     return Api().post('/posts/import',
-    params, { withCredentials: true })}
+    reqBody, { withCredentials: true })
+  },
+  boostArticle(reqBody) {
+    return Api().post('/boosts',
+    reqBody, { withCredentials: true})
+  }
 
 }

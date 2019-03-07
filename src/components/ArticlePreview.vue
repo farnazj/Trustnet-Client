@@ -39,7 +39,7 @@
               <v-layout col justify-space-around fill-height wrap>
 
                   <v-flex xs12 @click.stop="revealAssessments" >
-                    <v-layout row v-for="(item, key, index) in assessments" :key="index" class="mb-1">
+                    <v-layout row wrap v-for="(item, key, index) in assessments" :key="index" class="mb-1">
                       <v-flex xs12>
                         <v-icon class="mr-3" v-if="key == 'confirmed' && item.length">fas fa-check</v-icon>
                         <v-icon class="mr-4" v-else-if="key == 'refuted' && item.length">fas fa-times</v-icon>

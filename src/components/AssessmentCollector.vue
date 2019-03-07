@@ -68,8 +68,16 @@ export default {
         }
       ]
     }
+  },
+  watch: {
+    postCredibility: function(val) {
+      console.log('credibility changed', val)
+      this.credibility = val;
+    },
+    assessmentBody: function(val) {
+      this.assessmentText = val;
+    }
   }
-
 
 }
 

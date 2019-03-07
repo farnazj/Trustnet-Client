@@ -5,5 +5,11 @@ export default {
     return Api().get('/posts/' + postId + '/' + sourceId + '/assessment', {
       withCredentials: true
     })
+  },
+  postAssessment(postId, reqBody) {
+    return Api().post('/posts/' + postId + '/assessments',
+    reqBody, {
+      withCredentials: true
+    })
   }
 }

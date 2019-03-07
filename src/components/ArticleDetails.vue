@@ -1,22 +1,90 @@
 <template>
   <v-layout wrap>
     <v-navigation-drawer v-model="articleDetailsVisible"
-      temporary right width="950" fixed disable-route-watcher
-      >
+      temporary right width="950" fixed disable-route-watcher>
 
      <v-card class="full-height">
 
        <v-layout row class="pa-2" justify-end>
          <v-flex xs4 class="right-align">
 
-           <v-btn flat icon color="blue darken-1" class="mr-4">
-             <v-icon >gavel</v-icon>
-           </v-btn>
+           <v-menu v-model="assessmentMenu"
+             :close-on-content-click="false"
+             :nudge-width="350" offset-y left attach>
 
-           <v-btn flat icon color="blue darken-1" class="mr-4"
+              <v-btn flat icon color="blue darken-1" slot="activator"
+               class="mr-4">
+                <v-icon >gavel</v-icon>
+              </v-btn>
+
+             <v-form ref="assessmentMenu" lazy-validation>
+               <v-card>
+                 <v-container fluid>
+
+                   <assessment-collector ref="assessmentColl" :validityRules="assessmentValidityRules"
+                     :postCredibility="postCredibility" :assessmentBody="assessmentBody">
+                   </assessment-collector>
+                </v-container>
+
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+
+                  <v-btn flat @click="cancel('assessmentMenu')">Cancel</v-btn>
+                  <v-btn color="primary" flat @click="postAssessment">
+                    <v-icon class="pr-1" >gavel</v-icon> Assess
+                  </v-btn>
+                </v-card-actions>
+
+              </v-card>
+            </v-form>
+
+            <v-alert v-model="assessmentAlert" type="error" dismissible>
+              Something went wrong. Try again later.
+            </v-alert>
+
+         </v-menu>
+
+         <v-menu v-model="boostMenu"
+           :close-on-content-click="false"
+           :nudge-width="350" offset-y left attach>
+
+           <v-btn flat icon color="blue darken-1" class="mr-4" slot="activator"
            :disabled="disableBoost">
              <v-icon >fas fa-rocket</v-icon>
            </v-btn>
+
+           <v-form ref="boostMenu" lazy-validation>
+             <v-card>
+               <v-container fluid>
+
+                 <v-layout row>
+                   <v-flex xs12>
+                     <span>Select your target audience or leave this empty to
+                       include everyone</span>
+                     <source-selector ref="boostTargets" class="mt-2">
+                     </source-selector>
+                   </v-flex>
+                 </v-layout>
+
+                 <v-card-actions>
+                   <v-spacer></v-spacer>
+
+                   <v-btn flat @click="cancel('boostMenu')">Cancel</v-btn>
+                   <v-btn color="primary" flat @click="boostArticle">
+                     <v-icon class="pr-1" >fas fa-rocket</v-icon> Boost
+                   </v-btn>
+                 </v-card-actions>
+               </v-container>
+
+               </v-card>
+             </v-form>
+
+             <v-alert v-model="boostAlert" type="error" dismissible>
+               Something went wrong. Try again later.
+             </v-alert>
+
+          </v-menu>
+
 
          </v-flex>
        </v-layout>
@@ -84,17 +152,32 @@
 
 <script>
 import initiatorDisplay from '@/components/InitiatorDisplay'
+import assessmentCollector from '@/components/AssessmentCollector'
+import sourceSelector from '@/components/SourceSelector'
+
 import sourceServices from '@/services/sourceServices'
 import assessmentServices from '@/services/assessmentServices'
+import postServices from '@/services/postServices'
 import { mapState, mapActions } from 'vuex';
 
 export default {
   components: {
-   'initiator-display': initiatorDisplay
+   'initiator-display': initiatorDisplay,
+   'assessment-collector': assessmentCollector,
+   'source-selector': sourceSelector
   },
   data: () => {
     return {
-      disableBoost: false
+      disableBoost: false,
+      assessmentMenu: false,
+      boostMenu: false,
+      postCredibility: null,
+      assessmentBody: '',
+      assessmentValidityRules: [
+        v => !!v || 'Assess the accuracy of the article'
+      ],
+      assessmentAlert: false,
+      boostAlert: false
     }
   },
   created() {
@@ -122,15 +205,59 @@ export default {
 
       assessmentServices.getPostSourceAssessment(auth_userid, val.id)
       .then(assessment => {
-        if (Object.entries(assessment.data).length != 0)
+        if (Object.entries(assessment.data).length != 0) {
           this.disableBoost = false;
-        else
+          this.assessmentBody = assessment.data.body;
+          this.postCredibility = parseInt(assessment.data.postCredibility) + 1;
+        }
+        else {
           this.disableBoost = true;
+        }
+
       })
     }
 
   },
   methods: {
+    postAssessment: function() {
+      if (this.$refs.assessmentMenu.validate()) {
+        let reqBody = {
+          postCredibility: this.$refs.assessmentColl.credibility - 1,
+          body: this.$refs.assessmentColl.assessmentText
+        }
+
+        assessmentServices.postAssessment(this.article.id, reqBody)
+        .then(response => {
+          if (response.status != 200)
+            this.assessmentAlert = true;
+          else {
+            this.assessmentMenu = false;
+            this.disableBoost = false;
+          }
+
+        })
+      }
+    },
+    boostArticle: function() {
+      if (this.$refs.boostMenu.validate()) {
+        let reqBody = {
+          post_id: this.article.id,
+          target_usernames: this.$refs.boostTargets.targets
+        }
+
+        postServices.boostArticle(reqBody)
+        .then(response => {
+          if (response.status != 200)
+            this.boostAlert = true;
+          else
+            this.boostMenu = false;
+        })
+      }
+    },
+    cancel: function(menu) {
+      this.$refs[menu].resetValidation();
+      this[menu] = false;
+    },
     ...mapActions('articleDetails', [
       'setDrawerVisibility'
     ])
@@ -159,4 +286,5 @@ export default {
   min-height: 100%;
 
 }
+
 </style>

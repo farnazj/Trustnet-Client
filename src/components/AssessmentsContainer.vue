@@ -20,7 +20,6 @@
           :key="item.id" :user="item.assessor" class="mr-1">
           </custom-avatar>
 
-          <v-divider></v-divider>
         </v-flex>
       </v-layout>
 
