@@ -30,23 +30,30 @@ export default {
   },
   data () {
     return {
+      watchedUserId: this.userId,
       initiator: {}
     }
   },
   created() {
+    this.getInitiator();
 
-    if (this.userId) {
-      sourceServices.getSourceById(this.userId)
-      .then(response => {
-        this.initiator = response.data;
-      })
-    }
   },
-  computed: {
-
+  watch: {
+    userId: function(val) {
+      this.watchedUserId = val;
+      this.getInitiator();
+    }
   },
   methods: {
 
+    getInitiator: function() {
+      if (this.watchedUserId) {
+        sourceServices.getSourceById(this.watchedUserId)
+        .then(response => {
+          this.initiator = response.data;
+        })
+      }
+    }
   },
   mixins: [timeHelpers]
 }
