@@ -10,7 +10,7 @@ export default {
        user, { withCredentials: true })
    },
    logout() {
-     return Api().post('/logout', {
+     return Api().post('/logout', {}, {
        withCredentials: true
      })
    }

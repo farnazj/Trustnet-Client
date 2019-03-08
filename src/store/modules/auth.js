@@ -68,12 +68,18 @@ export default {
     },
 
     logout: ({commit}) => {
+      console.log('going to logout')
       return new Promise((resolve, reject) => {
-        localStorage.removeItem('token');
-        commit('logout');
-        resolve();
+        authServices.logout().then(resp => {
+          localStorage.removeItem('token');
+          commit('logout');
+          resolve();
+        })
+        .catch(err => {
+          reject(err);
+        })
       })
     }
-    //add another action for sending a logout req to the server
+
   }
 }

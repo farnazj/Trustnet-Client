@@ -2,6 +2,9 @@
   <v-container>
     <v-layout justify-center align-center row fill-height>
       <v-flex xs6 md4 align-self-center>
+        <v-alert v-model="alert" type="error">
+          {{alertMessage}}
+        </v-alert>
 
         <v-form>
           <v-card>
@@ -59,7 +62,9 @@ export default {
   data(){
     return {
       username : "",
-      password : ""
+      password : "",
+      alert: false,
+      alertMessage: ''
     }
   },
   methods: {
@@ -67,11 +72,17 @@ export default {
      let username = this.username
      let password = this.password
      this.$store.dispatch('auth/login',
-      { 'username': username,
-      'password': password })
+      {
+        'username': username,
+        'password': password
+      })
       .then(() => {
         this.$router.push('/');
-      }).catch(err => console.log(err))
+      })
+      .catch(err => {
+        this.alertMessage = err.response.data.message;
+        this.alert = true;
+      })
     },
     goToSignup: function() {
       this.$router.push('/signup');
