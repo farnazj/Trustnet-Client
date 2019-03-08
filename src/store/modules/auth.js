@@ -51,17 +51,18 @@ export default {
       })
     },
 
-    register: ({commit}, user) => {
+    signup: ({commit}, user) => {
       return new Promise((resolve, reject) => {
-        commit('auth_request')
-        authServices.signUp(user).then(resp => {
-          const user = resp.data.user //TODO: change
-          commit('auth_success', user)
-          resolve(resp)
+        commit('auth_request');
+        authServices.signup(user).then(resp => {
+          //const user = resp.data.user
+          //localStorage.setItem('token', JSON.stringify(user));
+          //commit('auth_success', user);
+          resolve(resp);
         })
         .catch(err => {
           commit('auth_error', err)
-          reject(err)
+          reject(err);
         })
       })
     },
@@ -69,8 +70,8 @@ export default {
     logout: ({commit}) => {
       return new Promise((resolve, reject) => {
         localStorage.removeItem('token');
-        commit('logout')
-        resolve()
+        commit('logout');
+        resolve();
       })
     }
     //add another action for sending a logout req to the server
