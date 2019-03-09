@@ -7,6 +7,12 @@ export default {
       withCredentials: true
     })
   },
+  follow(reqBody) {
+    return Api().post('/follows',
+    reqBody, {
+      withCredentials: true
+    })
+  },
   unfollow(reqBody) {
     return Api().delete('/follows',
     {

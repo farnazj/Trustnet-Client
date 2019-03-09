@@ -63,7 +63,7 @@ export default {
         relationServices.deleteTrusted(payload)
         .then(response => {
           context.dispatch('fetchTrusteds')
-          .then(()=> {
+          .then(() => {
             resolve();
           })
         })
@@ -72,6 +72,21 @@ export default {
           reject();
         })
       })
+    },
+    follow: (context, payload) => {
+      return new Promise((resolve, reject) => {
+        relationServices.follow(payload)
+        .then(() => {
+          context.dispatch('fetchFollows')
+          .then(() => {
+            resolve()
+          })
+        })
+        .catch(err => {
+          console.log(err)
+          reject();
+        })
+      });
     },
     unfollow: (context, payload) => {
       return new Promise((resolve, reject) => {

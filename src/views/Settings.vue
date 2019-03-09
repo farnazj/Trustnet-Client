@@ -4,7 +4,7 @@
       <custom-toolbar></custom-toolbar>
     </v-layout>
 
-    <v-layout row justify-center align-center fill-height>
+    <v-layout class="pt-5" row justify-center align-center fill-height >
       <v-flex xs9>
         <v-tabs left color="blue darken-1" dark
           slider-color="amber lighten-1" v-model="tabs">
@@ -15,24 +15,19 @@
             Discover sources
           </v-tab>
 
-        <v-tab-item>
-          <manage-sources>
-          </manage-sources>
+          <v-tab-item>
+            <manage-sources>
+            </manage-sources>
+          </v-tab-item>
 
-        </v-tab-item>
-        <v-tab-item>
-          <v-card>
+          <v-tab-item>
+            <discover-sources>
+            </discover-sources>
+          </v-tab-item>
 
-
-         </v-card>
-        </v-tab-item>
-
-      </v-tabs>
-
+        </v-tabs>
       </v-flex>
-
     </v-layout>
-
 
   </v-container>
 </template>
@@ -40,11 +35,13 @@
 <script>
 import CustomToolbar from '@/components/CustomToolbar'
 import ManageSources from '@/components/ManageSources'
+import DiscoverSources from '@/components/DiscoverSources'
 
 export default {
   components: {
     'custom-toolbar': CustomToolbar,
     'manage-sources': ManageSources,
+    'discover-sources': DiscoverSources
   },
   data () {
     return {

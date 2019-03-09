@@ -18,13 +18,6 @@
       <template slot="headers" slot-scope="props">
         <tr>
 
-          <!-- <th>
-           <v-checkbox
-             :input-value="props.all" :indeterminate="props.indeterminate"
-             primary hide-details @click.stop="toggleAll">
-           </v-checkbox>
-         </th> -->
-
           <th v-for="header in props.headers"
             :key="header.text" class="text-xs-left"
             :class="['column sortable', pagination.descending ? 'desc' : 'asc',
@@ -43,26 +36,13 @@
 
       <template slot="items" slot-scope="props">
         <tr :active="props.selected" @click="props.selected = !props.selected">
-          <!-- <td>
-            <v-checkbox
-              :input-value="props.selected"
-              primary
-              hide-details
-            ></v-checkbox>
-          </td> -->
+
           <td class="text-xs-left">
             <custom-avatar :user="props.item" class="mr-2"></custom-avatar>
             {{ props.item.userName }}
           </td>
           <td class="text-xs-left">{{ props.item.name }}</td>
           <td class="text-xs-left">
-
-            <!-- <v-badge :color="props.item.trusted == 1 ? 'blue' : 'grey'"
-              @click.native="changeTrustStatus(props.item)" class="cursor-pointer">
-              <template slot="badge">
-                <div>T</div>
-              </template>
-            </v-badge> -->
 
             <v-btn flat icon :color="props.item.trusted == 1 ? 'blue' : 'grey'"
             @click.stop="changeTrustStatus(props.item)">
@@ -74,7 +54,6 @@
             <v-btn small flat color="primary" @click.stop="unfollowSource(props.item)">
               Unfollow
             </v-btn>
-
           </td>
 
         </tr>
@@ -153,12 +132,6 @@ export default {
 
       this.unfollow({username: source.userName});
     },
-    toggleAll() {
-       if (this.selected.length)
-        this.selected = [];
-       else
-        this.selected = this.followedSourcesWInfo.slice();
-     },
     changeSort (column) {
      if (this.pagination.sortBy === column) {
        this.pagination.descending = !this.pagination.descending;
