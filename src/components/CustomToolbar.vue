@@ -1,12 +1,11 @@
 <template>
     <v-toolbar app>
 
-      <v-toolbar-title @click="goToPage('/')" class="headline text-uppercase logo">
+      <v-toolbar-title @click="goToPage('/')" class="headline text-uppercase cursor-pointer">
         <span class="font-weight-light">Trustnet</span>
       </v-toolbar-title>
 
       <v-spacer></v-spacer>
-
       <content-booster></content-booster>
 
       <v-divider vertical inset class="mr-3"></v-divider>
@@ -105,7 +104,5 @@ export default {
 </script>
 
 <style scoped>
-.logo {
-  cursor: pointer;
-}
+
 </style>
