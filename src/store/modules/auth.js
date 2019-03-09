@@ -12,7 +12,6 @@ export default {
     isLoggedIn: (state) => { return !!state.token; },
     authStatus: (state) => { return state.status; },
     user: (state) => {
-      console.log(JSON.parse(localStorage.getItem('token')).id)
       return JSON.parse(localStorage.getItem('token')).id; }
   },
   mutations: {
