@@ -71,12 +71,14 @@ export default {
       console.log('going to logout')
       return new Promise((resolve, reject) => {
         authServices.logout().then(resp => {
-          localStorage.removeItem('token');
-          commit('logout');
           resolve();
         })
         .catch(err => {
           reject(err);
+        })
+        .finally(()=> {
+          localStorage.removeItem('token');
+          commit('logout');
         })
       })
     }
