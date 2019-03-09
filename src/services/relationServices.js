@@ -4,12 +4,32 @@ export default {
 
   getFollows() {
     return Api().get('/follows', {
-      withCredentials: true,
+      withCredentials: true
+    })
+  },
+  unfollow(reqBody) {
+    return Api().delete('/follows',
+    {
+      data: reqBody,
+      withCredentials: true
     })
   },
   getTrusteds() {
     return Api().get('/trusts', {
-      withCredentials: true,
+      withCredentials: true
+    })
+  },
+  addTrusted(reqBody) {
+    return Api().post('/trusts',
+    reqBody, {
+      withCredentials: true
+    })
+  },
+  deleteTrusted(reqBody) {
+    return Api().delete('/trusts',
+    {
+      data: reqBody,
+      withCredentials: true
     })
   }
 

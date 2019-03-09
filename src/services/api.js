@@ -15,7 +15,7 @@ instance.interceptors.response.use(undefined, function (err) {
   return new Promise(function (resolve, reject) {
     if (err.response.status === 401 ) {
       store.dispatch('auth/logout')
-      .then(() => {
+      .finally(() => {
         router.push('/login');
       })
     }

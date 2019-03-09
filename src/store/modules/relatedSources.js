@@ -15,6 +15,10 @@ export default {
     populate_follows: (state, sources) => {
       sources.sort(utils.compareSources);
       state.followed_sources = sources;
+    },
+    populate_trusteds: (state, sources) => {
+      sources.sort(utils.compareSources);
+      state.trusted_sources = sources;
     }
 
   },
@@ -28,7 +32,70 @@ export default {
           resolve();
         })
       })
+    },
+    fetchTrusteds: (context) => {
 
+      return new Promise((resolve, reject) => {
+        relationServices.getTrusteds()
+        .then(response => {
+          context.commit('populate_trusteds', response.data);
+          resolve();
+        })
+      })
+    },
+    addTrusted: (context, payload) => {
+      return new Promise((resolve, reject) => {
+        relationServices.addTrusted(payload)
+        .then(response => {
+          context.dispatch('fetchTrusteds')
+          .then(()=> {
+            resolve();
+          })
+        })
+        .catch(err => {
+          console.log(err)
+          reject();
+        })
+      })
+    },
+    deleteTrusted: (context, payload) => {
+      return new Promise((resolve, reject) => {
+        relationServices.deleteTrusted(payload)
+        .then(response => {
+          context.dispatch('fetchTrusteds')
+          .then(()=> {
+            resolve();
+          })
+        })
+        .catch(err => {
+          console.log(err)
+          reject();
+        })
+      })
+    },
+    unfollow: (context, payload) => {
+      return new Promise((resolve, reject) => {
+        let relation_proms = [
+          relationServices.deleteTrusted(payload),
+          relationServices.unfollow(payload)
+        ];
+        Promise.all(relation_proms)
+        .then(() => {
+          let dispatch_proms = [
+            context.dispatch('fetchFollows'),
+            context.dispatch('fetchTrusteds')
+          ];
+          Promise.all(dispatch_proms)
+          .then(() => {
+            resolve();
+          })
+        })
+        .catch(err => {
+          console.log(err);
+          reject();
+        })
+      })
     }
+
   }
 }
