@@ -20,9 +20,9 @@ export default {
       state.offset += posts.length;
     },
 
-    refresh_articles: (state, posts) => {
-      state.articles = posts;
-      state.offset = posts.length;
+    refresh_articles: (state) => {
+      state.articles = [];
+      state.offset = 0;
     },
 
     change_filter_value: (state, filters) => {
@@ -35,13 +35,11 @@ export default {
       state.source_filter = state.source_filter.toLowerCase();
 
       state.source_usernames = filters.source_usernames;
-      state.offset = 0;
     }
   },
   actions: {
 
     getArticles: (context) => {
-
       return new Promise((resolve, reject) => {
 
         postServices.getBoosts({offset: context.state.offset, limit: context.state.limit},
@@ -70,12 +68,25 @@ export default {
 
       })
     },
+    refreshArticles: (context) => {
+      context.commit('refresh_articles');
+      return new Promise((resolve, reject) => {
+        context.dispatch('getMoreBoosts')
+        .then(() => {
+          resolve();
+        })
+        .catch(err => {
+          reject(err);
+        })
+      })
+    },
 
     applyFilter: (context, payload) => {
+      context.commit('refresh_articles', false);
       context.commit('change_filter_value', payload);
       context.dispatch('getArticles')
       .then(posts => {
-        context.commit('refresh_articles', posts);
+        context.commit('append_articles', posts);
        })
       .catch(error => {
         console.log("in actions", error);

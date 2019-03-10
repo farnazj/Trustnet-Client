@@ -14,22 +14,22 @@ import ArticlePreview from '@/components/ArticlePreview'
 import infiniteScroll from '@/mixins/infiniteScroll'
 import { mapState, mapActions } from 'vuex';
 
-  export default {
-    components: {
-      'article-preview': ArticlePreview,
-    },
-    data: () => {
-      return {
-      }
+export default {
+  components: {
+    'article-preview': ArticlePreview,
+  },
+  data: () => {
+    return {
+    }
   },
   created() {
     //this.$store.dispatch('articleFilters/getMoreBoosts')
-    this.getMoreBoosts();
+    this.refreshArticles();
   },
   computed: {
-    ...mapState('articleFilters', {
-      articles: state => state.articles
-    })
+    ...mapState('articleFilters', [
+      'articles'
+    ])
   },
   methods: {
     revealArticleDetails: function(article) {
@@ -39,7 +39,8 @@ import { mapState, mapActions } from 'vuex';
       this.getMoreBoosts();
     },
     ...mapActions('articleFilters', [
-      'getMoreBoosts'
+      'getMoreBoosts',
+      'refreshArticles'
     ]),
     ...mapActions('articleDetails', [
       'showArticleDrawer'
