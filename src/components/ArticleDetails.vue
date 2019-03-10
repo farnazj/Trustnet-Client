@@ -195,25 +195,24 @@ export default {
     },
     ...mapState('articleDetails', [
      'drawerVisible',
-     'article'
+     'article',
+     'assessment'
    ])
 
   },
   watch: {
     article: function(val) {
-      let auth_userid = this.$store.getters['auth/user'];
 
-      assessmentServices.getPostSourceAssessment(auth_userid, val.id)
-      .then(assessment => {
-        if (Object.entries(assessment.data).length != 0) {
-          this.disableBoost = false;
-          this.assessmentBody = assessment.data.body;
-          this.postCredibility = parseInt(assessment.data.postCredibility) + 1;
-        }
-        else {
-          this.disableBoost = true;
-        }
-
+      this.getAuthUserPostAssessment()
+      .then(() => {
+        if (Object.entries(this.assessment).length != 0) {
+            this.disableBoost = false;
+            this.assessmentBody = this.assessment.body;
+            this.postCredibility = parseInt(this.assessment.postCredibility) + 1;
+          }
+          else {
+            this.disableBoost = true;
+          }
       })
     }
 
@@ -226,16 +225,15 @@ export default {
           body: this.$refs.assessmentColl.assessmentText
         }
 
-        assessmentServices.postAssessment(this.article.id, reqBody)
-        .then(response => {
-          if (response.status != 200)
-            this.assessmentAlert = true;
-          else {
-            this.assessmentMenu = false;
-            this.disableBoost = false;
-          }
-
+        this.postAuthUserAssessment(reqBody)
+        .then(() => {
+          this.assessmentMenu = false;
+          this.disableBoost = false;
         })
+        .catch(err => {
+          this.assessmentAlert = true;
+        })
+
       }
     },
     boostArticle: function() {
@@ -249,8 +247,11 @@ export default {
         .then(response => {
           if (response.status != 200)
             this.boostAlert = true;
-          else
+          else {
             this.boostMenu = false;
+            
+          }
+
         })
       }
     },
@@ -259,7 +260,12 @@ export default {
       this[menu] = false;
     },
     ...mapActions('articleDetails', [
-      'setDrawerVisibility'
+      'setDrawerVisibility',
+      'getAuthUserPostAssessment',
+      'postAuthUserAssessment'
+    ]),
+    ...mapActions('articleFilters', [
+      'refreshArticles'
     ])
   }
 }
