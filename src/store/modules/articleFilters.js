@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import postServices from '@/services/postServices'
 
 export default {
@@ -35,6 +36,11 @@ export default {
       state.source_filter = state.source_filter.toLowerCase();
 
       state.source_usernames = filters.source_usernames;
+    },
+
+    update_boost: (state, boost) => {
+      let index = state.articles.findIndex(article => article.id == boost.id);
+      Vue.set(state.articles, index, boost);
     }
   },
   actions: {
@@ -90,6 +96,24 @@ export default {
        })
       .catch(error => {
         console.log("in actions", error);
+      })
+    },
+
+    updateStateArticle: (context, payload) => {
+      return new Promise((resolve, reject) => {
+
+        postServices.getBoostByPostId(payload,
+          { source: context.state.source_filter,
+            validity: context.state.validity_filter,
+            source_usernames: context.state.source_usernames.toString()
+          })
+          .then(response => {
+            context.commit('update_boost', response.data);
+            resolve();
+          })
+          .catch(error => {
+            reject(error);
+          })
       })
     }
   }

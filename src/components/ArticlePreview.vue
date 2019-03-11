@@ -84,6 +84,7 @@
   import customAvatar from '@/components/CustomAvatar'
   import initiatorDisplay from '@/components/InitiatorDisplay'
   import sourceServices from '@/services/sourceServices'
+  import utils from '@/services/utils'
   import { mapActions } from 'vuex';
 
   const validityMapping = { '0': 'refuted', '1': 'questioned', '2': 'confirmed'};
@@ -104,34 +105,44 @@
       revealAssessments: function() {
         this.showAssessments(this.assessments);
       },
+      fetchAssociations: function() {
+        let all_boosters = this.post.Boosteds.map(boost => boost.Boosters).flat();
+        this.boosters = utils.getUnique(all_boosters, 'id');
+
+        for (let key in this.assessments)
+          this.assessments[key] = [];
+        /*
+        Fetches the user objects of sourceIds in each PostAssessment and organizes
+        assessments by validity status
+        */
+        this.post.PostAssessments.forEach(post_assessment => {
+          let assessment_obj = {};
+          for (const [key, value] of Object.entries(post_assessment)) {
+            assessment_obj[key] = value;
+          }
+
+          sourceServices.getSourceById(post_assessment.SourceId)
+          .then(response => {
+            assessment_obj['assessor'] = response.data;
+
+            let cred_value = validityMapping[post_assessment.postCredibility.toString()];
+            this.assessments[cred_value].push(assessment_obj);
+          })
+        })
+      },
       ...mapActions('assessments', [
         'showAssessments'
       ])
     },
     created() {
 
-      this.boosters = [...new Set(this.post.Boosteds.map(boost => boost.Boosters).flat())];
-
-      /*
-      Fetches the user objects of sourceIds in each PostAssessment and organizes
-      assessments by validity status
-      */
-      this.post.PostAssessments.forEach(post_assessment => {
-        let assessment_obj = {};
-        for (const [key, value] of Object.entries(post_assessment)) {
-          assessment_obj[key] = value;
-        }
-
-        sourceServices.getSourceById(post_assessment.SourceId)
-        .then(response => {
-          assessment_obj['assessor'] = response.data;
-
-          let cred_value = validityMapping[post_assessment.postCredibility.toString()];
-          this.assessments[cred_value].push(assessment_obj);
-        })
-      })
-
-    }
+      this.fetchAssociations();
+    },
+    watch: {
+      post: function(val) {
+        this.fetchAssociations();
+      }
+    },
 
 }
 </script>

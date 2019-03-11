@@ -229,6 +229,7 @@ export default {
         .then(() => {
           this.assessmentMenu = false;
           this.disableBoost = false;
+          this.updateStateArticle({postId: this.article.id});
         })
         .catch(err => {
           this.assessmentAlert = true;
@@ -249,7 +250,7 @@ export default {
             this.boostAlert = true;
           else {
             this.boostMenu = false;
-            
+            this.updateStateArticle({postId: this.article.id})
           }
 
         })
@@ -265,7 +266,7 @@ export default {
       'postAuthUserAssessment'
     ]),
     ...mapActions('articleFilters', [
-      'refreshArticles'
+      'updateStateArticle'
     ])
   }
 }

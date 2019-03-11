@@ -18,6 +18,12 @@ export default {
   boostArticle(reqBody) {
     return Api().post('/boosts',
     reqBody, { withCredentials: true})
+  },
+  getBoostByPostId(params, headers) {
+    return Api().get('/boosts/' + params.postId, {
+      withCredentials: true,
+      headers: headers
+    })
   }
 
 }
