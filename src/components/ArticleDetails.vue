@@ -212,6 +212,9 @@ export default {
           }
           else {
             this.disableBoost = true;
+            this.assessmentBody = '';
+            this.postCredibility = null;
+            this.$refs.assessmentMenu.resetValidation();
           }
       })
     }
