@@ -147,6 +147,7 @@
 import sourceSelector from '@/components/SourceSelector'
 import assessmentCollector from '@/components/AssessmentCollector'
 import postServices from '@/services/postServices'
+import { mapActions } from 'vuex'
 
 export default {
   components: {
@@ -196,8 +197,11 @@ export default {
           if (response.status != 200) {
             this.alert = true;
           }
-          else
+          else {
             this.menu = false;
+            this.refreshArticles();
+          }
+
         })
       }
 
@@ -217,8 +221,11 @@ export default {
           if (response.status != 200) {
             this.alert = true;
           }
-          else
+          else {
             this.menu = false;
+            this.refreshArticles();
+          }
+
         })
 
       }
@@ -230,7 +237,10 @@ export default {
       for (let form of ['createPostForm', 'importArticleForm'])
         this.$refs[form].reset()
       this.menu = false;
-    }
+    },
+    ...mapActions('articleFilters', [
+      'refreshArticles'
+    ])
   }
 
 }

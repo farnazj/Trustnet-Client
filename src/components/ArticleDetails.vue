@@ -158,7 +158,7 @@ import sourceSelector from '@/components/SourceSelector'
 import sourceServices from '@/services/sourceServices'
 import assessmentServices from '@/services/assessmentServices'
 import postServices from '@/services/postServices'
-import { mapState, mapActions } from 'vuex';
+import { mapState, mapActions } from 'vuex'
 
 export default {
   components: {
