@@ -1,3 +1,5 @@
+import store from '../store/store'
+
 export default {
 
   //function to sort sources by full name or username if they don't have full name
@@ -15,6 +17,17 @@ export default {
     .filter(e => arr[e]).map(e => arr[e]);
 
    return unique;
+ },
+ isTrusted: async function(source) {
+    if (!store.state.relatedSources.trusted_sources.length)
+      await store.dispatch('relatedSources/fetchTrusteds');
+
+    let trusted_ids = store.state.relatedSources.trusted_sources.map(source => source.id);
+
+    if (trusted_ids.includes(source.id))
+      return true;
+    else
+      return false;
  }
 
 }

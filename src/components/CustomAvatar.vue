@@ -1,18 +1,25 @@
 <template>
 
-    <v-avatar color="cyan darken-2" :size="getSize" @click="goToPage">
+  <v-badge overlap color="blue lighten-3" bottom v-if="isTrusted === true">
+    <template slot="badge" >
+      <span>T</span>
+    </template>
+    <inner-avatar :user="user" :size="size"></inner-avatar>
+  </v-badge>
 
-      <img v-if="user.photo" :src="user.photo">
-      <span v-else-if="user.firstName" class="white--text"> {{getInitials}}</span>
-      <span v-else class="white--text"> {{getCroppedUserName}} </span>
-
-    </v-avatar>
+  <inner-avatar v-else :user="user" :size="size"></inner-avatar>
 
 </template>
 
 <script>
+import innerAvatar from '@/components/InnerAvatar'
+import utils from '@/services/utils'
+import { mapState } from 'vuex';
 
 export default {
+  components: {
+    'inner-avatar': innerAvatar
+  },
   props: {
     user: {
       type: Object,
@@ -25,34 +32,41 @@ export default {
   },
   data () {
     return {
-      defaultSize: 40
+      isTrusted: false
     }
   },
   created() {
+
+    this.setTrustStatus();
     //build the href for avatar
   },
   computed: {
-    getInitials: function() {
-      return (this.user.firstName.charAt(0) + this.user.lastName.charAt(0)).toUpperCase();
-    },
-    getCroppedUserName: function() {
-      return this.user.userName.substring(0,3);
-    },
-    getSize: function() {
-      return this.size ? this.size : this.defaultSize;
-    }
+    ...mapState('relatedSources', [
+      'trusted_sources'
+    ])
   },
   methods: {
     goToPage: function(event) {
 
+    },
+    setTrustStatus: function() {
+      utils.isTrusted(this.user)
+      .then(trustStatus => {
+        this.isTrusted = trustStatus;
+      })
     }
   },
-  directives: {
-    'rainbow': {
-      bind(el, binding, vnode) {
-        //el.style.color =
-      }
+  watch: {
+    //state.trusted_sources
+    trusted_sources: function(val) {
+      this.setTrustStatus();
     }
   }
+
 }
 </script>
+
+<style scoped>
+.trust-badge {
+}
+</style>
