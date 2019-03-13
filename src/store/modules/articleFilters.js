@@ -61,6 +61,7 @@ export default {
     },
 
     getMoreBoosts: (context) => {
+      context.dispatch('loader/setLoading', true, { root: true });
       return new Promise((resolve, reject) => {
 
         context.dispatch('getArticles')
@@ -71,10 +72,14 @@ export default {
           console.log("in actions", error);
           reject(error);
         })
+        .finally(() => {
+          context.dispatch('loader/setLoading', false, { root: true });
+        })
 
       })
     },
     refreshArticles: (context) => {
+      context.dispatch('loader/setLoading', true, { root: true });
       context.commit('refresh_articles');
       return new Promise((resolve, reject) => {
         context.dispatch('getMoreBoosts')
@@ -84,10 +89,15 @@ export default {
         .catch(err => {
           reject(err);
         })
+        .finally(() => {
+          context.dispatch('loader/setLoading', false, { root: true });
+        })
       })
     },
 
     applyFilter: (context, payload) => {
+      context.dispatch('loader/setLoading', true, { root: true });
+
       context.commit('refresh_articles', false);
       context.commit('change_filter_value', payload);
       context.dispatch('getArticles')
@@ -96,6 +106,9 @@ export default {
        })
       .catch(error => {
         console.log("in actions", error);
+      })
+      .finally(() => {
+        context.dispatch('loader/setLoading', false, { root: true });
       })
     },
 

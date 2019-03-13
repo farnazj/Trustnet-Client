@@ -5,6 +5,7 @@ import assessments from './modules/assessments'
 import auth from './modules/auth'
 import relatedSources from './modules/relatedSources'
 import articleDetails from './modules/articleDetails'
+import loader from './modules/loader'
 
 Vue.use(Vuex)
 
@@ -27,6 +28,7 @@ export default new Vuex.Store({
     articleFilters,
     assessments,
     relatedSources,
-    articleDetails
+    articleDetails,
+    loader
   }
 })

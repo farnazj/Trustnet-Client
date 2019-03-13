@@ -5,6 +5,7 @@
     </v-layout>
 
     <v-layout row>
+      <loading></loading>
 
       <v-flex xs2>
         <filters class="left-frozen"></filters>
@@ -28,6 +29,7 @@ import ArticleHolder from '@/components/ArticleHolder'
 import ArticleDetails from '@/components/ArticleDetails'
 import AssessmentsContainer from '@/components/AssessmentsContainer'
 import Filters from '@/components/Filters'
+import Loading from '@/components/Loading'
 
 import { mapState } from 'vuex'
 
@@ -38,7 +40,8 @@ export default {
     'article-holder': ArticleHolder,
     'article-details': ArticleDetails,
     'assessments-container': AssessmentsContainer,
-    'filters': Filters
+    'filters': Filters,
+    'loading': Loading
   },
   data () {
     return {
