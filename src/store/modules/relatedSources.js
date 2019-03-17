@@ -8,6 +8,9 @@ export default {
     trusted_sources: []
   },
   getters: {
+    trustedIds: (state) => {
+      return state.trusted_sources.map(source => source.id);
+    }
 
   },
   mutations: {

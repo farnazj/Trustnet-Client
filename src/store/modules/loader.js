@@ -10,7 +10,6 @@ export default {
   },
   actions: {
     setLoading: (context, payload) => {
-      console.log(payload)
       context.commit('set_loading', payload)
     }
 

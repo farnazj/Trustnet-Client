@@ -39,17 +39,19 @@
               <v-layout col justify-space-around fill-height wrap>
 
                   <v-flex xs12 @click.stop="revealAssessments" >
-                    <v-layout row wrap v-for="(item, key, index) in assessments" :key="index" class="mb-2">
-                      <v-flex xs12>
-                        <v-icon class="mr-3" v-if="key == 'confirmed' && item.length">fas fa-check</v-icon>
-                        <v-icon class="mr-4" v-else-if="key == 'refuted' && item.length">fas fa-times</v-icon>
-                        <v-icon class="mr-4" v-else-if="key == 'questioned' && item.length">fas fa-question</v-icon>
 
-                        <custom-avatar v-for="assessment in item.slice(0,3)" :key="assessment.id"
-                        :user="assessment.assessor" class="mr-2"></custom-avatar>
+                    <v-layout row wrap v-for="(item, key, index) in assessments" :key="index">
+                      <v-flex xs12 :class="item.length ? 'mb-2' : 'mb-0' " >
+                        <v-layout align-center>
+                          <v-icon class="mr-3" v-if="key == 'confirmed' && item.length">fas fa-check</v-icon>
+                          <v-icon class="mr-4" v-else-if="key == 'refuted' && item.length">fas fa-times</v-icon>
+                          <v-icon class="mr-4" v-else-if="key == 'questioned' && item.length">fas fa-question</v-icon>
 
-                        <span v-if="item.length > 3">...</span>
+                          <custom-avatar v-for="assessment in item.slice(0,3)" :key="assessment.id"
+                          :user="assessment.assessor" class="mr-2"></custom-avatar>
 
+                          <span v-if="item.length > 3">...</span>
+                        </v-layout>
                         </v-flex>
                     </v-layout>
 
@@ -108,6 +110,7 @@
       fetchAssociations: function() {
         let all_boosters = this.post.Boosteds.map(boost => boost.Boosters).flat();
         this.boosters = utils.getUnique(all_boosters, 'id');
+        this.boosters.sort(utils.compareBoosters);
 
         for (let key in this.assessments)
           this.assessments[key] = [];
@@ -115,7 +118,9 @@
         Fetches the user objects of sourceIds in each PostAssessment and organizes
         assessments by validity status
         */
-        this.post.PostAssessments.forEach(post_assessment => {
+        let sorted_assessments = this.post.PostAssessments.sort(utils.compareAssessments);
+
+        sorted_assessments.forEach(post_assessment => {
           let assessment_obj = {};
           for (const [key, value] of Object.entries(post_assessment)) {
             assessment_obj[key] = value;
@@ -129,6 +134,7 @@
             this.assessments[cred_value].push(assessment_obj);
           })
         })
+
       },
       ...mapActions('assessments', [
         'showAssessments'

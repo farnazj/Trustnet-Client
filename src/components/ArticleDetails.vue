@@ -65,6 +65,7 @@
                      </source-selector>
                    </v-flex>
                  </v-layout>
+               </v-container>
 
                  <v-card-actions>
                    <v-spacer></v-spacer>
@@ -74,7 +75,6 @@
                      <v-icon class="pr-1" >fas fa-rocket</v-icon> Boost
                    </v-btn>
                  </v-card-actions>
-               </v-container>
 
                </v-card>
              </v-form>
@@ -205,6 +205,7 @@ export default {
 
       this.getAuthUserPostAssessment()
       .then(() => {
+        console.log('hala', this.assessment)
         if (Object.entries(this.assessment).length != 0) {
             this.disableBoost = false;
             this.assessmentBody = this.assessment.body;
