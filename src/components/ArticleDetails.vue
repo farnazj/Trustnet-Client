@@ -90,8 +90,43 @@
        </v-layout>
        <v-divider></v-divider>
 
-       <v-layout row>
+       <v-layout row full-height>
          <v-container>
+
+           <delete-dialog itemType="post" :showDialog="showDeleteDialog"
+            @close="showDeleteDialog = false" @confirm="deleteArticle">
+          </delete-dialog>
+
+           <v-layout row class="edit-tools" v-if="AuthUserIsOwner">
+             <v-speed-dial v-model="fab"
+              direction="top" transition="slide-y-transition">
+                <template slot="activator">
+                    <v-btn v-model="fab" color="blue darken-2"
+                    dark fab>
+                      <v-icon>build</v-icon>
+                      <v-icon>close</v-icon>
+                    </v-btn>
+                </template>
+                <v-btn fab dark small @click="editMode = true"
+                  color="green lighten-1">
+                  <v-icon>edit</v-icon>
+                </v-btn>
+                <v-btn fab dark small @click="showDeleteDialog = true"
+                  color="red lighten-1">
+                  <v-icon>delete</v-icon>
+                </v-btn>
+            </v-speed-dial>
+           </v-layout>
+
+           <v-layout row class="save-edits" v-show="editMode" justify-end>
+             <v-fab-transition>
+
+             <v-btn fab dark small @click="saveEdits"
+               color="green">
+               <v-icon>check</v-icon>
+             </v-btn>
+           </v-fab-transition>
+           </v-layout>
 
 
            <v-layout row justify-center class="centered">
@@ -99,7 +134,10 @@
 
                <v-card-title primary-title class="mb-2">
                   <v-layout row justify-center>
-                    <div class="headline">{{article.title}}</div>
+
+                    <div v-if="!editMode" class="headline">{{article.title}}</div>
+                    <v-text-field v-else v-model="edit.title"></v-text-field>
+
                   </v-layout>
 
                 </v-card-title>
@@ -113,15 +151,23 @@
              </v-flex>
            </v-layout>
 
-           <v-layout row class="my-2">
-             <v-flex xs12>
+           <v-layout row class="my-2" justify-center>
+             <v-flex xs10>
                <v-card-text class="body-text">
-                 <p v-if="article.body">
-                   {{article.body}}
-                 </p>
-                 <p v-else-if="article.description">
-                   {{article.description}}
-                 </p>
+                 <div v-if="!editMode">
+                   <p v-if="article.body" class="sth">
+                     {{article.body}}
+                   </p>
+                   <p v-else-if="article.description">
+                     {{article.description}}
+                   </p>
+                 </div>
+
+                 <div v-else>
+                   <v-textarea v-model="edit.body" rows=16 auto-grow box
+                   background-color="light-blue lighten-5">
+                   </v-textarea>
+                 </div>
 
                </v-card-text>
 
@@ -154,20 +200,23 @@
 import initiatorDisplay from '@/components/InitiatorDisplay'
 import assessmentCollector from '@/components/AssessmentCollector'
 import sourceSelector from '@/components/SourceSelector'
+import deleteConfirmationDialog from '@/components/DeleteConfirmationDialog'
 
 import sourceServices from '@/services/sourceServices'
 import assessmentServices from '@/services/assessmentServices'
 import postServices from '@/services/postServices'
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapGetters, mapActions } from 'vuex'
 
 export default {
   components: {
    'initiator-display': initiatorDisplay,
    'assessment-collector': assessmentCollector,
-   'source-selector': sourceSelector
+   'source-selector': sourceSelector,
+   'delete-dialog': deleteConfirmationDialog
   },
   data: () => {
     return {
+      postBodySanitized: '',
       disableBoost: false,
       assessmentMenu: false,
       boostMenu: false,
@@ -177,22 +226,29 @@ export default {
         v => !!v || 'Assess the accuracy of the article'
       ],
       assessmentAlert: false,
-      boostAlert: false
+      boostAlert: false,
+      fab: false,
+      editMode: false,
+      edit: {body: '', title: ''},
+      showDeleteDialog: false
     }
-  },
-  created() {
-
   },
   computed: {
 
     articleDetailsVisible: {
       get: function() {
-          return this.drawerVisible;
+        return this.drawerVisible;
       },
       set: function(newValue) {
         this.setDrawerVisibility(newValue);
       }
     },
+    AuthUserIsOwner: function(){
+      return this.article.SourceId == this.user;
+    },
+    ...mapGetters('auth', [
+      'user'
+    ]),
     ...mapState('articleDetails', [
      'drawerVisible',
      'article',
@@ -203,9 +259,12 @@ export default {
   watch: {
     article: function(val) {
 
+      this.editMode = false;
+      this.edit.body = val.body;
+      this.edit.title = val.title;
+
       this.getAuthUserPostAssessment()
       .then(() => {
-        console.log('hala', this.assessment)
         if (Object.entries(this.assessment).length != 0) {
             this.disableBoost = false;
             this.assessmentBody = this.assessment.body;
@@ -264,6 +323,12 @@ export default {
       this.$refs[menu].resetValidation();
       this[menu] = false;
     },
+    saveEdits: function() {
+      this.editMode = false;
+    },
+    deleteArticle: function() {
+
+    },
     ...mapActions('articleDetails', [
       'setDrawerVisibility',
       'getAuthUserPostAssessment',
@@ -291,6 +356,7 @@ export default {
 
 .body-text {
   font-size: 1.1em;
+  white-space: pre-wrap;
 }
 
 .full-height {
@@ -298,4 +364,13 @@ export default {
 
 }
 
+.edit-tools {
+  position: sticky;
+  top: 90vh;
+}
+
+.save-edits {
+  position: sticky;
+  top: 90vh;
+}
 </style>
