@@ -17,13 +17,21 @@ export default {
   },
   boostArticle(reqBody) {
     return Api().post('/boosts',
-    reqBody, { withCredentials: true})
+    reqBody, { withCredentials: true })
   },
   getBoostByPostId(params, headers) {
     return Api().get('/boosts/' + params.postId, {
       withCredentials: true,
       headers: headers
     })
+  },
+  editPost(params, reqBody) {
+    return Api().put('/posts/' + params.postId,
+     reqBody, { withCredentials: true })
+  },
+  deletePost(params) {
+    return Api().delete('/posts/' + params.postId,
+    { withCredentials: true })
   }
 
 }

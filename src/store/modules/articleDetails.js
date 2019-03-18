@@ -19,6 +19,11 @@ export default {
 
     set_assessment: (state, assessment) => {
       state.assessment = assessment;
+    },
+
+    update_article: (state, article) => {
+      for (let key of ['body', 'description', 'title', 'url', 'version'])
+        state.article[key] = article[key];
     }
   },
   actions: {
@@ -59,7 +64,13 @@ export default {
         .catch(err => {
           reject(err);
         })
-    })
+      })
+    },
+
+    updateDisplayedArticle: (context) => {
+      let articles = context.rootState.articleFilters.articles;
+      let updated_article = articles.find(el => el.id == context.state.article.id);
+      context.commit('update_article', updated_article);
     }
 
   }

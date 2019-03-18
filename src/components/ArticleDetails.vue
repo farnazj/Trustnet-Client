@@ -29,7 +29,7 @@
                 <v-card-actions>
                   <v-spacer></v-spacer>
 
-                  <v-btn flat @click="cancel('assessmentMenu')">Cancel</v-btn>
+                  <v-btn flat @click="cancelMenu('assessmentMenu')">Cancel</v-btn>
                   <v-btn color="primary" flat @click="postAssessment">
                     <v-icon class="pr-1" >gavel</v-icon> Assess
                   </v-btn>
@@ -70,7 +70,7 @@
                  <v-card-actions>
                    <v-spacer></v-spacer>
 
-                   <v-btn flat @click="cancel('boostMenu')">Cancel</v-btn>
+                   <v-btn flat @click="cancelMenu('boostMenu')">Cancel</v-btn>
                    <v-btn color="primary" flat @click="boostArticle">
                      <v-icon class="pr-1" >fas fa-rocket</v-icon> Boost
                    </v-btn>
@@ -92,6 +92,13 @@
 
        <v-layout row full-height>
          <v-container>
+
+           <v-snackbar v-model="showInfoSnackbar" top>
+            {{ editSubmitInfo }}
+             <v-btn color="pink" flat @click="snackbar = false">
+               Close
+             </v-btn>
+           </v-snackbar>
 
            <delete-dialog itemType="post" :showDialog="showDeleteDialog"
             @close="showDeleteDialog = false" @confirm="deleteArticle">
@@ -230,7 +237,9 @@ export default {
       fab: false,
       editMode: false,
       edit: {body: '', title: ''},
-      showDeleteDialog: false
+      showDeleteDialog: false,
+      showInfoSnackbar: false,
+      editSubmitInfo: ''
     }
   },
   computed: {
@@ -276,7 +285,8 @@ export default {
             this.postCredibility = null;
             this.$refs.assessmentMenu.resetValidation();
           }
-      })
+      });
+
     }
 
   },
@@ -319,23 +329,51 @@ export default {
         })
       }
     },
-    cancel: function(menu) {
+    cancelMenu: function(menu) {
       this.$refs[menu].resetValidation();
       this[menu] = false;
     },
     saveEdits: function() {
       this.editMode = false;
+      postServices.editPost({postId: this.article.id}, this.edit)
+      .then(res => {
+        this.editSubmitInfo = "Post has been updated."
+        this.updateStateArticle({postId: this.article.id})
+        .then(() => {
+          this.updateDisplayedArticle();
+          this.showInfoSnackbar = true;
+        })
+
+      })
+      .catch(err => {
+        console.log(err)
+        this.editSubmitInfo = "Something went wrong. Please try again later."
+        this.showInfoSnackbar = true;
+      })
     },
     deleteArticle: function() {
-
+      postServices.deletePost({postId: this.article.id})
+      .then(res => {
+        this.editSubmitInfo = "Post has been deleted."
+        this.showInfoSnackbar = true;
+        this.removeArticle(this.article.id);
+        this.setDrawerVisibility(false);
+      })
+      .catch(err => {
+        console.log(err)
+        this.editSubmitInfo = "Something went wrong. Please try again later."
+        this.showInfoSnackbar = true;
+      })
     },
     ...mapActions('articleDetails', [
       'setDrawerVisibility',
       'getAuthUserPostAssessment',
-      'postAuthUserAssessment'
+      'postAuthUserAssessment',
+      'updateDisplayedArticle'
     ]),
     ...mapActions('articleFilters', [
-      'updateStateArticle'
+      'updateStateArticle',
+      'removeArticle'
     ])
   }
 }

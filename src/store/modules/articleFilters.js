@@ -41,6 +41,11 @@ export default {
     update_boost: (state, boost) => {
       let index = state.articles.findIndex(article => article.id == boost.id);
       Vue.set(state.articles, index, boost);
+    },
+
+    remove_boost: (state, post_id) => {
+      let index = state.articles.findIndex(article => article.id == post_id);
+      state.articles.splice(index, 1);
     }
   },
   actions: {
@@ -128,6 +133,10 @@ export default {
             reject(error);
           })
       })
+    },
+
+    removeArticle: (context, payload) =>{
+      context.commit('remove_boost', payload);
     }
   }
 }
