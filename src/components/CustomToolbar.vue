@@ -1,5 +1,5 @@
 <template>
-    <v-toolbar app>
+    <v-toolbar app color="lime lighten-1">
 
       <v-toolbar-title @click="goToPage('/')" class="headline text-uppercase cursor-pointer">
         <span class="font-weight-light">Trustnet</span>
@@ -97,7 +97,10 @@ export default {
      });
    },
    goToPage: function(page) {
-     this.$router.push(page.toLowerCase());
+     if (page != 'Profile')
+      this.$router.push(page.toLowerCase());
+     else
+      this.$router.push({ name: 'profile', params: { username: this.authUser.userName } });
    }
  }
 }

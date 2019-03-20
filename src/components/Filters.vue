@@ -1,6 +1,6 @@
 <template>
 
-  <v-list class="pt-5 article-filters scrollable" expand>
+  <v-list class="pt-5 article-filters scrollable" expand dark>
     <v-list-tile>
       <v-list-tile-action>
           <v-icon>filter_list</v-icon>
@@ -134,8 +134,8 @@
 <style scoped>
 
 .article-filters {
-  height: 95vh;
-  background-color: #EEEEEE;
+  height: 97vh;
+  -background-color: #EEEEEE;
 }
 .bold {
   font-size: 120%;

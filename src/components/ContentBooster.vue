@@ -10,8 +10,8 @@
           <v-icon>note_add</v-icon>
         </v-btn>
 
-        <v-tabs left color="blue darken-1" dark height=50
-          slider-color="amber lighten-1" v-model="tabs">
+        <v-tabs left color="blue darken-2" dark height=50
+          slider-color="lime lighten-4" v-model="tabs">
           <v-tab >
             <v-icon class="mr-1">create</v-icon>
             Create

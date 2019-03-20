@@ -1,6 +1,6 @@
 <template>
 
-    <v-avatar v-else color="cyan darken-2" :size="getSize">
+    <v-avatar v-else color="blue darken-1" :size="getSize">
 
       <img v-if="user.photo" :src="user.photo">
       <span v-else-if="user.firstName" class="white--text"> {{getInitials}}</span>
