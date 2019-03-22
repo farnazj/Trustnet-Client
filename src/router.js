@@ -31,8 +31,9 @@ let router = new Router({
       }
     },
     {
-      path: '/profile',
+      path: '/profile/:username',
       name: 'profile',
+      props: true,
       component: Profile,
       meta: {
         requiresAuth: true

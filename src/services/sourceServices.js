@@ -8,7 +8,12 @@ export default {
   },
   getSourceById(id) {
     return Api().get('/sources/ids/' + id, {
-      withCredentials: true,
+      withCredentials: true
+    })
+  },
+  getSourceByUsername(username) {
+    return Api().get('/sources/' + username, {
+      withCredentials: true
     })
   }
 
