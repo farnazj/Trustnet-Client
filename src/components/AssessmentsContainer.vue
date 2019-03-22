@@ -43,7 +43,7 @@
                 <v-layout row class="mb-2">
                   <v-flex xs12>
                     <custom-avatar :user="assessment.assessor"></custom-avatar>
-                    <span class="ml-2"> {{timeElapsed(assessment.updatedAt)}} </span>
+                    <span class="ml-2 caption grey--text text--darken-3"> {{timeElapsed(assessment.updatedAt)}} </span>
                     <span v-if="assessment.version > 1" class="ml-2 caption grey--text text--darken-1">
                       Edited</span>
                   </v-flex>

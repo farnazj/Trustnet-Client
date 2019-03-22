@@ -18,6 +18,16 @@ export default {
   components: {
     'article-preview': ArticlePreview,
   },
+  props: {
+    detailsNamespace: {
+        type: String,
+        required: true
+    },
+    filtersNamespace: {
+        type: String,
+        required: true
+    }
+  },
   data: () => {
     return {
     }
@@ -27,9 +37,14 @@ export default {
     this.refreshArticles();
   },
   computed: {
-    ...mapState('articleFilters', [
-      'articles'
-    ])
+    articles: function() {
+      return this.state.articles;
+    },
+    ...mapState({
+       state (state) {
+         return state[this.filtersNamespace];
+       }
+    })
   },
   methods: {
     revealArticleDetails: function(article) {
@@ -38,13 +53,19 @@ export default {
     extend: function() {
       this.getMoreBoosts();
     },
-    ...mapActions('articleFilters', [
-      'getMoreBoosts',
-      'refreshArticles'
-    ]),
-    ...mapActions('articleDetails', [
-      'showArticleDrawer'
-    ])
+    ...mapActions({
+      getMoreBoosts (dispatch, payload) {
+        return dispatch(this.filtersNamespace + '/getMoreBoosts', payload)
+      },
+      refreshArticles (dispatch, payload) {
+        return dispatch(this.filtersNamespace + '/refreshArticles', payload)
+      }
+    }),
+    ...mapActions({
+      showArticleDrawer (dispatch, payload) {
+        return dispatch(this.detailsNamespace + '/showArticleDrawer', payload)
+      }
+    })
   },
   mixins : [infiniteScroll]
 

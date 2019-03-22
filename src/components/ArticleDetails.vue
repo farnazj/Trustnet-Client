@@ -141,7 +141,6 @@
 
                <v-card-title primary-title class="mb-2">
                   <v-layout row justify-center>
-
                     <div v-if="!editMode" class="headline">{{article.title}}</div>
                     <v-text-field v-else v-model="edit.title"></v-text-field>
 
@@ -221,6 +220,16 @@ export default {
    'source-selector': sourceSelector,
    'delete-dialog': deleteConfirmationDialog
   },
+  props: {
+    detailsNamespace: {
+        type: String,
+        required: true
+    },
+    filtersNamespace: {
+        type: String,
+        required: true
+    }
+  },
   data: () => {
     return {
       postBodySanitized: '',
@@ -255,14 +264,23 @@ export default {
     AuthUserIsOwner: function(){
       return this.article.SourceId == this.user;
     },
+    drawerVisible: function() {
+      return this.state.drawerVisible;
+    },
+    article: function() {
+      return this.state.article;
+    },
+    assessment: function() {
+      return this.state.assessment;
+    },
     ...mapGetters('auth', [
       'user'
     ]),
-    ...mapState('articleDetails', [
-     'drawerVisible',
-     'article',
-     'assessment'
-   ])
+    ...mapState({
+       state (state) {
+         return state[this.detailsNamespace];
+       }
+     })
 
   },
   watch: {
@@ -365,16 +383,28 @@ export default {
         this.showInfoSnackbar = true;
       })
     },
-    ...mapActions('articleDetails', [
-      'setDrawerVisibility',
-      'getAuthUserPostAssessment',
-      'postAuthUserAssessment',
-      'updateDisplayedArticle'
-    ]),
-    ...mapActions('articleFilters', [
-      'updateStateArticle',
-      'removeArticle'
-    ])
+    ...mapActions({
+      setDrawerVisibility (dispatch, payload) {
+        return dispatch(this.detailsNamespace + '/setDrawerVisibility', payload)
+      },
+      getAuthUserPostAssessment (dispatch, payload) {
+        return dispatch(this.detailsNamespace + '/getAuthUserPostAssessment', payload)
+      },
+      postAuthUserAssessment (dispatch, payload) {
+        return dispatch(this.detailsNamespace + '/postAuthUserAssessment', payload)
+      },
+      updateDisplayedArticle (dispatch, payload) {
+        return dispatch(this.detailsNamespace + '/updateDisplayedArticle', payload)
+      }
+    }),
+    ...mapActions({
+      updateStateArticle (dispatch, payload) {
+        return dispatch(this.filtersNamespace + '/updateStateArticle', payload)
+      },
+      removeArticle (dispatch, payload) {
+        return dispatch(this.filtersNamespace + '/removeArticle', payload)
+      }
+    })
   }
 }
 </script>

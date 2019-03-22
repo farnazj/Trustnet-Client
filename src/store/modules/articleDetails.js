@@ -2,10 +2,12 @@ import assessmentServices from '@/services/assessmentServices'
 
 export default {
   namespaced: true,
-  state: {
-    drawerVisible: false,
-    article: {},
-    assessment: {}
+  state() {
+    return {
+      drawerVisible: false,
+      article: {},
+      assessment: {}
+    }
   },
   getters: {
 

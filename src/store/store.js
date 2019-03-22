@@ -5,11 +5,12 @@ import assessments from './modules/assessments'
 import auth from './modules/auth'
 import relatedSources from './modules/relatedSources'
 import articleDetails from './modules/articleDetails'
+import profileArticles from './modules/profileArticles'
 import loader from './modules/loader'
 
 Vue.use(Vuex)
 
-export default new Vuex.Store({
+let store = new Vuex.Store({
   state: {
 
   },
@@ -23,12 +24,16 @@ export default new Vuex.Store({
 
   },
   modules: {
-
     auth,
     articleFilters,
     assessments,
     relatedSources,
-    articleDetails,
+    profileArticles,
     loader
   }
 })
+
+store.registerModule('homeArticleDetails', articleDetails);
+store.registerModule('profileArticleDetails', articleDetails);
+
+export default store;

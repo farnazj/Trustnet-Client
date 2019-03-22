@@ -11,14 +11,16 @@
         <filters class="left-frozen"></filters>
       </v-flex>
       <v-flex xs7>
-        <article-holder></article-holder>
+        <article-holder detailsNamespace="homeArticleDetails"
+         filtersNamespace="articleFilters"></article-holder>
       </v-flex>
       <v-flex class="right-frozen">
         <assessments-container v-if="visible"></assessments-container>
       </v-flex>
     </v-layout>
 
-    <article-details> </article-details>
+    <article-details detailsNamespace="homeArticleDetails"
+     filtersNamespace="articleFilters"> </article-details>
 
   </v-container>
 </template>
