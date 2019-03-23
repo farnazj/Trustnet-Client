@@ -1,6 +1,6 @@
 <template>
 
-<v-fade-transition>
+<v-fade-transition v-if="visible">
   <v-layout row class="pt-5" id="assessment_container">
     <v-flex xs12>
       <v-card>
@@ -80,6 +80,12 @@ export default {
   components: {
    'custom-avatar': customAvatar
   },
+  props: {
+    namespace: {
+      type: String,
+      required: true
+    }
+  },
   data () {
     return {
     }
@@ -89,16 +95,26 @@ export default {
     isDebated: function () {
       return this.assessments.confirmed.length && this.assessments.refuted.length;
     },
-    ...mapState('assessments', [
-     'assessments',
-     'visible',
-   ])
+    assessments: function() {
+      return this.state.assessments;
+    },
+    visible: function() {
+      return this.state.visible;
+    },
+    ...mapState({
+       state (state) {
+         return state[this.namespace];
+       }
+    })
+
   },
   methods: {
+    ...mapActions({
+      hideContainer (dispatch, payload) {
+        return dispatch(this.namespace + '/hideContainer', payload)
+      }
+    })
 
-    ...mapActions('assessments', [
-      'hideContainer'
-    ])
   },
   mixins: [timeHelpers]
 

@@ -1,11 +1,11 @@
 <template>
-  <v-card>
+  <v-container fluid>
 
     <v-layout row>
       <v-flex xs6>
         <v-card-title>
           <v-text-field
-            v-model="search" append-icon="search" label="Search sources"
+            v-model="search" append-icon="search" label="Search followers"
             single-line hide-details></v-text-field>
         </v-card-title>
       </v-flex>
@@ -16,8 +16,8 @@
 
           <v-container fluid grid-list-xs>
             <v-layout row wrap>
-              <v-flex v-for="source in sourcesToFollow"
-                :key="source.id" xs4>
+              <v-flex v-for="source in sourceResults"
+                :key="source.id" xs3>
                 <!-- v-bind="{ [`xs${source.flex}`]: true }"> -->
                   <v-card :color="source.systemMade ? 'blue lighten-4' : 'lime lighten-4'">
 
@@ -59,7 +59,7 @@
       </v-btn>
     </v-layout>
 
- </v-card>
+ </v-container>
 </template>
 
 <script>
@@ -76,35 +76,48 @@ export default {
     return {
       search: '',
       sourceResults: [],
-      limit: 12,
+      limit: 2,
       offset: 0,
       loadDisabled: false
     }
   },
+  created(){
+    if (!this.followers.length)
+      this.fetchFollowers().then(() => {
+          this.initiateSearch();
+      })
+    else
+      this.initiateSearch();
+
+  },
   methods: {
     loadMore: function() {
-      this.querySources()
-      .then(results =>{
-        if (results.data.length) {
-          this.sourceResults.push(...results.data);
-          this.offset += results.data.length;
-        }
-        if (results.data.length < this.limit)
-          this.loadDisabled = true;
+      let results = this.querySources.slice(this.offset, this.offset + this.limit);
 
-      })
+      if (results.length) {
+        this.sourceResults.push(...results);
+        this.offset += results.length;
+      }
+      if (results.length < this.limit)
+        this.loadDisabled = true;
+
     },
-    querySources: function() {
-      return sourceServices.getSources(
-        {limit: this.limit, offset: this.offset},
-        {search_term: this.search}
-      )
-    },
+
     followSource: function(source) {
       this.follow({username: source.userName});
     },
+    initiateSearch: function() {
+      this.offset = 0;
+      this.loadDisabled = false;
+      this.sourceResults = this.querySources.slice(this.offset, this.offset + this.limit);
+      this.offset += this.sourceResults.length;
+
+      if (this.sourceResults.length < this.limit)
+        this.loadDisabled = true;
+    },
     ...mapActions('relatedSources', [
-      'follow'
+      'follow',
+      'fetchFollowers'
     ])
   },
   computed: {
@@ -113,25 +126,25 @@ export default {
       return this.sourceResults.filter(source => (!this.followedIds.includes(source.id)
         && source.id != auth_user_id));
     },
+    followersIds: function() {
+      return this.followers.map(source => source.id);
+    },
+    querySources: function() {
+      return this.followers.filter(source => source.userName.includes(this.search)
+        || (source.firstName + ' ' + source.lastName).includes(this.search));
+
+    },
     ...mapState('relatedSources', [
+     'followers',
      'followed_sources'
-    ]),
-    ...mapGetters('relatedSources', [
-      'followedIds'
-    ])
+   ]),
+   ...mapGetters('relatedSources', [
+     'followedIds'
+   ])
   },
   watch: {
     search (val) {
-      this.offset = 0;
-      this.loadDisabled = false;
-      this.querySources()
-      .then(results => {
-        this.sourceResults = results.data;
-        this.offset += results.data.length;
-
-        if (results.data.length < this.limit)
-          this.loadDisabled = true;
-      })
+      this.initiateSearch();
     }
   },
   mixins: [sourceHelpers]

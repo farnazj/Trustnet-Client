@@ -44,7 +44,7 @@
     </v-layout>
 
     <v-tabs centered color="blue darken-3" dark height=50
-      slider-color="amber lighten-1" v-model="tabs">
+      slider-color="amber lighten-1" v-model="tabs" @change="tabChanged">
       <v-tab >
         <v-icon class="mr-1">list</v-icon>
         Activity List
@@ -74,6 +74,8 @@
 
       </v-tab-item>
       <v-tab-item>
+
+        <followers-container></followers-container>
       </v-tab-item>
     </v-tabs>
 
@@ -88,6 +90,7 @@ import CustomToolbar from '@/components/CustomToolbar'
 import ArticleHolder from '@/components/ArticleHolder'
 import ArticleDetails from '@/components/ArticleDetails'
 import AssessmentsContainer from '@/components/AssessmentsContainer'
+import FollowersContainer from '@/components/FollowersContainer'
 import Loading from '@/components/Loading'
 
 import sourceServices from '@/services/sourceServices'
@@ -100,6 +103,7 @@ export default {
     'article-holder': ArticleHolder,
     'article-details': ArticleDetails,
     'assessments-container': AssessmentsContainer,
+    'followers-container': FollowersContainer,
     'loading': Loading
   },
   data () {
@@ -113,9 +117,7 @@ export default {
     this.getUser();
   },
   computed: {
-    // visible: function() {
-    //   return this.$store.state.profileAssessments.visible;
-    // }
+
   },
   beforeRouteUpdate (to, from, next) {
     this.getUser();
@@ -134,6 +136,12 @@ export default {
         //do something
       })
 
+    },
+    tabChanged: function(val) {
+      if (val == 0)
+        this.scrollDisabled = false;
+      else if (val == 1)
+      this.scrollDisabled = true;
     },
     ...mapActions('profileArticles', [
       'setUsername'

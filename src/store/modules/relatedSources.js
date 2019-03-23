@@ -5,11 +5,15 @@ export default {
   namespaced: true,
   state: {
     followed_sources: [],
-    trusted_sources: []
+    trusted_sources: [],
+    followers: []
   },
   getters: {
     trustedIds: (state) => {
       return state.trusted_sources.map(source => source.id);
+    },
+    followedIds: (state) => {
+      return state.followed_sources.map(source => source.id);
     }
 
   },
@@ -22,6 +26,10 @@ export default {
     populate_trusteds: (state, sources) => {
       sources.sort(utils.compareSources);
       state.trusted_sources = sources;
+    },
+    populate_followers: (state, sources) => {
+      sources.sort(utils.compareSources);
+      state.followers = sources;
     }
 
   },
@@ -42,6 +50,16 @@ export default {
         relationServices.getTrusteds()
         .then(response => {
           context.commit('populate_trusteds', response.data);
+          resolve();
+        })
+      })
+    },
+    fetchFollowers: (context) => {
+
+      return new Promise((resolve, reject) => {
+        relationServices.getFollowers()
+        .then(response => {
+          context.commit('populate_followers', response.data);
           resolve();
         })
       })
