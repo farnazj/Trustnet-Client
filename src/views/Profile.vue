@@ -56,12 +56,21 @@
       </v-tab>
 
       <v-tab-item>
-        <v-layout justify-center>
-          <v-flex xs7>
-            <article-holder detailsNamespace="profileArticleDetails"
-             filtersNamespace="profileArticles"></article-holder>
+        <v-container fluid class="px-0">
+        <v-layout>
+          <loading></loading>
+
+          <v-flex xs7 offset-xs2>
+            <article-holder detailsNamespace="profileArticleDetails" filtersNamespace="profileArticles"
+            assessmentsNamespace="profileAssessments"></article-holder>
           </v-flex>
+          <v-flex xs3 class="assessments-container">
+            <assessments-container namespace="profileAssessments">
+            </assessments-container>
+          </v-flex>
+
         </v-layout>
+        </v-container>
 
       </v-tab-item>
       <v-tab-item>
@@ -78,6 +87,7 @@
 import CustomToolbar from '@/components/CustomToolbar'
 import ArticleHolder from '@/components/ArticleHolder'
 import ArticleDetails from '@/components/ArticleDetails'
+import AssessmentsContainer from '@/components/AssessmentsContainer'
 import Loading from '@/components/Loading'
 
 import sourceServices from '@/services/sourceServices'
@@ -89,6 +99,7 @@ export default {
     'custom-toolbar': CustomToolbar,
     'article-holder': ArticleHolder,
     'article-details': ArticleDetails,
+    'assessments-container': AssessmentsContainer,
     'loading': Loading
   },
   data () {
@@ -102,7 +113,9 @@ export default {
     this.getUser();
   },
   computed: {
-
+    // visible: function() {
+    //   return this.$store.state.profileAssessments.visible;
+    // }
   },
   beforeRouteUpdate (to, from, next) {
     this.getUser();
@@ -144,5 +157,14 @@ export default {
   width: 100%;
   height: 100%;
   border-radius: 50%;
+}
+
+.assessments-container {
+  position: sticky;
+  right: 0px;
+  top: 30px;
+  width: 22%;
+  height: 97vh;
+  overflow-y: auto;
 }
 </style>

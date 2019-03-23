@@ -11,11 +11,13 @@
         <filters class="left-frozen"></filters>
       </v-flex>
       <v-flex xs7>
-        <article-holder detailsNamespace="homeArticleDetails"
-         filtersNamespace="articleFilters"></article-holder>
+        <article-holder detailsNamespace="homeArticleDetails" filtersNamespace="articleFilters"
+          assessmentsNamespace="homeAssessments">
+       </article-holder>
       </v-flex>
-      <v-flex class="right-frozen">
-        <assessments-container v-if="visible"></assessments-container>
+      <v-flex class="assessments-container">
+        <assessments-container namespace="homeAssessments">
+        </assessments-container>
       </v-flex>
     </v-layout>
 
@@ -50,9 +52,9 @@ export default {
     }
   },
   computed: {
-    ...mapState('assessments', [
-     'visible',
-   ])
+    // visible: function() {
+    //   return this.$store.state.homeAssessments.visible;
+    // }
   }
 }
 </script>
@@ -60,10 +62,12 @@ export default {
 
 <style scoped>
 
-.right-frozen {
+.assessments-container {
   position: fixed;
   right: 0px;
   width: 22%;
+  height: 97vh;
+  overflow-y: auto;
 }
 
 .left-frozen {

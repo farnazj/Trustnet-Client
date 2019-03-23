@@ -222,12 +222,12 @@ export default {
   },
   props: {
     detailsNamespace: {
-        type: String,
-        required: true
+      type: String,
+      required: true
     },
     filtersNamespace: {
-        type: String,
-        required: true
+      type: String,
+      required: true
     }
   },
   data: () => {

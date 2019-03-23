@@ -2,7 +2,8 @@
   <v-layout row class="pt-5">
     <v-flex xs12>
       <v-layout v-for="article in articles" :key="article.id">
-        <article-preview :post="article" @click.native="revealArticleDetails(article)">
+        <article-preview :post="article" @click.native="revealArticleDetails(article)"
+          :assessmentsNamespace="assessmentsNamespace">
         </article-preview>
       </v-layout>
     </v-flex>
@@ -20,12 +21,16 @@ export default {
   },
   props: {
     detailsNamespace: {
-        type: String,
-        required: true
+      type: String,
+      required: true
     },
     filtersNamespace: {
-        type: String,
-        required: true
+      type: String,
+      required: true
+    },
+    assessmentsNamespace: {
+      type: String,
+      required: true
     }
   },
   data: () => {

@@ -96,7 +96,15 @@
      'custom-avatar': customAvatar,
      'initiator-display': initiatorDisplay
     },
-    props: ['post'],
+    props: {
+      assessmentsNamespace: {
+        type: String,
+        required: true
+      },
+      post: {
+        type: Object
+      }
+    },
     data: () => {
       return {
         boosters: [],
@@ -136,9 +144,12 @@
         })
 
       },
-      ...mapActions('assessments', [
-        'showAssessments'
-      ])
+      ...mapActions({
+        showAssessments (dispatch, payload) {
+          return dispatch(this.assessmentsNamespace + '/showAssessments', payload)
+        }
+      })
+      
     },
     created() {
 

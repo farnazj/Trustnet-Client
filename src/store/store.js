@@ -26,7 +26,6 @@ let store = new Vuex.Store({
   modules: {
     auth,
     articleFilters,
-    assessments,
     relatedSources,
     profileArticles,
     loader
@@ -35,5 +34,8 @@ let store = new Vuex.Store({
 
 store.registerModule('homeArticleDetails', articleDetails);
 store.registerModule('profileArticleDetails', articleDetails);
+
+store.registerModule('homeAssessments', assessments);
+store.registerModule('profileAssessments', assessments);
 
 export default store;

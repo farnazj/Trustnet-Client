@@ -1,8 +1,10 @@
 export default {
   namespaced: true,
-  state: {
-    visible: false,
-    assessments: {}
+  state() {
+    return {
+      visible: false,
+      assessments: {}  
+    }
   },
   getters: {
 
@@ -22,6 +24,7 @@ export default {
       context.commit('show_assessments');
     },
     hideContainer: (context) => {
+      console.log('hideContainer called')
       context.commit('hide_assessments');
     }
   }
