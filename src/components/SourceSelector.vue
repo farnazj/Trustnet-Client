@@ -1,6 +1,6 @@
 <template>
 
-  <v-autocomplete v-model="targets" :items="getFriends"
+  <v-autocomplete v-model="targets" :items="followers"
   box chips color="blue-grey lighten-2" label="Select target audience"
   item-text="userName" item-value="userName" multiple >
 
@@ -50,18 +50,18 @@ export default {
     }
   },
   created() {
-    if (!this.followed_sources.length)
-      this.fetchFollows();
+    if (!this.followers.length)
+      this.fetchFollowers();
 
   },
   computed: {
-    getFriends: function() {
-      let friends = this.followed_sources.filter(source => !source.systemMade);
-      return friends;
-
-    },
+    // getFriends: function() {
+    //   let friends = this.followers.filter(source => !source.systemMade);
+    //   return friends;
+    //
+    // },
     ...mapState('relatedSources', [
-     'followed_sources',
+     'followers',
     ])
   },
   methods: {
@@ -70,7 +70,7 @@ export default {
       if (index >= 0) this.targets.splice(index, 1)
     },
     ...mapActions('relatedSources', [
-      'fetchFollows'
+      'fetchFollowers'
     ])
   },
   mixins : [sourceHelpers]

@@ -37,6 +37,11 @@ export default {
       data: reqBody,
       withCredentials: true
     })
+  },
+  getFollowers(params) {
+    return Api().get('/followers', {
+      withCredentials: true
+    })
   }
 
 }
