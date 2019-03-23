@@ -1,7 +1,7 @@
 <template>
     <v-toolbar app color="lime lighten-1">
 
-      <v-toolbar-title @click="goToPage('/')" class="headline text-uppercase cursor-pointer">
+      <v-toolbar-title @click="goToPage('Home')" class="headline text-uppercase cursor-pointer">
         <span class="font-weight-light">Trustnet</span>
       </v-toolbar-title>
 
@@ -98,7 +98,7 @@ export default {
    },
    goToPage: function(page) {
      if (page != 'Profile')
-      this.$router.push(page.toLowerCase());
+      this.$router.push({ name: page.toLowerCase() });
      else
       this.$router.push({ name: 'profile', params: { username: this.authUser.userName } });
    }
