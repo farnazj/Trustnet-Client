@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
 
-    <v-layout row>
+    <v-layout row justify-center>
       <v-flex xs6>
         <v-card-title>
           <v-text-field
@@ -19,17 +19,17 @@
               <v-flex v-for="source in sourceResults"
                 :key="source.id" xs3>
                 <!-- v-bind="{ [`xs${source.flex}`]: true }"> -->
-                  <v-card :color="source.systemMade ? 'blue lighten-4' : 'lime lighten-4'">
+                  <v-card :color="source.systemMade ? 'blue lighten-4' : 'lime lighten-3'">
 
                     <v-container fill-height pa-2>
                       <v-layout fill-height>
                         <v-flex xs12 align-end flexbox>
                           <v-layout row align-end>
-                            <custom-avatar :user="source" class="mr-2"></custom-avatar>
+                            <custom-avatar :user="source" class="mr-3"></custom-avatar>
                             <span class="username-text" v-text="source.userName"></span>
                           </v-layout>
 
-                          <v-layout row mt-2>
+                          <v-layout row mt-3>
                             {{sourceDisplayName(source)}}
                           </v-layout>
 
@@ -37,12 +37,19 @@
                       </v-layout>
                     </v-container>
 
-                    <v-card-actions>
+                    <v-card-actions >
                       <v-spacer></v-spacer>
-                      <v-btn small flat color="primary" @click="followSource(source)">
+                      <v-btn v-if="!followedIds.includes(source.id)" small flat color="primary" @click="followSource(source)">
                         Follow
                       </v-btn>
+                      <v-btn v-else small flat color="secondary" @click="unfollowSource(source)">
+                        Unfollow
+                      </v-btn>
+                      <!-- <div v-else class="pr-1 pb-2 grey--text text--darken-3 body-2 following-text" >
+                        Following
+                      </div> -->
                     </v-card-actions>
+
                   </v-card>
               </v-flex>
             </v-layout>
@@ -76,7 +83,7 @@ export default {
     return {
       search: '',
       sourceResults: [],
-      limit: 2,
+      limit: 16,
       offset: 0,
       loadDisabled: false
     }
@@ -102,9 +109,12 @@ export default {
         this.loadDisabled = true;
 
     },
-
     followSource: function(source) {
       this.follow({username: source.userName});
+    },
+    unfollowSource(source) {
+
+      this.unfollow({username: source.userName});
     },
     initiateSearch: function() {
       this.offset = 0;
@@ -117,18 +127,12 @@ export default {
     },
     ...mapActions('relatedSources', [
       'follow',
+      'unfollow',
       'fetchFollowers'
     ])
   },
   computed: {
-    sourcesToFollow: function() {
-      let auth_user_id = this.$store.getters['auth/user'];
-      return this.sourceResults.filter(source => (!this.followedIds.includes(source.id)
-        && source.id != auth_user_id));
-    },
-    followersIds: function() {
-      return this.followers.map(source => source.id);
-    },
+
     querySources: function() {
       return this.followers.filter(source => source.userName.includes(this.search)
         || (source.firstName + ' ' + source.lastName).includes(this.search));
@@ -155,5 +159,9 @@ export default {
 <style scoped>
 .username-text {
   font-size: 1.2em;
+}
+
+.following-text {
+
 }
 </style>

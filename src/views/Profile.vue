@@ -12,6 +12,7 @@
             <v-flex xs2>
 
               <v-layout row justify-center>
+
               <v-hover>
 
               <v-img :src="user.photoUrl ? user.photoUrl : 'https://cdn.vuetifyjs.com/images/cards/kitchen.png'"

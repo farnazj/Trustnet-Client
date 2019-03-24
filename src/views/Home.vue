@@ -50,11 +50,6 @@ export default {
   data () {
     return {
     }
-  },
-  computed: {
-    // visible: function() {
-    //   return this.$store.state.homeAssessments.visible;
-    // }
   }
 }
 </script>
