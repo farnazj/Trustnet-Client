@@ -85,9 +85,6 @@
       }
     },
     created() {
-
-      this.fetchFollows();
-      this.fetchTrusteds();
     },
     computed: {
       ...mapState('relatedSources', [

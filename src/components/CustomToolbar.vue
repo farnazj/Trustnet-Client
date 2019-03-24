@@ -67,7 +67,7 @@ export default {
     }
   },
   created() {
-    let id = this.user;
+    let id = this.user.id;
     sourceServices.getSourceById(id).then(response => {
      this.authUser = response.data;
    })

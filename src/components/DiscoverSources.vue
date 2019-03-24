@@ -109,7 +109,7 @@ export default {
   },
   computed: {
     sourcesToFollow: function() {
-      let auth_user_id = this.$store.getters['auth/user'];
+      let auth_user_id = this.$store.getters['auth/user'].id;
       return this.sourceResults.filter(source => (!this.followedIds.includes(source.id)
         && source.id != auth_user_id));
     },

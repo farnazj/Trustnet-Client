@@ -41,7 +41,7 @@ export default {
     },
 
     getAuthUserPostAssessment: (context) => {
-      let auth_userid = context.rootGetters['auth/user'];
+      let auth_userid = context.rootGetters['auth/user'].id;
 
       return new Promise((resolve, reject) => {
         assessmentServices.getPostSourceAssessment(auth_userid, context.state.article.id)

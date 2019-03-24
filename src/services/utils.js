@@ -2,7 +2,7 @@ import store from '../store/store'
 
 function compareSourceIds(a, b) {
 
-  let auth_userid = store.getters['auth/user'];
+  let auth_userid = store.getters['auth/user'].id;
 
   if (a == auth_userid)
     return -1;

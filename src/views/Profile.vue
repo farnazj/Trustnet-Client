@@ -76,7 +76,7 @@
       </v-tab-item>
       <v-tab-item>
 
-        <followers-container></followers-container>
+        <followers-container :username="username"></followers-container>
       </v-tab-item>
     </v-tabs>
 
@@ -107,13 +107,13 @@ export default {
     'followers-container': FollowersContainer,
     'loading': Loading
   },
+  props: ['username'],
   data () {
     return {
       user: {},
       tabs: null
     }
   },
-  props: ['username'],
   created() {
     this.getUser();
   },

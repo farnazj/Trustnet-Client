@@ -12,12 +12,9 @@ export default {
     authStatus: (state) => { return state.status; },
     user: (state) => {
       if (Object.entries(state.token).length)
-        return state.token.id;
+        return state.token;
       else {
-        let user = JSON.parse(localStorage.getItem('token'));
-        if (!user)
-          return null;
-        return JSON.parse(localStorage.getItem('token')).id;
+        return JSON.parse(localStorage.getItem('token'));
       }
     }
   },
@@ -30,6 +27,7 @@ export default {
       state.status = 'success';
       localStorage.setItem('token', JSON.stringify(user));
       state.token = Object.assign({}, user);
+
     },
     auth_error(state){
       state.status = 'error';
@@ -49,6 +47,11 @@ export default {
         .then(resp => {
           const user = resp.data.user;
           context.commit('auth_success', user);
+          
+          context.dispatch('relatedSources/fetchFollows',{}, { root: true });
+          context.dispatch('relatedSources/fetchTrusteds',{}, { root: true });
+          context.dispatch('relatedSources/fetchFollowers',{}, { root: true });
+
           resolve(resp);
         })
         .catch(err => {

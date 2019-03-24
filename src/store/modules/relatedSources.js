@@ -55,9 +55,10 @@ export default {
       })
     },
     fetchFollowers: (context) => {
+      let auth_username = context.rootGetters['auth/user'].userName;
 
       return new Promise((resolve, reject) => {
-        relationServices.getFollowers()
+        relationServices.getFollowers({username: auth_username})
         .then(response => {
           context.commit('populate_followers', response.data);
           resolve();

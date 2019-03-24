@@ -39,7 +39,7 @@ export default {
     })
   },
   getFollowers(params) {
-    return Api().get('/followers', {
+    return Api().get('/followers/' + params.username, {
       withCredentials: true
     })
   }

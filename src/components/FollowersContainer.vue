@@ -37,17 +37,18 @@
                       </v-layout>
                     </v-container>
 
-                    <v-card-actions >
+                    <v-card-actions>
                       <v-spacer></v-spacer>
-                      <v-btn v-if="!followedIds.includes(source.id)" small flat color="primary" @click="followSource(source)">
+                      <div v-if="user && source.id == user.id" class="pr-1 pb-2 grey--text text--darken-3 body-2 " >
+                        This is you
+                      </div>
+                      <v-btn v-else-if="!followedIds.includes(source.id)" small flat color="primary" @click="followSource(source)">
                         Follow
                       </v-btn>
                       <v-btn v-else small flat color="secondary" @click="unfollowSource(source)">
                         Unfollow
                       </v-btn>
-                      <!-- <div v-else class="pr-1 pb-2 grey--text text--darken-3 body-2 following-text" >
-                        Following
-                      </div> -->
+
                     </v-card-actions>
 
                   </v-card>
@@ -73,14 +74,18 @@
 import customAvatar from '@/components/CustomAvatar'
 import sourceServices from '@/services/sourceServices'
 import sourceHelpers from '@/mixins/sourceHelpers'
+
+import relationServices from '@/services/relationServices'
 import { mapState, mapGetters, mapActions } from 'vuex'
 
 export default {
   components: {
    'custom-avatar': customAvatar
   },
+  props: ['username'],
   data () {
     return {
+      sourceFollowers: [],
       search: '',
       sourceResults: [],
       limit: 16,
@@ -89,12 +94,19 @@ export default {
     }
   },
   created(){
-    if (!this.followers.length)
-      this.fetchFollowers().then(() => {
-          this.initiateSearch();
-      })
-    else
+    let auth_username = this.user.userName;
+
+    if (auth_username == this.username) {
+      this.sourceFollowers = this.followers;
       this.initiateSearch();
+    }
+    else {
+      relationServices.getFollowers({username: this.username})
+      .then(res => {
+        this.sourceFollowers = res.data;
+        this.initiateSearch();
+      })
+    }
 
   },
   methods: {
@@ -113,7 +125,6 @@ export default {
       this.follow({username: source.userName});
     },
     unfollowSource(source) {
-
       this.unfollow({username: source.userName});
     },
     initiateSearch: function() {
@@ -134,7 +145,7 @@ export default {
   computed: {
 
     querySources: function() {
-      return this.followers.filter(source => source.userName.includes(this.search)
+      return this.sourceFollowers.filter(source => source.userName.includes(this.search)
         || (source.firstName + ' ' + source.lastName).includes(this.search));
 
     },
@@ -144,6 +155,9 @@ export default {
    ]),
    ...mapGetters('relatedSources', [
      'followedIds'
+   ]),
+   ...mapGetters('auth', [
+     'user'
    ])
   },
   watch: {
@@ -161,7 +175,7 @@ export default {
   font-size: 1.2em;
 }
 
-.following-text {
+.sth {
 
 }
 </style>
