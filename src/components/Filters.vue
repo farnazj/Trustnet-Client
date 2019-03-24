@@ -85,12 +85,14 @@
       }
     },
     created() {
-      if (!this.followed_sources.length)
-        this.fetchFollows();
+
+      this.fetchFollows();
+      this.fetchTrusteds();
     },
     computed: {
       ...mapState('relatedSources', [
        'followed_sources',
+       'trusted_sources'
      ])
 
     },
@@ -122,7 +124,8 @@
         'applyFilter',
       ]),
       ...mapActions('relatedSources', [
-        'fetchFollows'
+        'fetchFollows',
+        'fetchTrusteds'
       ])
 
     },

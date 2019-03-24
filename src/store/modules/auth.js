@@ -3,16 +3,23 @@ import authServices from '@/services/authServices'
 export default {
   namespaced: true,
   state: {
-
     status: '',
-    token: localStorage.getItem('token') || ''
+    token: JSON.parse(localStorage.getItem('token')) || {}
   },
   getters: {
 
     isLoggedIn: (state) => { return !!state.token; },
     authStatus: (state) => { return state.status; },
     user: (state) => {
-      return JSON.parse(localStorage.getItem('token')).id; }
+      if (Object.entries(state.token).length)
+        return state.token.id;
+      else {
+        let user = JSON.parse(localStorage.getItem('token'));
+        if (!user)
+          return null;
+        return JSON.parse(localStorage.getItem('token')).id;
+      }
+    }
   },
   mutations: {
 
@@ -21,7 +28,8 @@ export default {
     },
     auth_success(state, user){
       state.status = 'success';
-      state.token = user;
+      localStorage.setItem('token', JSON.stringify(user));
+      state.token = Object.assign({}, user);
     },
     auth_error(state){
       state.status = 'error';
@@ -29,6 +37,7 @@ export default {
     logout(state){
       state.status = '';
       state.token = '';
+      localStorage.removeItem('token');
     }
   },
   actions: {
@@ -39,7 +48,6 @@ export default {
         authServices.login(user)
         .then(resp => {
           const user = resp.data.user;
-          localStorage.setItem('token', JSON.stringify(user));
           context.commit('auth_success', user);
           resolve(resp);
         })
@@ -55,7 +63,6 @@ export default {
         commit('auth_request');
         authServices.signup(user).then(resp => {
           //const user = resp.data.user
-          //localStorage.setItem('token', JSON.stringify(user));
           //commit('auth_success', user);
           resolve(resp);
         })
@@ -70,14 +77,11 @@ export default {
       console.log('going to logout')
       return new Promise((resolve, reject) => {
         authServices.logout().then(resp => {
+          commit('logout');
           resolve();
         })
         .catch(err => {
           reject(err);
-        })
-        .finally(()=> {
-          localStorage.removeItem('token');
-          commit('logout');
         })
       })
     }

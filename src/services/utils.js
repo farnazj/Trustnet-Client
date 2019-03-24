@@ -44,8 +44,6 @@ export default {
    return unique;
  },
  isTrusted: async function(source) {
-    if (!store.state.relatedSources.trusted_sources.length)
-      await store.dispatch('relatedSources/fetchTrusteds');
 
     let trusted_ids = store.getters['relatedSources/trustedIds'];
 

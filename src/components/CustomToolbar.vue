@@ -44,7 +44,7 @@
 import customAvatar from '@/components/CustomAvatar'
 import contentBooster from '@/components/ContentBooster'
 import sourceServices from '@/services/sourceServices'
-import { mapGetters } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -67,28 +67,22 @@ export default {
     }
   },
   created() {
-
-    let id = this.$store.getters['auth/user'];
+    let id = this.user;
     sourceServices.getSourceById(id).then(response => {
      this.authUser = response.data;
-    })
+   })
   },
   computed: {
-
     ...mapGetters('auth', [
      'user'
    ])
  },
  methods: {
    clickHandler: function(item) {
-     if (item == 'Home')
-      return this.goToPage('/');
-     else if (item == 'Profile')
-      return this.goToPage('Profile');
-     else if (item == 'Settings')
-      return this.goToPage('Settings');
-     else if (item == 'Logout')
+    if (item == 'Logout')
       return this.logout();
+    else
+      return this.goToPage(item);
    },
    logout: function() {
      this.$store.dispatch('auth/logout')

@@ -261,7 +261,7 @@ export default {
         this.setDrawerVisibility(newValue);
       }
     },
-    AuthUserIsOwner: function(){
+    AuthUserIsOwner: function() {
       return this.article.SourceId == this.user;
     },
     drawerVisible: function() {
