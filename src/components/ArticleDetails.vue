@@ -95,7 +95,7 @@
 
            <v-snackbar v-model="showInfoSnackbar" top>
             {{ editSubmitInfo }}
-             <v-btn color="pink" flat @click="snackbar = false">
+             <v-btn color="blue lighten-1" flat @click="snackbar = false">
                Close
              </v-btn>
            </v-snackbar>
@@ -262,7 +262,7 @@ export default {
       }
     },
     AuthUserIsOwner: function() {
-      return this.article.SourceId == this.user ? this.user.id : null;
+      return this.article.SourceId == this.user.id;
     },
     drawerVisible: function() {
       return this.state.drawerVisible;
