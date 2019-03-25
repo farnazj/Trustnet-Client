@@ -3,7 +3,7 @@ export default {
   state() {
     return {
       visible: false,
-      assessments: {}  
+      assessments: {}
     }
   },
   getters: {
@@ -17,6 +17,7 @@ export default {
     populate_assessments: (state, assessments) => {
       state.assessments = assessments;
     }
+
   },
   actions: {
     showAssessments: (context, payload) => {
@@ -24,7 +25,6 @@ export default {
       context.commit('show_assessments');
     },
     hideContainer: (context) => {
-      console.log('hideContainer called')
       context.commit('hide_assessments');
     }
   }

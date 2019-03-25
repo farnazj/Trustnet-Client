@@ -6,6 +6,7 @@
 
     <v-layout row>
       <loading></loading>
+      <boosters-list detailsNamespace="homeArticleDetails"></boosters-list>
 
       <v-flex xs2>
         <filters class="left-frozen"></filters>
@@ -32,6 +33,7 @@ import CustomToolbar from '@/components/CustomToolbar'
 import ArticleHolder from '@/components/ArticleHolder'
 import ArticleDetails from '@/components/ArticleDetails'
 import AssessmentsContainer from '@/components/AssessmentsContainer'
+import boostersList from '@/components/BoostersList'
 import Filters from '@/components/Filters'
 import Loading from '@/components/Loading'
 
@@ -44,6 +46,7 @@ export default {
     'article-holder': ArticleHolder,
     'article-details': ArticleDetails,
     'assessments-container': AssessmentsContainer,
+    'boosters-list': boostersList,
     'filters': Filters,
     'loading': Loading
   },

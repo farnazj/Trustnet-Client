@@ -6,14 +6,18 @@ export default {
     return {
       drawerVisible: false,
       article: {},
-      assessment: {}
+      assessment: {},
+      boosterListVisible: false,
+      boosters: []
     }
   },
   getters: {
 
   },
   mutations: {
-    set_drawer_visibility: (state, visiblity) => { state.drawerVisible = visiblity; },
+    set_drawer_visibility: (state, visiblity) => {
+      state.drawerVisible = visiblity;
+    },
 
     populate_drawer: (state, article) => {
       state.article = article;
@@ -26,6 +30,14 @@ export default {
     update_article: (state, article) => {
       for (let key of ['body', 'description', 'title', 'url', 'version'])
         state.article[key] = article[key];
+    },
+
+    set_boosters_visibility: (state, visiblity) => {
+      state.boosterListVisible  = visiblity;
+    },
+
+    populate_boosters: (state, boosters) => {
+      state.boosters = boosters;
     }
   },
   actions: {
@@ -73,7 +85,16 @@ export default {
       let articles = context.rootState.articleFilters.articles;
       let updated_article = articles.find(el => el.id == context.state.article.id);
       context.commit('update_article', updated_article);
-    }
+    },
+
+    populateBoosters: (context, payload) => {
+      context.commit('populate_boosters', payload);
+    },
+
+    setBoostersVisibility: (context, payload) => {
+      context.commit('set_boosters_visibility', payload);
+    },
+
 
   }
 }

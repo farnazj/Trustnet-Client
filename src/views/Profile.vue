@@ -60,6 +60,7 @@
         <v-container fluid class="px-0">
         <v-layout>
           <loading></loading>
+          <boosters-list detailsNamespace="profileArticleDetails"></boosters-list>
 
           <v-flex xs7 offset-xs2>
             <article-holder detailsNamespace="profileArticleDetails" filtersNamespace="profileArticles"
@@ -92,6 +93,7 @@ import ArticleHolder from '@/components/ArticleHolder'
 import ArticleDetails from '@/components/ArticleDetails'
 import AssessmentsContainer from '@/components/AssessmentsContainer'
 import FollowersContainer from '@/components/FollowersContainer'
+import boostersList from '@/components/BoostersList'
 import Loading from '@/components/Loading'
 
 import sourceServices from '@/services/sourceServices'
@@ -104,6 +106,7 @@ export default {
     'article-holder': ArticleHolder,
     'article-details': ArticleDetails,
     'assessments-container': AssessmentsContainer,
+    'boosters-list': boostersList,
     'followers-container': FollowersContainer,
     'loading': Loading
   },

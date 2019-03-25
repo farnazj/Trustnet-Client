@@ -50,7 +50,7 @@
                           <custom-avatar v-for="assessment in item.slice(0,3)" :key="assessment.id"
                           :user="assessment.assessor" :clickEnabled="true" class="mr-2"></custom-avatar>
 
-                          <span v-if="item.length > 3">...</span>
+                          <span v-if="item.length > 3" class="headline">...</span>
                         </v-layout>
                         </v-flex>
                     </v-layout>
@@ -66,9 +66,11 @@
           <v-layout row class="pt-2" wrap>
             <v-flex xs12 >
               <v-icon >fas fa-rocket</v-icon> <span class="mr-3"> Boosted by</span>
-              <custom-avatar v-for="booster in boosters.slice(0,15)" :key="booster.id"
+              <custom-avatar v-for="booster in boosters.slice(0,12)" :key="booster.id"
               :user="booster" :clickEnabled="true" class="mr-2">
               </custom-avatar>
+              <span v-if="boosters.length > 2" @click.stop="showBoosters" class="headline cursor-pointer">
+                ...</span>
             </v-flex>
           </v-layout>
 
@@ -97,6 +99,10 @@
      'initiator-display': initiatorDisplay
     },
     props: {
+      detailsNamespace: {
+        type: String,
+        required: true
+      },
       assessmentsNamespace: {
         type: String,
         required: true
@@ -108,7 +114,7 @@
     data: () => {
       return {
         boosters: [],
-        assessments: {'confirmed': [], 'refuted': [], 'questioned': []},
+        assessments: {'confirmed': [], 'refuted': [], 'questioned': []}
       }
     },
     methods: {
@@ -144,9 +150,21 @@
         })
 
       },
+      showBoosters: function() {
+        this.populateBoosters(this.boosters);
+        this.setBoostersVisibility(true);
+      },
       ...mapActions({
         showAssessments (dispatch, payload) {
           return dispatch(this.assessmentsNamespace + '/showAssessments', payload)
+        }
+      }),
+      ...mapActions({
+        populateBoosters (dispatch, payload) {
+          return dispatch(this.detailsNamespace + '/populateBoosters', payload)
+        },
+        setBoostersVisibility (dispatch, payload) {
+          return dispatch(this.detailsNamespace + '/setBoostersVisibility', payload)
         }
       })
 

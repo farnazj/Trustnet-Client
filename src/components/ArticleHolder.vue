@@ -3,7 +3,7 @@
     <v-flex xs12>
       <v-layout v-for="article in articles" :key="article.id">
         <article-preview :post="article" @click.native="revealArticleDetails(article)"
-          :assessmentsNamespace="assessmentsNamespace">
+          :detailsNamespace="detailsNamespace" :assessmentsNamespace="assessmentsNamespace">
         </article-preview>
       </v-layout>
     </v-flex>
