@@ -38,7 +38,7 @@
         <tr :active="props.selected" @click="props.selected = !props.selected">
 
           <td class="text-xs-left">
-            <custom-avatar :user="props.item" class="mr-2"></custom-avatar>
+            <custom-avatar :user="props.item" :clickEnabled="true" class="mr-2"></custom-avatar>
             {{ props.item.userName }}
           </td>
           <td class="text-xs-left">{{ props.item.name }}</td>

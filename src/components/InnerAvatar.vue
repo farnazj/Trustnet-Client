@@ -1,12 +1,12 @@
 <template>
 
-    <v-avatar v-else color="blue darken-1" :size="getSize">
+  <v-avatar color="blue darken-1" :size="getSize">
 
-      <img v-if="user.photo" :src="user.photo">
-      <span v-else-if="user.firstName" class="white--text"> {{getInitials}}</span>
-      <span v-else class="white--text"> {{getCroppedUserName}} </span>
+    <img v-if="user.photo" :src="user.photo">
+    <span v-else-if="user.firstName" class="white--text"> {{getInitials}}</span>
+    <span v-else class="white--text"> {{getCroppedUserName}} </span>
 
-    </v-avatar>
+  </v-avatar>
 
 </template>
 
@@ -41,9 +41,10 @@ export default {
     }
   },
   methods: {
-
-  },
-  watch: {
+    // goToPage: function(event) {
+    //   console.log(this.user)
+    //   this.$router.push({ name: 'profile', params: { username: this.user.userName } });
+    // },
   }
 
 }

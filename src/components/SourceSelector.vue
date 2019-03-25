@@ -10,7 +10,7 @@
         class="chip--select-multi"
         @input="remove(data.item)" >
         <v-avatar>
-          <custom-avatar :user="data.item"></custom-avatar>
+          <custom-avatar :user="data.item" :clickEnabled="false"></custom-avatar>
         </v-avatar>
       {{ sourceDisplayName(data.item) }}
       </v-chip>
@@ -20,7 +20,7 @@
 
       <template>
         <v-list-tile-avatar>
-          <custom-avatar :user="data.item"></custom-avatar>
+          <custom-avatar :user="data.item" :clickEnabled="false"></custom-avatar>
         </v-list-tile-avatar>
         <v-list-tile-content>
           <v-list-tile-title v-html="sourceDisplayName(data.item)"></v-list-tile-title>

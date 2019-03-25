@@ -16,8 +16,8 @@
            </div>
          </v-card-title>
 
-          <custom-avatar v-for="item in assessments.questioned"
-          :key="item.id" :user="item.assessor" class="mr-1">
+          <custom-avatar v-for="item in assessments.questioned" :key="item.id"
+          :user="item.assessor" :clickEnabled="true" class="mr-1">
           </custom-avatar>
 
         </v-flex>
@@ -42,7 +42,7 @@
 
                 <v-layout row class="mb-2">
                   <v-flex xs12>
-                    <custom-avatar :user="assessment.assessor"></custom-avatar>
+                    <custom-avatar :user="assessment.assessor" :clickEnabled="true"></custom-avatar>
                     <span class="ml-2 caption grey--text text--darken-3"> {{timeElapsed(assessment.updatedAt)}} </span>
                     <span v-if="assessment.version > 1" class="ml-2 caption grey--text text--darken-1">
                       Edited</span>

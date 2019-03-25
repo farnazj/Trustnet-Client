@@ -3,7 +3,7 @@
 
     <div v-if="Object.entries(initiator).length != 0" class="mr-2">
       <span class="mr-2">By</span>
-      <custom-avatar :user="initiator"></custom-avatar>
+      <custom-avatar :user="initiator" :clickEnabled="true"></custom-avatar>
     </div>
     <span> {{timeElapsed(postDate)}} </span>
 

@@ -25,7 +25,7 @@
                       <v-layout fill-height>
                         <v-flex xs12 align-end flexbox>
                           <v-layout row align-end>
-                            <custom-avatar :user="source" class="mr-3"></custom-avatar>
+                            <custom-avatar :user="source" :clickEnabled="true" class="mr-3"></custom-avatar>
                             <span class="username-text" v-text="source.userName"></span>
                           </v-layout>
 

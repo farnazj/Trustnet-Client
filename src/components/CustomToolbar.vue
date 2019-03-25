@@ -15,7 +15,7 @@
         :nudge-width="120" offset-y left attach>
 
           <custom-avatar v-if="Object.entries(authUser).length"
-            :user="authUser" slot="activator"></custom-avatar>
+            :user="authUser" :clickEnabled="false" slot="activator" ></custom-avatar>
           <v-card>
             <v-list>
 

@@ -48,7 +48,7 @@
                           <v-icon class="mr-4" v-else-if="key == 'questioned' && item.length">fas fa-question</v-icon>
 
                           <custom-avatar v-for="assessment in item.slice(0,3)" :key="assessment.id"
-                          :user="assessment.assessor" class="mr-2"></custom-avatar>
+                          :user="assessment.assessor" :clickEnabled="true" class="mr-2"></custom-avatar>
 
                           <span v-if="item.length > 3">...</span>
                         </v-layout>
@@ -67,7 +67,7 @@
             <v-flex xs12 >
               <v-icon >fas fa-rocket</v-icon> <span class="mr-3"> Boosted by</span>
               <custom-avatar v-for="booster in boosters.slice(0,15)" :key="booster.id"
-              :user="booster" class="mr-2">
+              :user="booster" :clickEnabled="true" class="mr-2">
               </custom-avatar>
             </v-flex>
           </v-layout>
@@ -149,7 +149,7 @@
           return dispatch(this.assessmentsNamespace + '/showAssessments', payload)
         }
       })
-      
+
     },
     created() {
 

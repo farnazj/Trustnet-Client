@@ -1,13 +1,17 @@
 <template>
 
-  <v-badge overlap color="blue lighten-3" bottom v-if="isTrusted === true">
-    <template slot="badge" >
-      <span>T</span>
-    </template>
-    <inner-avatar :user="user" :size="size"></inner-avatar>
-  </v-badge>
+  <span v-on="clickEnabled ? { click: goToPage } : {}" class="[clickEnabled ? cursor-pointer : '']">
+      <v-badge v-if="isTrusted === true"
+        overlap color="blue lighten-3" bottom >
+        <template slot="badge" >
+          <span>T</span>
+        </template>
+        <inner-avatar :user="user" :size="size"></inner-avatar>
+      </v-badge>
 
-  <inner-avatar v-else :user="user" :size="size"></inner-avatar>
+      <inner-avatar v-else :user="user" :size="size">
+      </inner-avatar>
+  </span>
 
 </template>
 
@@ -28,6 +32,9 @@ export default {
     size: {
       type: Number,
       required: false
+    },
+    clickEnabled: {
+      type: Boolean
     }
   },
   data () {
@@ -47,7 +54,8 @@ export default {
   },
   methods: {
     goToPage: function(event) {
-
+      event.stopPropagation();
+      this.$router.push({ name: 'profile', params: { username: this.user.userName } });
     },
     setTrustStatus: function() {
       utils.isTrusted(this.user)
