@@ -147,6 +147,11 @@ export default {
     ...mapActions('profileArticles', [
       'setUsername'
     ]),
+  },
+  watch: {
+    username: function(val) {
+      this.getUser();
+    }
   }
 
 }

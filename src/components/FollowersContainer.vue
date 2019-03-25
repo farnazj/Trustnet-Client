@@ -94,19 +94,7 @@ export default {
     }
   },
   created(){
-    let auth_username = this.user.userName;
-
-    if (auth_username == this.username) {
-      this.sourceFollowers = this.followers;
-      this.initiateSearch();
-    }
-    else {
-      relationServices.getFollowers({username: this.username})
-      .then(res => {
-        this.sourceFollowers = res.data;
-        this.initiateSearch();
-      })
-    }
+    this.populateFollowers()
 
   },
   methods: {
@@ -136,6 +124,21 @@ export default {
       if (this.sourceResults.length < this.limit)
         this.loadDisabled = true;
     },
+    populateFollowers: function() {
+      let auth_username = this.user.userName;
+
+      if (auth_username == this.username) {
+        this.sourceFollowers = this.followers;
+        this.initiateSearch();
+      }
+      else {
+        relationServices.getFollowers({username: this.username})
+        .then(res => {
+          this.sourceFollowers = res.data;
+          this.initiateSearch();
+        })
+      }
+    },
     ...mapActions('relatedSources', [
       'follow',
       'unfollow',
@@ -161,8 +164,11 @@ export default {
    ])
   },
   watch: {
-    search (val) {
+    search: function(val) {
       this.initiateSearch();
+    },
+    username: function(val) {
+      this.populateFollowers();
     }
   },
   mixins: [sourceHelpers]
