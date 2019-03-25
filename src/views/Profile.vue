@@ -30,13 +30,20 @@
               </v-layout>
 
             </v-flex>
-            <v-flex xs10>
+            <v-flex xs8>
               <v-card-title>
                 <div>
                   <div class="headline grey--text text--lighten-4" v-if="!user.systemMade">{{user.firstName}} {{user.lastName}}</div>
                   <div class="subheading grey--text text--lighten-2">({{user.userName}})</div>
                 </div>
               </v-card-title>
+            </v-flex>
+
+            <v-flex xs2>
+
+              <v-btn v-if="canBeFollowed" depressed color="primary" @click="followSource(source)">
+                Follow
+              </v-btn>
             </v-flex>
           </v-layout>
 
@@ -97,6 +104,8 @@ import boostersList from '@/components/BoostersList'
 import Loading from '@/components/Loading'
 
 import sourceServices from '@/services/sourceServices'
+import relationServices from '@/services/relationServices'
+import utils from '@/services/utils'
 import { mapState, mapActions } from 'vuex'
 
 
@@ -118,9 +127,17 @@ export default {
     }
   },
   created() {
+    this.fetchFollows();
+    this.fetchTrusteds()
     this.getUser();
   },
   computed: {
+    canBeFollowed: function() {
+      if ((this.getUser.userName != this.username) && !utils.isFollowed(this.user))
+        return true;
+      else
+        return false;
+    }
 
   },
   beforeRouteUpdate (to, from, next) {
@@ -147,9 +164,17 @@ export default {
       else if (val == 1)
       this.scrollDisabled = true;
     },
+    followSource: function(source) {
+      this.follow({username: source.userName});
+    },
     ...mapActions('profileArticles', [
       'setUsername'
     ]),
+    ...mapActions('relatedSources', [
+      'follow',
+      'fetchFollows',
+      'fetchTrusteds'
+    ])
   },
   watch: {
     username: function(val) {

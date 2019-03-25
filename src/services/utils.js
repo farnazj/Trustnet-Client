@@ -43,7 +43,7 @@ export default {
 
    return unique;
  },
- isTrusted: async function(source) {
+ isTrusted: function(source) {
 
     let trusted_ids = store.getters['relatedSources/trustedIds'];
 
@@ -51,6 +51,14 @@ export default {
       return true;
     else
       return false;
+ },
+ isFollowed: function(source) {
+   let followed_ids = store.getters['relatedSources/followedIds'];
+
+   if (followed_ids.includes(source.id))
+     return true;
+   else
+     return false;
  }
 
 }

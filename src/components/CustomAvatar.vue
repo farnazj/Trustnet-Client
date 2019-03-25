@@ -39,15 +39,12 @@ export default {
   },
   data () {
     return {
-      isTrusted: false
     }
   },
-  created() {
-
-    this.setTrustStatus();
-    //build the href for avatar
-  },
   computed: {
+    isTrusted: function() {
+      return utils.isTrusted(this.user);
+    },
     ...mapState('relatedSources', [
       'trusted_sources'
     ])
@@ -56,18 +53,6 @@ export default {
     goToPage: function(event) {
       event.stopPropagation();
       this.$router.push({ name: 'profile', params: { username: this.user.userName } });
-    },
-    setTrustStatus: function() {
-      utils.isTrusted(this.user)
-      .then(trustStatus => {
-        this.isTrusted = trustStatus;
-      })
-    }
-  },
-  watch: {
-    //state.trusted_sources
-    trusted_sources: function(val) {
-      this.setTrustStatus();
     }
   }
 
