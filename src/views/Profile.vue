@@ -15,10 +15,10 @@
 
               <v-hover>
 
-              <v-img :src="user.photoUrl ? user.photoUrl : 'https://cdn.vuetifyjs.com/images/cards/kitchen.png'"
+              <v-img :src="profileOwner.photoUrl ? profileOwner.photoUrl : 'https://cdn.vuetifyjs.com/images/cards/kitchen.png'"
               class="profile-img" slot-scope="{ hover }" aspect-ratio="1" width="10"  >
               <v-expand-transition>
-                <div v-if="hover"
+                <div v-if="hover && profileOwner.userName == user.userName "
                   class="d-flex transition-fast-in-fast-out grey darken-4 v-card--reveal white--text">
                   <v-btn small flat round dark>
                     <v-icon class ="pl-0 ml-0" right dark>photo_camera</v-icon>
@@ -33,15 +33,15 @@
             <v-flex xs8>
               <v-card-title>
                 <div>
-                  <div class="headline grey--text text--lighten-4" v-if="!user.systemMade">{{user.firstName}} {{user.lastName}}</div>
-                  <div class="subheading grey--text text--lighten-2">({{user.userName}})</div>
+                  <div class="headline grey--text text--lighten-4" v-if="!profileOwner.systemMade">{{profileOwner.firstName}} {{profileOwner.lastName}}</div>
+                  <div class="subheading grey--text text--lighten-2">({{profileOwner.userName}})</div>
                 </div>
               </v-card-title>
             </v-flex>
 
             <v-flex xs2>
 
-              <v-btn v-if="canBeFollowed" depressed color="primary" @click="followSource(source)">
+              <v-btn v-if="canBeFollowed" depressed color="primary" @click="followSource()">
                 Follow
               </v-btn>
             </v-flex>
@@ -106,7 +106,7 @@ import Loading from '@/components/Loading'
 import sourceServices from '@/services/sourceServices'
 import relationServices from '@/services/relationServices'
 import utils from '@/services/utils'
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapGetters, mapActions } from 'vuex'
 
 
 export default {
@@ -122,7 +122,7 @@ export default {
   props: ['username'],
   data () {
     return {
-      user: {},
+      profileOwner: {},
       tabs: null
     }
   },
@@ -133,11 +133,15 @@ export default {
   },
   computed: {
     canBeFollowed: function() {
-      if ((this.getUser.userName != this.username) && !utils.isFollowed(this.user))
+
+      if ((this.user.userName != this.username) && !utils.isFollowed(this.profileOwner))
         return true;
       else
         return false;
-    }
+    },
+    ...mapGetters('auth', [
+      'user'
+    ])
 
   },
   beforeRouteUpdate (to, from, next) {
@@ -146,11 +150,12 @@ export default {
   },
   methods: {
     getUser: function() {
+      console.log('chie username', this.username)
       this.setUsername(this.username);
 
       sourceServices.getSourceByUsername(this.username)
       .then(user => {
-        this.user = user.data;
+        this.profileOwner = user.data;
       })
       .catch(err => {
         console.log(err);
@@ -164,8 +169,8 @@ export default {
       else if (val == 1)
       this.scrollDisabled = true;
     },
-    followSource: function(source) {
-      this.follow({username: source.userName});
+    followSource: function() {
+      this.follow({username: this.profileOwner.userName});
     },
     ...mapActions('profileArticles', [
       'setUsername'

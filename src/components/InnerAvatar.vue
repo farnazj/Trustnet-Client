@@ -3,8 +3,8 @@
   <v-avatar color="blue darken-1" :size="getSize">
 
     <img v-if="user.photo" :src="user.photo">
-    <span v-else-if="user.firstName" class="white--text"> {{getInitials}}</span>
-    <span v-else class="white--text"> {{getCroppedUserName}} </span>
+    <span class="white--text"> {{getInitials}}</span>
+    <!-- <span v-else class="white--text"> {{getCroppedUserName}} </span> -->
 
   </v-avatar>
 
@@ -31,7 +31,13 @@ export default {
   },
   computed: {
     getInitials: function() {
-      return (this.user.firstName.charAt(0) + this.user.lastName.charAt(0)).toUpperCase();
+      if (!this.user.systemMade)
+        return (this.user.firstName.charAt(0) + this.user.lastName.charAt(0)).toUpperCase();
+      else {
+        let cropped_arr = this.user.userName.replace('The', '').trim().split(' ');
+        let inits = cropped_arr.map(el => el.charAt(0).toUpperCase());
+        return inits.join('');
+      }
     },
     getCroppedUserName: function() {
       return this.user.userName.substring(0,3);
