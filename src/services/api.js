@@ -1,10 +1,11 @@
 import axios from 'axios'
 import store from '../store/store'
 import router from '../router'
+import consts from './constants'
 
 //&& err.config && !err.config.__isRetryRequest
 const instance = axios.create({
-    baseURL: `http://localhost:3000`,
+    baseURL: consts.baseURL,
     headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'

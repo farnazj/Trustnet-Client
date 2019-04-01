@@ -1,5 +1,15 @@
 <template>
   <v-container fluid class="px-0">
+
+    <photo-upload field="avatar" v-model="showUploader"
+        @crop-upload-success="getUser()"
+        :noSquare="true"
+        :width="400" :height="400"
+        url="http://localhost:3000/profile-pictures/"
+        :withCredentials="true"
+    langType="en">
+  </photo-upload>
+
     <v-layout row>
       <custom-toolbar></custom-toolbar>
     </v-layout>
@@ -20,7 +30,7 @@
               <v-expand-transition>
                 <div v-if="hover && profileOwner.userName == user.userName "
                   class="d-flex transition-fast-in-fast-out grey darken-4 v-card--reveal white--text">
-                  <v-btn small flat round dark>
+                  <v-btn @click="showUploader = true" small flat round dark>
                     <v-icon class ="pl-0 ml-0" right dark>photo_camera</v-icon>
                   </v-btn>
                 </div>
@@ -95,35 +105,40 @@
 </template>
 
 <script>
-import CustomToolbar from '@/components/CustomToolbar'
-import ArticleHolder from '@/components/ArticleHolder'
-import ArticleDetails from '@/components/ArticleDetails'
-import AssessmentsContainer from '@/components/AssessmentsContainer'
-import FollowersContainer from '@/components/FollowersContainer'
+import customToolbar from '@/components/CustomToolbar'
+import articleHolder from '@/components/ArticleHolder'
+import articleDetails from '@/components/ArticleDetails'
+import assessmentsContainer from '@/components/AssessmentsContainer'
+import followersContainer from '@/components/FollowersContainer'
 import boostersList from '@/components/BoostersList'
-import Loading from '@/components/Loading'
+import loading from '@/components/Loading'
+import photoUpload from 'vue-image-crop-upload'
 
 import sourceServices from '@/services/sourceServices'
 import relationServices from '@/services/relationServices'
+import consts from '@/services/constants'
 import utils from '@/services/utils'
 import { mapState, mapGetters, mapActions } from 'vuex'
 
 
 export default {
   components: {
-    'custom-toolbar': CustomToolbar,
-    'article-holder': ArticleHolder,
-    'article-details': ArticleDetails,
-    'assessments-container': AssessmentsContainer,
+    'custom-toolbar': customToolbar,
+    'article-holder': articleHolder,
+    'article-details': articleDetails,
+    'assessments-container': assessmentsContainer,
     'boosters-list': boostersList,
-    'followers-container': FollowersContainer,
-    'loading': Loading
+    'followers-container': followersContainer,
+    'loading': loading,
+    'photo-upload': photoUpload
   },
   props: ['username'],
   data () {
     return {
       profileOwner: {},
-      tabs: null
+      tabs: null,
+      showUploadForm: false,
+      showUploader: false
     }
   },
   created() {
@@ -150,12 +165,13 @@ export default {
   },
   methods: {
     getUser: function() {
-      console.log('chie username', this.username)
       this.setUsername(this.username);
 
       sourceServices.getSourceByUsername(this.username)
       .then(user => {
         this.profileOwner = user.data;
+        if (this.profileOwner.photoUrl)
+          this.profileOwner.photoUrl = consts.baseURL + '/' + this.profileOwner.photoUrl;
       })
       .catch(err => {
         console.log(err);
