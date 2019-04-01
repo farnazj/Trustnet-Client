@@ -45,6 +45,9 @@ export default {
     articles: function() {
       return this.state.articles;
     },
+    username: function() {
+      return this.state.username;
+    },
     ...mapState({
        state (state) {
          return state[this.filtersNamespace];
@@ -71,6 +74,11 @@ export default {
         return dispatch(this.detailsNamespace + '/showArticleDrawer', payload)
       }
     })
+  },
+  watch: {
+    username: function(val) {
+      this.refreshArticles();
+    }
   },
   mixins : [infiniteScroll]
 
