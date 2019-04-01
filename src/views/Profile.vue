@@ -148,8 +148,8 @@ export default {
   },
   computed: {
     canBeFollowed: function() {
-
-      if ((this.user.userName != this.username) && !utils.isFollowed(this.profileOwner))
+      if (this.profileOwner && (this.profileOwner.userName != this.username)
+        && !utils.isFollowed(this.profileOwner))
         return true;
       else
         return false;
@@ -165,17 +165,23 @@ export default {
   },
   methods: {
     getUser: function() {
-      this.setUsername(this.username);
 
       sourceServices.getSourceByUsername(this.username)
       .then(user => {
-        this.profileOwner = user.data;
-        if (this.profileOwner.photoUrl)
-          this.profileOwner.photoUrl = consts.baseURL + '/' + this.profileOwner.photoUrl;
+        if (user.data) {
+          this.setUsername(this.username);
+
+          this.profileOwner = user.data;
+          if (this.profileOwner.photoUrl)
+            this.profileOwner.photoUrl = consts.baseURL + '/' + this.profileOwner.photoUrl;
+        }
+        else {
+          this.$router.push({ name: 'invalid' });
+        }
+
       })
       .catch(err => {
         console.log(err);
-        //do something
       })
 
     },

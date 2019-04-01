@@ -5,10 +5,10 @@ import Login from './views/Login.vue'
 import Signup from './views/Signup.vue'
 import Settings from './views/Settings.vue'
 import Profile from './views/Profile.vue'
+import Invalid from './views/Invalid.vue'
 import store from './store/store'
 
 Vue.use(Router)
-
 
 let router = new Router({
   mode: 'history',
@@ -48,6 +48,14 @@ let router = new Router({
       path: '/signup',
       name: 'signup',
       component: Signup
+    },
+    {
+      path: '/invalid',
+      name: 'invalid',
+      component: Invalid,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/about',
