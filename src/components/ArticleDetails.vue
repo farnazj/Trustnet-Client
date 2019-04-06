@@ -262,7 +262,7 @@ export default {
       }
     },
     AuthUserIsOwner: function() {
-      return this.article.SourceId == this.user.id;
+      return this.user && this.article.SourceId == this.user.id;
     },
     drawerVisible: function() {
       return this.state.drawerVisible;

@@ -2,8 +2,8 @@
 
   <v-avatar color="blue darken-1" :size="getSize">
 
-    <img v-if="user.photo" :src="user.photo">
-    <span class="white--text"> {{getInitials}}</span>
+    <v-img v-if="user.photoUrl" :src="extendedPhotoUrl"> </v-img>
+    <span v-else class="white--text"> {{getInitials}}</span>
     <!-- <span v-else class="white--text"> {{getCroppedUserName}} </span> -->
 
   </v-avatar>
@@ -12,6 +12,7 @@
 
 <script>
 import utils from '@/services/utils'
+import consts from '@/services/constants'
 
 export default {
   props: {
@@ -44,6 +45,9 @@ export default {
     },
     getSize: function() {
       return this.size ? this.size : this.defaultSize;
+    },
+    extendedPhotoUrl: function() {
+      return consts.baseURL + '/' + this.user.photoUrl;
     }
   },
   methods: {

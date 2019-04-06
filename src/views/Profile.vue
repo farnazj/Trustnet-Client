@@ -25,7 +25,7 @@
 
               <v-hover>
 
-              <v-img :src="profileOwner.photoUrl ? profileOwner.photoUrl : 'https://cdn.vuetifyjs.com/images/cards/kitchen.png'"
+              <v-img :src="profileOwner.photoUrl ? profileOwner.photoUrl : 'https://api.adorable.io/avatars/249/farnaz.png'"
               class="profile-img" slot-scope="{ hover }" aspect-ratio="1" width="10"  >
               <v-expand-transition>
                 <div v-if="hover && profileOwner.userName == user.userName "
@@ -142,6 +142,7 @@ export default {
     }
   },
   created() {
+    this.setUsername(this.username);
     this.fetchFollows();
     this.fetchTrusteds()
     this.getUser();

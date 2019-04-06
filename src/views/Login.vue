@@ -16,13 +16,13 @@
               </v-layout>
 
               <v-layout row>
-                <v-text-field v-model="username"
+                <v-text-field v-model="username" tabindex="1"
                   label="Username" required>
                 </v-text-field>
               </v-layout>
 
               <v-layout row>
-                <v-text-field v-model="password" type="password"
+                <v-text-field v-model="password" type="password" tabindex="2"
                   label="Password" required>
                 </v-text-field>
               </v-layout>
@@ -31,7 +31,7 @@
 
             <v-layout row justify-center>
               <v-card-actions class="mb-2">
-                <v-btn depressed color="primary" @click="login">Login</v-btn>
+                <v-btn tabindex="3" depressed color="primary" @click="login">Login</v-btn>
               </v-card-actions>
             </v-layout>
 
@@ -44,7 +44,7 @@
 
             <v-layout row justify-center>
               <v-card-actions>
-                <v-btn depressed @click="goToSignup">Go to signup</v-btn>
+                <v-btn tabindex="4" depressed @click="goToSignup">Go to signup</v-btn>
               </v-card-actions>
             </v-layout>
 

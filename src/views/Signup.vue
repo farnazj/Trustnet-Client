@@ -16,38 +16,38 @@
               </v-layout>
 
               <v-layout row>
-                <v-text-field v-model="user.firstName"
-                  label="First name" required :rules="formRules.nameRules">
+                <v-text-field v-model="user.firstName" label="First name"
+                  tabindex="1" required :rules="formRules.nameRules">
                 </v-text-field>
               </v-layout>
 
               <v-layout row>
-                <v-text-field v-model="user.lastName"
-                  label="Last name" required :rules="formRules.nameRules">
+                <v-text-field v-model="user.lastName" label="Last name"
+                  tabindex="2" required :rules="formRules.nameRules">
                 </v-text-field>
               </v-layout>
 
               <v-layout row>
-                <v-text-field v-model="user.username"
-                  label="Username" required>
+                <v-text-field v-model="user.username" label="Username"
+                  tabindex="3" required>
                 </v-text-field>
               </v-layout>
 
               <v-layout row>
-                <v-text-field v-model="user.email" type="email"
-                  label="Email" required :rules="formRules.emailRules">
+                <v-text-field v-model="user.email" type="email" label="Email"
+                  tabindex="4" required :rules="formRules.emailRules">
                 </v-text-field>
               </v-layout>
 
               <v-layout row>
-                <v-text-field v-model="user.password" type="password"
-                  label="Password" required :rules="formRules.passwordRules">
+                <v-text-field v-model="user.password" type="password" label="Password"
+                  tabindex="5" required :rules="formRules.passwordRules">
                 </v-text-field>
               </v-layout>
 
               <v-layout row>
-                <v-text-field v-model="match" type="password"
-                  label="Type password again" required>
+                <v-text-field v-model="match" type="password" label="Type password again"
+                  tabindex="6" required>
                 </v-text-field>
               </v-layout>
 
@@ -55,7 +55,7 @@
 
             <v-layout row justify-center>
               <v-card-actions class="mb-2">
-                <v-btn depressed color="primary" @click="signup">Signup</v-btn>
+                <v-btn tabindex="7" depressed color="primary" @click="signup">Signup</v-btn>
               </v-card-actions>
             </v-layout>
 
@@ -69,7 +69,7 @@
 
             <v-layout row justify-center>
               <v-card-actions>
-                <v-btn depressed @click="goToLogin">Go to login</v-btn>
+                <v-btn tabindex="8" depressed @click="goToLogin">Go to login</v-btn>
               </v-card-actions>
             </v-layout>
 
