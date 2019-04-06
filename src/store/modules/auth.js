@@ -1,4 +1,5 @@
 import authServices from '@/services/authServices'
+import sourceServices from '@/services/sourceServices'
 
 export default {
   namespaced: true,
@@ -25,9 +26,6 @@ export default {
     },
     auth_success(state, user){
       state.status = 'success';
-      localStorage.setItem('token', JSON.stringify(user));
-      state.token = Object.assign({}, user);
-
     },
     auth_error(state){
       state.status = 'error';
@@ -36,9 +34,27 @@ export default {
       state.status = '';
       state.token = '';
       localStorage.removeItem('token');
+    },
+    update_user(state, user) {
+      localStorage.setItem('token', JSON.stringify(user));
+      state.token = Object.assign({}, user);
     }
   },
   actions: {
+    updateUser: (context) => {
+      return new Promise((resolve, reject) => {
+        let id = context.state.token.id;
+        sourceServices.getSourceById(id)
+        .then(response => {
+        let authUser = response.data;
+        context.commit('update_user', authUser);
+        resolve();
+       })
+       .catch(err => {
+         reject(err);
+       })
+      })
+    },
 
     login: (context, user) => {
       return new Promise((resolve, reject) => {
@@ -46,8 +62,8 @@ export default {
         authServices.login(user)
         .then(resp => {
           const user = resp.data.user;
-          context.commit('auth_success', user);
-
+          context.commit('auth_success');
+          context.commit('update_user', user);
           context.dispatch('relatedSources/fetchFollows',{}, { root: true });
           context.dispatch('relatedSources/fetchTrusteds',{}, { root: true });
           context.dispatch('relatedSources/fetchFollowers',{}, { root: true });

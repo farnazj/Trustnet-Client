@@ -2,7 +2,7 @@
   <v-container fluid class="px-0">
 
     <photo-upload field="avatar" v-model="showUploader"
-        @crop-upload-success="getUser()"
+        @crop-upload-success="updateAuthUser()"
         :noSquare="true"
         :width="400" :height="400"
         url="http://localhost:3000/profile-pictures/"
@@ -165,6 +165,10 @@ export default {
     next();
   },
   methods: {
+    updateAuthUser: function() {
+      this.updateUser();
+      this.getUser();
+    },
     getUser: function() {
 
       sourceServices.getSourceByUsername(this.username)
@@ -202,6 +206,9 @@ export default {
       'follow',
       'fetchFollows',
       'fetchTrusteds'
+    ]),
+    ...mapActions('auth', [
+      'updateUser'
     ])
   },
   watch: {

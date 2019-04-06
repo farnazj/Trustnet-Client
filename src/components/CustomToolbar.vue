@@ -17,8 +17,8 @@
           :close-on-content-click="false"
           :nudge-width="120" offset-y left attach>
 
-            <custom-avatar v-if="Object.entries(authUser).length"
-              :user="authUser" :clickEnabled="false" slot="activator" ></custom-avatar>
+            <custom-avatar v-if="Object.entries(user).length"
+              :user="user" :clickEnabled="false" slot="activator" ></custom-avatar>
             <v-card>
               <v-list>
 
@@ -76,13 +76,6 @@ export default {
     }
   },
   created() {
-    if (this.isLoggedIn) {
-      let id = this.user.id;
-      sourceServices.getSourceById(id).then(response => {
-       this.authUser = response.data;
-     })
-    }
-
   },
   computed: {
 
@@ -92,6 +85,7 @@ export default {
    ])
  },
  methods: {
+
    clickHandler: function(item) {
     if (item == 'Logout')
       return this.logout();
@@ -108,7 +102,7 @@ export default {
      if (page != 'Profile')
       this.$router.push({ name: page.toLowerCase() });
      else
-      this.$router.push({ name: 'profile', params: { username: this.authUser.userName } });
+      this.$router.push({ name: 'profile', params: { username: this.user.userName } });
    }
  }
 }
