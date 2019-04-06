@@ -1,6 +1,11 @@
 <template>
   <v-container>
-    <v-layout justify-center align-center row fill-height>
+
+    <v-layout row>
+      <custom-toolbar></custom-toolbar>
+    </v-layout>
+
+    <v-layout justify-center align-center row fill-height class="pt-5">
       <v-flex xs6 lg4 align-self-center>
         <v-alert v-model="alert" type="error">
           {{alertMessage}}
@@ -83,8 +88,12 @@
 
 <script>
 import authServices from '@/services/authServices'
+import customToolbar from '@/components/CustomToolbar'
 
 export default {
+  components: {
+    'custom-toolbar': customToolbar
+  },
   data(){
     return {
       user: {

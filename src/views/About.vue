@@ -1,5 +1,27 @@
 <template>
-  <div class="about">
-    <h1>This is an about page</h1>
-  </div>
+  <v-container>
+
+    <v-layout row>
+      <custom-toolbar></custom-toolbar>
+    </v-layout>
+
+    <v-layout row class="pt-5">
+      <h5 class="headline">This is an about page</h5>
+    </v-layout>
+
+  </v-container>
 </template>
+
+<script>
+import customToolbar from '@/components/CustomToolbar'
+
+export default {
+  components: {
+    'custom-toolbar': customToolbar
+  },
+  data(){
+    return {
+    }
+  }
+}
+</script>

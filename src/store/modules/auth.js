@@ -4,7 +4,7 @@ export default {
   namespaced: true,
   state: {
     status: '',
-    token: JSON.parse(localStorage.getItem('token')) || {}
+    token: JSON.parse(localStorage.getItem('token')) || ''
   },
   getters: {
 
@@ -47,7 +47,7 @@ export default {
         .then(resp => {
           const user = resp.data.user;
           context.commit('auth_success', user);
-          
+
           context.dispatch('relatedSources/fetchFollows',{}, { root: true });
           context.dispatch('relatedSources/fetchTrusteds',{}, { root: true });
           context.dispatch('relatedSources/fetchFollowers',{}, { root: true });

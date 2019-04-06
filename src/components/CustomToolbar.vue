@@ -6,36 +6,45 @@
       </v-toolbar-title>
 
       <v-spacer></v-spacer>
-      <content-booster></content-booster>
 
-      <v-divider vertical inset class="mr-3"></v-divider>
+      <v-toolbar-items v-if="isLoggedIn" class="center-aligned">
 
-      <v-menu v-model="settingsMenu"
-        :close-on-content-click="false"
-        :nudge-width="120" offset-y left attach>
+        <content-booster></content-booster>
 
-          <custom-avatar v-if="Object.entries(authUser).length"
-            :user="authUser" :clickEnabled="false" slot="activator" ></custom-avatar>
-          <v-card>
-            <v-list>
+        <v-divider vertical inset class="mr-3"></v-divider>
 
-              <template v-for="item in settingItems">
-                <v-list-tile :key="item.name" @click="clickHandler(item.name)">
+        <v-menu v-model="settingsMenu"
+          :close-on-content-click="false"
+          :nudge-width="120" offset-y left attach>
 
-                  <v-list-tile-action v-if="item.icon">
-                    <v-icon>{{ item.icon }}</v-icon>
-                  </v-list-tile-action>
+            <custom-avatar v-if="Object.entries(authUser).length"
+              :user="authUser" :clickEnabled="false" slot="activator" ></custom-avatar>
+            <v-card>
+              <v-list>
 
-                  <v-list-tile-content>
-                    <v-list-tile-title v-html="item.name"> </v-list-tile-title>
-                  </v-list-tile-content>
+                <template v-for="item in settingItems">
+                  <v-list-tile :key="item.name" @click="clickHandler(item.name)">
 
-                </v-list-tile>
-              </template>
+                    <v-list-tile-action v-if="item.icon">
+                      <v-icon>{{ item.icon }}</v-icon>
+                    </v-list-tile-action>
 
-          </v-list>
-        </v-card>
-      </v-menu>
+                    <v-list-tile-content>
+                      <v-list-tile-title v-html="item.name"> </v-list-tile-title>
+                    </v-list-tile-content>
+
+                  </v-list-tile>
+                </template>
+
+            </v-list>
+          </v-card>
+        </v-menu>
+
+      </v-toolbar-items>
+
+      <v-toolbar-items v-else>
+         <v-btn @click="goToPage('About')" flat>About</v-btn>
+      </v-toolbar-items>
 
     </v-toolbar>
 </template>
@@ -67,14 +76,19 @@ export default {
     }
   },
   created() {
-    let id = this.user.id;
-    sourceServices.getSourceById(id).then(response => {
-     this.authUser = response.data;
-   })
+    if (this.isLoggedIn) {
+      let id = this.user.id;
+      sourceServices.getSourceById(id).then(response => {
+       this.authUser = response.data;
+     })
+    }
+
   },
   computed: {
+
     ...mapGetters('auth', [
-     'user'
+     'user',
+     'isLoggedIn'
    ])
  },
  methods: {
@@ -102,4 +116,7 @@ export default {
 
 <style scoped>
 
+.center-aligned {
+    align-items: center;
+}
 </style>

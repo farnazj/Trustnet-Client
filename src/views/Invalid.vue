@@ -5,7 +5,7 @@
     </v-layout>
 
     <v-layout row justify-center class="padded-text">
-      <h1>The page you requested does not exist. :(</h1>
+      <h3 class="display-2">The page you requested does not exist. :(</h3>
     </v-layout>
 
   </v-container>
