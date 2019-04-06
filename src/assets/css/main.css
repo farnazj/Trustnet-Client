@@ -1,7 +1,12 @@
 .cursor-pointer {
   cursor: pointer;
 }
-
+/* 
+body.dialog-is-open {
+  overflow-y: hidden !important;
+  max-height: 100%;
+  position: fixed;
+} */
 
 div.vicp-preview {
   width: 170px !important;

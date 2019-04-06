@@ -17,6 +17,12 @@ export default {
   mutations: {
     set_drawer_visibility: (state, visiblity) => {
       state.drawerVisible = visiblity;
+
+      // const body = document.body;
+      // if (visiblity)
+      //   body.classList.add('dialog-is-open');
+      // else
+      //   body.classList.remove('dialog-is-open');
     },
 
     populate_drawer: (state, article) => {
