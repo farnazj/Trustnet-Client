@@ -57,7 +57,7 @@
                 </v-layout>
 
                 <v-divider></v-divider>
-                <v-layout row>
+                <!-- <v-layout row>
                   <v-flex xs12>
 
                     <div class="uploaded-media">
@@ -71,7 +71,7 @@
                   </v-flex>
                 </v-layout>
 
-               <v-divider></v-divider>
+               <v-divider></v-divider> -->
 
               </v-container>
 
@@ -235,7 +235,7 @@ export default {
     },
     cancel: function() {
       for (let form of ['createPostForm', 'importArticleForm'])
-        this.$refs[form].reset()
+        this.$refs[form].reset();
       this.menu = false;
     },
     ...mapActions('articleFilters', [

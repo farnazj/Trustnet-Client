@@ -5,7 +5,7 @@
         @crop-upload-success="updateAuthUser()"
         :noSquare="true"
         :width="400" :height="400"
-        url="http://localhost:3000/profile-pictures/"
+        :url="uploadUrl"
         :withCredentials="true"
     langType="en">
   </photo-upload>
@@ -148,8 +148,12 @@ export default {
     this.getUser();
   },
   computed: {
+    uploadUrl: function() {
+      return consts.baseURL + '/profile-pictures/';
+    },
     canBeFollowed: function() {
-      if (this.profileOwner && (this.profileOwner.userName != this.username)
+
+      if (this.profileOwner && (this.profileOwner.userName != this.user.userName)
         && !utils.isFollowed(this.profileOwner))
         return true;
       else

@@ -103,7 +103,6 @@ export default {
             username: context.state.username
           })
           .then(response => {
-            console.log('updated', response.data)
             context.commit('update_boost', response.data);
             resolve();
           })

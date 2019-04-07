@@ -45,7 +45,7 @@
          </v-menu>
 
          <v-menu v-model="boostMenu"
-           :close-on-content-click="false"
+           :close-on-content-click="false" :disabled="disableBoost"
            :nudge-width="350" offset-y left attach>
 
            <v-btn flat icon color="blue darken-1" class="mr-4" slot="activator"
@@ -208,8 +208,6 @@ import assessmentCollector from '@/components/AssessmentCollector'
 import sourceSelector from '@/components/SourceSelector'
 import deleteConfirmationDialog from '@/components/DeleteConfirmationDialog'
 
-import sourceServices from '@/services/sourceServices'
-import assessmentServices from '@/services/assessmentServices'
 import postServices from '@/services/postServices'
 import { mapState, mapGetters, mapActions } from 'vuex'
 
@@ -258,6 +256,9 @@ export default {
         return this.drawerVisible;
       },
       set: function(newValue) {
+        for (let menu of ['assessmentMenu', 'boostMenu'])
+          this.$refs[menu].reset();
+
         this.setDrawerVisibility(newValue);
       }
     },
@@ -348,7 +349,8 @@ export default {
       }
     },
     cancelMenu: function(menu) {
-      this.$refs[menu].resetValidation();
+      //this.$refs[menu].resetValidation();
+      this.$refs[menu].reset();
       this[menu] = false;
     },
     saveEdits: function() {
