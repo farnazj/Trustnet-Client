@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 import Login from './views/Login.vue'
 import Signup from './views/Signup.vue'
-import Settings from './views/Settings.vue'
+import Settings from './views/Sources.vue'
 import Profile from './views/Profile.vue'
 import Invalid from './views/Invalid.vue'
 import store from './store/store'
@@ -23,8 +23,8 @@ let router = new Router({
       }
     },
     {
-      path: '/settings',
-      name: 'settings',
+      path: '/sources',
+      name: 'sources',
       component: Settings,
       meta: {
         requiresAuth: true

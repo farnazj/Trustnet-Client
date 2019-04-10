@@ -69,7 +69,7 @@ export default {
       }, {
         name: 'Profile', icon: 'person_outline'
       }, {
-        name: 'Settings', icon: 'settings'
+        name: 'Sources', icon: 'account_circle'
       }, {
         name: 'Logout', icon: 'power_settings_new'
       }]

@@ -51,12 +51,14 @@ export default {
   actions: {
 
     getArticles: (context) => {
+
       return new Promise((resolve, reject) => {
 
         postServices.getBoosts({offset: context.state.offset, limit: context.state.limit},
           { source: context.state.source_filter,
             validity: context.state.validity_filter,
-            source_usernames: context.state.source_usernames.toString()})
+            usernames: context.state.source_usernames.toString()
+          })
         .then(response => {
           resolve(response.data);
         }).catch(error => {
@@ -123,7 +125,7 @@ export default {
         postServices.getBoostByPostId(payload,
           { source: context.state.source_filter,
             validity: context.state.validity_filter,
-            source_usernames: context.state.source_usernames.toString()
+            usernames: context.state.source_usernames.toString()
           })
           .then(response => {
             context.commit('update_boost', response.data);

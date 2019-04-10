@@ -1,13 +1,11 @@
 <template>
-  <v-card>
-
-    <v-layout row>
+  <v-layout >
+    <v-flex xs12>
+    <v-layout row class="pa-4" >
       <v-flex xs6>
-        <v-card-title>
-          <v-text-field
-            v-model="search" append-icon="search" label="Search sources"
-            single-line hide-details></v-text-field>
-        </v-card-title>
+        <v-text-field
+          v-model="search" append-icon="search" label="Search sources"
+          single-line hide-details></v-text-field>
       </v-flex>
     </v-layout>
 
@@ -17,9 +15,9 @@
           <v-container fluid grid-list-xs>
             <v-layout row wrap>
               <v-flex v-for="source in sourcesToFollow"
-                :key="source.id" xs4>
+                :key="source.id" xs3>
                 <!-- v-bind="{ [`xs${source.flex}`]: true }"> -->
-                  <v-card :color="source.systemMade ? 'blue lighten-4' : 'lime lighten-3'">
+                  <v-card :color="source.systemMade ? 'blue lighten-4' : 'lime lighten-3'" class="ma-1">
 
                     <v-container fill-height pa-2>
                       <v-layout fill-height>
@@ -58,8 +56,8 @@
         Load More
       </v-btn>
     </v-layout>
-
- </v-card>
+  </v-flex>
+ </v-layout>
 </template>
 
 <script>
@@ -81,17 +79,44 @@ export default {
       loadDisabled: false
     }
   },
+  created() {
+    this.initiateSearch();
+  },
   methods: {
+    initiateSearch: function() {
+      this.offset = 0;
+      this.loadDisabled = false;
+      this.querySources()
+      .then(results => {
+        this.sourceResults = results.data;
+        this.offset += results.data.length;
+
+        if (results.data.length < this.limit)
+          this.loadDisabled = true;
+        else
+          this.testRestDataExists();
+      })
+    },
     loadMore: function() {
       this.querySources()
-      .then(results =>{
+      .then(results => {
         if (results.data.length) {
           this.sourceResults.push(...results.data);
           this.offset += results.data.length;
         }
         if (results.data.length < this.limit)
           this.loadDisabled = true;
+        else
+          this.testRestDataExists();
 
+      })
+    },
+    testRestDataExists: function() {
+      this.querySources()
+      .then(results => {
+        if (!results.data.length) {
+          this.loadDisabled = true;
+        }
       })
     },
     querySources: function() {
@@ -122,16 +147,7 @@ export default {
   },
   watch: {
     search (val) {
-      this.offset = 0;
-      this.loadDisabled = false;
-      this.querySources()
-      .then(results => {
-        this.sourceResults = results.data;
-        this.offset += results.data.length;
-
-        if (results.data.length < this.limit)
-          this.loadDisabled = true;
-      })
+      this.initiateSearch();
     }
   },
   mixins: [sourceHelpers]

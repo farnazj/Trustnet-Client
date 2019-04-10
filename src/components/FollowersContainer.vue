@@ -19,7 +19,7 @@
               <v-flex v-for="source in sourceResults"
                 :key="source.id" xs3>
                 <!-- v-bind="{ [`xs${source.flex}`]: true }"> -->
-                  <v-card :color="source.systemMade ? 'blue lighten-4' : 'lime lighten-3'">
+                  <v-card :color="source.systemMade ? 'blue lighten-4' : 'lime lighten-3'" class="ma-1">
 
                     <v-container fill-height pa-2>
                       <v-layout fill-height>

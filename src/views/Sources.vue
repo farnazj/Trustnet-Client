@@ -4,9 +4,9 @@
       <custom-toolbar></custom-toolbar>
     </v-layout>
 
-    <v-layout class="pt-5" row justify-center align-center fill-height >
-      <v-flex xs9>
-        <v-tabs left color="blue darken-2" dark
+    <v-layout class="pt-5" row fill-height >
+      <v-flex xs12>
+        <v-tabs centered  dark
           slider-color="lime lighten-4" v-model="tabs">
           <v-tab >
             Manage your sources

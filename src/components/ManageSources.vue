@@ -1,5 +1,6 @@
 <template>
-  <v-card>
+  <v-card flat>
+
     <v-layout row>
       <v-flex xs6>
         <v-card-title>
@@ -13,7 +14,8 @@
 
   <v-data-table v-model="selected" :headers="headers" select-all
       :items="followedSourcesWInfo" :pagination.sync="pagination"
-      select-all item-key="id" :search="search" class="elevation-1">
+      select-all item-key="id" :search="search" class="elevation-1"
+      :rows-per-page-items="rowsPerPage" >
 
       <template slot="headers" slot-scope="props">
         <tr>
@@ -61,6 +63,7 @@
 
     </v-data-table>
   </v-card>
+
 </template>
 
 
@@ -83,7 +86,8 @@ export default {
         sortBy: '!trusted'
       },
       selected: [],
-      search: ''
+      search: '',
+      rowsPerPage: [10, 30, 50, {"text":"$vuetify.dataIterator.rowsPerPageAll","value":-1}]
     }
   },
   created() {
