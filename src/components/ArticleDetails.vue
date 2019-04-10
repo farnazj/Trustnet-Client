@@ -149,7 +149,7 @@
                 </v-card-title>
 
                 <initiator-display :userId="article.SourceId"
-                :postDate="article.updatedAt" class="mb-2">
+                :postDate="article.updatedAt" class="mb-3">
                 </initiator-display>
 
                <v-img v-if="article.image" :src="article.image" contain class="rounded">

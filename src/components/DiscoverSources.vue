@@ -84,6 +84,7 @@ export default {
   },
   methods: {
     initiateSearch: function() {
+      console.log(this.search)
       this.offset = 0;
       this.loadDisabled = false;
       this.querySources()
@@ -122,7 +123,7 @@ export default {
     querySources: function() {
       return sourceServices.getSources(
         {limit: this.limit, offset: this.offset},
-        {search_term: this.search}
+        {searchterm: this.search}
       )
     },
     followSource: function(source) {

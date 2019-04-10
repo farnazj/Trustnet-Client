@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-layout row>
+    <v-layout row align-center>
       <v-flex xs12>
 
         <v-card class="pa-1 pb-2" flat>
@@ -38,7 +38,7 @@
             <v-flex xs3>
               <v-layout col justify-space-around fill-height wrap>
 
-                  <v-flex xs12 @click.stop="revealAssessments" >
+                  <v-flex xs12 >
 
                     <v-layout row wrap v-for="(item, key, index) in assessments" :key="index">
                       <v-flex xs12 :class="item.length ? 'mb-2' : 'mb-0' " >
@@ -74,8 +74,17 @@
             </v-flex>
           </v-layout>
 
-          </v-card>
+        </v-card>
 
+      </v-flex>
+
+      <v-flex>
+        <v-card flat @click.stop="revealAssessments" height="80px" color="lime lighten-3"
+          class="assessment-hinter cursor-pointer">
+          <v-layout row fill-height align-center>
+            <v-icon medium>arrow_right</v-icon>
+          </v-layout>
+        </v-card>
       </v-flex>
 
     </v-layout>
@@ -187,4 +196,10 @@
 .rounded {
   border-radius: 2%;
 }
+
+.assessment-hinter {
+  border-radius: 0 30% 30% 0;
+
+}
+
 </style>
