@@ -12,13 +12,13 @@
 
     <v-layout row v-if="assessment.body">
       <v-flex xs12>
-        <p v-if="!showFullText && assessment.body.length > 10">{{truncatedText}}
+        <p v-if="!showFullText && bodyWordCount > 10">{{truncatedText}}
           <span class="blue--text text--darken-3 body-2 cursor-pointer" @click="showFullText = true">
             show more
           </span>
         </p>
         <p v-else>{{assessment.body}}
-          <span v-if="assessment.body.length > 10" class="blue--text text--darken-3 body-2 cursor-pointer"
+          <span v-if="bodyWordCount > 10" class="blue--text text--darken-3 body-2 cursor-pointer"
              @click="showFullText = false">
             show less
           </span>
@@ -54,6 +54,9 @@ export default {
   computed: {
     truncatedText: function() {
       return this.assessment.body.split(' ').slice(0, 10).join(' ') + '...';
+    },
+    bodyWordCount: function() {
+      return this.assessment.body.split(' ').length;
     }
   },
   mixins: [timeHelpers]
