@@ -2,8 +2,8 @@
   <v-layout row class="pt-5">
     <v-flex xs12>
       <v-layout v-for="article in articles" :key="article.id">
-        <article-preview :post="article" @click.native="revealArticleDetails(article)"
-          :detailsNamespace="detailsNamespace" :assessmentsNamespace="assessmentsNamespace">
+        <article-preview :post="article" :detailsNamespace="detailsNamespace"
+          :assessmentsNamespace="assessmentsNamespace">
         </article-preview>
       </v-layout>
     </v-flex>
@@ -55,9 +55,7 @@ export default {
     })
   },
   methods: {
-    revealArticleDetails: function(article) {
-      this.showArticleDrawer(article);
-    },
+
     extend: function() {
       this.getMoreBoosts();
     },
@@ -67,11 +65,6 @@ export default {
       },
       refreshArticles (dispatch, payload) {
         return dispatch(this.filtersNamespace + '/refreshArticles', payload)
-      }
-    }),
-    ...mapActions({
-      showArticleDrawer (dispatch, payload) {
-        return dispatch(this.detailsNamespace + '/showArticleDrawer', payload)
       }
     })
   },

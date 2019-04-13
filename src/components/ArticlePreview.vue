@@ -3,7 +3,7 @@
     <v-layout row align-center>
       <v-flex xs12>
 
-        <v-card class="pa-1 pb-2" flat>
+        <v-card @click="revealArticleDetails(post)" class="pa-1 pb-2" flat>
           <v-layout row>
             <v-flex xs4>
               <v-layout row>
@@ -127,6 +127,9 @@
       }
     },
     methods: {
+      revealArticleDetails: function(article) {
+        this.showArticleDrawer(article);
+      },
       revealAssessments: function() {
         this.showAssessments(this.assessments);
       },
@@ -174,6 +177,10 @@
         },
         setBoostersVisibility (dispatch, payload) {
           return dispatch(this.detailsNamespace + '/setBoostersVisibility', payload)
+        },
+
+        showArticleDrawer (dispatch, payload) {
+          return dispatch(this.detailsNamespace + '/showArticleDrawer', payload)
         }
       })
 

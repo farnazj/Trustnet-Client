@@ -1,11 +1,16 @@
 <template>
   <v-layout wrap>
     <v-navigation-drawer v-model="articleDetailsVisible"
-      temporary right width="950" fixed disable-route-watcher>
+      temporary right width="1000" fixed disable-route-watcher>
 
      <v-card class="full-height">
 
-       <v-layout row class="pa-2" justify-end>
+       <v-layout row class="pa-2" full-height align-center>
+
+         <v-flex>
+           <v-icon large @click="articleDetailsVisible = false">clear</v-icon>
+         </v-flex>
+
          <v-flex xs4 class="right-align">
 
            <v-menu v-model="assessmentMenu"
