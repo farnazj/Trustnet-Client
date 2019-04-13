@@ -8,18 +8,23 @@
       <loading></loading>
       <boosters-list detailsNamespace="homeArticleDetails"></boosters-list>
 
-      <v-flex xs2>
-        <filters class="left-frozen"></filters>
-      </v-flex>
+
+        <v-flex xs2 v-show="!visible">
+          <filters class="left-frozen"></filters>
+        </v-flex>
+
+
       <v-flex xs7>
         <article-holder detailsNamespace="homeArticleDetails" filtersNamespace="articleFilters"
           assessmentsNamespace="homeAssessments">
        </article-holder>
       </v-flex>
-      <v-flex class="assessments-container">
-        <assessments-container namespace="homeAssessments">
+
+      <v-flex>
+        <assessments-container namespace="homeAssessments" class="assessments-container">
         </assessments-container>
       </v-flex>
+
     </v-layout>
 
     <article-details detailsNamespace="homeArticleDetails"
@@ -53,6 +58,11 @@ export default {
   data () {
     return {
     }
+  },
+  computed: {
+    ...mapState('homeAssessments', [
+     'visible'
+   ])
   }
 }
 </script>
@@ -62,10 +72,6 @@ export default {
 
 .assessments-container {
   position: fixed;
-  right: 0px;
-  width: 22%;
-  height: 97vh;
-  overflow-y: auto;
 }
 
 .left-frozen {

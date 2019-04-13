@@ -79,14 +79,14 @@
           <loading></loading>
           <boosters-list detailsNamespace="profileArticleDetails"></boosters-list>
 
-          <v-flex xs7 offset-xs2>
+          <v-flex xs7>
             <article-holder detailsNamespace="profileArticleDetails" filtersNamespace="profileArticles"
             assessmentsNamespace="profileAssessments"></article-holder>
           </v-flex>
-          <v-flex xs3 class="assessments-container">
-            <assessments-container namespace="profileAssessments">
+
+            <assessments-container namespace="profileAssessments" class="assessments-container">
             </assessments-container>
-          </v-flex>
+
 
         </v-layout>
         </v-container>
@@ -242,10 +242,6 @@ export default {
 
 .assessments-container {
   position: sticky;
-  right: 0px;
   top: 30px;
-  width: 22%;
-  height: 97vh;
-  overflow-y: auto;
 }
 </style>

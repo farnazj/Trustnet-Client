@@ -4,9 +4,9 @@
   <v-layout row class="pt-5" id="assessment_container">
     <v-flex xs12>
       <v-card>
-      <v-layout row justify-end class="pr-1">
-        <v-icon @click="hideContainer">clear</v-icon>
-      </v-layout>
+        <v-layout row justify-end class="pr-2">
+          <v-icon @click="hideContainer">clear</v-icon>
+        </v-layout>
 
       <v-layout row wrap v-if="assessments.questioned.length != 0" class="pa-1">
         <v-flex xs12>
@@ -16,17 +16,27 @@
            </div>
          </v-card-title>
 
-          <custom-avatar v-for="item in assessments.questioned" :key="item.id"
-          :user="item.assessor" :clickEnabled="true" class="mr-1">
-          </custom-avatar>
+         <template v-for="assessment in getAssessmentsSlice('questioned')" >
+           <inner-assessment :assessment="assessment"> </inner-assessment>
+         </template>
 
         </v-flex>
       </v-layout>
 
+      <v-layout row class="pa-1">
+        <span v-if="assessmentsRemaining('questioned')" @click="revealMore('questioned')"
+          class="blue--text text--darken-3 body-2 cursor-pointer">
+          Show More Assessments</span>
+        <v-spacer></v-spacer>
+        <span class="grey--text text--darken-3 pr-1"> {{getAssessmentStats('questioned')}} </span>
+      </v-layout>
+
+    </v-card>
       <v-layout row class="border-top">
         <v-flex v-for="(key,index) in ['confirmed', 'refuted']" :key="index"
-        :xs6="isDebated" :xs12="!isDebated" v-if="assessments[key].length != 0"
-        class="assessment-col">
+        :xs6="isDebated" :xs12="!isDebated" v-if="assessments[key].length != 0">
+
+          <v-card class="assessment-col">
 
             <v-card-title>
              <div>
@@ -36,35 +46,24 @@
            </v-card-title>
            <v-divider ></v-divider>
 
+            <template v-for="assessment in getAssessmentsSlice(key)" >
+              <inner-assessment :assessment="assessment"> </inner-assessment>
+            </template>
 
-            <template v-for="(assessment, index) in assessments[key]" >
-              <div :key="assessment.id" class="pa-1">
+            <v-layout row class="pa-1">
+              <span v-if="assessmentsRemaining(key)" @click="revealMore(key)"
+                class="blue--text text--darken-3 body-2 cursor-pointer">
+                Show More Assessments</span>
+              <v-spacer></v-spacer>
+              <span class="grey--text text--darken-3 pr-1"> {{getAssessmentStats(key)}} </span>
+            </v-layout>
 
-                <v-layout row class="mb-2">
-                  <v-flex xs12>
-                    <custom-avatar :user="assessment.assessor" :clickEnabled="true"></custom-avatar>
-                    <span class="ml-2 caption grey--text text--darken-3"> {{timeElapsed(assessment.updatedAt)}} </span>
-                    <span v-if="assessment.version > 1" class="ml-2 caption grey--text text--darken-1">
-                      Edited</span>
-                  </v-flex>
-                </v-layout>
-
-                <v-layout row>
-                  <v-flex xs12>
-                    <p>{{assessment.body}}</p>
-                  </v-flex>
-                </v-layout>
-
-                <v-divider></v-divider>
-              </div>
-
-           </template>
+         </v-card>
 
         </v-flex>
 
       </v-layout>
 
-      </v-card>
     </v-flex>
   </v-layout>
 </v-fade-transition>
@@ -72,13 +71,12 @@
 </template>
 
 <script>
-import customAvatar from '@/components/CustomAvatar'
-import timeHelpers from '@/mixins/timeHelpers'
+import innerAssessment from '@/components/InnerAssessment'
 import { mapState, mapActions } from 'vuex'
 
 export default {
   components: {
-   'custom-avatar': customAvatar
+   'inner-assessment': innerAssessment
   },
   props: {
     namespace: {
@@ -88,6 +86,7 @@ export default {
   },
   data () {
     return {
+      revealedSize: {}
     }
   },
   computed: {
@@ -109,14 +108,33 @@ export default {
 
   },
   methods: {
+    resetRevealedSize: function() {
+      this.revealedSize = {'questioned': 4, 'confirmed': 5, 'refuted': 5};
+    },
+    revealMore: function(key) {
+      this.revealedSize[key] += 5;
+    },
+    getAssessmentsSlice: function(key) {
+      return this.assessments[key].slice(0, this.revealedSize[key]);
+    },
+    getAssessmentStats: function(key) {
+      return this.getAssessmentsSlice(key).length + ' of ' + this.assessments[key].length;
+    },
+    assessmentsRemaining: function(key) {
+      return this.getAssessmentsSlice(key).length < this.assessments[key].length;
+    },
     ...mapActions({
       hideContainer (dispatch, payload) {
         return dispatch(this.namespace + '/hideContainer', payload)
       }
     })
-
   },
-  mixins: [timeHelpers]
+  watch: {
+    assessments: function() {
+      this.resetRevealedSize();
+
+    }
+  }
 
 }
 </script>
@@ -127,11 +145,17 @@ export default {
 }
 
 #assessment_container {
-  max-height: 90vh;
+  right: 0px;
+  width: 40%;
+  max-height: 96vh;
+  min-height: 96vh;
+  overflow-y: auto;
 }
 
 .assessment-col {
   overflow-y: scroll;
+  min-height: 93vh;
+  max-height: 93vh;
 }
 
 .assessment-col:first-child {
