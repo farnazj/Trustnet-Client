@@ -78,7 +78,7 @@
     },
     data: () => {
       return {
-        validity_filters: [ 'Confirmed', 'Refuted', 'Debated'],
+        validity_filters: [ 'Confirmed', 'Refuted', 'Debated', 'Questioned'],
         source_filters: ['Me', 'Trusted', 'Selected Sources'],
         selected_filters: {'validity': undefined, 'sources': undefined },
         selected_sources: [],

@@ -8,7 +8,7 @@
           <v-icon @click="hideContainer">clear</v-icon>
         </v-layout>
 
-      <v-layout row wrap v-if="assessments.questioned.length != 0" class="pa-1">
+      <v-layout v-if="assessments.questioned.length != 0" row wrap class="pa-1">
         <v-flex xs12>
           <v-card-title>
            <div>
@@ -23,7 +23,7 @@
         </v-flex>
       </v-layout>
 
-      <v-layout row class="pa-1">
+      <v-layout v-if="assessments.questioned.length != 0" row class="pa-1">
         <span v-if="assessmentsRemaining('questioned')" @click="revealMore('questioned')"
           class="blue--text text--darken-3 body-2 cursor-pointer">
           Show More Assessments</span>
