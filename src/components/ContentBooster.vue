@@ -6,7 +6,7 @@
         :nudge-width="350"
         offset-y left attach
       >
-        <v-btn flat icon slot="activator" color="red lighten-2">
+        <v-btn flat icon slot="activator" color="light-green darken-3">
           <v-icon>note_add</v-icon>
         </v-btn>
 

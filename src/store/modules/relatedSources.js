@@ -14,6 +14,31 @@ export default {
     },
     followedIds: (state) => {
       return state.followed_sources.map(source => source.id);
+    },
+    followedOrTrusteds: (state) => {
+      let all_sources = [];
+      for (let pair of [['followed', state.followed_sources], ['trusted', state.trusted_sources]]) {
+
+            let key = pair[0];
+            let sources = pair[1];
+            sources.forEach(source => {
+              let index = all_sources.findIndex(el => el.id == source.id);
+              let target_source;
+              if (index == -1) {
+                let new_source = Object.assign({}, source);
+                for (let prop of ['followed', 'trusted'])
+                  new_source[prop] = 0;
+                all_sources.push(new_source);
+                target_source = all_sources[all_sources.length - 1];
+              }
+              else
+                target_source = all_sources[index];
+
+              target_source.trusted = key == 'trusted' ? 1 : target_source.trusted;
+              target_source.followed = key == 'followed' ? 1 : target_source.followed;
+            })
+      }
+      return all_sources;
     }
 
   },
@@ -113,7 +138,6 @@ export default {
     unfollow: (context, payload) => {
       return new Promise((resolve, reject) => {
         let relation_proms = [
-          relationServices.deleteTrusted(payload),
           relationServices.unfollow(payload)
         ];
         Promise.all(relation_proms)
