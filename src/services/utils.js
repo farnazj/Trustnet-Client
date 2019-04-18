@@ -50,6 +50,10 @@ function compareSources(a, b) {
   return compare2Sources(a, b, 'id')
 }
 
+function compareBoosters(a, b) {
+  return compare2Sources(a.booster, b.booster, 'id');
+}
+
 function getUnique(arr, comp) {
   const unique = arr.map(e => e[comp])
   .map((e, i, final) => final.indexOf(e) === i && i)
@@ -80,6 +84,7 @@ function isFollowed(source) {
 export default {
   compareNames,
   compareSources,
+  compareBoosters,
   compareAssessments,
   getUnique,
   isTrusted,

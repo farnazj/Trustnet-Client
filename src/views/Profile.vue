@@ -161,7 +161,7 @@ export default {
     },
     notUser: function() {
 
-      if (this.profileOwner && (this.profileOwner.userName != this.user.userName))
+      if (this.user && (this.profileOwner.userName != this.user.userName))
         return true;
       else
         return false;

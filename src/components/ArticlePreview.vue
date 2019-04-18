@@ -40,7 +40,7 @@
 
                   <v-flex xs12 >
 
-                    <v-layout row wrap v-for="(item, key, index) in assessments" :key="index">
+                    <v-layout row wrap v-for="(item, key, index) in sortedAssessments" :key="index">
                       <v-flex xs12 :class="item.length ? 'mb-2' : 'mb-0' " >
                         <v-layout align-center>
                           <v-icon class="mr-3" v-if="key == 'confirmed' && item.length">fas fa-check</v-icon>
@@ -66,10 +66,10 @@
           <v-layout row class="pt-2" wrap>
             <v-flex xs12 >
               <v-icon >fas fa-rocket</v-icon> <span class="mr-3"> Boosted by</span>
-              <custom-avatar v-for="booster in boosters.slice(0,12)" :key="booster.id"
-              :user="booster" :clickEnabled="true" class="mr-2">
+              <custom-avatar v-for="boostObj in uniqueBoosters.slice(0,12)" :key="boostObj.id"
+              :user="boostObj.booster" :clickEnabled="true" class="mr-2">
               </custom-avatar>
-              <span v-if="boosters.length > 2" @click.stop="showBoosters" class="headline cursor-pointer">
+              <span v-if="uniqueBoosters.length > 2" @click.stop="showBoosters" class="headline cursor-pointer">
                 ...</span>
             </v-flex>
           </v-layout>
@@ -122,8 +122,22 @@
     },
     data: () => {
       return {
-        boosters: [],
+        boostObjects: [],
         assessments: {'confirmed': [], 'refuted': [], 'questioned': []}
+      }
+    },
+    computed: {
+      sortedBoosts: function() {
+        return this.boostObjects.sort(utils.compareBoosters);
+      },
+      uniqueBoosters: function() {
+        return utils.getUnique(this.sortedBoosts, 'id');
+      },
+      sortedAssessments: function() {
+        for (const [key, value] of Object.entries(this.assessments))
+          this.assessments[key].sort(utils.compareAssessments)
+
+        return this.assessments;
       }
     },
     methods: {
@@ -134,9 +148,16 @@
         this.showAssessments(this.assessments);
       },
       fetchAssociations: function() {
-        let all_boosters = this.post.Boosteds.map(boost => boost.Boosters).flat();
-        this.boosters = utils.getUnique(all_boosters, 'id');
-        this.boosters.sort(utils.compareSources);
+
+        this.post.Boosteds.forEach(boosted => {
+          sourceServices.getSourceById(boosted.SourceId)
+          .then(response => {
+            let boost_obj = Object.assign({}, boosted);
+            boost_obj.booster = response.data;
+            this.boostObjects.push(boost_obj);
+          })
+        })
+
 
         for (let key in this.assessments)
           this.assessments[key] = [];
@@ -144,9 +165,8 @@
         Fetches the user objects of sourceIds in each PostAssessment and organizes
         assessments by validity status
         */
-        let sorted_assessments = this.post.PostAssessments.sort(utils.compareAssessments);
 
-        sorted_assessments.forEach(post_assessment => {
+        this.post.PostAssessments.forEach(post_assessment => {
           let assessment_obj = {};
           for (const [key, value] of Object.entries(post_assessment)) {
             assessment_obj[key] = value;
