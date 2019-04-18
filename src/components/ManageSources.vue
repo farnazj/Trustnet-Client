@@ -59,7 +59,6 @@ export default {
       this.fetchTrusteds();
 
     this.initiateSearch();
-
   },
   computed: {
     ...mapState('relatedSources', [
@@ -73,47 +72,28 @@ export default {
    ])
   },
   methods: {
-    changeTrustStatus(source) {
-
-      if (!this.trustedIds.includes(source.id)) {
-        this.addTrusted({username: source.userName});
-      }
-      else
-        this.deleteTrusted({username: source.userName});
-    },
-    changeFollowStatus(source) {
-      if (!this.followedIds.includes(source.id))
-        this.follow({username: source.userName});
-      else
-        this.unfollow({username: source.userName});
-    },
     querySources: function() {
-      return new Promise((resolve, reject) => {
-        let search_l = this.search.toLowerCase();
+      let search_l = this.search.toLowerCase();
 
+      return new Promise((resolve, reject) => {
         let filtered_sources = this.followedOrTrusteds.filter(source => {
 
           let full_name = source.systemMade ? '' : source.firstName + ' ' + source.lastName;
           return source.userName.toLowerCase().includes(search_l) ||
             full_name.toLowerCase().includes(search_l);
-        })
+        });
         let sliced_sources = filtered_sources.slice(this.offset, this.offset + this.limit);
         resolve({data: sliced_sources});
       });
     },
     ...mapActions('relatedSources', [
       'fetchFollows',
-      'fetchTrusteds',
-      'addTrusted',
-      'deleteTrusted',
-      'follow',
-      'unfollow'
+      'fetchTrusteds'
     ])
   },
   watch: {
     followedOrTrusteds: function(val) {
       this.initiateSearch()
-
     }
   },
   mixins: [loadMore]

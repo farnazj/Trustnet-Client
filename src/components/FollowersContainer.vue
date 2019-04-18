@@ -14,47 +14,15 @@
     <v-layout row>
       <template>
 
-          <v-container fluid grid-list-xs>
-            <v-layout row wrap>
-              <v-flex v-for="source in sourceResults"
-                :key="source.id" xs3>
-                <!-- v-bind="{ [`xs${source.flex}`]: true }"> -->
-                  <v-card :color="source.systemMade ? 'blue lighten-4' : 'lime lighten-3'" class="ma-1">
+        <v-container fluid grid-list-xs>
+          <v-layout row wrap>
+            <v-flex v-for="source in sourceResults"
+              :key="source.id" xs3>
+              <source-card :source="source" :user="user"></source-card>
 
-                    <v-container fill-height pa-2>
-                      <v-layout fill-height>
-                        <v-flex xs12 align-end flexbox>
-                          <v-layout row align-end>
-                            <custom-avatar :user="source" :clickEnabled="true" class="mr-3"></custom-avatar>
-                            <span class="username-text" v-text="source.userName"></span>
-                          </v-layout>
-
-                          <v-layout row mt-3>
-                            {{sourceDisplayName(source)}}
-                          </v-layout>
-
-                        </v-flex>
-                      </v-layout>
-                    </v-container>
-
-                    <v-card-actions>
-                      <v-spacer></v-spacer>
-                      <div v-if="user && source.id == user.id" class="pr-1 pb-2 grey--text text--darken-3 body-2 " >
-                        This is you
-                      </div>
-                      <v-btn v-else-if="!followedIds.includes(source.id)" small flat color="primary" @click="followSource(source)">
-                        Follow
-                      </v-btn>
-                      <v-btn v-else small flat color="secondary" @click="unfollowSource(source)">
-                        Unfollow
-                      </v-btn>
-
-                    </v-card-actions>
-
-                  </v-card>
-              </v-flex>
-            </v-layout>
-          </v-container>
+            </v-flex>
+          </v-layout>
+        </v-container>
 
       </template>
 
@@ -73,57 +41,27 @@
 <script>
 import customAvatar from '@/components/CustomAvatar'
 import sourceServices from '@/services/sourceServices'
-import sourceHelpers from '@/mixins/sourceHelpers'
-
+import sourceCard from '@/components/SourceCard'
+import loadMore from '@/mixins/loadMore'
+import utils from '@/services/utils'
 import relationServices from '@/services/relationServices'
 import { mapState, mapGetters, mapActions } from 'vuex'
 
 export default {
   components: {
-   'custom-avatar': customAvatar
+   'custom-avatar': customAvatar,
+   'source-card': sourceCard
   },
   props: ['username'],
   data () {
     return {
-      sourceFollowers: [],
-      search: '',
-      sourceResults: [],
-      limit: 16,
-      offset: 0,
-      loadDisabled: false
+      sourceFollowers: []
     }
   },
   created(){
-    this.populateFollowers()
-
+    this.populateFollowers();
   },
   methods: {
-    loadMore: function() {
-      let results = this.querySources.slice(this.offset, this.offset + this.limit);
-
-      if (results.length) {
-        this.sourceResults.push(...results);
-        this.offset += results.length;
-      }
-      if (results.length < this.limit)
-        this.loadDisabled = true;
-
-    },
-    followSource: function(source) {
-      this.follow({username: source.userName});
-    },
-    unfollowSource(source) {
-      this.unfollow({username: source.userName});
-    },
-    initiateSearch: function() {
-      this.offset = 0;
-      this.loadDisabled = false;
-      this.sourceResults = this.querySources.slice(this.offset, this.offset + this.limit);
-      this.offset += this.sourceResults.length;
-
-      if (this.sourceResults.length < this.limit)
-        this.loadDisabled = true;
-    },
     populateFollowers: function() {
       let auth_username = this.user.userName;
 
@@ -139,22 +77,28 @@ export default {
         })
       }
     },
+    querySources: function() {
+      let search_l = this.search.toLowerCase();
+      return new Promise((resolve, reject) => {
+
+      let filtered_sources = this.sourceFollowers.filter(source => source.userName.toLowerCase().includes(search_l)
+        || (source.firstName + ' ' + source.lastName).toLowerCase().includes(search_l));
+
+      let sliced_sources = filtered_sources.slice(this.offset, this.offset + this.limit);
+      let temp = utils.getSourceRelationInfo(sliced_sources)
+      console.log(temp)
+      resolve({data: temp});
+      });
+
+    },
     ...mapActions('relatedSources', [
-      'follow',
-      'unfollow',
       'fetchFollowers'
     ])
   },
   computed: {
 
-    querySources: function() {
-      return this.sourceFollowers.filter(source => source.userName.includes(this.search)
-        || (source.firstName + ' ' + source.lastName).includes(this.search));
-
-    },
     ...mapState('relatedSources', [
-     'followers',
-     'followed_sources'
+     'followers'
    ]),
    ...mapGetters('relatedSources', [
      'followedIds'
@@ -164,14 +108,11 @@ export default {
    ])
   },
   watch: {
-    search: function(val) {
-      this.initiateSearch();
-    },
     username: function(val) {
       this.populateFollowers();
     }
   },
-  mixins: [sourceHelpers]
+  mixins: [loadMore]
 }
 
 </script>

@@ -41,7 +41,6 @@
 import customAvatar from '@/components/CustomAvatar'
 import sourceCard from '@/components/SourceCard'
 import sourceServices from '@/services/sourceServices'
-import sourceHelpers from '@/mixins/sourceHelpers'
 import loadMore from '@/mixins/loadMore'
 import { mapState, mapGetters, mapActions } from 'vuex'
 
@@ -63,17 +62,7 @@ export default {
         {limit: this.limit, offset: this.offset},
         {searchterm: this.search}
       )
-    },
-    followSource: function(source) {
-      this.follow({username: source.userName});
-    },
-    trustSource: function(source) {
-      this.addTrusted({username: source.userName});
-    },
-    ...mapActions('relatedSources', [
-      'follow',
-      'addTrusted'
-    ])
+    }
   },
   computed: {
     sourcesToFollow: function() {
@@ -81,11 +70,7 @@ export default {
       let filtered_sources = this.sourceResults.filter(source => (!this.followedIds.includes(source.id)
         && source.id != auth_user_id));
 
-      return filtered_sources.map(source => {
-        let new_source = Object.assign({}, source);
-        new_source.trusted = this.trustedIds.includes(new_source.id) ? 1 : 0;
-        return new_source;
-      })
+      return filtered_sources;
     },
     ...mapState('relatedSources', [
      'followed_sources'
@@ -95,7 +80,7 @@ export default {
       'trustedIds',
     ])
   },
-  mixins: [sourceHelpers, loadMore]
+  mixins: [loadMore]
 }
 
 </script>

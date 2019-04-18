@@ -1,3 +1,5 @@
+import utils from '@/services/utils'
+
 export default {
   data: () => {
     return {
@@ -15,7 +17,7 @@ export default {
       this.querySources()
       .then(results => {
 
-        this.sourceResults = results.data;
+        this.sourceResults = results.data.sort(utils.compareSources);
         this.offset += results.data.length;
 
         if (results.data.length < this.limit)
@@ -29,6 +31,7 @@ export default {
       .then(results => {
         if (results.data.length) {
           this.sourceResults.push(...results.data);
+          this.sourceResults.sort(utils.compareSources);
           this.offset += results.data.length;
         }
         if (results.data.length < this.limit)

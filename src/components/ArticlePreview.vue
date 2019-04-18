@@ -136,7 +136,7 @@
       fetchAssociations: function() {
         let all_boosters = this.post.Boosteds.map(boost => boost.Boosters).flat();
         this.boosters = utils.getUnique(all_boosters, 'id');
-        this.boosters.sort(utils.compareBoosters);
+        this.boosters.sort(utils.compareSources);
 
         for (let key in this.assessments)
           this.assessments[key] = [];

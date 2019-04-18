@@ -17,11 +17,11 @@
           </v-flex>
           <v-flex xs>
             <v-layout justify-end mb-0>
-              <span class="caption trusted-text" v-if="source.trusted"> Trusted &#x2713;</span>
+              <span class="caption trusted-text" v-if="isTrusted"> Trusted &#x2713;</span>
             </v-layout>
 
             <v-layout justify-end>
-              <span class="caption followed-text" v-if="source.followed"> Followed &#x2713;</span>
+              <span class="caption followed-text" v-if="isFollowed"> Followed &#x2713;</span>
             </v-layout>
 
           </v-flex>
@@ -36,17 +36,17 @@
 
         <v-layout row v-else>
 
-          <v-btn small flat :color="source.trusted ? 'grey darken-2' : 'light-green darken-3' "
+          <v-btn small flat :color="isTrusted ? 'grey darken-2' : 'light-green darken-3' "
             @click.stop="changeTrustStatus(source)">
-            <span v-if="source.trusted"> Untrust</span>
+            <span v-if="isTrusted"> Untrust</span>
             <span v-else> Trust</span>
           </v-btn>
 
           <v-spacer></v-spacer>
 
-          <v-btn small flat :color="source.followed ? 'grey darken-2' : 'primary' "
+          <v-btn small flat :color="isFollowed ? 'grey darken-2' : 'primary' "
             @click.stop="changeFollowStatus(source)">
-            <span v-if="source.followed"> Unfollow</span>
+            <span v-if="isFollowed"> Unfollow</span>
             <span v-else> Follow</span>
           </v-btn>
 
