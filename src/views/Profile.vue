@@ -40,7 +40,7 @@
               </v-layout>
 
             </v-flex>
-            <v-flex xs8>
+            <v-flex xs7>
               <v-card-title>
                 <div>
                   <div class="headline grey--text text--lighten-4" v-if="!profileOwner.systemMade">{{profileOwner.firstName}} {{profileOwner.lastName}}</div>
@@ -49,11 +49,20 @@
               </v-card-title>
             </v-flex>
 
-            <v-flex xs2>
+            <v-flex xs3>
 
-              <v-btn v-if="canBeFollowed" depressed color="primary" @click="followSource()">
-                Follow
-              </v-btn>
+              <v-layout row v-if="notUser" justify-end>
+                <v-btn depressed @click="changeTrustStatus()" :color="isTrusted ? 'grey lighten-1' : 'light-green lighten-1' ">
+                  <span v-if="!isTrusted">Trust</span>
+                  <span v-else>Untrust</span>
+                </v-btn>
+
+                <v-btn depressed @click="changeFollowStatus()" :color="isFollowed ? 'grey lighten-1' : 'primary' ">
+                  <span v-if="!isFollowed">Follow</span>
+                  <span v-else>Unfollow</span>
+                </v-btn>
+              </v-layout>
+
             </v-flex>
           </v-layout>
 
@@ -62,7 +71,7 @@
     </v-layout>
 
     <v-tabs centered color="blue darken-3" dark height=50
-      slider-color="amber lighten-1" v-model="tabs" @change="tabChanged">
+      slider-color="amber lighten-1" v-model="tabs">
       <v-tab >
         <v-icon class="mr-1">list</v-icon>
         Activity List
@@ -86,7 +95,6 @@
 
             <assessments-container namespace="profileAssessments" class="assessments-container">
             </assessments-container>
-
 
         </v-layout>
         </v-container>
@@ -151,16 +159,25 @@ export default {
     uploadUrl: function() {
       return consts.baseURL + '/profile-pictures/';
     },
-    canBeFollowed: function() {
+    notUser: function() {
 
-      if (this.profileOwner && (this.profileOwner.userName != this.user.userName)
-        && !utils.isFollowed(this.profileOwner))
+      if (this.profileOwner && (this.profileOwner.userName != this.user.userName))
         return true;
       else
         return false;
     },
+    isFollowed: function() {
+      return utils.isFollowed(this.profileOwner);
+    },
+    isTrusted: function() {
+      return utils.isTrusted(this.profileOwner);
+    },
     ...mapGetters('auth', [
       'user'
+    ]),
+    ...mapGetters('relatedSources', [
+      'trustedIds',
+      'followedIds'
     ])
 
   },
@@ -194,20 +211,29 @@ export default {
       })
 
     },
-    tabChanged: function(val) {
-      if (val == 0)
-        this.scrollDisabled = false;
-      else if (val == 1)
-      this.scrollDisabled = true;
+    changeTrustStatus() {
+      let source = this.profileOwner;
+      if (!this.trustedIds.includes(source.id)) {
+        this.addTrusted({username: source.userName});
+      }
+      else
+        this.deleteTrusted({username: source.userName});
     },
-    followSource: function() {
-      this.follow({username: this.profileOwner.userName});
+    changeFollowStatus() {
+      let source = this.profileOwner;
+      if (!this.followedIds.includes(source.id))
+        this.follow({username: source.userName});
+      else
+        this.unfollow({username: source.userName});
     },
     ...mapActions('profileArticles', [
       'setUsername'
     ]),
     ...mapActions('relatedSources', [
+      'addTrusted',
+      'deleteTrusted',
       'follow',
+      'unfollow',
       'fetchFollows',
       'fetchTrusteds'
     ]),

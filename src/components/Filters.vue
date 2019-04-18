@@ -48,8 +48,8 @@
     <v-divider></v-divider>
 
       <v-list subheader>
-        <v-subheader>Followed Sources</v-subheader>
-        <v-list-tile v-for="source in followed_sources"
+        <v-subheader>Followed or Trusted Sources</v-subheader>
+        <v-list-tile v-for="source in followedOrTrusteds"
             :key="source.id" avatar @click="selectSource(source)"
             :class="{highlighted:selected_sources.includes(source.userName)}">
           <v-list-tile-avatar>
@@ -70,7 +70,7 @@
   import customAvatar from '@/components/CustomAvatar'
   import timeHelpers from '@/mixins/timeHelpers'
   import sourceHelpers from '@/mixins/sourceHelpers'
-  import { mapState, mapActions } from 'vuex';
+  import { mapState, mapGetters, mapActions } from 'vuex';
 
   export default {
     components: {
@@ -89,9 +89,8 @@
       this.fetchTrusteds()
     },
     computed: {
-      ...mapState('relatedSources', [
-       'followed_sources',
-       'trusted_sources'
+      ...mapGetters('relatedSources', [
+       'followedOrTrusteds'
      ])
 
     },

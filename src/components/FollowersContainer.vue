@@ -85,9 +85,7 @@ export default {
         || (source.firstName + ' ' + source.lastName).toLowerCase().includes(search_l));
 
       let sliced_sources = filtered_sources.slice(this.offset, this.offset + this.limit);
-      let temp = utils.getSourceRelationInfo(sliced_sources)
-      console.log(temp)
-      resolve({data: temp});
+      resolve({data: sliced_sources});
       });
 
     },
