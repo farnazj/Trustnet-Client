@@ -6,6 +6,7 @@ export default {
   state: {
     validity_filter: 'All',
     source_filter: 'All',
+    seen_filter: 'All',
     source_usernames: [],
     articles: [],
     offset: 0,
@@ -32,8 +33,11 @@ export default {
         (filters.filters.sources == 'Selected Sources' ?  'usernames' : filters.filters.sources)
         : 'All';
 
+      state.seen_filter = filters.filters.seen_status ? filters.filters.seen_status : 'All';
+
       state.validity_filter = state.validity_filter.toLowerCase();
       state.source_filter = state.source_filter.toLowerCase();
+      state.seen_filter = state.seen_filter.toLowerCase();
 
       state.source_usernames = filters.source_usernames;
     },
@@ -57,6 +61,7 @@ export default {
         postServices.getBoosts({offset: context.state.offset, limit: context.state.limit},
           { source: context.state.source_filter,
             validity: context.state.validity_filter,
+            seen_status: context.state.seen_filter,
             usernames: context.state.source_usernames.toString()
           })
         .then(response => {

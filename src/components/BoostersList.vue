@@ -5,7 +5,7 @@
          <span class="title font-weight-light">Boosters info</span>
        </v-card-title>
 
-       <v-card-text class="card">
+       <v-card-text>
          <template v-for="boostObj in boosters">
            <v-layout row :key="boostObj.id" align-center class="py-1">
              <v-flex xs2>
@@ -78,9 +78,3 @@ export default {
 
 }
 </script>
-
-<style scoped>
-.sth {
-  max-height: 450px;
-}
-</style>

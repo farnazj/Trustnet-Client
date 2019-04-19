@@ -154,8 +154,8 @@ export default {
 
 .assessment-col {
   overflow-y: scroll;
-  min-height: 93vh;
-  max-height: 93vh;
+  min-height: 90vh;
+  max-height: 90vh;
 }
 
 .assessment-col:first-child {

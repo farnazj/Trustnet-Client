@@ -8,6 +8,24 @@
       <v-list-tile-sub-title class="bold">Filters</v-list-tile-sub-title>
     </v-list-tile>
 
+    <v-list-group prepend-icon="remove_red_eye" value="true">
+      <v-list-tile slot="activator">
+        <v-list-tile-title>View Status</v-list-tile-title>
+      </v-list-tile>
+
+      <v-list-group no-action sub-group value="true">
+        <v-list-tile slot="activator" @click="filter('All', 'seen_status')">
+          <v-list-tile-title>All</v-list-tile-title>
+        </v-list-tile>
+
+        <v-list-tile v-for="(status, i) in seen_status_filters"
+          :key="i" @click="filter(status, 'seen_status')"
+          :class="{highlighted:status == selected_filters['seen_status']}">
+          <v-list-tile-title v-text="status"></v-list-tile-title>
+        </v-list-tile>
+      </v-list-group>
+    </v-list-group>
+
     <v-list-group prepend-icon="gavel" value="true">
       <v-list-tile slot="activator">
         <v-list-tile-title>Validity</v-list-tile-title>
@@ -80,7 +98,8 @@
       return {
         validity_filters: [ 'Confirmed', 'Refuted', 'Debated', 'Questioned'],
         source_filters: ['Me', 'Trusted', 'Selected Sources'],
-        selected_filters: {'validity': undefined, 'sources': undefined },
+        seen_status_filters: ['Not Seen', 'Seen'],
+        selected_filters: {'validity': undefined, 'sources': undefined, 'seen_status':'Not Seen' },
         selected_sources: [],
       }
     },
@@ -100,7 +119,7 @@
         if (name == 'All')
           this.selected_filters[type] = undefined;
         else
-          this.selected_filters[type] = name
+          this.selected_filters[type] = name;
 
         this.filterBoosts();
       },
