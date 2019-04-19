@@ -66,11 +66,11 @@
           <v-layout row class="pt-2" wrap>
             <v-flex xs12 >
               <v-icon >fas fa-rocket</v-icon> <span class="mr-3"> Boosted by</span>
-              <custom-avatar v-for="boostObj in uniqueBoosters.slice(0,12)" :key="boostObj.id"
+              <custom-avatar v-for="boostObj in uniqueBoosters.slice(0,10)" :key="boostObj.id"
               :user="boostObj.booster" :clickEnabled="true" class="mr-2">
               </custom-avatar>
-              <span v-if="uniqueBoosters.length > 2" @click.stop="showBoosters" class="headline cursor-pointer">
-                ...</span>
+              <span @click.stop="showBoosters" class="caption blue--text text--darken-3 cursor-pointer">
+                Show info</span>
             </v-flex>
           </v-layout>
 
@@ -158,14 +158,12 @@
           })
         })
 
-
         for (let key in this.assessments)
           this.assessments[key] = [];
         /*
         Fetches the user objects of sourceIds in each PostAssessment and organizes
         assessments by validity status
         */
-
         this.post.PostAssessments.forEach(post_assessment => {
           let assessment_obj = {};
           for (const [key, value] of Object.entries(post_assessment)) {
@@ -183,7 +181,7 @@
 
       },
       showBoosters: function() {
-        this.populateBoosters(this.boosters);
+        this.populateBoosters(this.sortedBoosts);
         this.setBoostersVisibility(true);
       },
       ...mapActions({

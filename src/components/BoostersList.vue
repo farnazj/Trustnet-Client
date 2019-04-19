@@ -1,22 +1,30 @@
 <template>
-  <v-dialog v-model="visible" class="Sth"
-      max-width="300" scrollable>
-     <v-card max-height="400">
-       <v-list two-line>
-         <template v-for="source in boosters">
-           <v-list-tile :key="source.id" avatar>
-              <v-list-tile-avatar>
-                <custom-avatar :user="source" :clickEnabled="true"></custom-avatar>
-              </v-list-tile-avatar>
+  <v-dialog v-model="visible" max-width="450" scrollable>
+     <v-card >
+       <v-card-title>
+         <span class="title font-weight-light">Boosters info</span>
+       </v-card-title>
 
-              <v-list-tile-content>
-                <v-list-tile-title v-html="source.userName"></v-list-tile-title>
-                <v-list-tile-sub-title v-if="!source.systemMade"> {{sourceDisplayName(source)}}
-                </v-list-tile-sub-title>
-              </v-list-tile-content>
-            </v-list-tile>
-          </template>
-       </v-list>
+       <v-card-text class="card">
+         <template v-for="boostObj in boosters">
+           <v-layout row :key="boostObj.id" align-center class="py-1">
+             <v-flex xs2>
+               <custom-avatar :user="boostObj.booster" :clickEnabled="true"></custom-avatar>
+             </v-flex>
+             <v-flex xs6 class="body-2">
+               {{sourceDisplayName(boostObj.booster)}}
+             </v-flex>
+             <v-flex xs4 class="grey--text text--darken-2">
+               <span> Boosted to &#32;</span>
+               <span v-if="boostObj.Targets.length">you</span>
+               <span v-else>everyone</span>
+             </v-flex>
+         </v-layout>
+         <v-divider></v-divider>
+
+        </template>
+       </v-card-text>
+
      </v-card>
   </v-dialog>
 
@@ -72,5 +80,7 @@ export default {
 </script>
 
 <style scoped>
-
+.sth {
+  max-height: 450px;
+}
 </style>
