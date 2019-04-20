@@ -17,7 +17,7 @@
          </v-card-title>
 
          <template v-for="assessment in getAssessmentsSlice('questioned')" >
-           <inner-assessment :assessment="assessment"> </inner-assessment>
+           <inner-assessment :assessment="assessment" :key="assessment.id"> </inner-assessment>
          </template>
 
         </v-flex>
@@ -33,35 +33,35 @@
 
     </v-card>
       <v-layout row class="border-top">
-        <v-flex v-for="(key,index) in ['confirmed', 'refuted']" :key="index"
-        :xs6="isDebated" :xs12="!isDebated" v-if="assessments[key].length != 0">
+        <template v-for="(key,index) in ['confirmed', 'refuted']" >
+          <v-flex :key="index" :xs6="isDebated" :xs12="!isDebated" v-if="assessments[key].length != 0">
 
-          <v-card class="assessment-col">
+            <v-card class="assessment-col">
 
-            <v-card-title>
-             <div>
-               <h4 class="mb-1" v-if="key == 'confirmed'"> Verifications</h4>
-               <h4 class="mb-1" v-else-if="key == 'refuted'"> Refutations</h4>
-             </div>
-           </v-card-title>
-           <v-divider ></v-divider>
+              <v-card-title>
+               <div>
+                 <h4 class="mb-1" v-if="key == 'confirmed'"> Verifications</h4>
+                 <h4 class="mb-1" v-else-if="key == 'refuted'"> Refutations</h4>
+               </div>
+             </v-card-title>
+             <v-divider ></v-divider>
 
-            <template v-for="assessment in getAssessmentsSlice(key)" >
-              <inner-assessment :assessment="assessment"> </inner-assessment>
-            </template>
+              <template v-for="assessment in getAssessmentsSlice(key)" >
+                <inner-assessment :assessment="assessment" :key="assessment.id"> </inner-assessment>
+              </template>
 
-            <v-layout row class="pa-1">
-              <span v-if="assessmentsRemaining(key)" @click="revealMore(key)"
-                class="blue--text text--darken-3 body-2 cursor-pointer">
-                Show More Assessments</span>
-              <v-spacer></v-spacer>
-              <span class="grey--text text--darken-3 pr-1"> {{getAssessmentStats(key)}} </span>
-            </v-layout>
+              <v-layout row class="pa-1">
+                <span v-if="assessmentsRemaining(key)" @click="revealMore(key)"
+                  class="blue--text text--darken-3 body-2 cursor-pointer">
+                  Show More Assessments</span>
+                <v-spacer></v-spacer>
+                <span class="grey--text text--darken-3 pr-1"> {{getAssessmentStats(key)}} </span>
+              </v-layout>
 
-         </v-card>
+           </v-card>
 
-        </v-flex>
-
+          </v-flex>
+        </template>
       </v-layout>
 
     </v-flex>

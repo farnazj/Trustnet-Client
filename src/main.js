@@ -9,6 +9,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store/store'
 import axios from 'axios'
+import VueObserveVisibility from 'vue-observe-visibility'
 
 Vue.config.productionTip = false
 Vue.prototype.$http = axios;
@@ -16,6 +17,7 @@ Vue.prototype.$http = axios;
 Vue.use(Vuetify, {
   iconfont: 'mdi',
 })
+Vue.use(VueObserveVisibility);
 
 new Vue({
   router,

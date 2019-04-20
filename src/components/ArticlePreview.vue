@@ -1,6 +1,13 @@
 <template>
-  <v-container>
+  <v-container v-observe-visibility="!postSeen && {
+    callback: visibilityChanged,
+    throttle: 300
+  }">
     <v-layout row align-center>
+      <!-- <v-flex xs1>
+        <v-icon v-if="postSeen">far fa-eye</v-icon>
+        <v-icon v-else>far fa-eye-slash</v-icon>
+      </v-flex> -->
       <v-flex xs12>
 
         <v-card @click="revealArticleDetails(post)" class="pa-1 pb-2" flat>
@@ -9,7 +16,6 @@
               <v-layout row>
                 <v-flex xs12>
                   <v-img v-if="post.image" :src="post.image" contain class="rounded"> </v-img>
-
                 </v-flex>
               </v-layout>
 
@@ -97,6 +103,7 @@
   import customAvatar from '@/components/CustomAvatar'
   import initiatorDisplay from '@/components/InitiatorDisplay'
   import sourceServices from '@/services/sourceServices'
+  import postServices from '@/services/postServices'
   import utils from '@/services/utils'
   import { mapActions } from 'vuex'
 
@@ -123,24 +130,33 @@
     data: () => {
       return {
         boostObjects: [],
-        assessments: {'confirmed': [], 'refuted': [], 'questioned': []}
+        assessments: {'confirmed': [], 'refuted': [], 'questioned': []},
+        postSeen: false
       }
     },
     computed: {
       sortedBoosts: function() {
-        return this.boostObjects.sort(utils.compareBoosters);
+        return this.boostObjects.slice().sort(utils.compareBoosters);
       },
       uniqueBoosters: function() {
         return utils.getUnique(this.sortedBoosts, 'id');
       },
       sortedAssessments: function() {
         for (const [key, value] of Object.entries(this.assessments))
-          this.assessments[key].sort(utils.compareAssessments)
+          this.assessments[key].slice().sort(utils.compareAssessments)
 
         return this.assessments;
       }
     },
     methods: {
+      visibilityChanged: function(isVisible, entry) {
+        if (isVisible) {
+          if (!this.postSeen)
+            postServices.changeSeenStatus({postId: this.post.id},
+            {seen_status: 'seen'});
+          this.postSeen = true;
+        }
+      },
       revealArticleDetails: function(article) {
         this.showArticleDrawer(article);
       },
@@ -157,6 +173,7 @@
             this.boostObjects.push(boost_obj);
           })
         })
+        this.boostObjects.sort(utils.compareBoosters);
 
         for (let key in this.assessments)
           this.assessments[key] = [];
@@ -180,6 +197,15 @@
         })
 
       },
+      fetchSeenStatus: function() {
+        postServices.getSeenStatus({postId: this.post.id})
+        .then(res => {
+          this.postSeen = res.data.seen;
+        })
+        .catch(err => {
+          console.log(err);
+        })
+      },
       showBoosters: function() {
         this.populateBoosters(this.sortedBoosts);
         this.setBoostersVisibility(true);
@@ -196,7 +222,6 @@
         setBoostersVisibility (dispatch, payload) {
           return dispatch(this.detailsNamespace + '/setBoostersVisibility', payload)
         },
-
         showArticleDrawer (dispatch, payload) {
           return dispatch(this.detailsNamespace + '/showArticleDrawer', payload)
         }
@@ -204,14 +229,14 @@
 
     },
     created() {
-
       this.fetchAssociations();
+      this.fetchSeenStatus();
     },
     watch: {
-      post: function(val) {
+      post: function() {
         this.fetchAssociations();
       }
-    },
+    }
 
 }
 </script>

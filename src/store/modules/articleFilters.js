@@ -145,5 +145,6 @@ export default {
     removeArticle: (context, payload) =>{
       context.commit('remove_boost', payload);
     }
+
   }
 }

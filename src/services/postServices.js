@@ -43,6 +43,18 @@ export default {
     return Api().get('/activity/' + params.username + '/' + params.postId, {
       withCredentials: true
     })
+  },
+  changeSeenStatus(params, reqBody) {
+    return Api().post('/posts/' + params.postId + '/seen-status',
+      reqBody, {
+        withCredentials: true
+      })
+  },
+  getSeenStatus(params) {
+    return Api().get('/posts/' + params.postId + '/seen-status',
+      {
+        withCredentials: true
+      })
   }
 
 }

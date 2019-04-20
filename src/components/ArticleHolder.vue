@@ -35,10 +35,10 @@ export default {
   },
   data: () => {
     return {
+      sth: true
     }
   },
   created() {
-    //this.$store.dispatch('articleFilters/getMoreBoosts')
     this.refreshArticles();
   },
   computed: {
