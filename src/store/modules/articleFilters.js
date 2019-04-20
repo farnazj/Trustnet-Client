@@ -61,7 +61,7 @@ export default {
         postServices.getBoosts({offset: context.state.offset, limit: context.state.limit},
           { source: context.state.source_filter,
             validity: context.state.validity_filter,
-            seen_status: context.state.seen_filter,
+            seenstatus: context.state.seen_filter,
             usernames: context.state.source_usernames.toString()
           })
         .then(response => {
@@ -130,6 +130,7 @@ export default {
         postServices.getBoostByPostId(payload,
           { source: context.state.source_filter,
             validity: context.state.validity_filter,
+            seenstatus: context.state.seen_filter,
             usernames: context.state.source_usernames.toString()
           })
           .then(response => {
