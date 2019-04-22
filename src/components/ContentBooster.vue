@@ -48,8 +48,8 @@
 
                 <v-layout row>
                   <v-flex xs12>
-                    <span>Select your target audience or leave this empty to
-                      include everyone</span>
+                    <!-- <span>Select your target audience or leave this empty to
+                      include everyone</span> -->
                     <source-selector ref="initiateTargets" class="mt-2">
                     </source-selector>
 

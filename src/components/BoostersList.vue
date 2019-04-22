@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="visible" max-width="450" scrollable>
+  <v-dialog v-model="visible" max-width="550" scrollable>
      <v-card >
        <v-card-title>
          <span class="title font-weight-light">Boosters info</span>
@@ -11,13 +11,14 @@
              <v-flex xs2>
                <custom-avatar :user="boostObj.booster" :clickEnabled="true"></custom-avatar>
              </v-flex>
-             <v-flex xs6 class="body-2">
+             <v-flex xs5 class="body-2">
                {{sourceDisplayName(boostObj.booster)}}
              </v-flex>
-             <v-flex xs4 class="grey--text text--darken-2">
+             <v-flex xs5 class="grey--text text--darken-2">
                <span> Boosted to &#32;</span>
-               <span v-if="boostObj.Targets.length">you</span>
-               <span v-else>everyone</span>
+               <span v-if="!boostObj.Targets.length">everyone</span>
+               <span v-else-if="boostObj.Targets[0].userName == user.userName">you</span>
+               <span v-else> {{sourceDisplayName(boostObj.Targets[0])}}</span>
              </v-flex>
          </v-layout>
          <v-divider></v-divider>
@@ -33,7 +34,7 @@
 <script>
 import customAvatar from '@/components/CustomAvatar'
 import sourceHelpers from '@/mixins/sourceHelpers'
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapGetters, mapActions } from 'vuex'
 
 export default {
   components: {
@@ -65,7 +66,10 @@ export default {
        state (state) {
          return state[this.detailsNamespace];
        }
-     })
+     }),
+   ...mapGetters('auth', [
+     'user'
+   ]),
   },
   methods: {
     ...mapActions({

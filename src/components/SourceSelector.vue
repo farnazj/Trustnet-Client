@@ -2,7 +2,7 @@
 
   <v-autocomplete v-model="targets" :items="followers"
   box chips color="blue-grey lighten-2" label="Select target audience"
-  item-text="userName" item-value="userName" multiple >
+  item-text="userName" item-value="userName" multiple no-data-text="No followers found">
 
     <template slot="selection" slot-scope="data" >
       <v-chip
@@ -28,7 +28,16 @@
       </template>
 
     </template>
-  </v-autocomplete>
+
+  <template v-if="!targets.length" slot="append">
+    <template>
+      <v-list-tile-content>
+        <v-list-tile-title>default is everyone</v-list-tile-title>
+      </v-list-tile-content>
+    </template>
+  </template>
+
+</v-autocomplete>
 
 </template>
 
@@ -52,14 +61,8 @@ export default {
   created() {
     if (!this.followers.length)
       this.fetchFollowers();
-
   },
   computed: {
-    // getFriends: function() {
-    //   let friends = this.followers.filter(source => !source.systemMade);
-    //   return friends;
-    //
-    // },
     ...mapState('relatedSources', [
      'followers',
     ])
