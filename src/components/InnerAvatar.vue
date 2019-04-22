@@ -2,7 +2,7 @@
 
   <v-avatar color="blue darken-1" :size="getSize">
 
-    <v-img v-if="user.photoUrl" :src="extendedPhotoUrl"> </v-img>
+    <v-img v-if="user.photoUrl" contain :src="extendedPhotoUrl"> </v-img>
     <span v-else class="white--text"> {{getInitials}}</span>
     <!-- <span v-else class="white--text"> {{getCroppedUserName}} </span> -->
 
