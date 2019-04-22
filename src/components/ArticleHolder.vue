@@ -48,6 +48,9 @@ export default {
     username: function() {
       return this.state.username;
     },
+    offset: function() {
+      return this.state.offset;
+    },
     ...mapState({
        state (state) {
          return state[this.filtersNamespace];
@@ -57,7 +60,15 @@ export default {
   methods: {
 
     extend: function() {
-      this.getMoreBoosts();
+      let pre_offset = this.offset;
+      this.getMoreBoosts()
+      .then(res => {
+        let post_offset = this.offset;
+        if (pre_offset == post_offset)
+          this.endOfResults = true;
+        else
+          this.endOfResults = false;
+      })
     },
     ...mapActions({
       getMoreBoosts (dispatch, payload) {
