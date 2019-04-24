@@ -53,7 +53,7 @@
                           <v-icon class="mr-4" v-else-if="key == 'refuted' && item.length">fas fa-times</v-icon>
                           <v-icon class="mr-4" v-else-if="key == 'questioned' && item.length">fas fa-question</v-icon>
 
-                          <custom-avatar v-for="assessment in item.slice(0,3)" :key="assessment.id"
+                          <custom-avatar v-for="assessment in item.slice(0,3)" :key="assessment.id" :class="{transitive: assessment.isTransitive}"
                           :user="assessment.assessor" :clickEnabled="true" class="mr-2"></custom-avatar>
 
                           <span v-if="item.length > 3" class="headline">...</span>
@@ -142,10 +142,11 @@
         return utils.getUnique(this.sortedBoosts, 'id');
       },
       sortedAssessments: function() {
+        let sorted_assessments = {};
         for (const [key, value] of Object.entries(this.assessments))
-          this.assessments[key].slice().sort(utils.compareAssessments)
+          sorted_assessments[key] = this.assessments[key].slice().sort(utils.compareAssessments);
 
-        return this.assessments;
+        return sorted_assessments;
       }
     },
     methods: {

@@ -3,7 +3,9 @@
 
     <v-layout row class="mb-2">
       <v-flex xs12>
-        <custom-avatar :user="assessment.assessor" :clickEnabled="true" :size="35"></custom-avatar>
+        <custom-avatar :user="assessment.assessor" :clickEnabled="true" :size="35" :class="{transitive: assessment.isTransitive}">
+        </custom-avatar>
+        <span v-if="assessment.isTransitive" class="ml-2 mr-1 caption grey--text text--darken-1"> Adopted through their network</span>
         <span class="ml-2 caption grey--text text--darken-3"> {{timeElapsed(assessment.updatedAt)}} </span>
         <span v-if="assessment.version > 1" class="ml-2 caption grey--text text--darken-1">
           Edited</span>
@@ -63,3 +65,8 @@ export default {
 }
 
 </script>
+
+<style scoped>
+
+
+</style>

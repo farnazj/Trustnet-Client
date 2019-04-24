@@ -42,7 +42,12 @@ function compare2Sources(a, b, id_key) {
 
 
 function compareAssessments(a, b) {
-  return compare2Sources(a, b, 'SourceId');
+  if (!a.isTransitive && b.isTransitive)
+    return -1;
+  else if (a.isTransitive && !b.isTransitive)
+    return 1;
+  else
+    return compare2Sources(a, b, 'SourceId');
 }
 
 

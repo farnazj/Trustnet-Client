@@ -1,7 +1,12 @@
 .cursor-pointer {
   cursor: pointer;
 }
-/* 
+
+
+.transitive {
+  opacity: 0.5;
+}
+/*
 body.dialog-is-open {
   overflow-y: hidden !important;
   max-height: 100%;
