@@ -27,7 +27,7 @@
                  <v-container fluid>
 
                    <assessment-collector ref="assessmentColl" :validityRules="assessmentValidityRules"
-                     :postCredibility="postCredibility" :assessmentBody="assessmentBody">
+                     :postCredibility="postCredibility" :assessmentBody="assessmentBody" :assessmentId="assessment.id">
                    </assessment-collector>
                 </v-container>
 

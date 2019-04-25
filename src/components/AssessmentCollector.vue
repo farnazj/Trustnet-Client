@@ -44,7 +44,8 @@ export default {
   },
   props: ['validityRules',
     'postCredibility',
-    'assessmentBody'
+    'assessmentBody',
+    'assessmentId'
   ],
   data () {
     return {
@@ -70,11 +71,9 @@ export default {
     }
   },
   watch: {
-    postCredibility: function(val) {
-      this.credibility = val;
-    },
-    assessmentBody: function(val) {
-      this.assessmentText = val;
+    assessmentId: function(val) {
+      this.assessmentText = this.assessmentBody;
+      this.credibility = this.postCredibility;
     }
   }
 
