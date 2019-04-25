@@ -49,8 +49,8 @@ export default {
   ],
   data () {
     return {
-      credibility: this.postCredibility,
-      assessmentText: this.assessmentBody,
+      credibility: null,
+      assessmentText: null,
       validity_status : [
         {
           label: 'This article is accurate',
@@ -72,6 +72,10 @@ export default {
   },
   watch: {
     assessmentId: function(val) {
+      this.assessmentText = this.assessmentBody;
+      this.credibility = this.postCredibility;
+    },
+    postCredibility: function(val) {
       this.assessmentText = this.assessmentBody;
       this.credibility = this.postCredibility;
     }
