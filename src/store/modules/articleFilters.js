@@ -11,6 +11,7 @@ export default {
     articles: [],
     offset: 0,
     limit: 10,
+    articles_fetched: false
   },
   getters: {
   },
@@ -50,6 +51,10 @@ export default {
     remove_boost: (state, post_id) => {
       let index = state.articles.findIndex(article => article.id == post_id);
       state.articles.splice(index, 1);
+    },
+
+    set_fetch_status: (state, status) =>{
+      state.articles_fetched = status;
     }
   },
   actions: {
@@ -93,6 +98,7 @@ export default {
     refreshArticles: (context) => {
       context.dispatch('loader/setLoading', true, { root: true });
       context.commit('refresh_articles');
+      context.commit('set_fetch_status', false);
       return new Promise((resolve, reject) => {
         context.dispatch('getMoreBoosts')
         .then(() => {
@@ -103,6 +109,7 @@ export default {
         })
         .finally(() => {
           context.dispatch('loader/setLoading', false, { root: true });
+          context.commit('set_fetch_status', true);
         })
       })
     },
@@ -111,8 +118,11 @@ export default {
       context.dispatch('loader/setLoading', true, { root: true });
 
       context.commit('refresh_articles', false);
+      context.commit('set_fetch_status', false);
       context.commit('change_filter_value', payload);
+
       context.dispatch('getArticles')
+
       .then(posts => {
         context.commit('append_articles', posts);
        })
@@ -121,6 +131,7 @@ export default {
       })
       .finally(() => {
         context.dispatch('loader/setLoading', false, { root: true });
+        context.commit('set_fetch_status', true);
       })
     },
 

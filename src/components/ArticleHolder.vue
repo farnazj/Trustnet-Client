@@ -6,6 +6,21 @@
           :assessmentsNamespace="assessmentsNamespace" :filtersNamespace="filtersNamespace">
         </article-preview>
       </v-layout>
+      <v-layout v-if="articles_fetched && !articles.length" justify-center  fill-height class="pt-5">
+        <v-flex xs8>
+          <span class="subheading font-weight-light" >
+            Looks like we don't have any posts to show you. Maybe you aren't following enough sources?<br/><br/>
+            You can follow sources by clicking on your avatar at the
+            right side of the top toolbar, and going to the
+          </span>
+          <v-icon small>account_circle</v-icon>
+          <span class="subheading font-weight-bold"> Sources</span>
+          <span>
+            <span class="subheading font-weight-light"> page.</span>
+          </span>
+        </v-flex>
+
+      </v-layout>
     </v-flex>
   </v-layout>
 </template>
@@ -35,7 +50,6 @@ export default {
   },
   data: () => {
     return {
-      sth: true
     }
   },
   created() {
@@ -50,6 +64,9 @@ export default {
     },
     offset: function() {
       return this.state.offset;
+    },
+    articles_fetched: function() {
+      return this.state.articles_fetched;
     },
     ...mapState({
        state (state) {
