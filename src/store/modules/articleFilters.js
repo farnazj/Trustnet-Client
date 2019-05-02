@@ -6,7 +6,7 @@ export default {
   state: {
     validity_filter: 'All',
     source_filter: 'All',
-    seen_filter: 'All',
+    seen_filter: 'not seen',
     source_usernames: [],
     articles: [],
     offset: 0,
@@ -130,7 +130,6 @@ export default {
         postServices.getBoostByPostId(payload,
           { source: context.state.source_filter,
             validity: context.state.validity_filter,
-            seenstatus: context.state.seen_filter,
             usernames: context.state.source_usernames.toString()
           })
           .then(response => {

@@ -44,24 +44,24 @@
       </v-list-group>
     </v-list-group>
 
-    <v-list-group prepend-icon="account_circle" value="true">
-      <v-list-tile slot="activator">
-        <v-list-tile-title>Sources</v-list-tile-title>
+    <v-list-group prepend-icon="account_circle" value="true" no-action>
+      <template slot="activator">
+        <v-list-tile >
+          <v-list-tile-content>
+            <v-list-tile-title>Sources</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+      </template>
+
+      <v-list-tile v-for="(source, i) in source_filters"
+        :key="i" @click="filter(source, 'sources')"
+        :class="{highlighted:source == selected_filters['sources']}">
+        <v-list-tile-content>
+          <v-list-tile-title> {{source}}</v-list-tile-title>
+        </v-list-tile-content>
+
       </v-list-tile>
-
-      <v-list-group sub-group no-action>
-        <v-list-tile slot="activator" @click="filter('All', 'sources')">
-          <v-list-tile-title>All</v-list-tile-title>
-        </v-list-tile>
-
-        <v-list-tile v-for="(source, i) in source_filters"
-          :key="i" @click="filter(source, 'sources')"
-          :class="{highlighted:source == selected_filters['sources']}">
-          <v-list-tile-title v-text="source"></v-list-tile-title>
-        </v-list-tile>
-      </v-list-group>
     </v-list-group>
-
 
     <v-divider></v-divider>
 
@@ -97,7 +97,7 @@
     data: () => {
       return {
         validity_filters: [ 'Confirmed', 'Refuted', 'Debated', 'Questioned'],
-        source_filters: ['Me', 'Trusted', 'Selected Sources'],
+        source_filters: ['Followed', 'Me', 'Trusted', 'Selected Sources'],
         seen_status_filters: ['Not Seen', 'Seen'],
         selected_filters: {'validity': undefined, 'sources': undefined, 'seen_status':'Not Seen' },
         selected_sources: [],

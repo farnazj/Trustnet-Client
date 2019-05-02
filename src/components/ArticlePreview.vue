@@ -54,7 +54,7 @@
                           <v-icon class="mr-4" v-else-if="key == 'questioned' && item.length">fas fa-question</v-icon>
 
                           <custom-avatar v-for="assessment in item.slice(0,3)" :key="assessment.id" :class="{transitive: assessment.isTransitive}"
-                          :user="assessment.assessor" :clickEnabled="true" class="mr-2"></custom-avatar>
+                          :user="assessment.Source" :clickEnabled="true" class="mr-2"></custom-avatar>
 
                           <span v-if="item.length > 3" class="headline">...</span>
                         </v-layout>
@@ -69,7 +69,7 @@
 
           </v-layout>
 
-          <v-layout row class="pt-2" wrap>
+          <v-layout row v-if="uniqueBoosters.length" class="pt-2" wrap>
             <v-flex xs12 >
               <v-icon >fas fa-rocket</v-icon> <span class="mr-3"> Boosted by</span>
               <custom-avatar v-for="boostObj in uniqueBoosters.slice(0,10)" :key="boostObj.id"
@@ -104,8 +104,9 @@
   import initiatorDisplay from '@/components/InitiatorDisplay'
   import sourceServices from '@/services/sourceServices'
   import postServices from '@/services/postServices'
+  import assessmentServices from '@/services/assessmentServices'
   import utils from '@/services/utils'
-  import { mapActions } from 'vuex'
+  import { mapState, mapActions } from 'vuex'
 
   const validityMapping = { '0': 'refuted', '1': 'questioned', '2': 'confirmed'};
 
@@ -116,6 +117,10 @@
     },
     props: {
       detailsNamespace: {
+        type: String,
+        required: true
+      },
+      filtersNamespace: {
         type: String,
         required: true
       },
@@ -147,7 +152,21 @@
           sorted_assessments[key] = this.assessments[key].slice().sort(utils.compareAssessments);
 
         return sorted_assessments;
-      }
+      },
+      usernamesFilter: function() {
+        return this.state.source_usernames;
+      },
+      sourceFilter: function() {
+        return this.state.source_filter;
+      },
+      profileUsername: function() {
+        return this.state.username;
+      },
+      ...mapState({
+         state (state) {
+           return state[this.filtersNamespace];
+         }
+       })
     },
     methods: {
       visibilityChanged: function(isVisible, entry) {
@@ -165,15 +184,15 @@
         this.showAssessments(this.assessments);
       },
       fetchAssociations: function() {
-
-        this.post.Boosteds.forEach(boosted => {
-          sourceServices.getSourceById(boosted.SourceId)
+        this.boostObjects = [];
+        this.post.PostBoosts.forEach(postBoost => {
+          sourceServices.getSourceById(postBoost.SourceId)
           .then(response => {
-            let boost_obj = Object.assign({}, boosted);
+            let boost_obj = Object.assign({}, postBoost);
             boost_obj.booster = response.data;
             this.boostObjects.push(boost_obj);
           })
-        })
+        });
         this.boostObjects.sort(utils.compareBoosters);
 
         for (let key in this.assessments)
@@ -182,18 +201,17 @@
         Fetches the user objects of sourceIds in each PostAssessment and organizes
         assessments by validity status
         */
-        this.post.PostAssessments.forEach(post_assessment => {
-          let assessment_obj = {};
-          for (const [key, value] of Object.entries(post_assessment)) {
-            assessment_obj[key] = value;
-          }
+        let headers = this.sourceFilter ? { source: this.sourceFilter,
+          usernames: this.usernamesFilter.toString()} : {};
+        if (this.profileUsername)
+          headers.includeusernames = this.profileUsername;
 
-          sourceServices.getSourceById(post_assessment.SourceId)
-          .then(response => {
-            assessment_obj['assessor'] = response.data;
 
+        assessmentServices.getAssessmentsForPost(this.post.id, headers)
+        .then(response => {
+          response.data.forEach(post_assessment => {
             let cred_value = validityMapping[post_assessment.postCredibility.toString()];
-            this.assessments[cred_value].push(assessment_obj);
+            this.assessments[cred_value].push(post_assessment);
           })
         })
 
