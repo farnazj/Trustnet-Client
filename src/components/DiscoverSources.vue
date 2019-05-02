@@ -51,6 +51,7 @@ export default {
   },
   data () {
     return {
+      sourcesToFollow: []
     }
   },
   created() {
@@ -62,23 +63,31 @@ export default {
         {limit: this.limit, offset: this.offset},
         {searchterm: this.search}
       )
+    },
+    setupSourcestoFollow: function() {
+      let auth_user_id = this.$store.getters['auth/user'].id;
+      this.sourcesToFollow = this.sourceResults.filter(source => (!this.followedIds.includes(source.id)
+        && source.id != auth_user_id));
+
     }
   },
   computed: {
-    sourcesToFollow: function() {
-      let auth_user_id = this.$store.getters['auth/user'].id;
-      let filtered_sources = this.sourceResults.filter(source => (!this.followedIds.includes(source.id)
-        && source.id != auth_user_id));
-
-      return filtered_sources;
-    },
-    ...mapState('relatedSources', [
-     'followed_sources'
-    ]),
+    // sourcesToFollow: function() {
+    //   let auth_user_id = this.$store.getters['auth/user'].id;
+    //   let filtered_sources = this.sourceResults.filter(source => (!this.followedIds.includes(source.id)
+    //     && source.id != auth_user_id));
+    //
+    //   return filtered_sources;
+    // },
     ...mapGetters('relatedSources', [
       'followedIds',
       'trustedIds',
     ])
+  },
+  watch: {
+    sourceResults: function(val) {
+      this.setupSourcestoFollow();
+    }
   },
   mixins: [loadMore]
 }

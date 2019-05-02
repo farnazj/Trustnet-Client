@@ -105,7 +105,7 @@
     },
     created() {
       this.fetchFollows();
-      this.fetchTrusteds()
+      this.fetchTrusteds();
     },
     computed: {
       ...mapGetters('relatedSources', [

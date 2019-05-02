@@ -92,9 +92,9 @@ export default {
     ])
   },
   watch: {
-    followedOrTrusteds: function(val) {
-      this.initiateSearch()
-    }
+    // followedOrTrusteds: function(val) {
+    //   this.initiateSearch()
+    // }
   },
   mixins: [loadMore]
 
