@@ -69,9 +69,9 @@
         <v-subheader>Followed or Trusted Sources</v-subheader>
         <v-list-tile v-for="source in followedOrTrusteds"
             :key="source.id" avatar @click="selectSource(source)"
-            :class="{highlighted:selected_sources.includes(source.userName)}">
+            :class="{highlighted: sourceSelectionMode && selected_sources.includes(source.userName)}">
           <v-list-tile-avatar>
-            <custom-avatar :user="source" :clickEnabled="true" :size="36"></custom-avatar>
+            <custom-avatar :user="source" :clickEnabled="false" :size="36"></custom-avatar>
           </v-list-tile-avatar>
 
           <v-list-tile-content>
@@ -98,7 +98,7 @@
         validity_filters: [ 'Confirmed', 'Refuted', 'Debated', 'Questioned'],
         source_filters: ['Followed', 'Me', 'Trusted', 'Selected Sources'],
         seen_status_filters: ['Not Seen', 'Seen'],
-        selected_filters: {'validity': undefined, 'sources': undefined, 'seen_status':'Not Seen' },
+        selected_filters: {'validity': undefined, 'sources': 'Followed', 'seen_status':'Not Seen' },
         selected_sources: [],
         sourceSelectionMode: false
       }
@@ -126,20 +126,32 @@
 
         if (this.selected_filters['sources'] == "Selected Sources")
           this.sourceSelectionMode = true;
-        else
+        else {
           this.sourceSelectionMode = false;
 
-        if (this.selected_filters[type] != prev_value)
-          this.filterBoosts();
+          if (this.selected_sources.length)
+            this.selected_sources = [];
+        }
+
+        if (this.selected_filters[type] != prev_value) {
+          if (name != 'Selected Sources' || this.selected_sources.length > 0 )
+            this.filterBoosts();
+        }
+
       },
       selectSource: function(source) {
-        if (this.selected_sources.includes(source.userName))
-          this.selected_sources.splice(this.selected_sources.indexOf(source.userName), 1);
-        else
-          this.selected_sources.push(source.userName);
+        if (this.sourceSelectionMode) {
+          if (this.selected_sources.includes(source.userName))
+            this.selected_sources.splice(this.selected_sources.indexOf(source.userName), 1);
+          else
+            this.selected_sources.push(source.userName);
 
-        if (this.selected_filters.sources == 'Selected Sources')
           this.filterBoosts();
+        }
+        else {
+          this.$router.push({ name: 'profile', params: { username: source.userName } });
+        }
+
       },
 
       filterBoosts: function() {

@@ -38,15 +38,13 @@
 </template>
 
 <script>
-import customAvatar from '@/components/CustomAvatar'
 import sourceCard from '@/components/SourceCard'
 import sourceServices from '@/services/sourceServices'
 import loadMore from '@/mixins/loadMore'
-import { mapState, mapGetters, mapActions } from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
-   'custom-avatar': customAvatar,
    'source-card': sourceCard
   },
   data () {
@@ -85,7 +83,7 @@ export default {
     ])
   },
   watch: {
-    sourceResults: function(val) {
+    sourceResults: function() {
       this.setupSourcestoFollow();
     }
   },

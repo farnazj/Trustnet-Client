@@ -5,7 +5,7 @@ export default {
   namespaced: true,
   state: {
     validity_filter: 'All',
-    source_filter: 'All',
+    source_filter: 'Followed',
     seen_filter: 'not seen',
     source_usernames: [],
     articles: [],
