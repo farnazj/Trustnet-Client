@@ -123,10 +123,9 @@ import loading from '@/components/Loading'
 import photoUpload from 'vue-image-crop-upload'
 
 import sourceServices from '@/services/sourceServices'
-import relationServices from '@/services/relationServices'
 import consts from '@/services/constants'
 import utils from '@/services/utils'
-import { mapState, mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 
 export default {
@@ -242,7 +241,7 @@ export default {
     ])
   },
   watch: {
-    username: function(val) {
+    username: function() {
       this.getUser();
     }
   }

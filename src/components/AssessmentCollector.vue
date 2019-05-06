@@ -36,12 +36,8 @@
 </template>
 
 <script>
-import sourceSelector from '@/components/SourceSelector'
 
 export default {
-  components: {
-    'source-selector': sourceSelector
-  },
   props: ['validityRules',
     'postCredibility',
     'assessmentBody',
@@ -71,11 +67,11 @@ export default {
     }
   },
   watch: {
-    assessmentId: function(val) {
+    assessmentId: function() {
       this.assessmentText = this.assessmentBody;
       this.credibility = this.postCredibility;
     },
-    postCredibility: function(val) {
+    postCredibility: function() {
       this.assessmentText = this.assessmentBody;
       this.credibility = this.postCredibility;
     }

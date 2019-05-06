@@ -4,7 +4,7 @@
       <custom-toolbar></custom-toolbar>
     </v-layout>
 
-    <v-layout row class="pt-5" justify-center align-center row fill-height>
+    <v-layout row class="pt-5" justify-center align-center fill-height>
       <v-flex xs6 md4 align-self-center>
         <v-alert v-model="alert" type="error">
           {{alertMessage}}

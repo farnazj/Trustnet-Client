@@ -51,7 +51,7 @@ export default {
     },
   },
   watch: {
-    search (val) {
+    search () {
       this.initiateSearch();
     }
   },

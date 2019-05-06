@@ -86,9 +86,8 @@
 
 <script>
   import customAvatar from '@/components/CustomAvatar'
-  import timeHelpers from '@/mixins/timeHelpers'
   import sourceHelpers from '@/mixins/sourceHelpers'
-  import { mapState, mapGetters, mapActions } from 'vuex';
+  import { mapGetters, mapActions } from 'vuex';
 
   export default {
     components: {
@@ -101,6 +100,7 @@
         seen_status_filters: ['Not Seen', 'Seen'],
         selected_filters: {'validity': undefined, 'sources': undefined, 'seen_status':'Not Seen' },
         selected_sources: [],
+        sourceSelectionMode: false
       }
     },
     created() {
@@ -116,12 +116,21 @@
     methods: {
       filter: function(name, type) {
 
+        let prev_value = this.selected_filters[type];
+
         if (name == 'All')
           this.selected_filters[type] = undefined;
         else
           this.selected_filters[type] = name;
 
-        this.filterBoosts();
+
+        if (this.selected_filters['sources'] == "Selected Sources")
+          this.sourceSelectionMode = true;
+        else
+          this.sourceSelectionMode = false;
+
+        if (this.selected_filters[type] != prev_value)
+          this.filterBoosts();
       },
       selectSource: function(source) {
         if (this.selected_sources.includes(source.userName))

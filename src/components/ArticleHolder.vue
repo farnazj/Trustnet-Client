@@ -3,7 +3,7 @@
     <v-flex xs12>
       <v-layout v-for="article in articles" :key="article.id">
         <article-preview :post="article" :detailsNamespace="detailsNamespace"
-          :assessmentsNamespace="assessmentsNamespace" :filtersNamespace="filtersNamespace">
+          :assessmentsNamespace="assessmentsNamespace">
         </article-preview>
       </v-layout>
       <v-layout v-if="articles_fetched && !articles.length" justify-center  fill-height class="pt-5">
@@ -79,7 +79,7 @@ export default {
     extend: function() {
       let pre_offset = this.offset;
       this.getMoreBoosts()
-      .then(res => {
+      .then(() => {
         let post_offset = this.offset;
         if (pre_offset == post_offset)
           this.endOfResults = true;
@@ -97,7 +97,7 @@ export default {
     })
   },
   watch: {
-    username: function(val) {
+    username: function() {
       this.refreshArticles();
     }
   },
