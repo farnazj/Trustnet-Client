@@ -8,13 +8,17 @@
       <loading></loading>
       <boosters-list detailsNamespace="homeArticleDetails"></boosters-list>
 
+      <v-flex xs2 v-show="!visible">
+        <filters class="left-frozen"></filters>
+      </v-flex>
 
-        <v-flex xs2 v-show="!visible">
-          <filters class="left-frozen"></filters>
-        </v-flex>
+      <div v-show="visible" @click="hideAssessments" class="mt-5 grippy-container left-frozen">
+        <v-layout row justify-center align-center fill-height>
+          <span class="grippy">.. .. .. ..</span>
+        </v-layout>
+      </div>
 
-
-      <v-flex xs7>
+      <v-flex xs7 :class="{'pl-4':visible}">
         <article-holder detailsNamespace="homeArticleDetails" filtersNamespace="articleFilters"
           assessmentsNamespace="homeAssessments">
        </article-holder>
@@ -42,7 +46,7 @@ import boostersList from '@/components/BoostersList'
 import Filters from '@/components/Filters'
 import Loading from '@/components/Loading'
 
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
 
 export default {
@@ -63,7 +67,15 @@ export default {
     ...mapState('homeAssessments', [
      'visible'
    ])
-  }
+ },
+ methods: {
+   hideAssessments: function() {
+     this.hideContainer();
+   },
+   ...mapActions('homeAssessments', [
+     'hideContainer',
+   ]),
+ }
 }
 </script>
 
@@ -77,4 +89,28 @@ export default {
 .left-frozen {
   position: fixed;
 }
+
+.grippy-container {
+  background-color: #424242;
+  height: 14vh;
+  width: calc(1% + 0.3em);
+  border-radius: 0 80% 80% 0;
+  cursor: pointer;
+}
+
+span.grippy {
+  min-height: 30%;
+  min-width: 50%;
+  text-align: center;
+  display: inline-block;
+  overflow: hidden;
+  line-height: 1vh;
+  vertical-align: middle;
+  font-size: calc(1vh + 0.7em);
+  font-family: sans-serif;
+  letter-spacing: 2px;
+  color: #BDBDBD;
+  text-shadow: 1px 0 1px black;
+}
+
 </style>

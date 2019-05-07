@@ -4,8 +4,20 @@
   <v-layout row class="pt-5" id="assessment_container">
     <v-flex xs12>
       <v-card>
-        <v-layout row justify-end class="pr-2">
-          <v-icon @click="hideContainer">clear</v-icon>
+        <v-layout row align-center fill-height >
+
+          <v-flex xs1>
+            <v-layout row justify-start>
+              <v-icon @click="hideContainer">clear</v-icon>
+            </v-layout>
+          </v-flex>
+
+          <v-flex xs11>
+            <v-layout row justify-center>
+              <p class="pb-0 mb-0 subheading font-weight-medium">Assessments</p>
+            </v-layout>
+          </v-flex>
+
         </v-layout>
 
       <v-layout v-if="sortedAssessments.questioned.length != 0" row wrap class="pa-1">
@@ -153,7 +165,7 @@ export default {
 
 #assessment_container {
   right: 0px;
-  width: 40%;
+  width: 34%;
   max-height: 96vh;
   min-height: 96vh;
   overflow-y: auto;
