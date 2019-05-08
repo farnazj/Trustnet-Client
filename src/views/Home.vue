@@ -8,7 +8,7 @@
       <loading></loading>
       <boosters-list detailsNamespace="homeArticleDetails"></boosters-list>
 
-      <v-flex xs2 v-show="!visible">
+      <v-flex xs3 md2 v-show="!visible">
         <filters class="left-frozen"></filters>
       </v-flex>
 
@@ -18,7 +18,7 @@
         </v-layout>
       </div>
 
-      <v-flex xs7 :class="{'pl-4':visible}">
+      <v-flex xs7  :offset-xs1="!visible" :class="{'pl-4':visible}" >
         <article-holder detailsNamespace="homeArticleDetails" filtersNamespace="articleFilters"
           assessmentsNamespace="homeAssessments">
        </article-holder>

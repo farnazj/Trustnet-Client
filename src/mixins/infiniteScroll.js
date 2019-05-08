@@ -13,11 +13,7 @@ export default {
         if (!this.scrollDisabled && !this.endOfResults && bottomOfWindow) {
           console.log('bottom of window')
           this.extend();
-
-          // if (response.body.length < this.limit)
-          //   this.endOfResults = true;
         }
-
 
       };
     },

@@ -37,3 +37,13 @@ div.vicp-preview-item.vicp-preview-item-circle {
   -webkit-transform: rotate(-90deg) !important;
   transform: rotate(-90deg) !important;
 } */
+
+.source-checkbox .accent--text  {
+  color: #1976D2 !important;
+  caret-color: #1976D2 !important;
+}
+
+
+.article-filters .v-list__tile {
+
+}
