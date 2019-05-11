@@ -13,15 +13,15 @@
       </v-flex>
     </v-layout>
 
-    <v-layout row v-if="assessmentObj.lastVersion.body">
+    <v-layout row v-if="assessmentObj.lastVersion.body" class="pa-1 pr-2 assessment-text">
       <v-flex xs12>
-        <p v-if="!showFullText && bodyWordCount > 10">{{truncatedText}}
+        <p v-if="!showFullText && bodyWordCount > 25">{{truncatedText}}
           <span class="blue--text text--darken-3 body-2 cursor-pointer" @click="showFullText = true">
             show more
           </span>
         </p>
         <p v-else>{{assessmentObj.lastVersion.body}}
-          <span v-if="bodyWordCount > 10" class="blue--text text--darken-3 body-2 cursor-pointer"
+          <span v-if="bodyWordCount > 25" class="blue--text text--darken-3 body-2 cursor-pointer"
              @click="showFullText = false">
             show less
           </span>
@@ -61,7 +61,7 @@ export default {
   },
   computed: {
     truncatedText: function() {
-      return this.assessmentObj.lastVersion.body.split(' ').slice(0, 10).join(' ') + '...';
+      return this.assessmentObj.lastVersion.body.split(' ').slice(0, 25).join(' ') + '...';
     },
     bodyWordCount: function() {
       return this.assessmentObj.lastVersion.body.split(' ').length;
@@ -90,6 +90,8 @@ export default {
 </script>
 
 <style scoped>
-
+.assessment-text p {
+  font-size: 0.92em;
+}
 
 </style>

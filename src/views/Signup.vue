@@ -5,7 +5,7 @@
       <custom-toolbar></custom-toolbar>
     </v-layout>
 
-    <v-layout justify-center align-center row fill-height class="pt-5">
+    <v-layout justify-center align-center row fill-height class="pt-5 full-height">
       <v-flex xs6 lg4 align-self-center>
         <v-alert v-model="alert" type="error">
           {{alertMessage}}
@@ -164,5 +164,7 @@ export default {
 </script>
 
 <style scoped>
-
+.full-height {
+  height: 98vh;
+}
 </style>

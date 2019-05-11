@@ -1,11 +1,11 @@
 <template>
-  <v-container>
+  <v-container fluid>
     <v-layout row>
       <custom-toolbar></custom-toolbar>
     </v-layout>
 
-    <v-layout row class="pt-5" justify-center align-center fill-height>
-      <v-flex xs6 md4 align-self-center>
+    <v-layout row class="pt-5 full-height" justify-center align-center fill-height>
+      <v-flex xs6 md4 >
         <v-alert v-model="alert" type="error">
           {{alertMessage}}
         </v-alert>
@@ -101,5 +101,7 @@ export default {
 </script>
 
 <style scoped>
-
+.full-height {
+  height: 98vh;
+}
 </style>
