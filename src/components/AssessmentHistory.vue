@@ -27,7 +27,7 @@
          <template v-for="assessment in assessmentHistory">
            <v-layout row :key="assessment.id" align-center class="py-1">
             <v-flex xs12>
-              <span class="font-italic font-weight-light">{{validityMapping[assessment.postCredibility]}}</span>
+              <p class="font-italic font-weight-light mb-0">{{validityMapping[assessment.postCredibility]}}</p>
               <p v-if="assessment.body">
                 {{assessment.body}}
               </p>
@@ -38,7 +38,7 @@
          <v-divider></v-divider>
 
         </template>
-</v-card-text>
+      </v-card-text>
      </v-card>
   </v-dialog>
 
@@ -48,7 +48,7 @@
 import customAvatar from '@/components/CustomAvatar'
 import timeHelpers from '@/mixins/timeHelpers'
 import sourceHelpers from '@/mixins/sourceHelpers'
-
+import consts from '@/services/constants'
 import { mapState, mapActions } from 'vuex'
 
 export default {
@@ -64,9 +64,9 @@ export default {
   data: () => {
     return {
       validityMapping: {
-        0: 'This article is inaccurate.',
-        1: 'This article is accurate.',
-        2: 'I want to know about the validity of this article.'
+        '-1': 'This article is inaccurate.',
+        '0': 'I want to know about the validity of this article.',
+        '1': 'This article is accurate.'
       }
     }
   },

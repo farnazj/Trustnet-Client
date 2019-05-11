@@ -298,11 +298,10 @@ export default {
 
       this.getAuthUserPostAssessment()
       .then(() => {
-        console.log('bade post ', this.assessment)
         if (Object.entries(this.assessment).length != 0) {
             this.disableBoost = false;
             this.assessmentBody = this.assessment.body;
-            this.postCredibility = parseInt(this.assessment.postCredibility) + 1;
+            this.postCredibility = parseInt(this.assessment.postCredibility) + 2;
           }
           else {
             this.disableBoost = true;
@@ -311,15 +310,13 @@ export default {
             this.$refs.assessmentMenu.resetValidation();
           }
       });
-
     }
-
   },
   methods: {
     postAssessment: function() {
       if (this.$refs.assessmentMenu.validate()) {
         let reqBody = {
-          postCredibility: this.$refs.assessmentColl.credibility - 1,
+          postCredibility: this.$refs.assessmentColl.credibility - 2,
           body: this.$refs.assessmentColl.assessmentText
         }
 

@@ -108,7 +108,7 @@
   import utils from '@/services/utils'
   import { mapState, mapActions } from 'vuex'
 
-  const validityMapping = { '0': 'refuted', '1': 'questioned', '2': 'confirmed'};
+  const validityMapping = { '-1': 'refuted', '0': 'questioned', '1': 'confirmed'};
 
   export default {
     components: {

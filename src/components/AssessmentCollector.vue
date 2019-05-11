@@ -36,6 +36,7 @@
 </template>
 
 <script>
+import consts from '@/services/constants'
 
 export default {
   props: ['validityRules',
@@ -50,17 +51,17 @@ export default {
       validity_status : [
         {
           label: 'This article is accurate',
-          value: 3,
+          value: consts.VALIDITY_CODES.CONFIRMED + 2,
           color: 'green--text text--darken-2'
         },
         {
           label: 'This article is inaccurate',
-          value: 1,
+          value: consts.VALIDITY_CODES.REFUTED + 2,
           color: 'red--text text--accent-3'
         },
         {
           label: 'I want to know about the validity of this article',
-          value: 2,
+          value: consts.VALIDITY_CODES.QUESTIONED + 2,
           color: 'amber--text text--darken-3'
         }
       ]

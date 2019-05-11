@@ -218,7 +218,7 @@ export default {
 
         let params = {
           postUrl: this.articleLink,
-          postCredibility: this.$refs.assessmentColl.credibility - 1,
+          postCredibility: this.$refs.assessmentColl.credibility - 2,
           assessmentBody: this.$refs.assessmentColl.assessmentText,
           target_usernames: this.$refs.importTargets.targets
         };

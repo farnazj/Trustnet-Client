@@ -79,9 +79,6 @@ export default {
 
     }
   },
-  created() {
-
-  },
   computed: {
 
    ...mapGetters('relatedSources', [

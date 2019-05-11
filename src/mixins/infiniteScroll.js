@@ -16,7 +16,7 @@ export default {
         }
 
       };
-    },
+    }
   },
   mounted() {
     this.scroll();

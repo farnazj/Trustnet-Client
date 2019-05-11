@@ -54,5 +54,5 @@ export default {
     search () {
       this.initiateSearch();
     }
-  },
+  }
 }
