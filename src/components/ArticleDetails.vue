@@ -55,7 +55,7 @@
 
            <v-btn flat icon color="blue darken-1" class="mr-4" slot="activator"
            :disabled="disableBoost">
-             <v-icon >fas fa-rocket</v-icon>
+             <v-icon >fas fa-share</v-icon>
            </v-btn>
 
            <v-form ref="boostMenu" lazy-validation>
@@ -77,7 +77,7 @@
 
                    <v-btn flat @click="cancelMenu('boostMenu')">Cancel</v-btn>
                    <v-btn color="primary" flat @click="boostArticle">
-                     <v-icon class="pr-1" >fas fa-rocket</v-icon> Boost
+                     <v-icon class="pr-1" >fas fa-share</v-icon> Share
                    </v-btn>
                  </v-card-actions>
 

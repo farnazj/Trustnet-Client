@@ -72,7 +72,7 @@
 
           <v-layout row v-if="uniqueBoosters.length" class="pt-2" wrap>
             <v-flex xs12 >
-              <v-icon >fas fa-rocket</v-icon> <span class="mr-3"> Boosted by</span>
+              <v-icon >fas fa-share</v-icon> <span class="mr-3"> Shared by</span>
               <custom-avatar v-for="boostObj in uniqueBoosters.slice(0,10)" :key="boostObj.id"
               :user="boostObj.booster" :clickEnabled="true" class="mr-2">
               </custom-avatar>

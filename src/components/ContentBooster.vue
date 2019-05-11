@@ -80,7 +80,7 @@
 
                 <v-btn flat @click="cancel">Cancel</v-btn>
                 <v-btn color="primary" flat @click="createPost">
-                  <v-icon class="pr-1" >fas fa-rocket</v-icon> Boost
+                  <v-icon class="pr-1" >fas fa-share </v-icon> Share
                 </v-btn>
               </v-card-actions>
             </v-card>
@@ -123,7 +123,7 @@
 
                   <v-btn flat @click="cancel">Cancel</v-btn>
                   <v-btn color="primary" flat @click="importArticle">
-                    <v-icon class="pr-1" >fas fa-rocket</v-icon> Boost
+                    <v-icon class="pr-1" >fas fa-share</v-icon> Share
                   </v-btn>
                 </v-card-actions>
 

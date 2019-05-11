@@ -5,7 +5,7 @@
        <v-layout row align-center class="pa-1" >
          <v-flex xs11>
            <v-layout row justify-start>
-             <p class="pb-0 mb-0 subheading font-weight-regular">Boosters info</p>
+             <p class="pb-0 mb-0 subheading font-weight-regular">Sharers info</p>
            </v-layout>
          </v-flex>
          <v-flex xs1>
@@ -27,7 +27,7 @@
                {{sourceDisplayName(boostObj.booster)}}
              </v-flex>
              <v-flex xs5 class="grey--text text--darken-2">
-               <span> Boosted to &#32;</span>
+               <span> Shared with &#32;</span>
                <span v-if="!boostObj.Targets.length">everyone</span>
                <span v-else-if="boostObj.Targets[0].userName == user.userName">you</span>
                <span v-else> {{sourceDisplayName(boostObj.Targets[0])}}</span>
