@@ -1,13 +1,25 @@
 <template>
   <v-dialog v-model="visible" max-width="550" scrollable>
-     <v-card >
-       <v-card-title>
-         <span class="title font-weight-light">Boosters info</span>
-       </v-card-title>
+     <v-card max-height="50vh">
+
+       <v-layout row align-center class="pa-1" >
+         <v-flex xs11>
+           <v-layout row justify-start>
+             <p class="pb-0 mb-0 subheading font-weight-regular">Boosters info</p>
+           </v-layout>
+         </v-flex>
+         <v-flex xs1>
+           <v-layout row justify-end>
+             <v-icon @click="hideBoosters">clear</v-icon>
+           </v-layout>
+         </v-flex>
+       </v-layout>
+
+       <v-divider></v-divider>
 
        <v-card-text>
          <template v-for="boostObj in boosters">
-           <v-layout row :key="boostObj.id" align-center class="py-1">
+           <v-layout row :key="boostObj.id" align-center class="py-2">
              <v-flex xs2>
                <custom-avatar :user="boostObj.booster" :clickEnabled="true"></custom-avatar>
              </v-flex>
@@ -72,6 +84,9 @@ export default {
    ]),
   },
   methods: {
+    hideBoosters: function() {
+      this.setBoostersVisibility(false);
+    },
     ...mapActions({
       setBoostersVisibility (dispatch, payload) {
         return dispatch(this.detailsNamespace + '/setBoostersVisibility', payload)

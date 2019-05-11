@@ -7,6 +7,7 @@
     <v-layout row>
       <loading></loading>
       <boosters-list detailsNamespace="homeArticleDetails"></boosters-list>
+      <assessment-history namespace="homeAssessments"></assessment-history>
 
       <v-flex xs3 md2 v-show="!visible">
         <filters class="left-frozen"></filters>
@@ -43,6 +44,7 @@ import ArticleHolder from '@/components/ArticleHolder'
 import ArticleDetails from '@/components/ArticleDetails'
 import AssessmentsContainer from '@/components/AssessmentsContainer'
 import boostersList from '@/components/BoostersList'
+import assessmentHistory from '@/components/AssessmentHistory'
 import Filters from '@/components/Filters'
 import Loading from '@/components/Loading'
 
@@ -56,6 +58,7 @@ export default {
     'article-details': ArticleDetails,
     'assessments-container': AssessmentsContainer,
     'boosters-list': boostersList,
+    'assessment-history': assessmentHistory,
     'filters': Filters,
     'loading': Loading
   },

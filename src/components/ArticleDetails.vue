@@ -298,6 +298,7 @@ export default {
 
       this.getAuthUserPostAssessment()
       .then(() => {
+        console.log('bade post ', this.assessment)
         if (Object.entries(this.assessment).length != 0) {
             this.disableBoost = false;
             this.assessmentBody = this.assessment.body;

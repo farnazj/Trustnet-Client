@@ -32,12 +32,14 @@ export default {
   },
   computed: {
     getInitials: function() {
-      if (!this.user.systemMade)
-        return (this.user.firstName.charAt(0) + this.user.lastName.charAt(0)).toUpperCase();
-      else {
-        let cropped_arr = this.user.userName.replace('The', '').trim().split(' ');
-        let inits = cropped_arr.map(el => el.charAt(0).toUpperCase());
-        return inits.join('');
+      if (Object.entries(this.user).length) {
+        if (!this.user.systemMade)
+          return (this.user.firstName.charAt(0) + this.user.lastName.charAt(0)).toUpperCase();
+        else {
+          let cropped_arr = this.user.userName.replace('The', '').trim().split(' ');
+          let inits = cropped_arr.map(el => el.charAt(0).toUpperCase());
+          return inits.join('');
+        }
       }
     },
     getCroppedUserName: function() {

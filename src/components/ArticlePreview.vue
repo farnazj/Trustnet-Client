@@ -53,7 +53,8 @@
                           <v-icon class="mr-4" v-else-if="key == 'refuted' && item.length">fas fa-times</v-icon>
                           <v-icon class="mr-4" v-else-if="key == 'questioned' && item.length">fas fa-question</v-icon>
 
-                          <custom-avatar v-for="assessment in item.slice(0,3)" :key="assessment.id" :class="{transitive: assessment.isTransitive}"
+                          <custom-avatar v-for="assessment in item.slice(0,3)" :key="assessment.lastVersion.id"
+                          :class="{transitive: assessment.lastVersion.isTransitive}"
                           :user="assessment.assessor" :clickEnabled="true" class="mr-2"></custom-avatar>
 
                           <span v-if="item.length > 3" class="headline">...</span>
@@ -182,18 +183,31 @@
         for (let key in this.assessments)
           this.assessments[key] = [];
 
+        let assessmentsBySource = {};
         this.post.PostAssessments.forEach(post_assessment => {
-         let assessment_obj = {};
-         for (const [key, value] of Object.entries(post_assessment)) {
-           assessment_obj[key] = value;
-         }
-         sourceServices.getSourceById(post_assessment.SourceId)
-         .then(response => {
-           assessment_obj['assessor'] = response.data;
-           let cred_value = validityMapping[post_assessment.postCredibility.toString()];
-           this.assessments[cred_value].push(assessment_obj);
-         })
+
+          if (!(post_assessment.SourceId in assessmentsBySource)) {
+            let assessments_obj = {};
+            assessments_obj['history'] = [];
+            assessmentsBySource[post_assessment.SourceId] = assessments_obj;
+          }
+
+          if (post_assessment.version == 1) {
+            assessmentsBySource[post_assessment.SourceId]['lastVersion'] = post_assessment;
+          }
+          else {
+            assessmentsBySource[post_assessment.SourceId]['history'].push(post_assessment);
+          }
        })
+
+       for (const [SourceId, assessments_obj] of Object.entries(assessmentsBySource)) {
+          let cred_value = validityMapping[assessments_obj.lastVersion.postCredibility.toString()];
+          sourceServices.getSourceById(SourceId)
+          .then(response => {
+            assessmentsBySource[SourceId]['assessor'] = response.data;
+            this.assessments[cred_value].push(assessments_obj);
+          })
+       }
 
       },
       fetchSeenStatus: function() {
@@ -232,7 +246,7 @@
       this.fetchSeenStatus();
     },
     watch: {
-      post: function() {
+      post: function(val) {
         this.fetchAssociations();
       }
     }

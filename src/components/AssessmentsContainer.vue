@@ -14,7 +14,7 @@
 
           <v-flex xs11>
             <v-layout row justify-center>
-              <p class="pb-0 mb-0 subheading font-weight-medium">Assessments</p>
+              <p class="pb-0 mb-0 subheading font-weight-regular">Assessments</p>
             </v-layout>
           </v-flex>
 
@@ -29,7 +29,8 @@
          </v-card-title>
 
          <template v-for="assessment in getAssessmentsSlice('questioned')" >
-           <inner-assessment :assessment="assessment" :key="assessment.id"> </inner-assessment>
+           <inner-assessment :assessmentObj="assessment" :namespace="namespace"
+            :key="assessment.lastVersion.id"></inner-assessment>
          </template>
 
         </v-flex>
@@ -59,7 +60,8 @@
              <v-divider ></v-divider>
 
               <template v-for="assessment in getAssessmentsSlice(key)" >
-                <inner-assessment :assessment="assessment" :key="assessment.id"> </inner-assessment>
+                <inner-assessment :assessmentObj="assessment" :namespace="namespace"
+                :key="assessment.lastVersion.id"></inner-assessment>
               </template>
 
               <v-layout row class="pa-1">
@@ -151,7 +153,6 @@ export default {
   watch: {
     assessments: function() {
       this.resetRevealedSize();
-
     }
   }
 

@@ -17,12 +17,6 @@ export default {
   mutations: {
     set_drawer_visibility: (state, visiblity) => {
       state.drawerVisible = visiblity;
-
-      // const body = document.body;
-      // if (visiblity)
-      //   body.classList.add('dialog-is-open');
-      // else
-      //   body.classList.remove('dialog-is-open');
     },
 
     populate_drawer: (state, article) => {
@@ -64,7 +58,8 @@ export default {
       return new Promise((resolve, reject) => {
         assessmentServices.getPostSourceAssessment(auth_userid, context.state.article.id)
         .then(response => {
-          context.commit('set_assessment', response.data);
+          let assessment = response.data.length ? response.data[0] : {};
+          context.commit('set_assessment', assessment);
           resolve();
         })
         .catch(err => {
@@ -99,8 +94,7 @@ export default {
 
     setBoostersVisibility: (context, payload) => {
       context.commit('set_boosters_visibility', payload);
-    },
-
+    }
 
   }
 }
