@@ -104,7 +104,7 @@
 <script>
   import customAvatar from '@/components/CustomAvatar'
   import sourceHelpers from '@/mixins/sourceHelpers'
-  import { mapGetters, mapActions } from 'vuex';
+  import { mapState, mapGetters, mapActions } from 'vuex';
 
   export default {
     components: {
@@ -127,9 +127,14 @@
       this.resetSourceCheckbox();
     },
     computed: {
+      ...mapState('articleFilters', [
+          'validity_filter',
+          'source_filter',
+          'seen_filter'
+      ]),
       ...mapGetters('relatedSources', [
        'followedOrTrusteds'
-     ])
+      ])
 
     },
     methods: {
@@ -196,6 +201,17 @@
         'fetchTrusteds'
       ])
 
+    },
+    watch: {
+      validity_filter: function(val) {
+        this.selected_filters['validity'] = val.toLowerCase().split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' ');
+      },
+      source_filter: function(val) {
+        this.selected_filters['sources'] = val.toLowerCase().split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' ');
+      },
+      seen_filter: function(val) {
+        this.selected_filters['seen_status'] = val.toLowerCase().split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' ');
+      }
     },
     mixins: [sourceHelpers]
 

@@ -199,7 +199,14 @@ export default {
           }
           else {
             this.menu = false;
-            this.refreshArticles();
+            this.applyFilter({
+              'filters': {
+                'validity': 'All',
+                'sources': 'Followed',
+                'seen_status':'Not Seen'
+              },
+              'source_usernames': []
+            });
           }
 
         })
@@ -223,9 +230,15 @@ export default {
           }
           else {
             this.menu = false;
-            this.refreshArticles();
+            this.applyFilter({
+              'filters': {
+                'validity': 'All',
+                'sources': 'Followed',
+                'seen_status':'Not Seen'
+              },
+              'source_usernames': []
+            });
           }
-
         })
 
       }
@@ -239,7 +252,7 @@ export default {
       this.menu = false;
     },
     ...mapActions('articleFilters', [
-      'refreshArticles'
+      'applyFilter'
     ])
   }
 

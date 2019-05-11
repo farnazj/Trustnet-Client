@@ -6,14 +6,12 @@ export default {
   state: {
     validity_filter: 'All',
     source_filter: 'Followed',
-    seen_filter: 'not seen',
+    seen_filter: 'Not Seen',
     source_usernames: [],
     articles: [],
     offset: 0,
     limit: 10,
     articles_fetched: false
-  },
-  getters: {
   },
   mutations: {
     append_articles: (state, posts) => {
@@ -117,7 +115,7 @@ export default {
     applyFilter: (context, payload) => {
       context.dispatch('loader/setLoading', true, { root: true });
 
-      context.commit('refresh_articles', false);
+      context.commit('refresh_articles');
       context.commit('set_fetch_status', false);
       context.commit('change_filter_value', payload);
 
