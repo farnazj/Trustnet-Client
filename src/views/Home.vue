@@ -71,13 +71,17 @@ export default {
      'visible'
    ])
  },
+ beforeRouteLeave (to, from, next) {
+   this.hideContainer();
+   next();
+ },
  methods: {
    hideAssessments: function() {
      this.hideContainer();
    },
    ...mapActions('homeAssessments', [
-     'hideContainer',
-   ]),
+     'hideContainer'
+   ])
  }
 }
 </script>

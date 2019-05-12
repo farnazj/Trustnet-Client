@@ -187,6 +187,10 @@ export default {
     this.getUser();
     next();
   },
+  beforeRouteLeave (to, from, next) {
+    this.hideContainer();
+    next();
+  },
   methods: {
     updateAuthUser: function() {
       this.updateUser();
@@ -241,10 +245,14 @@ export default {
     ]),
     ...mapActions('auth', [
       'updateUser'
+    ]),
+    ...mapActions('profileAssessments', [
+      'hideContainer'
     ])
   },
   watch: {
     username: function() {
+      this.hideContainer();
       this.getUser();
     }
   }
