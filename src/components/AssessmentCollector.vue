@@ -7,7 +7,7 @@
         <v-select :items="validity_status" v-model="credibility"
           item-text="label" item-value="value"
           label="Article Validity" outline required
-          :rules="validityRules">
+          :rules="validityRules.selectRules">
 
           <template slot="item" slot-scope="data" >
             <div v-html="data.item.label" :class="data.item.color">
@@ -26,8 +26,8 @@
 
     <v-layout row>
       <v-flex xs12>
-        <v-textarea v-model="assessmentText"
-          label="Provide your reasoning(?)">
+        <v-textarea v-model="assessmentText" :rules="credibility - 2 != 0 ? validityRules.bodyRules : []"
+          label="Provide your reasoning">
         </v-textarea>
       </v-flex>
     </v-layout>
@@ -85,6 +85,9 @@ export default {
     postCredibility: function() {
       this.assessmentText = this.assessmentBody;
       this.credibility = this.credibilitySelectMapping(this.postCredibility);
+    },
+    crediblity: function(val) {
+      console.log('new cred val is ', val)
     }
   }
 

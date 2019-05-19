@@ -241,9 +241,14 @@ export default {
       boostMenu: false,
       postCredibility: null,
       assessmentBody: '',
-      assessmentValidityRules: [
-        v => !!v || 'Assess the accuracy of the article'
-      ],
+      assessmentValidityRules: {
+        selectRules: [
+          v => !!v || 'Assess the accuracy of the article'
+        ],
+        bodyRules: [
+          v => !!v || 'You should add your reasoning'
+        ]
+      },
       assessmentAlert: false,
       boostAlert: false,
       fab: false,
