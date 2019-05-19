@@ -3,11 +3,11 @@
 
     <v-layout row class="mb-2" align-center wrap>
         <assessor :user="assessmentObj.assessor" :clickEnabled="true" :isTransitive="assessmentObj.lastVersion.isTransitive"
-          :credibilityValue="assessmentObj.lastVersion.postCredibility">
+          :credibilityValue="assessmentObj.lastVersion.postCredibility" class="mb-1">
         </assessor>
         <span v-if="assessmentObj.lastVersion.postCredibility != 0" class="ml-2 mr-1 caption grey--text text--darken-1"> {{confidency}}</span>
         <span v-if="assessmentObj.lastVersion.isTransitive" class="ml-2 mr-1 caption grey--text text--darken-1 "> Adopted through their network</span>
-        <span class="ml-2 caption grey--text text--darken-3"> {{timeElapsed(assessmentObj.lastVersion.updatedAt)}} </span>
+        <span class="ml-2 caption grey--text text--darken-3"> {{timeElapsed(assessmentObj.lastVersion.createdAt)}} </span>
         <span v-if="assessmentObj.history.length" class="ml-2 caption grey--text text--darken-1 cursor-pointer" @click.stop="showHistory">
           Edited</span>
     </v-layout>

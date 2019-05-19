@@ -57,7 +57,7 @@ function compareAssessments(a, b) {
       else if ( (a_credVal != 0 && b_credVal == 0) || (a_credVal < b_credVal) )
         return 1;
       else
-        return compareNames(a, b);
+        return compareNames(a.assessor, b.assessor);
     }
   }
 
@@ -78,7 +78,7 @@ function compareBoosters(a, b) {
   if (compareVal != 0)
     return compareVal;
   else
-    return compareNames(a, b);
+    return compareNames(a.booster, b.booster);
 }
 
 function getUnique(arr, comp) {

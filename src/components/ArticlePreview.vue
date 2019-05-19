@@ -31,7 +31,7 @@
                 <v-flex xs12>
                   <v-card-title primary-title class="pt-0">
                    <div>
-                     <h3 class="mb-2">{{post.title}}</h3>
+                     <h3 class="mb-2 cursor-pointer">{{post.title}}</h3>
                      <p class="grey--text text--darken-3">{{post.description}}</p>
                    </div>
                 </v-card-title>

@@ -27,11 +27,11 @@
          <template v-for="assessment in assessmentHistory">
            <v-layout row :key="assessment.id" align-center class="py-1">
             <v-flex xs12>
-              <p class="font-italic font-weight-light mb-0">{{validityMapping[assessment.postCredibility]}}</p>
+              <p class="font-italic font-weight-light mb-0">{{validityMapping(assessment.postCredibility)}}</p>
               <p v-if="assessment.body">
                 {{assessment.body}}
               </p>
-              <span class="caption grey--text text--darken-2">{{timeElapsed(assessment.updatedAt)}}</span>
+              <span class="caption grey--text text--darken-2">{{timeElapsed(assessment.createdAt)}}</span>
 
             </v-flex>
          </v-layout>
@@ -63,11 +63,6 @@ export default {
   },
   data: () => {
     return {
-      validityMapping: {
-        '-1': 'This article is inaccurate.',
-        '0': 'I want to know about the validity of this article.',
-        '1': 'This article is accurate.'
-      }
     }
   },
   computed: {
@@ -92,6 +87,14 @@ export default {
     })
   },
   methods: {
+    validityMapping: function(val){
+      if (val < 0)
+        return 'This article is inaccurate.';
+      else if (val == 0)
+        return 'I want to know about the validity of this article.';
+      else if (val > 0)
+        return 'This article is accurate.'
+    },
     hideHistory: function() {
       this.setHistoryVisibility(false);
     },

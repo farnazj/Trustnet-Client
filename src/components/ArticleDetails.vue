@@ -49,14 +49,17 @@
 
          </v-menu>
 
-         <v-menu v-model="boostMenu"
-           :close-on-content-click="false" :disabled="disableBoost"
-           :nudge-width="350" offset-y left attach>
+            <v-tooltip bottom :disabled="!disableBoost" >
+              <template v-slot:activator="{ on }">
 
-           <v-btn flat icon color="blue darken-1" class="mr-4" slot="activator"
-           :disabled="disableBoost">
-             <v-icon >fas fa-share</v-icon>
-           </v-btn>
+             <v-menu v-model="boostMenu"
+               :close-on-content-click="false" :disabled="disableBoost"
+               :nudge-width="350" offset-y left attach>
+
+               <v-btn flat icon color="blue darken-1" :class="['mr-4', 'reset-pointer-events',
+                {'v-btn--disabled': disableBoost }]" slot="activator" v-on="on">
+                 <v-icon >fas fa-share</v-icon>
+               </v-btn>
 
            <v-form ref="boostMenu" lazy-validation>
              <v-card>
@@ -89,6 +92,9 @@
              </v-alert>
 
           </v-menu>
+          </template>
+          <span >To share the article, first you need to assess it.</span>
+        </v-tooltip>
 
 
          </v-flex>
@@ -166,7 +172,7 @@
              <v-flex xs10>
                <v-card-text class="body-text">
                  <div v-if="!editMode">
-                   <p v-if="article.body" class="sth">
+                   <p v-if="article.body">
                      {{article.body}}
                    </p>
                    <p v-else-if="article.description">
@@ -318,6 +324,9 @@ export default {
     }
   },
   methods: {
+    hiii: function() {
+      console.log('hiii')
+    },
     postAssessment: function() {
       if (this.$refs.assessmentMenu.validate()) {
         let reqBody = {
@@ -450,5 +459,9 @@ export default {
 .save-edits {
   position: sticky;
   top: 90vh;
+}
+
+.reset-pointer-events {
+  pointer-events: auto !important;
 }
 </style>

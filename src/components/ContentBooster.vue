@@ -109,8 +109,6 @@
 
                   <v-layout row>
                     <v-flex xs12>
-                      <span>Select your target audience or leave this empty to
-                        include everyone</span>
                       <source-selector ref="importTargets" class="mt-2">
                       </source-selector>
                     </v-flex>
@@ -134,7 +132,7 @@
         </v-tabs>
 
         <v-alert v-model="alert" type="error" dismissible>
-          Something went wrong. Try again later.
+          {{alertMessage}}
         </v-alert>
       </v-menu>
 
@@ -176,12 +174,19 @@ export default {
         urlRules: [
           v => !!v || 'URL is required'
         ],
-        validityRules: [
-          v => !!v || 'Assess the accuracy of the article'
-        ]
+        validityRules: {
+          selectRules: [
+            v => !!v || 'Assess the accuracy of the article'
+          ],
+          bodyRules: [
+            v => !!v || 'You should add your reasoning'
+          ]
+        }
       },
-      alert: false
-
+      alert: false,
+      alertMessage: '',
+      createMessage: 'Something went wrong. Try again later.',
+      importMessage: 'Something went wrong. Check that the URL is correct and try again later.'
     }
   },
   methods: {
@@ -195,6 +200,7 @@ export default {
         postServices.initiatePost(params)
         .then(response => {
           if (response.status != 200) {
+            this.alertMessage = this.createMessage;
             this.alert = true;
           }
           else {
@@ -225,7 +231,9 @@ export default {
 
         postServices.importArticle(params)
         .then(response => {
+          console.log(response)
           if (response.status != 200) {
+            this.alertMessage = this.importMessage;
             this.alert = true;
           }
           else {
@@ -240,7 +248,10 @@ export default {
             });
           }
         })
-
+        .catch(err => {
+          this.alertMessage = this.importMessage;
+          this.alert = true;
+        })
       }
       else {
         console.log('invalid')
