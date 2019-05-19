@@ -9,11 +9,9 @@ function compareNames(a, b) {
   return source_names[0].localeCompare(source_names[1]);
 }
 
-function compare2Sources(a, b, id_key) {
+function compare2Sources(a_id, b_id) {
 
   let auth_userid = store.getters['auth/user'].id;
-  let a_id = a[id_key];
-  let b_id = b[id_key];
 
   if (a_id == auth_userid)
     return -1;
@@ -35,7 +33,7 @@ function compare2Sources(a, b, id_key) {
     else if (trusted_ids.includes(b_id))
       return 1;
     else
-      compareNames(a, b);
+      return 0;
   }
 
 }
@@ -46,17 +44,41 @@ function compareAssessments(a, b) {
     return -1;
   else if (a.lastVersion.isTransitive && !b.lastVersion.isTransitive)
     return 1;
-  else
-    return compare2Sources(a.assessor, b.assessor, 'SourceId');
+  else {
+    let compareVal = compare2Sources(a.assessor.SourceId, b.assessor.SourceId);
+    if (compareVal != 0)
+      return compareVal;
+    else {
+      let a_credVal = Math.abs(a.lastVersion.postCredibility);
+      let b_credVal = Math.abs(b.lastVersion.postCredibility);
+
+      if ( (a_credVal == 0 && b_credVal != 0) || (a_credVal > b_credVal) )
+        return -1;
+      else if ( (a_credVal != 0 && b_credVal == 0) || (a_credVal < b_credVal) )
+        return 1;
+      else
+        return compareNames(a, b);
+    }
+  }
+
 }
 
 
 function compareSources(a, b) {
-  return compare2Sources(a, b, 'id')
+  let compareVal = compare2Sources(a.id, b.id);
+  if (compareVal != 0)
+    return compareVal;
+  else
+    return compareNames(a, b);
+
 }
 
 function compareBoosters(a, b) {
-  return compare2Sources(a.booster, b.booster, 'id');
+  let compareVal = compare2Sources(a.booster.id, b.booster.id);
+  if (compareVal != 0)
+    return compareVal;
+  else
+    return compareNames(a, b);
 }
 
 function getUnique(arr, comp) {
