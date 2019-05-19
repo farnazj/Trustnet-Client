@@ -27,7 +27,7 @@ export default {
   },
   data () {
     return {
-      defaultSize: 40
+      defaultSize: 36
     }
   },
   computed: {

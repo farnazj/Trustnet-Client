@@ -1,16 +1,15 @@
 <template>
   <div  class="pa-1">
 
-    <v-layout row class="mb-2">
-      <v-flex xs12>
-        <custom-avatar :user="assessmentObj.assessor" :clickEnabled="true" :size="35"
-         :class="{transitive: assessmentObj.lastVersion.isTransitive}">
-        </custom-avatar>
-        <span v-if="assessmentObj.lastVersion.isTransitive" class="ml-2 mr-1 caption grey--text text--darken-1"> Adopted through their network</span>
+    <v-layout row class="mb-2" align-center wrap>
+        <assessor :user="assessmentObj.assessor" :clickEnabled="true" :isTransitive="assessmentObj.lastVersion.isTransitive"
+          :credibilityValue="assessmentObj.lastVersion.postCredibility">
+        </assessor>
+        <span v-if="assessmentObj.lastVersion.postCredibility != 0" class="ml-2 mr-1 caption grey--text text--darken-1"> {{confidency}}</span>
+        <span v-if="assessmentObj.lastVersion.isTransitive" class="ml-2 mr-1 caption grey--text text--darken-1 "> Adopted through their network</span>
         <span class="ml-2 caption grey--text text--darken-3"> {{timeElapsed(assessmentObj.lastVersion.updatedAt)}} </span>
         <span v-if="assessmentObj.history.length" class="ml-2 caption grey--text text--darken-1 cursor-pointer" @click.stop="showHistory">
           Edited</span>
-      </v-flex>
     </v-layout>
 
     <v-layout row v-if="assessmentObj.lastVersion.body" class="pa-1 pr-2 assessment-text">
@@ -37,12 +36,14 @@
 
 <script>
 import customAvatar from '@/components/CustomAvatar'
+import assessor from '@/components/Assessor'
 import timeHelpers from '@/mixins/timeHelpers'
 import { mapActions } from 'vuex'
 
 export default {
   components: {
-   'custom-avatar': customAvatar
+   'custom-avatar': customAvatar,
+   'assessor': assessor
   },
   props: {
     namespace: {
@@ -65,6 +66,10 @@ export default {
     },
     bodyWordCount: function() {
       return this.assessmentObj.lastVersion.body.split(' ').length;
+    },
+    confidency: function() {
+      let percentage = Math.abs(Math.round(this.assessmentObj.lastVersion.postCredibility * 100));
+      return percentage + '% confident';
     }
   },
   methods: {
@@ -92,6 +97,9 @@ export default {
 <style scoped>
 .assessment-text p {
   font-size: 0.92em;
+}
+.center-align {
+  vertical-align: middle;
 }
 
 </style>

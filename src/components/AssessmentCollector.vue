@@ -67,14 +67,24 @@ export default {
       ]
     }
   },
+  methods: {
+    credibilitySelectMapping: function(credValue) {
+      if (credValue < 0)
+        return consts.VALIDITY_CODES.REFUTED + 2;
+      else if (credValue > 0)
+        return consts.VALIDITY_CODES.CONFIRMED + 2;
+      else if (credValue == 0)
+        return consts.VALIDITY_CODES.QUESTIONED + 2;
+    }
+  },
   watch: {
     assessmentId: function() {
       this.assessmentText = this.assessmentBody;
-      this.credibility = this.postCredibility;
+      this.credibility = this.credibilitySelectMapping(this.postCredibility);
     },
     postCredibility: function() {
       this.assessmentText = this.assessmentBody;
-      this.credibility = this.postCredibility;
+      this.credibility = this.credibilitySelectMapping(this.postCredibility);
     }
   }
 

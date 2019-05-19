@@ -17,7 +17,7 @@
           :close-on-content-click="false"
           :nudge-width="120" offset-y left attach>
 
-            <custom-avatar v-if="Object.entries(user).length"
+            <custom-avatar v-if="Object.entries(user).length" :size=40
               :user="user" :clickEnabled="false" slot="activator" ></custom-avatar>
             <v-card>
               <v-list>

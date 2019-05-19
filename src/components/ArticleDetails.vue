@@ -301,7 +301,7 @@ export default {
         if (Object.entries(this.assessment).length != 0) {
             this.disableBoost = false;
             this.assessmentBody = this.assessment.body;
-            this.postCredibility = parseInt(this.assessment.postCredibility) + 2;
+            this.postCredibility = parseFloat(this.assessment.postCredibility);
           }
           else {
             this.disableBoost = true;

@@ -48,16 +48,19 @@
 
                     <v-layout row wrap v-for="(item, key, index) in sortedAssessments" :key="index">
                       <v-flex xs12 :class="item.length ? 'mb-2' : 'mb-0' " >
-                        <v-layout align-center>
+                        <v-layout align-center wrap>
                           <v-icon class="mr-3" v-if="key == 'confirmed' && item.length">fas fa-check</v-icon>
                           <v-icon class="mr-4" v-else-if="key == 'refuted' && item.length">fas fa-times</v-icon>
                           <v-icon class="mr-4" v-else-if="key == 'questioned' && item.length">fas fa-question</v-icon>
 
-                          <custom-avatar v-for="assessment in item.slice(0,3)" :key="assessment.lastVersion.id"
-                          :class="{transitive: assessment.lastVersion.isTransitive}"
-                          :user="assessment.assessor" :clickEnabled="true" class="mr-2"></custom-avatar>
 
-                          <span v-if="item.length > 3" class="headline">...</span>
+                          <assessor v-for="assessment in item.slice(0,3)" :key="assessment.lastVersion.id"
+                            :user="assessment.assessor" :isTransitive="assessment.lastVersion.isTransitive"
+                            :credibilityValue="assessment.lastVersion.postCredibility" class="mr-2 mb-2">
+                          </assessor>
+
+                          <span v-if="item.length > 3" >...</span>
+
                         </v-layout>
                         </v-flex>
                     </v-layout>
@@ -101,18 +104,19 @@
 
 <script>
   import customAvatar from '@/components/CustomAvatar'
+  import assessor from '@/components/Assessor'
   import initiatorDisplay from '@/components/InitiatorDisplay'
   import sourceServices from '@/services/sourceServices'
   import postServices from '@/services/postServices'
+  import consts from '@/services/constants'
   import utils from '@/services/utils'
   import { mapState, mapActions } from 'vuex'
-
-  const validityMapping = { '-1': 'refuted', '0': 'questioned', '1': 'confirmed'};
 
   export default {
     components: {
      'custom-avatar': customAvatar,
-     'initiator-display': initiatorDisplay
+     'initiator-display': initiatorDisplay,
+     'assessor': assessor
     },
     props: {
       detailsNamespace: {
@@ -166,6 +170,14 @@
       revealAssessments: function() {
         this.showAssessments(this.assessments);
       },
+      validityMapping: function(credibility) {
+        if (credibility < consts.VALIDITY_CODES.QUESTIONED)
+          return 'refuted';
+        else if (credibility == consts.VALIDITY_CODES.QUESTIONED)
+          return 'questioned';
+        else if (credibility > consts.VALIDITY_CODES.QUESTIONED)
+          return 'confirmed';
+      },
       fetchAssociations: function() {
         this.boostObjects = [];
         this.post.PostBoosts.forEach(postBoost => {
@@ -200,7 +212,7 @@
        })
 
        for (const [SourceId, assessments_obj] of Object.entries(assessmentsBySource)) {
-          let cred_value = validityMapping[assessments_obj.lastVersion.postCredibility.toString()];
+          let cred_value = this.validityMapping(assessments_obj.lastVersion.postCredibility);
           sourceServices.getSourceById(SourceId)
           .then(response => {
             assessmentsBySource[SourceId]['assessor'] = response.data;

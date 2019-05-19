@@ -19,7 +19,7 @@
         </v-layout>
       </div>
 
-      <v-flex xs7  :offset-xs1="!visible" :class="{'pl-4':visible}" >
+      <v-flex xs7  :offset-xs1="!visible" :class="{'ml-4':visible}" >
         <article-holder detailsNamespace="homeArticleDetails" filtersNamespace="articleFilters"
           assessmentsNamespace="homeAssessments">
        </article-holder>
