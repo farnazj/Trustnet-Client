@@ -40,7 +40,7 @@ export default {
   computed: {
     valueColor: function() {
       if (this.credibilityValue < 0)
-        return 'red lighten-1';
+        return 'red lighten-2';
       // else if (this.credibilityValue == 0)
       //   return 'orange darken-1';
       else if (this.credibilityValue > 0)
@@ -98,8 +98,8 @@ $bg-color= #ffffff; //srodkowy bezowy
 
 // colors customized
 
-$primary-color-green= #388E3C;
-$primary-color-red= #EF5350;
+$primary-color-green= #43A047;
+$primary-color-red= #E57373;
 $primary-color-orange= #FB8C00;
 $primary-color-span= #3c4761;
 

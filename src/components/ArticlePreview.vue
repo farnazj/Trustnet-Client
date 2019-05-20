@@ -12,7 +12,7 @@
 
         <v-card @click="revealArticleDetails(post)" class="pa-1 pb-2" flat>
           <v-layout row>
-            <v-flex xs4>
+            <v-flex xs3>
               <v-layout row>
                 <v-flex xs12>
                   <v-img v-if="post.image" :src="post.image" contain class="rounded"> </v-img>
@@ -41,7 +41,7 @@
 
             </v-flex>
 
-            <v-flex xs3>
+            <v-flex xs4>
               <v-layout col justify-space-around fill-height wrap>
 
                   <v-flex xs12 >
