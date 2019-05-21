@@ -191,7 +191,7 @@
              </v-flex>
            </v-layout>
 
-           <v-layout row justify-center class="mt-2">
+           <v-layout row justify-center class="mt-2 mb-3">
              <v-flex xs6>
                <v-card-actions v-if="article.url">
                  <v-btn outline block color="blue darken-1"
@@ -202,10 +202,17 @@
              </v-flex>
            </v-layout>
 
+           <v-divider></v-divider>
+
+           <v-layout class="mt-2" row justify-center>
+            <div class="fb-comments ma-1" :data-href="facebookCommentsURL"
+            data-width="500" data-numposts="5"></div>
+           </v-layout>
+
          </v-container>
 
-
        </v-layout>
+
      </v-card>
 
    </v-navigation-drawer>
@@ -220,6 +227,7 @@ import sourceSelector from '@/components/SourceSelector'
 import deleteConfirmationDialog from '@/components/DeleteConfirmationDialog'
 
 import postServices from '@/services/postServices'
+import consts from '@/services/constants'
 import { mapState, mapGetters, mapActions } from 'vuex'
 
 export default {
@@ -266,7 +274,6 @@ export default {
     }
   },
   computed: {
-
     articleDetailsVisible: {
       get: function() {
         return this.drawerVisible;
@@ -277,6 +284,9 @@ export default {
 
         this.setDrawerVisibility(newValue);
       }
+    },
+    facebookCommentsURL: function() {
+      return consts.FBCommentsBaseURL + '/' + this.article.id;
     },
     AuthUserIsOwner: function() {
       return this.user && this.article.SourceId == this.user.id;
@@ -321,12 +331,14 @@ export default {
             this.$refs.assessmentMenu.resetValidation();
           }
       });
+    },
+    facebookCommentsURL: function() {
+      setTimeout(function() {
+        window.FB.XFBML.parse();
+      }, 100)
     }
   },
   methods: {
-    hiii: function() {
-      console.log('hiii')
-    },
     postAssessment: function() {
       if (this.$refs.assessmentMenu.validate()) {
         let reqBody = {

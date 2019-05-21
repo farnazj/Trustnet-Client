@@ -33,6 +33,10 @@ export default {
     return Api().delete('/posts/' + params.postId,
     { withCredentials: true })
   },
+  getPost(params) {
+    return Api().get('/posts/' + params.postId,
+    { withCredentials: true })
+  },
   getActivity(params) {
     return Api().get('/activity/' + params.username + '?limit=' + params.limit +
      '&offset=' + params.offset, {

@@ -48,8 +48,8 @@ import assessmentHistory from '@/components/AssessmentHistory'
 import Filters from '@/components/Filters'
 import Loading from '@/components/Loading'
 
+import postServices from '@/services/postServices'
 import { mapState, mapActions } from 'vuex'
-
 
 export default {
   components: {
@@ -62,6 +62,7 @@ export default {
     'filters': Filters,
     'loading': Loading
   },
+  props: ['postid'],
   data () {
     return {
     }
@@ -75,12 +76,27 @@ export default {
    this.hideContainer();
    next();
  },
+ created() {
+   if (this.postid)
+    this.showArticleDetails();
+ },
  methods: {
+   /*this function is for the path /test/:postid which directs to the same
+   component as home*/
+   showArticleDetails: function() {
+     postServices.getPost({postId: this.postid})
+     .then((res) => {
+       this.showArticleDrawer(res.data);
+     })
+   },
    hideAssessments: function() {
      this.hideContainer();
    },
    ...mapActions('homeAssessments', [
      'hideContainer'
+   ]),
+   ...mapActions('homeArticleDetails', [
+     'showArticleDrawer'
    ])
  }
 }

@@ -23,6 +23,15 @@ let router = new Router({
       }
     },
     {
+      path: '/test/:postid',
+      name: 'details',
+      component: Home,
+      props: true,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
       path: '/sources',
       name: 'sources',
       component: Settings,
