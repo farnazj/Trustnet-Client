@@ -81,7 +81,6 @@ export default {
       return new Promise((resolve, reject) => {
         commit('auth_request');
         authServices.signup(user).then(resp => {
-          //const user = resp.data.user
           //commit('auth_success', user);
           resolve(resp);
         })

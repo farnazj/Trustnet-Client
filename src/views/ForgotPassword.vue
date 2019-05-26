@@ -29,7 +29,7 @@
 
             <v-layout row justify-center>
               <v-card-actions class="mb-2">
-                <v-btn tabindex="3" depressed color="primary" @click="sendEmail">Submit</v-btn>
+                <v-btn tabindex="3" depressed color="primary" @click="sendEmail" :disabled="disabled">Submit</v-btn>
               </v-card-actions>
             </v-layout>
 
@@ -59,7 +59,8 @@ export default {
         ]
       },
       alertMessage: '',
-      alert: false
+      alert: false,
+      disabled: false
     }
   },
   methods: {
@@ -71,6 +72,7 @@ export default {
         .then(response => {
           this.alertMessage = response.data.message;
           this.alert = true;
+          this.disabled = true;
         })
         .catch(err => {
           console.log(err)

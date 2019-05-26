@@ -10,7 +10,7 @@
           {{alertMessage}}
         </v-alert>
 
-        <v-form ref="resetPasswordForm">
+        <v-form ref="resetPasswordForm" v-if="!loginVisible">
           <v-card>
             <v-container fluid>
               <v-layout row justify-center>
@@ -31,33 +31,35 @@
                 </v-text-field>
               </v-layout>
 
-            </v-container>
 
             <v-layout row justify-center>
               <v-card-actions class="mb-2">
                 <v-btn tabindex="3" depressed color="primary" @click="resetPassword">Submit</v-btn>
               </v-card-actions>
             </v-layout>
-
-            <v-fade-transition v-if="loginVisible">
-              <v-container>
-                <v-divider></v-divider>
-                <v-layout row justify-center>
-                  <v-card-title primary-title>
-                    <h3 class="headline">Proceed to Log in</h3>
-                  </v-card-title>
-                </v-layout>
-
-                <v-layout row justify-center>
-                  <v-card-actions>
-                    <v-btn tabindex="8" depressed @click="goToLogin">Go to login</v-btn>
-                  </v-card-actions>
-                </v-layout>
-              </v-container>
-            </v-fade-transition>
+          </v-container>
 
           </v-card>
         </v-form>
+
+        <v-fade-transition v-if="loginVisible">
+          <v-card>
+            <v-container>
+              <v-layout row justify-center>
+                <v-card-title primary-title>
+                  <h3 class="headline">Proceed to Log in</h3>
+                </v-card-title>
+              </v-layout>
+
+              <v-layout row justify-center>
+                <v-card-actions>
+                  <v-btn tabindex="8" depressed @click="goToLogin">Go to login</v-btn>
+                </v-card-actions>
+              </v-layout>
+            </v-container>
+          </v-card>
+        </v-fade-transition>
+
       </v-flex>
     </v-layout>
   </v-container>

@@ -19,7 +19,10 @@ export default {
    },
    resetPassword(params, reqBody) {
      return Api().post('/reset-password/' + params.token,
-      reqBody);
+      reqBody)
+   },
+   verifyAccount(params) {
+     return Api().post('/verify-account/' + params.token)
    }
 
 }

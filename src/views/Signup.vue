@@ -7,7 +7,7 @@
 
     <v-layout justify-center align-center row fill-height class="pt-5 full-height">
       <v-flex xs6 lg4 align-self-center>
-        <v-alert v-model="alert" type="error">
+        <v-alert v-model="alert" :type="type">
           {{alertMessage}}
         </v-alert>
 
@@ -60,7 +60,8 @@
 
             <v-layout row justify-center>
               <v-card-actions class="mb-2">
-                <v-btn tabindex="7" depressed color="primary" @click="signup">Signup</v-btn>
+                <v-btn tabindex="7" depressed color="primary" @click="signup" :disabled="buttonDisabled">
+                  Signup</v-btn>
               </v-card-actions>
             </v-layout>
 
@@ -102,6 +103,7 @@ export default {
         username : "",
         email: "",
         password : "",
+        type: 'info'
       },
       match: "",
       formRules: {
@@ -123,7 +125,9 @@ export default {
         ]
       },
       alert: false,
-      alertMessage: ''
+      alertMessage: '',
+      type: 'info',
+      buttonDisabled: false
     }
   },
   methods: {
@@ -131,26 +135,22 @@ export default {
       if (this.$refs.signupForm.validate()) {
 
         this.$store.dispatch('auth/signup', this.user)
-        .then(() => {
-          let credentials = {
-            username: this.user.username,
-            password: this.user.password
-          }
-          this.$store.dispatch('auth/login', credentials)
-          .then(() => {
-            this.$router.push('/');
-          })
-
+        .then(response => {
+          this.type = 'info';
+          this.alertMessage = response.data.message;
+          this.alert = true;
+          this.buttonDisabled = true;
         })
         .catch(err => {
           this.alertMessage = err.response.data.message;
+          this.type = 'error';
           this.alert = true;
         })
 
       }
     },
     goToLogin: function() {
-      this.$router.push({name: 'Login'});
+      this.$router.push({name: 'login'});
     },
     validateField () {
         this.$refs.signupForm.validate()
@@ -165,6 +165,6 @@ export default {
 
 <style scoped>
 .full-height {
-  height: 98vh;
+  -height: 100vh;
 }
 </style>

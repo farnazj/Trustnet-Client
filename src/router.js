@@ -5,6 +5,7 @@ import Login from './views/Login.vue'
 import Signup from './views/Signup.vue'
 import ForgotPassword from './views/ForgotPassword.vue'
 import ResetPassword from './views/ResetPassword.vue'
+import VerifyAccount from './views/VerifyAccount.vue'
 import Settings from './views/Sources.vue'
 import Profile from './views/Profile.vue'
 import Invalid from './views/Invalid.vue'
@@ -70,6 +71,12 @@ let router = new Router({
       name: 'resetPassword',
       props: true,
       component: ResetPassword
+    },
+    {
+      path: '/verify-account/:token',
+      name: 'verifyAccount',
+      props: true,
+      component: VerifyAccount
     },
     {
       path: '/invalid',
