@@ -150,11 +150,11 @@ export default {
       }
     },
     goToLogin: function() {
-      this.$router.push('/login');
+      this.$router.push({name: 'Login'});
     },
     validateField () {
         this.$refs.signupForm.validate()
-      }
+    }
   },
   watch: {
     match: 'validateField'

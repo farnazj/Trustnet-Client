@@ -13,6 +13,13 @@ export default {
      return Api().post('/logout', {}, {
        withCredentials: true
      })
+   },
+   forgotPassword(reqBody) {
+     return Api().post('/forgot-password', reqBody)
+   },
+   resetPassword(params, reqBody) {
+     return Api().post('/reset-password/' + params.token,
+      reqBody);
    }
 
 }

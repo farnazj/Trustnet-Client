@@ -3,6 +3,8 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 import Login from './views/Login.vue'
 import Signup from './views/Signup.vue'
+import ForgotPassword from './views/ForgotPassword.vue'
+import ResetPassword from './views/ResetPassword.vue'
 import Settings from './views/Sources.vue'
 import Profile from './views/Profile.vue'
 import Invalid from './views/Invalid.vue'
@@ -57,6 +59,17 @@ let router = new Router({
       path: '/signup',
       name: 'signup',
       component: Signup
+    },
+    {
+      path: '/forgot-password',
+      name: 'forgotPassword',
+      component: ForgotPassword
+    },
+    {
+      path: '/reset-password/:token',
+      name: 'resetPassword',
+      props: true,
+      component: ResetPassword
     },
     {
       path: '/invalid',

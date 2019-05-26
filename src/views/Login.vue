@@ -31,6 +31,10 @@
                 </v-text-field>
               </v-layout>
 
+              <v-layout row>
+                <a @click.prevent="goToPasswordReset">Forgot your password?</a>
+              </v-layout>
+
             </v-container>
 
             <v-layout row justify-center>
@@ -76,7 +80,7 @@ export default {
     }
   },
   methods: {
-   login: function () {
+   login: function() {
      let username = this.username
      let password = this.password
      this.$store.dispatch('auth/login',
@@ -93,7 +97,10 @@ export default {
       })
     },
     goToSignup: function() {
-      this.$router.push('/signup');
+      this.$router.push({ name: 'signup' });
+    },
+    goToPasswordReset: function() {
+      this.$router.push({ name: 'forgotPassword' });
     }
   }
 }
@@ -102,6 +109,6 @@ export default {
 
 <style scoped>
 .full-height {
-  height: 98vh;
+  height: 92vh;
 }
 </style>
