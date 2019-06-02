@@ -4,22 +4,47 @@
       <custom-toolbar></custom-toolbar>
     </v-layout>
 
+    <v-layout row v-if="$vuetify.breakpoint.smAndDown" justify-center class="pt-5">
+      <v-flex xs8 >
+        <v-dialog v-model="fullScreenFilterVisible" scrollable>
+          <template v-slot:activator="{ on }">
+            <v-btn outline block color="secondary" @click="fullScreenFilterVisible = true">
+              <v-icon>filter_list</v-icon>
+            Filters</v-btn>
+          </template>
+          <v-card dark>
+            <filters></filters>
+
+            <v-divider></v-divider>
+            <v-card-actions>
+              <v-layout row justify-space-around>
+                <v-btn color="blue darken-1" flat @click="fullScreenFilterVisible = false">Close</v-btn>
+                <v-btn color="blue darken-1" flat @click="fullScreenFilterVisible = false">Done</v-btn>
+              </v-layout>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+
+      </v-flex>
+    </v-layout>
+
+
     <v-layout row>
       <loading></loading>
       <boosters-list detailsNamespace="homeArticleDetails"></boosters-list>
       <assessment-history namespace="homeAssessments"></assessment-history>
 
-      <v-flex xs3 md2 v-show="!visible">
+      <v-flex xs3 md2 v-show="filtersVisible">
         <filters class="left-frozen"></filters>
       </v-flex>
 
-      <div v-show="visible" @click="hideAssessments" class="mt-5 grippy-container left-frozen">
+      <div v-show="filtersHidden" @click="hideAssessments" class="mt-5 grippy-container left-frozen">
         <v-layout row justify-center align-center fill-height>
           <span class="grippy">.. .. .. ..</span>
         </v-layout>
       </div>
 
-      <v-flex xs7  :offset-xs1="!visible" :class="{'ml-4':visible}" >
+      <v-flex xs7 :offset-xs1="filtersHidden" :xs8="$vuetify.breakpoint.smAndDown" :class="{'ml-4':filtersHidden}" >
         <article-holder detailsNamespace="homeArticleDetails" filtersNamespace="articleFilters"
           assessmentsNamespace="homeAssessments">
        </article-holder>
@@ -65,9 +90,18 @@ export default {
   props: ['postid'],
   data () {
     return {
+      fullScreenFilterVisible: false
     }
   },
   computed: {
+    filtersVisible: function() {
+      if (this.$vuetify.breakpoint.smAndDown)
+        return false;
+      return !this.visible;
+    },
+    filtersHidden: function() { //filter bar exists but is hidden because assessments is open
+      return !this.$vuetify.breakpoint.smAndDown && this.visible;
+    },
     ...mapState('homeAssessments', [
      'visible'
    ])

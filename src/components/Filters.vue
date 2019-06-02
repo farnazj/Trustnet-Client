@@ -228,7 +228,7 @@
 }
 @media all and (max-width: 960px) {
   .article-filters {
-    max-width: 26%;
+    min-width: 100%;
   }
 }
 
