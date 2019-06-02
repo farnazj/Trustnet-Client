@@ -6,9 +6,9 @@
 
     <v-layout row v-if="$vuetify.breakpoint.smAndDown" justify-center class="pt-5">
       <v-flex xs8 >
-        <v-dialog v-model="fullScreenFilterVisible" scrollable>
+        <v-dialog v-model="fullScreenFilterVisible" scrollable persistent>
           <template v-slot:activator="{ on }">
-            <v-btn outline block color="secondary" @click="fullScreenFilterVisible = true">
+            <v-btn outline block color="secondary" @click="fullScreenFilterVisible = true" class="Sth">
               <v-icon>filter_list</v-icon>
             Filters</v-btn>
           </template>
@@ -35,7 +35,7 @@
       <assessment-history namespace="homeAssessments"></assessment-history>
 
       <v-flex xs3 md2 v-show="filtersVisible">
-        <filters class="left-frozen"></filters>
+        <filters class="frozen"></filters>
       </v-flex>
 
       <div v-show="filtersHidden" @click="hideAssessments" class="mt-5 grippy-container left-frozen">
@@ -46,12 +46,12 @@
 
       <v-flex xs7 :offset-xs1="filtersHidden" :xs8="$vuetify.breakpoint.smAndDown" :class="{'ml-4':filtersHidden}" >
         <article-holder detailsNamespace="homeArticleDetails" filtersNamespace="articleFilters"
-          assessmentsNamespace="homeAssessments">
+          assessmentsNamespace="homeAssessments" :class="{'pt-5': !$vuetify.breakpoint.smAndDown}">
        </article-holder>
       </v-flex>
 
       <v-flex>
-        <assessments-container namespace="homeAssessments" class="assessments-container">
+        <assessments-container namespace="homeAssessments" class="frozen">
         </assessments-container>
       </v-flex>
 
@@ -139,11 +139,7 @@ export default {
 
 <style scoped>
 
-.assessments-container {
-  position: fixed;
-}
-
-.left-frozen {
+.frozen {
   position: fixed;
 }
 
@@ -168,6 +164,9 @@ span.grippy {
   letter-spacing: 2px;
   color: #BDBDBD;
   text-shadow: 1px 0 1px black;
+}
+.sth {
+  position: sticky;
 }
 
 </style>

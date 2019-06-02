@@ -1,5 +1,5 @@
 <template>
-  <v-layout row class="pt-5">
+  <v-layout row>
     <v-flex xs12>
       <v-layout v-for="article in articles" :key="article.id">
         <article-preview :post="article" :detailsNamespace="detailsNamespace"
