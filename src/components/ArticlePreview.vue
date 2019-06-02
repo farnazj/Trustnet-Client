@@ -19,7 +19,7 @@
                 </v-flex>
               </v-layout>
 
-              <v-layout row class="py-2" >
+              <v-layout row class="py-2">
                 <initiator-display :userId="post.SourceId" :postDate="post.updatedAt">
                 </initiator-display>
               </v-layout>

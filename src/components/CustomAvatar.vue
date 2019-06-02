@@ -2,7 +2,7 @@
 
   <span v-on="clickEnabled ? { click: goToPage } : {}" class="[clickEnabled ? cursor-pointer : ''] reset-font">
       <v-badge v-if="isTrusted === true"
-        overlap color="blue lighten-3" bottom >
+        overlap color="blue lighten-3" bottom>
         <template slot="badge" >
           <span class="reset-line-height">T</span>
         </template>

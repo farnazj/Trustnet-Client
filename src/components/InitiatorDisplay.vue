@@ -1,7 +1,7 @@
 <template>
-  <v-layout align-center>
+  <v-layout row wrap align-center>
 
-    <div v-if="Object.entries(initiator).length != 0" class="mr-2">
+    <div v-if="Object.entries(initiator).length != 0" class="mr-2 pb-2">
       <span class="mr-2">By</span>
       <custom-avatar :user="initiator" :clickEnabled="true"></custom-avatar>
     </div>

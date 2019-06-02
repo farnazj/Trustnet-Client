@@ -19,7 +19,7 @@
         <v-container fluid>
 
           <v-layout row align-end>
-            <v-flex xs2>
+            <v-flex sm2 xs4>
 
               <v-layout row justify-center>
 
@@ -40,7 +40,7 @@
               </v-layout>
 
             </v-flex>
-            <v-flex xs7>
+            <v-flex sm7 xs5>
               <v-card-title>
                 <div>
                   <div class="headline grey--text text--lighten-4" v-if="!profileOwner.systemMade">{{profileOwner.firstName}} {{profileOwner.lastName}}</div>
@@ -51,13 +51,13 @@
 
             <v-flex xs3>
 
-              <v-layout row v-if="notUser" justify-end>
-                <v-btn depressed @click="changeTrustStatus()" :color="isTrusted ? 'grey lighten-1' : 'light-green lighten-1' ">
+              <v-layout row v-if="notUser" justify-end wrap>
+                <v-btn :small="$vuetify.breakpoint.xsOnly" depressed @click="changeTrustStatus()" :color="isTrusted ? 'grey lighten-1' : 'light-green lighten-1' ">
                   <span v-if="!isTrusted">Trust</span>
                   <span v-else>Untrust</span>
                 </v-btn>
 
-                <v-btn depressed @click="changeFollowStatus()" :color="isFollowed ? 'grey lighten-1' : 'primary' ">
+                <v-btn :small="$vuetify.breakpoint.xsOnly" depressed @click="changeFollowStatus()" :color="isFollowed ? 'grey lighten-1' : 'primary' ">
                   <span v-if="!isFollowed">Follow</span>
                   <span v-else>Unfollow</span>
                 </v-btn>

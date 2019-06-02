@@ -16,7 +16,7 @@
           <v-container fluid grid-list-xs>
             <v-layout row wrap>
               <v-flex v-for="source in sourceResults"
-                :key="source.id" xs3>
+                :key="source.id" md3 :xs6="$vuetify.breakpoint.xs" >
 
                 <source-card :source="source"></source-card>
 

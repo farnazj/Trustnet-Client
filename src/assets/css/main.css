@@ -32,6 +32,17 @@ div.vicp-preview-item.vicp-preview-item-circle {
   bottom: -30px !important;
 }
 
+.vue-image-crop-upload .vicp-wrap {
+  max-width: 600px;
+  width: initial !important;
+}
+
+@media (max-width: 470px) {
+  .vue-image-crop-upload .vicp-wrap {
+    height: 530px !important;
+  }
+}
+
 /* .v-list__group__header--active .v-list__group__header__append-icon .v-icon,
 .v-list__group__header--active.v-list__group__header--sub-group .v-list__group__header__prepend-icon .v-icon {
   -webkit-transform: rotate(-90deg) !important;
