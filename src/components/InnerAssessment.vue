@@ -12,15 +12,15 @@
           Edited</span>
     </v-layout>
 
-    <v-layout row v-if="assessmentObj.lastVersion.body" class="pa-1 pr-2 assessment-text">
+    <v-layout row v-if="assessmentObj.lastVersion.body" class="pa-1 pr-2 body-2 assessment-text">
       <v-flex xs12>
         <p v-if="!showFullText && bodyWordCount > 25">{{truncatedText}}
-          <span class="blue--text text--darken-3 body-2 cursor-pointer" @click="showFullText = true">
+          <span class="blue--text text--darken-3 cursor-pointer" @click="showFullText = true">
             show more
           </span>
         </p>
         <p v-else>{{assessmentObj.lastVersion.body}}
-          <span v-if="bodyWordCount > 25" class="blue--text text--darken-3 body-2 cursor-pointer"
+          <span v-if="bodyWordCount > 25" class="blue--text text--darken-3 cursor-pointer"
              @click="showFullText = false">
             show less
           </span>
@@ -95,8 +95,9 @@ export default {
 </script>
 
 <style scoped>
-.assessment-text p {
-  font-size: 0.92em;
+.assessment-text p, .assessment-text span {
+  font-size: 0.95em;
+  line-height: 125%;
 }
 .center-align {
   vertical-align: middle;

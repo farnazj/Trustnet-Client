@@ -11,13 +11,11 @@
      <v-card-actions>
        <v-spacer></v-spacer>
 
-       <v-btn color="primary" flat="flat"
-        @click="cancel">
+       <v-btn color="primary" text @click="cancel">
          Cancel
        </v-btn>
 
-       <v-btn color="red darken-1" flat="flat"
-        @click="confirm">
+       <v-btn color="red darken-1" text @click="confirm">
          Delete
        </v-btn>
 

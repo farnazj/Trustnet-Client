@@ -7,10 +7,10 @@
           <v-flex xs align-end flexbox>
             <v-layout row align-end>
               <custom-avatar :user="source" :clickEnabled="true" class="mr-3"></custom-avatar>
-              <span class="username-text" v-text="source.userName"></span>
+              <span class="body-2" v-text="source.userName"></span>
             </v-layout>
 
-            <v-layout row mt-2>
+            <v-layout row mt-2 class="body-2">
               {{sourceDisplayName(source)}}
             </v-layout>
 
@@ -30,22 +30,22 @@
       </v-container>
 
       <v-card-actions>
-        <v-layout row v-if="user && source.id == user.id" class="pr-1 pb-2 grey--text text--darken-3 body-2 " >
+        <v-layout row v-if="user && source.id == user.id" class="pr-1 pb-2 grey--text text--darken-3 caption" >
           This is you
         </v-layout>
 
         <v-layout row v-else>
 
-          <v-btn small flat :color="isTrusted ? 'grey darken-2' : 'light-green darken-3' "
-            @click.stop="changeTrustStatus(source)">
+          <v-btn small text :color="isTrusted ? 'grey darken-2' : 'light-green darken-3' "
+            @click.stop="changeTrustStatus(source)" class="custom-btn-text">
             <span v-if="isTrusted"> Untrust</span>
             <span v-else> Trust</span>
           </v-btn>
 
           <v-spacer></v-spacer>
 
-          <v-btn small flat :color="isFollowed ? 'grey darken-2' : 'primary' "
-            @click.stop="changeFollowStatus(source)">
+          <v-btn small text :color="isFollowed ? 'grey darken-2' : 'primary' "
+            @click.stop="changeFollowStatus(source)" class="custom-btn-text">
             <span v-if="isFollowed"> Unfollow</span>
             <span v-else> Follow</span>
           </v-btn>
@@ -121,4 +121,9 @@ export default {
 .followed-text {
   color: #0D47A1;
 }
+
+.custom-btn-text {
+  font-size: 0.8rem !important;
+}
+
 </style>

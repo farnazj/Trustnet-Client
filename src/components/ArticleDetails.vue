@@ -17,10 +17,12 @@
              :close-on-content-click="false"
              :nudge-width="350" offset-y left attach>
 
-              <v-btn flat icon color="blue darken-1" slot="activator"
-               class="mr-4">
-                <v-icon >gavel</v-icon>
-              </v-btn>
+             <template v-slot:activator="{ on }">
+                <v-btn text icon color="blue darken-1" v-on="on"
+                 class="mr-4">
+                  <v-icon >gavel</v-icon>
+                </v-btn>
+              </template>
 
              <v-form ref="assessmentMenu" lazy-validation>
                <v-card>
@@ -34,8 +36,8 @@
                 <v-card-actions>
                   <v-spacer></v-spacer>
 
-                  <v-btn flat @click="cancelMenu('assessmentMenu')">Cancel</v-btn>
-                  <v-btn color="primary" flat @click="postAssessment">
+                  <v-btn text @click="cancelMenu('assessmentMenu')">Cancel</v-btn>
+                  <v-btn color="primary" text @click="postAssessment">
                     <v-icon class="pr-1" >gavel</v-icon> Assess
                   </v-btn>
                 </v-card-actions>
@@ -56,10 +58,12 @@
                :close-on-content-click="false" :disabled="disableBoost"
                :nudge-width="350" offset-y left attach>
 
-               <v-btn flat icon color="blue darken-1" :class="['mr-4', 'reset-pointer-events',
-                {'v-btn--disabled': disableBoost }]" slot="activator" v-on="on">
+               <template v-slot:activator="{ on }">
+               <v-btn text icon color="blue darken-1" :class="['mr-4', 'reset-pointer-events',
+                {'v-btn--disabled': disableBoost }]" v-on="on">
                  <v-icon >fas fa-share</v-icon>
                </v-btn>
+              </template>
 
            <v-form ref="boostMenu" lazy-validation>
              <v-card>
@@ -78,8 +82,8 @@
                  <v-card-actions>
                    <v-spacer></v-spacer>
 
-                   <v-btn flat @click="cancelMenu('boostMenu')">Cancel</v-btn>
-                   <v-btn color="primary" flat @click="boostArticle">
+                   <v-btn text @click="cancelMenu('boostMenu')">Cancel</v-btn>
+                   <v-btn color="primary" text @click="boostArticle">
                      <v-icon class="pr-1" >fas fa-share</v-icon> Share
                    </v-btn>
                  </v-card-actions>
@@ -106,7 +110,7 @@
 
            <v-snackbar v-model="showInfoSnackbar" top>
             {{ editSubmitInfo }}
-             <v-btn color="blue lighten-1" flat @click="snackbar = false">
+             <v-btn color="blue lighten-1" text @click="snackbar = false">
                Close
              </v-btn>
            </v-snackbar>
@@ -118,18 +122,18 @@
            <v-layout row class="edit-tools" v-if="AuthUserIsOwner">
              <v-speed-dial v-model="fab"
               direction="top" transition="slide-y-transition">
-                <template slot="activator">
+                <template v-slot:activator>
                     <v-btn v-model="fab" color="blue darken-2"
-                    dark fab>
-                      <v-icon>build</v-icon>
-                      <v-icon>close</v-icon>
+                    dark fab large>
+                      <v-icon v-if="fab">close</v-icon>
+                      <v-icon v-else>build</v-icon>
                     </v-btn>
                 </template>
-                <v-btn fab dark small @click="editMode = true"
+                <v-btn fab dark @click="editMode = true"
                   color="green lighten-1">
                   <v-icon>edit</v-icon>
                 </v-btn>
-                <v-btn fab dark small @click="showDeleteDialog = true"
+                <v-btn fab dark @click="showDeleteDialog = true"
                   color="red lighten-1">
                   <v-icon>delete</v-icon>
                 </v-btn>
@@ -139,7 +143,7 @@
            <v-layout row class="save-edits" v-show="editMode" justify-end>
              <v-fab-transition>
 
-             <v-btn fab dark small @click="saveEdits"
+             <v-btn fab dark @click="saveEdits"
                color="green">
                <v-icon>check</v-icon>
              </v-btn>
@@ -172,17 +176,17 @@
              <v-flex xs10>
                <v-card-text class="body-text">
                  <div v-if="!editMode">
-                   <p v-if="article.body">
+                   <p v-if="article.body" class="body-1">
                      {{article.body}}
                    </p>
-                   <p v-else-if="article.description">
+                   <p v-else-if="article.description" class="body-1">
                      {{article.description}}
                    </p>
                  </div>
 
                  <div v-else>
-                   <v-textarea v-model="edit.body" rows=16 auto-grow box
-                   background-color="light-blue lighten-5">
+                   <v-textarea v-model="edit.body" rows=16 auto-grow filled
+                   background-color="blue lighten-5">
                    </v-textarea>
                  </div>
 
@@ -194,7 +198,7 @@
            <v-layout row justify-center class="mt-2 mb-3">
              <v-flex xs6>
                <v-card-actions v-if="article.url">
-                 <v-btn outline block color="blue darken-1"
+                 <v-btn outlined block color="blue darken-1"
                   :href="article.url" target="_blank">
                    Visit Website</v-btn>
 
@@ -279,8 +283,10 @@ export default {
         return this.drawerVisible;
       },
       set: function(newValue) {
-        for (let menu of ['assessmentMenu', 'boostMenu'])
-          this.$refs[menu].reset();
+        for (let menu of ['assessmentMenu', 'boostMenu']) {
+          if (this.$refs[menu])
+            this.$refs[menu].reset();
+        }
 
         this.setDrawerVisibility(newValue);
       }
@@ -389,7 +395,7 @@ export default {
         this.editSubmitInfo = "Post has been updated."
         this.updateStateArticle({postId: this.article.id})
         .then(() => {
-          this.updateDisplayedArticle();
+          this.updateDisplayedArticle({namespace: this.filtersNamespace});
           this.showInfoSnackbar = true;
         })
 
@@ -456,6 +462,7 @@ export default {
 .body-text {
   font-size: 1.1em;
   white-space: pre-wrap;
+  color: #212121 !important;
 }
 
 .full-height {

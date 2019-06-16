@@ -14,7 +14,7 @@
 
           <v-flex xs11>
             <v-layout row justify-center>
-              <p class="pb-0 mb-0 subheading font-weight-regular">Accurate?</p>
+              <p class="pb-0 mb-0 subheading font-weight-medium">Accurate?</p>
             </v-layout>
           </v-flex>
 
@@ -24,7 +24,7 @@
         <v-flex xs12>
           <v-card-title>
            <div>
-             <h4 class="mb-1">Questioned</h4>
+             <p class="body-2 font-weight-medium mb-1">Questioned</p>
            </div>
          </v-card-title>
 
@@ -53,8 +53,8 @@
 
               <v-card-title>
                <div>
-                 <h4 class="mb-1" v-if="key == 'confirmed'"> Yes</h4>
-                 <h4 class="mb-1" v-else-if="key == 'refuted'"> No</h4>
+                 <p class="mb-1 body-2 font-weight-medium" v-if="key == 'confirmed'"> Yes</p>
+                 <p class="mb-1 body-2 font-weight-medium" v-else-if="key == 'refuted'"> No</p>
                </div>
              </v-card-title>
              <v-divider ></v-divider>

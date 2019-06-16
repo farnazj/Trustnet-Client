@@ -2,10 +2,10 @@
   <v-layout row wrap align-center>
 
     <div v-if="Object.entries(initiator).length != 0" class="mr-2 pb-2">
-      <span class="mr-2">By</span>
+      <span class="mr-2 caption">By</span>
       <custom-avatar :user="initiator" :clickEnabled="true"></custom-avatar>
     </div>
-    <span> {{timeElapsed(postDate)}} </span>
+    <span class="caption"> {{timeElapsed(postDate)}} </span>
 
   </v-layout>
 

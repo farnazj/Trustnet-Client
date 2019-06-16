@@ -58,3 +58,11 @@ div.vicp-preview-item.vicp-preview-item-circle {
 .article-filters .v-list__tile {
 
 }
+
+.v-list-item__action:last-of-type:not(:only-child), .v-list-item__icon:last-of-type:not(:only-child) {
+  margin-left: 0 !important;
+}
+
+.v-list-group--no-action.v-list-group--sub-group > .v-list-group__items > div > .v-list-item {
+  padding-left: 72px !important;
+}

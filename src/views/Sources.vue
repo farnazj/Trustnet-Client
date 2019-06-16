@@ -6,7 +6,7 @@
 
     <v-layout class="pt-5" row fill-height >
       <v-flex xs12>
-        <v-tabs centered  dark
+        <v-tabs centered dark background-color="grey darken-3"
           slider-color="lime lighten-4" v-model="tabs" @change="tabChanged">
           <v-tab href="#manage">
             Manage your sources
@@ -14,7 +14,9 @@
           <v-tab href="#discover">
             Discover sources
           </v-tab>
+        </v-tabs>
 
+        <v-tabs-items v-model="tabs">
           <v-tab-item value="manage">
             <manage-sources ref="manage">
             </manage-sources>
@@ -25,7 +27,7 @@
             </discover-sources>
           </v-tab-item>
 
-        </v-tabs>
+        </v-tabs-items>
       </v-flex>
     </v-layout>
 

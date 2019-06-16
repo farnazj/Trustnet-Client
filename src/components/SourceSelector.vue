@@ -1,7 +1,7 @@
 <template>
 
   <v-autocomplete v-model="targets" :items="followers"
-  box chips color="blue-grey lighten-2" label="Select target audience"
+  filled chips color="blue-grey lighten-2" label="Select target audience"
   item-text="userName" item-value="userName" multiple no-data-text="No followers found">
 
     <template slot="selection" slot-scope="data" >
@@ -19,21 +19,21 @@
     <template slot="item" slot-scope="data">
 
       <template>
-        <v-list-tile-avatar>
+        <v-list-item-avatar>
           <custom-avatar :user="data.item" :clickEnabled="false"></custom-avatar>
-        </v-list-tile-avatar>
-        <v-list-tile-content>
-          <v-list-tile-title v-html="sourceDisplayName(data.item)"></v-list-tile-title>
-        </v-list-tile-content>
+        </v-list-item-avatar>
+        <v-list-item-content>
+          <v-list-item-title v-html="sourceDisplayName(data.item)"></v-list-item-title>
+        </v-list-item-content>
       </template>
 
     </template>
 
   <template v-if="!targets.length" slot="append">
     <template>
-      <v-list-tile-content>
-        <v-list-tile-title>default is everyone</v-list-tile-title>
-      </v-list-tile-content>
+      <v-list-item-content>
+        <v-list-item-title>default is everyone</v-list-item-title>
+      </v-list-item-content>
     </template>
   </template>
 

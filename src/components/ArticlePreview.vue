@@ -29,12 +29,14 @@
             <v-flex xs5>
               <v-layout row>
                 <v-flex xs12>
-                  <v-card-title primary-title class="pt-0">
-                   <div>
-                     <h3 class="mb-2 cursor-pointer">{{post.title}}</h3>
-                     <p class="grey--text text--darken-3">{{post.description}}</p>
+
+                   <div class="px-2">
+                     <!-- <p class="mb-2 cursor-pointer title title-custom">{{post.title}}</p>
+                     <p class="grey--text text--darken-3 body-1 description-custom">{{post.description}}</p> -->
+                     <p class="mb-2 cursor-pointer title title-custom">{{post.title}}</p>
+                     <p class="grey--text text--darken-3 body-2">{{post.description}}</p>
                    </div>
-                </v-card-title>
+
 
                 </v-flex>
               </v-layout>
@@ -73,7 +75,7 @@
 
           </v-layout>
 
-          <v-layout row v-if="uniqueBoosters.length" class="pt-2" wrap>
+          <v-layout row v-if="uniqueBoosters.length" class="pt-1" wrap>
             <v-flex xs12 >
                <v-icon >fas fa-share</v-icon>
               <!--<span class="mr-3"> Shared by</span>
@@ -277,4 +279,11 @@
 .assessment-hinter {
   border-radius: 0 30% 30% 0;
 }
+
+.title-custom {
+  line-height: 1.5rem;
+  font-size: 1.1rem !important;
+}
+
+
 </style>

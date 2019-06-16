@@ -24,7 +24,7 @@
       </v-flex>
     </v-layout>
 
-    <v-layout row>
+    <v-layout row class="pt-3">
       <v-flex xs12>
         <v-textarea v-model="assessmentText" :rules="credibility - 2 != 0 ? validityRules.bodyRules : []"
           label="Provide your reasoning">

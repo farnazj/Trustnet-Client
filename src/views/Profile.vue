@@ -30,7 +30,7 @@
               <v-expand-transition>
                 <div v-if="hover && profileOwner.userName == user.userName "
                   class="d-flex transition-fast-in-fast-out grey darken-4 v-card--reveal white--text">
-                  <v-btn @click="showUploader = true" small flat round dark>
+                  <v-btn @click="showUploader = true" small text rounded dark>
                     <v-icon class ="pl-0 ml-0" right dark>photo_camera</v-icon>
                   </v-btn>
                 </div>
@@ -70,8 +70,8 @@
       </v-card>
     </v-layout>
 
-    <v-tabs centered color="blue darken-3" dark height=50
-      slider-color="amber lighten-1" v-model="tabs">
+    <v-tabs centered background-color="blue darken-3" height=50 v-model="tabs"
+      slider-color="amber lighten-1" dark>
       <v-tab >
         <v-icon class="mr-1">list</v-icon>
         Activity List
@@ -81,7 +81,9 @@
         <v-icon class="mr-1">people</v-icon>
         Followers
       </v-tab>
+    </v-tabs>
 
+    <v-tabs-items v-model="tabs">
       <v-tab-item>
         <v-container fluid class="px-0">
         <v-layout>
@@ -94,8 +96,8 @@
             assessmentsNamespace="profileAssessments"></article-holder>
           </v-flex>
 
-            <assessments-container namespace="profileAssessments" class="assessments-container">
-            </assessments-container>
+          <assessments-container namespace="profileAssessments" class="assessments-container">
+          </assessments-container>
 
         </v-layout>
         </v-container>
@@ -105,7 +107,7 @@
 
         <followers-container :username="username"></followers-container>
       </v-tab-item>
-    </v-tabs>
+    </v-tabs-items>
 
   <article-details detailsNamespace="profileArticleDetails"
    filtersNamespace="profileArticles"> </article-details>

@@ -6,11 +6,13 @@
         :nudge-width="350"
         offset-y left attach
       >
-        <v-btn flat icon slot="activator" color="light-green darken-3">
+      <template v-slot:activator="{ on }">
+        <v-btn text icon v-on="on" color="light-green darken-3">
           <v-icon>note_add</v-icon>
         </v-btn>
+      </template>
 
-        <v-tabs left color="blue darken-2" dark height=50
+        <v-tabs left background-color="blue darken-2" dark height=50
           slider-color="lime lighten-4" v-model="tabs">
           <v-tab >
             <v-icon class="mr-1">create</v-icon>
@@ -21,13 +23,15 @@
             <v-icon class="mr-1">link</v-icon>
             Import
           </v-tab>
+        </v-tabs>
 
+        <v-tabs-items v-model="tabs">
           <v-tab-item>
             <v-form ref="createPostForm" lazy-validation>
               <v-card>
                 <v-container fluid>
 
-                  <v-layout row>
+                  <v-layout row class="mb-3">
                     <v-flex xs12>
                       <v-text-field v-model="title"
                         label="Title for your post" required
@@ -78,8 +82,8 @@
               <v-card-actions>
                 <v-spacer></v-spacer>
 
-                <v-btn flat @click="cancel">Cancel</v-btn>
-                <v-btn color="primary" flat @click="createPost">
+                <v-btn text @click="cancel">Cancel</v-btn>
+                <v-btn color="primary" text @click="createPost">
                   <v-icon class="pr-1" >fas fa-share </v-icon> Share
                 </v-btn>
               </v-card-actions>
@@ -93,7 +97,7 @@
               <v-card>
                 <v-container fluid>
 
-                  <v-layout row>
+                  <v-layout row class="mb-3">
                     <v-flex xs12>
                       <v-textarea v-model="articleLink"
                         label="Import an article by pasting its URL" required
@@ -102,14 +106,13 @@
                     </v-flex>
                   </v-layout>
 
-
                   <assessment-collector ref="assessmentColl" :validityRules="importArticleFormRules.validityRules"
-                    :postCredibility="postCredibility" :assessmentBody="assessmentBody">
+                    :postCredibility="postCredibility" :assessmentBody="assessmentBody" class="mb-2">
                   </assessment-collector>
 
-                  <v-layout row>
+                  <v-layout row class="mt-2">
                     <v-flex xs12>
-                      <source-selector ref="importTargets" class="mt-2">
+                      <source-selector ref="importTargets" >
                       </source-selector>
                     </v-flex>
                   </v-layout>
@@ -119,8 +122,8 @@
                 <v-card-actions>
                   <v-spacer></v-spacer>
 
-                  <v-btn flat @click="cancel">Cancel</v-btn>
-                  <v-btn color="primary" flat @click="importArticle">
+                  <v-btn text @click="cancel">Cancel</v-btn>
+                  <v-btn color="primary" text @click="importArticle">
                     <v-icon class="pr-1" >fas fa-share</v-icon> Share
                   </v-btn>
                 </v-card-actions>
@@ -129,7 +132,7 @@
             </v-form>
 
           </v-tab-item>
-        </v-tabs>
+        </v-tabs-items>
 
         <v-alert v-model="alert" type="error" dismissible>
           {{alertMessage}}

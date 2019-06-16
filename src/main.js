@@ -10,6 +10,7 @@ import router from './router'
 import store from './store/store'
 import axios from 'axios'
 import VueObserveVisibility from 'vue-observe-visibility'
+import vuetify from './plugins/vuetify';
 
 Vue.config.productionTip = false
 Vue.prototype.$http = axios;
@@ -23,6 +24,8 @@ new Vue({
   router,
   store,
   render: h => h(App),
+  vuetify,
+
   created: function() {
    window.fbAsyncInit = function() {
      FB.init({

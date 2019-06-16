@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid class="px-0">
+  <v-container fluid class="pt-4 px-0">
     <v-layout row>
       <custom-toolbar></custom-toolbar>
     </v-layout>
@@ -8,7 +8,7 @@
       <v-flex xs8 >
         <v-dialog v-model="fullScreenFilterVisible" scrollable persistent>
           <template v-slot:activator="{ on }">
-            <v-btn outline block color="secondary" @click="fullScreenFilterVisible = true" class="Sth">
+            <v-btn outlined block color="secondary" @click="fullScreenFilterVisible = true">
               <v-icon>filter_list</v-icon>
             Filters</v-btn>
           </template>
@@ -18,8 +18,8 @@
             <v-divider></v-divider>
             <v-card-actions>
               <v-layout row justify-space-around>
-                <v-btn color="blue darken-1" flat @click="fullScreenFilterVisible = false">Close</v-btn>
-                <v-btn color="blue darken-1" flat @click="fullScreenFilterVisible = false">Done</v-btn>
+                <v-btn color="blue darken-1" text @click="fullScreenFilterVisible = false">Close</v-btn>
+                <v-btn color="blue darken-1" text @click="fullScreenFilterVisible = false">Done</v-btn>
               </v-layout>
             </v-card-actions>
           </v-card>
@@ -38,13 +38,14 @@
         <filters class="frozen"></filters>
       </v-flex>
 
-      <div v-show="filtersHidden" @click="hideAssessments" class="mt-5 grippy-container left-frozen">
+      <div v-show="filtersHidden" @click="hideAssessments" class="mt-5 grippy-container frozen">
         <v-layout row justify-center align-center fill-height>
           <span class="grippy">.. .. .. ..</span>
         </v-layout>
       </div>
 
-      <v-flex xs7 :offset-xs1="filtersHidden" :xs8="$vuetify.breakpoint.smAndDown" :class="{'ml-4':filtersHidden}" >
+      <v-flex :xs7="!$vuetify.breakpoint.smAndDown" :offset-xs1="filtersHidden" :xs8="$vuetify.breakpoint.smAndDown"
+       :class="{'ml-4':filtersHidden}" >
         <article-holder detailsNamespace="homeArticleDetails" filtersNamespace="articleFilters"
           assessmentsNamespace="homeAssessments" :class="{'pt-5': !$vuetify.breakpoint.smAndDown}">
        </article-holder>
@@ -72,10 +73,8 @@ import boostersList from '@/components/BoostersList'
 import assessmentHistory from '@/components/AssessmentHistory'
 import Filters from '@/components/Filters'
 import Loading from '@/components/Loading'
-
 import postServices from '@/services/postServices'
 import { mapState, mapActions } from 'vuex'
-
 export default {
   components: {
     'custom-toolbar': CustomToolbar,
@@ -138,11 +137,9 @@ export default {
 
 
 <style scoped>
-
 .frozen {
   position: fixed;
 }
-
 .grippy-container {
   background-color: #424242;
   height: 14vh;
@@ -150,7 +147,6 @@ export default {
   border-radius: 0 80% 80% 0;
   cursor: pointer;
 }
-
 span.grippy {
   min-height: 30%;
   min-width: 50%;
@@ -164,9 +160,6 @@ span.grippy {
   letter-spacing: 2px;
   color: #BDBDBD;
   text-shadow: 1px 0 1px black;
-}
-.sth {
-  position: sticky;
 }
 
 </style>

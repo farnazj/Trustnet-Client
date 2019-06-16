@@ -82,8 +82,8 @@ export default {
       })
     },
 
-    updateDisplayedArticle: (context) => {
-      let articles = context.rootState.articleFilters.articles;
+    updateDisplayedArticle: (context, payload) => {
+      let articles = context.rootState[payload.namespace].articles;
       let updated_article = articles.find(el => el.id == context.state.article.id);
       context.commit('update_article', updated_article);
     },

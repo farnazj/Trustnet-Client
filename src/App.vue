@@ -5,10 +5,8 @@
 </template>
 
 <script>
-
 import axios from 'axios'
 export default {
-
   name: 'App',
   components: {
   },
@@ -18,7 +16,6 @@ export default {
     }
   },
   created() {
-
   },
   computed : {
       isLoggedIn : function(){ return this.$store.getters.isLoggedIn}

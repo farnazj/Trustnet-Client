@@ -1,5 +1,5 @@
 <template>
-    <v-toolbar app color="lime lighten-1">
+    <v-app-bar fixed color="lime lighten-1">
 
       <v-toolbar-title @click="goToPage('Home')" class="headline text-uppercase cursor-pointer">
         <span class="font-weight-light">Trustnet</span>
@@ -9,31 +9,33 @@
 
       <v-toolbar-items v-if="isLoggedIn" class="center-aligned">
 
-        <content-booster></content-booster>
+        <content-booster class="mr-2"></content-booster>
 
-        <v-divider vertical inset class="mr-3"></v-divider>
+        <v-divider vertical inset class="mr-2"></v-divider>
 
         <v-menu v-model="settingsMenu"
           :close-on-content-click="false"
           :nudge-width="120" offset-y left attach>
 
-            <custom-avatar v-if="Object.entries(user).length" :size=40
-              :user="user" :clickEnabled="false" slot="activator" ></custom-avatar>
+          <template v-slot:activator="{ on: { click } }">
+            <custom-avatar v-if="Object.entries(user).length" :size=40 class="mr-1"
+              :user="user" :clickEnabled="false" v-on:click.native="click" ></custom-avatar>
+            </template>
             <v-card>
               <v-list>
 
                 <template v-for="item in settingItems">
-                  <v-list-tile :key="item.name" @click="clickHandler(item.name)">
+                  <v-list-item :key="item.name" @click="clickHandler(item.name)">
 
-                    <v-list-tile-action v-if="item.icon">
+                    <v-list-item-action v-if="item.icon">
                       <v-icon>{{ item.icon }}</v-icon>
-                    </v-list-tile-action>
+                    </v-list-item-action>
 
-                    <v-list-tile-content>
-                      <v-list-tile-title v-html="item.name"> </v-list-tile-title>
-                    </v-list-tile-content>
+                    <v-list-item-content>
+                      <v-list-item-title v-html="item.name"> </v-list-item-title>
+                    </v-list-item-content>
 
-                  </v-list-tile>
+                  </v-list-item>
                 </template>
 
             </v-list>
@@ -43,10 +45,10 @@
       </v-toolbar-items>
 
       <v-toolbar-items v-else>
-         <v-btn @click="goToPage('About')" flat>About</v-btn>
+         <v-btn @click="goToPage('About')" text>About</v-btn>
       </v-toolbar-items>
 
-    </v-toolbar>
+    </v-app-bar>
 </template>
 
 <script>
@@ -70,6 +72,8 @@ export default {
         name: 'Profile', icon: 'person_outline'
       }, {
         name: 'Sources', icon: 'account_circle'
+      }, {
+        name: 'Settings', icon: 'settings'
       }, {
         name: 'Logout', icon: 'power_settings_new'
       }]
