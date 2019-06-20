@@ -176,8 +176,8 @@
              <v-flex xs10>
                <v-card-text class="body-text">
                  <div v-if="!editMode">
-                   <p v-if="article.body" class="body-1">
-                     {{article.body}}
+                   <p v-if="article.body" class="body-1" v-html="article.body">
+
                    </p>
                    <p v-else-if="article.description" class="body-1">
                      {{article.description}}
@@ -483,4 +483,6 @@ export default {
 .reset-pointer-events {
   pointer-events: auto !important;
 }
+
+
 </style>

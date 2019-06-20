@@ -66,3 +66,11 @@ div.vicp-preview-item.vicp-preview-item-circle {
 .v-list-group--no-action.v-list-group--sub-group > .v-list-group__items > div > .v-list-item {
   padding-left: 72px !important;
 }
+
+.v-badge__badge {
+  padding: 0 !important;
+}
+
+.article-inner-img {
+  max-width: 100% !important;
+}

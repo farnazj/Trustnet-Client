@@ -6,25 +6,26 @@
 
     <v-layout class="pt-5" row fill-height >
       <v-flex xs2>
-        <v-tabs centered  dark icons-and-text vertical
+        <v-tabs centered dark icons-and-text vertical background-color="grey darken-3"
         icons-and-text slider-color="lime lighten-4" v-model="tabs"
         @change="tabChanged">
-          <v-tab href="#manage">
-            Manage your sources
+          <v-tab href="#feeds">
+            Feeds
           </v-tab>
-          <v-tab href="#discover">
-            Discover sources
+          <v-divider></v-divider>
+          <v-tab href="#themes">
+            Themes
           </v-tab>
         </v-tabs>
       </v-flex>
       <v-flex xs10>
-        <v-tabs-items v-model="tabs">
-
-          <v-tab-item value="manage">
-            hi
+        <v-tabs-items v-model="tabs" vertical>
+          <v-tab-item value="feeds">
+            <feed-manager @loading-on="setLoading(true)" @loading-off="setLoading(false)"></feed-manager>
           </v-tab-item>
 
-          <v-tab-item value="discover">
+
+          <v-tab-item value="themes">
             hey
           </v-tab-item>
 
@@ -37,11 +38,15 @@
 
 <script>
 import CustomToolbar from '@/components/CustomToolbar'
-import { mapGetters, mapActions } from 'vuex';
+import FeedManager from '@/components/FeedManager'
+import Loading from '@/components/Loading'
+import { mapActions } from 'vuex';
 
 export default {
   components: {
-    'custom-toolbar': CustomToolbar
+    'custom-toolbar': CustomToolbar,
+    'feed-manager': FeedManager,
+    'loading': Loading
   },
   data () {
     return {
@@ -55,11 +60,13 @@ export default {
 
   },
   methods: {
-
     tabChanged: function(val) {
 
     },
-
+    ...mapActions('loader', [
+      'setLoading',
+    ])
   }
+
 }
 </script>

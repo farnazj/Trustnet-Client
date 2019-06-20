@@ -49,7 +49,10 @@ export default {
       return this.size ? this.size : this.defaultSize;
     },
     extendedPhotoUrl: function() {
-      return consts.baseURL + '/' + this.user.photoUrl;
+      if (this.user.photoUrl.includes('http'))
+        return this.user.photoUrl;
+      else
+        return consts.baseURL + '/' + this.user.photoUrl;
     }
   },
   methods: {

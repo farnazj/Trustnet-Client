@@ -52,12 +52,14 @@
             <v-flex xs3>
 
               <v-layout row v-if="notUser" justify-end wrap>
-                <v-btn :small="$vuetify.breakpoint.xsOnly" depressed @click="changeTrustStatus()" :color="isTrusted ? 'grey lighten-1' : 'light-green lighten-1' ">
+                <v-btn :small="$vuetify.breakpoint.xsOnly" depressed @click="changeTrustStatus()"
+                :color="isTrusted ? 'grey lighten-1' : 'light-green lighten-1' " class="ma-1">
                   <span v-if="!isTrusted">Trust</span>
                   <span v-else>Untrust</span>
                 </v-btn>
 
-                <v-btn :small="$vuetify.breakpoint.xsOnly" depressed @click="changeFollowStatus()" :color="isFollowed ? 'grey lighten-1' : 'primary' ">
+                <v-btn :small="$vuetify.breakpoint.xsOnly" depressed @click="changeFollowStatus()"
+                :color="isFollowed ? 'grey lighten-1' : 'primary' " class="ma-1">
                   <span v-if="!isFollowed">Follow</span>
                   <span v-else>Unfollow</span>
                 </v-btn>
@@ -206,8 +208,13 @@ export default {
           this.setUsername(this.username);
 
           this.profileOwner = user.data;
-          if (this.profileOwner.photoUrl)
-            this.profileOwner.photoUrl = consts.baseURL + '/' + this.profileOwner.photoUrl;
+          if (this.profileOwner.photoUrl) {
+            if (this.profileOwner.photoUrl.includes('http'))
+              this.profileOwner.photoUrl =  this.profileOwner.photoUrl;
+            else
+              this.profileOwner.photoUrl = consts.baseURL + '/' + this.profileOwner.photoUrl;
+          }
+
         }
         else {
           this.$router.push({ name: 'invalid' });
