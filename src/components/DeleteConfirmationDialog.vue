@@ -1,11 +1,11 @@
 <template>
-  <v-dialog v-model="isVisible" width="500">
+  <v-dialog v-model="isVisible" max-width="500px">
     <v-card>
-     <v-card-title class="headline">Are you sure you want to delete
-       this {{itemType}}?
+     <v-card-title class="headline">
      </v-card-title>
 
-     <v-card-text>
+     <v-card-text class="body-1 grey--text text--darken-3">
+       Are you sure you want to delete this {{itemType}}?
      </v-card-text>
 
      <v-card-actions>

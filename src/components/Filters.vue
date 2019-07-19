@@ -104,11 +104,11 @@
           <v-list-item-content>
             <v-list-item-subtitle>
               <v-tooltip right>
-                  <template v-slot:activator="{ on }">
-                    <span v-on="on">{{sourceDisplayName(source)}}</span>
-                  </template>
-                  <span>{{sourceDisplayName(source)}}</span>
-                </v-tooltip>
+                <template v-slot:activator="{ on }">
+                  <span v-on="on">{{sourceDisplayName(source)}}</span>
+                </template>
+                <span>{{sourceDisplayName(source)}}</span>
+              </v-tooltip>
             </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>

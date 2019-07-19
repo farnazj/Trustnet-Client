@@ -334,7 +334,8 @@ export default {
             this.disableBoost = true;
             this.assessmentBody = '';
             this.postCredibility = null;
-            this.$refs.assessmentMenu.resetValidation();
+            if (this.$refs.assessmentMenu)
+              this.$refs.assessmentMenu.resetValidation();
           }
       });
     },

@@ -74,3 +74,7 @@ div.vicp-preview-item.vicp-preview-item-circle {
 .article-inner-img {
   max-width: 100% !important;
 }
+
+.xs-icon-font {
+  font-size: 1.3em !important;
+}

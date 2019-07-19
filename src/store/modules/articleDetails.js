@@ -8,7 +8,9 @@ export default {
       article: {},
       assessment: {},
       boosterListVisible: false,
-      boosters: []
+      boosters: [],
+      customTitlesVisible: false,
+      titles: []
     }
   },
   getters: {
@@ -33,14 +35,25 @@ export default {
     },
 
     set_boosters_visibility: (state, visiblity) => {
-      state.boosterListVisible  = visiblity;
+      state.boosterListVisible = visiblity;
     },
 
     populate_boosters: (state, boosters) => {
       state.boosters = boosters;
+    },
+
+    set_titles_visibility: (state, visibility) => {
+      state.customTitlesVisible = visibility;
+    },
+
+    populate_titles: (state, titles) => {
+      state.titles = titles;
     }
   },
   actions: {
+    populateArticle: (context, payload) => {
+      context.commit('populate_drawer', payload);
+    },
     showArticleDrawer: (context, payload) => {
       context.commit('populate_drawer', payload);
       context.commit('set_drawer_visibility', true);
@@ -67,6 +80,7 @@ export default {
         })
       })
     },
+
     postAuthUserAssessment: (context, payload) => {
       return new Promise((resolve, reject) => {
         assessmentServices.postAssessment(context.state.article.id, payload)
@@ -88,13 +102,20 @@ export default {
       context.commit('update_article', updated_article);
     },
 
+    setBoostersVisibility: (context, payload) => {
+      context.commit('set_boosters_visibility', payload);
+    },
+
     populateBoosters: (context, payload) => {
       context.commit('populate_boosters', payload);
     },
 
-    setBoostersVisibility: (context, payload) => {
-      context.commit('set_boosters_visibility', payload);
-    }
+    setTitlesVisibility: (context, payload) => {
+      context.commit('set_titles_visibility', payload);
+    },
 
+    populateTitles: (context, payload) => {
+      context.commit('populate_titles', payload);
+    }
   }
 }

@@ -31,12 +31,19 @@
                 <v-flex xs12>
 
                    <div class="px-2">
-                     <!-- <p class="mb-2 cursor-pointer title title-custom">{{post.title}}</p>
-                     <p class="grey--text text--darken-3 body-1 description-custom">{{post.description}}</p> -->
-                     <p class="mb-2 cursor-pointer title title-custom">{{post.title}}</p>
-                     <p class="grey--text text--darken-3 body-2">{{post.description}}</p>
-                   </div>
+                     <p class="mr-1 cursor-pointer title title-custom">{{post.title}}</p>
 
+                     <v-tooltip bottom >
+                       <template v-slot:activator="{ on }">
+                         <v-btn v-on="on" @click.stop="showTitles" class="ml-1" small icon color="lime lighten-1">
+                           <v-icon class="xs-icon-font">fas fa-info</v-icon>
+                         </v-btn>
+                       </template>
+                       <span>alternative titles</span>
+                     </v-tooltip>
+
+                     <p class="mt-2 grey--text text--darken-3 body-2">{{post.description}}</p>
+                   </div>
 
                 </v-flex>
               </v-layout>
@@ -46,28 +53,25 @@
             <v-flex xs4>
               <v-layout col justify-space-around fill-height wrap>
 
-                  <v-flex xs12 >
+                <v-flex xs12 >
+                  <v-layout row wrap v-for="(item, key, index) in sortedAssessments" :key="index">
+                    <v-flex xs12 :class="item.length ? 'mb-2' : 'mb-0' " >
+                      <v-layout align-center wrap>
+                        <v-icon class="mr-3" v-if="key == 'confirmed' && item.length">fas fa-check</v-icon>
+                        <v-icon class="mr-4" v-else-if="key == 'refuted' && item.length">fas fa-times</v-icon>
+                        <v-icon class="mr-4" v-else-if="key == 'questioned' && item.length">fas fa-question</v-icon>
 
-                    <v-layout row wrap v-for="(item, key, index) in sortedAssessments" :key="index">
-                      <v-flex xs12 :class="item.length ? 'mb-2' : 'mb-0' " >
-                        <v-layout align-center wrap>
-                          <v-icon class="mr-3" v-if="key == 'confirmed' && item.length">fas fa-check</v-icon>
-                          <v-icon class="mr-4" v-else-if="key == 'refuted' && item.length">fas fa-times</v-icon>
-                          <v-icon class="mr-4" v-else-if="key == 'questioned' && item.length">fas fa-question</v-icon>
+                        <assessor v-for="assessment in item.slice(0,3)" :key="assessment.lastVersion.id"
+                          :user="assessment.assessor" :isTransitive="assessment.lastVersion.isTransitive"
+                          :credibilityValue="assessment.lastVersion.postCredibility" class="mr-2 mb-2">
+                        </assessor>
 
+                        <span v-if="item.length > 3" >...</span>
 
-                          <assessor v-for="assessment in item.slice(0,3)" :key="assessment.lastVersion.id"
-                            :user="assessment.assessor" :isTransitive="assessment.lastVersion.isTransitive"
-                            :credibilityValue="assessment.lastVersion.postCredibility" class="mr-2 mb-2">
-                          </assessor>
-
-                          <span v-if="item.length > 3" >...</span>
-
-                        </v-layout>
-                        </v-flex>
-                    </v-layout>
-
-                  </v-flex>
+                      </v-layout>
+                    </v-flex>
+                  </v-layout>
+                </v-flex>
 
               </v-layout>
 
@@ -111,6 +115,7 @@
   import customAvatar from '@/components/CustomAvatar'
   import assessor from '@/components/Assessor'
   import initiatorDisplay from '@/components/InitiatorDisplay'
+  import titleHelpers from '@/mixins/titleHelpers'
   import sourceServices from '@/services/sourceServices'
   import postServices from '@/services/postServices'
   import consts from '@/services/constants'
@@ -265,7 +270,8 @@
       post: function(val) {
         this.fetchAssociations();
       }
-    }
+    },
+    mixins: [titleHelpers]
 
 }
 </script>
@@ -283,7 +289,7 @@
 .title-custom {
   line-height: 1.5rem;
   font-size: 1.1rem !important;
+  display: inline !important;
 }
-
 
 </style>

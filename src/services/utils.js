@@ -78,7 +78,32 @@ function compareBoosters(a, b) {
   if (compareVal != 0)
     return compareVal;
   else
-    return compareNames(a.booster, b.booster);
+  {
+    let a_date = new Date(a.updatedAt);
+    let b_date = new Date(b.updatedAt);
+    if (a < b)
+      return -1;
+    else if (a > b)
+      return 1;
+    else
+      return compareNames(a.booster, b.booster);
+  }
+}
+
+function compareTitles(a, b) {
+  let compareVal = compare2Sources(a.author.id, b.author.id);
+  if (compareVal != 0)
+    return compareVal;
+  else {
+    let a_date = new Date(a.updatedAt);
+    let b_date = new Date(b.updatedAt);
+    if (a < b)
+      return -1;
+    else if (a > b)
+      return 1;
+    else
+      return compareNames(a.author, b.author);
+  }
 }
 
 function getUnique(arr, comp) {
@@ -112,6 +137,7 @@ export default {
   compareNames,
   compareSources,
   compareBoosters,
+  compareTitles,
   compareAssessments,
   getUnique,
   isTrusted,

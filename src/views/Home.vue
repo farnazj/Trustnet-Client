@@ -32,6 +32,7 @@
     <v-layout row>
       <loading></loading>
       <boosters-list detailsNamespace="homeArticleDetails"></boosters-list>
+      <custom-titles detailsNamespace="homeArticleDetails"></custom-titles>
       <assessment-history namespace="homeAssessments"></assessment-history>
 
       <v-flex xs3 md2 v-show="filtersVisible">
@@ -65,23 +66,26 @@
 </template>
 
 <script>
-import CustomToolbar from '@/components/CustomToolbar'
-import ArticleHolder from '@/components/ArticleHolder'
-import ArticleDetails from '@/components/ArticleDetails'
-import AssessmentsContainer from '@/components/AssessmentsContainer'
+import customToolbar from '@/components/CustomToolbar'
+import articleHolder from '@/components/ArticleHolder'
+import articleDetails from '@/components/ArticleDetails'
+import assessmentsContainer from '@/components/AssessmentsContainer'
 import boostersList from '@/components/BoostersList'
+import customTitles from '@/components/CustomTitles'
 import assessmentHistory from '@/components/AssessmentHistory'
 import Filters from '@/components/Filters'
 import Loading from '@/components/Loading'
 import postServices from '@/services/postServices'
 import { mapState, mapActions } from 'vuex'
+
 export default {
   components: {
-    'custom-toolbar': CustomToolbar,
-    'article-holder': ArticleHolder,
-    'article-details': ArticleDetails,
-    'assessments-container': AssessmentsContainer,
+    'custom-toolbar': customToolbar,
+    'article-holder': articleHolder,
+    'article-details': articleDetails,
+    'assessments-container': assessmentsContainer,
     'boosters-list': boostersList,
+    'custom-titles': customTitles,
     'assessment-history': assessmentHistory,
     'filters': Filters,
     'loading': Loading
@@ -107,6 +111,8 @@ export default {
  },
  beforeRouteLeave (to, from, next) {
    this.hideContainer();
+   this.setBoostersVisibility(false);
+   this.setTitlesVisibility(false);
    next();
  },
  created() {
@@ -129,7 +135,9 @@ export default {
      'hideContainer'
    ]),
    ...mapActions('homeArticleDetails', [
-     'showArticleDrawer'
+     'showArticleDrawer',
+     'setBoostersVisibility',
+     'setTitlesVisibility'
    ])
  }
 }
