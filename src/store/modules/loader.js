@@ -10,7 +10,7 @@ export default {
   },
   actions: {
     setLoading: (context, payload) => {
-      context.commit('set_loading', payload)
+      context.commit('set_loading', payload);
     }
 
   }

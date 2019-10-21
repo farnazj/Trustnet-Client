@@ -32,7 +32,9 @@
                 {{assessment.body}}
               </p>
               <span class="caption grey--text text--darken-2">{{timeElapsed(assessment.createdAt)}}</span>
-
+              <span v-if="assessment.isTransitive" class="ml-2 font-weight-light caption grey--text text--darken-1">
+                Adopted through their network
+              </span>
             </v-flex>
          </v-layout>
          <v-divider></v-divider>

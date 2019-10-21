@@ -20,14 +20,14 @@
 
       <v-list-group no-action sub-group value="true">
         <template v-slot:activator>
-          <v-list-item-content @click="filter('All', 'seen_status')">
+          <v-list-item-content @click="filter('All', 'seenStatus')">
             <v-list-item-title class="white-color">All</v-list-item-title>
           </v-list-item-content>
         </template>
 
-        <v-list-item v-for="(status, i) in seen_status_filters"
-          :key="i" @click="filter(status, 'seen_status')"
-          :class="{highlighted:status == selected_filters['seen_status']}">
+        <v-list-item v-for="(status, i) in seenStatusFilters"
+          :key="i" @click="filter(status, 'seenStatus')"
+          :class="{highlighted:status == selectedFilters['seenStatus']}">
           <v-list-item-content>
             <v-list-item-title v-text="status"></v-list-item-title>
           </v-list-item-content>
@@ -52,9 +52,9 @@
           </v-list-item-content>
         </template>
 
-        <v-list-item v-for="(validity, i) in validity_filters"
+        <v-list-item v-for="(validity, i) in validityFilters"
           :key="i" @click="filter(validity, 'validity')"
-          :class="{highlighted:validity == selected_filters['validity']}">
+          :class="{highlighted:validity == selectedFilters['validity']}">
           <v-list-item-content>
             <v-list-item-title v-text="validity"></v-list-item-title>
           </v-list-item-content>
@@ -72,14 +72,11 @@
         </v-list-item-content>
       </template>
 
-      <v-list-item v-for="(source, i) in source_filters"
+      <v-list-item v-for="(source, i) in sourceFilters"
         :key="i" @click="filter(source, 'sources')"
-        :class="{highlighted:source == selected_filters['sources']}">
-        <!-- <v-list-item-action>
-          <v-checkbox v-model="sth"></v-checkbox>
-        </v-list-item-action> -->
+        :class="{highlighted:source == selectedFilters['sources']}">
         <v-list-item-content>
-          <v-list-item-title> {{source}}</v-list-item-title>
+          <v-list-item-title> {{source}} </v-list-item-title>
         </v-list-item-content>
 
       </v-list-item>
@@ -91,10 +88,10 @@
         <v-subheader>Followed or Trusted Sources</v-subheader>
         <v-list-item v-for="source in followedOrTrusteds"
             :key="source.id" @click="selectSource(source)"
-            :class="{highlighted: sourceSelectionMode && selected_sources.includes(source.userName)}">
+            :class="{highlighted: sourceSelectionMode && selectedSources.includes(source.userName)}">
 
             <v-list-item-action v-if="sourceSelectionMode" class="pa-0 source-checkbox">
-              <v-checkbox v-model="selectedSourcesCheck[source.id]"></v-checkbox>
+              <v-checkbox v-model="selectedSourcesCheckMark[source.userName]"></v-checkbox>
             </v-list-item-action>
 
           <v-list-item-avatar>
@@ -121,7 +118,7 @@
 <script>
   import customAvatar from '@/components/CustomAvatar'
   import sourceHelpers from '@/mixins/sourceHelpers'
-  import { mapState, mapGetters, mapActions } from 'vuex';
+  import { mapState, mapGetters, mapActions } from 'vuex'
 
   export default {
     components: {
@@ -129,25 +126,28 @@
     },
     data: () => {
       return {
-        validity_filters: [ 'Confirmed', 'Refuted', 'Debated', 'Questioned'],
-        source_filters: ['Followed', 'Me', 'Trusted', 'Selected Sources'],
-        seen_status_filters: ['Not Seen', 'Seen'],
-        selected_filters: {'validity': undefined, 'sources': 'Followed', 'seen_status':'Not Seen' },
-        selected_sources: [],
+        validityFilters: [ 'Confirmed', 'Refuted', 'Debated', 'Questioned'],
+        sourceFilters: ['Followed', 'Me', 'Trusted', 'Selected Sources'],
+        seenStatusFilters: ['Not Seen', 'Seen'],
+        selectedFilters: {'validity': undefined, 'sources': 'Followed', 'seenStatus':'Not Seen' },
+        selectedSources: [],
         sourceSelectionMode: false,
-        selectedSourcesCheck: {}
+        selectedSourcesCheckMark: {}
       }
     },
     created() {
       this.fetchFollows();
       this.fetchTrusteds();
       this.resetSourceCheckbox();
+      this.presetFilters();
+
     },
     computed: {
       ...mapState('articleFilters', [
-          'validity_filter',
-          'source_filter',
-          'seen_filter'
+          'validityFilter',
+          'sourceFilter',
+          'seenFilter',
+          'sourceUsernames'
       ]),
       ...mapGetters('relatedSources', [
        'followedOrTrusteds'
@@ -157,41 +157,41 @@
     methods: {
       filter: function(name, type) {
 
-        let prev_value = this.selected_filters[type];
+        let prevValue = this.selectedFilters[type];
 
         if (name == 'All')
-          this.selected_filters[type] = undefined;
+          this.selectedFilters[type] = undefined;
         else
-          this.selected_filters[type] = name;
+          this.selectedFilters[type] = name;
 
-
-        if (this.selected_filters['sources'] == 'Selected Sources')
+        if (this.selectedFilters['sources'] == 'Selected Sources')
           this.sourceSelectionMode = true;
         else {
           this.sourceSelectionMode = false;
 
-          if (this.selected_sources.length)
-            this.selected_sources = [];
+          if (this.selectedSources.length)
+            this.selectedSources = [];
 
-          if (prev_value == 'Selected Sources')
+          if (prevValue == 'Selected Sources')
             this.resetSourceCheckbox();
         }
 
-        if (this.selected_filters[type] != prev_value) {
-          if (name != 'Selected Sources' || this.selected_sources.length > 0 )
+        if (this.selectedFilters[type] != prevValue) {
+          if (name != 'Selected Sources' || this.selectedSources.length > 0 )
             this.filterBoosts();
         }
 
       },
       selectSource: function(source) {
+
         if (this.sourceSelectionMode) {
-          if (this.selected_sources.includes(source.userName)) {
-            this.selected_sources.splice(this.selected_sources.indexOf(source.userName), 1);
-            this.selectedSourcesCheck[source.id] = false;
+          if (this.selectedSources.includes(source.userName)) {
+            this.selectedSources.splice(this.selectedSources.indexOf(source.userName), 1);
+            this.selectedSourcesCheckMark[source.userName] = false;
           }
           else {
-            this.selected_sources.push(source.userName);
-            this.selectedSourcesCheck[source.id] = true;
+            this.selectedSources.push(source.userName);
+            this.selectedSourcesCheckMark[source.userName] = true;
           }
 
           this.filterBoosts();
@@ -202,13 +202,53 @@
 
       },
       resetSourceCheckbox: function() {
+
         this.followedOrTrusteds.forEach(source => {
-          this.selectedSourcesCheck[source.id] = false;
+          this.selectedSourcesCheckMark[source.userName] = false;
         })
       },
+      /*
+      To highlight in the interface the selections previously set and maintained in store
+      */
+      presetFilters: function() {
+        this.selectedFilters['validity'] = this.validityFilter.toLowerCase().split(' ').map((s) =>
+          s.charAt(0).toUpperCase() + s.substring(1)).join(' ');
+
+        this.selectedFilters['seenStatus'] = this.seenFilter.toLowerCase().split(' ').map((s) =>
+          s.charAt(0).toUpperCase() + s.substring(1)).join(' ');
+
+        if (this.sourceFilter != 'usernames')
+          this.selectedFilters['sources'] = this.sourceFilter.toLowerCase().split(' ').map((s) =>
+            s.charAt(0).toUpperCase() + s.substring(1)).join(' ');
+        else {
+          this.selectedFilters['sources'] = 'Selected Sources';
+          this.sourceSelectionMode = true;
+
+          let followedOrTrustedsUsernames = this.followedOrTrusteds.map(el => el.userName);
+
+          let sourcesChanged = false;
+
+          for (let username of this.sourceUsernames) {
+            if (followedOrTrustedsUsernames.includes(username)) {
+                this.selectedSources.push(username);
+                this.selectedSourcesCheckMark[username] = true;
+            }
+            else
+              sourcesChanged = true;
+          }
+
+          if (sourcesChanged)
+            this.filterBoosts();
+        }
+
+
+      },
       filterBoosts: function() {
-        this.applyFilter({'filters': this.selected_filters,
-          'source_usernames': this.selected_sources});
+
+        this.applyFilter({
+          'filters': this.selectedFilters,
+          'sourceUsernames': this.selectedSources
+        });
       },
       ...mapActions('articleFilters', [
         'applyFilter',
@@ -218,17 +258,6 @@
         'fetchTrusteds'
       ])
 
-    },
-    watch: {
-      validity_filter: function(val) {
-        this.selected_filters['validity'] = val.toLowerCase().split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' ');
-      },
-      source_filter: function(val) {
-        this.selected_filters['sources'] = val.toLowerCase().split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' ');
-      },
-      seen_filter: function(val) {
-        this.selected_filters['seen_status'] = val.toLowerCase().split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' ');
-      }
     },
     mixins: [sourceHelpers]
 

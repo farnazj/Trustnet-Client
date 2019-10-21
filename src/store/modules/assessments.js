@@ -10,9 +10,13 @@ export default {
     }
   },
   mutations: {
-    show_assessments: (state) => { state.visible = true; },
+    show_assessments: (state) => {
+      state.visible = true;
+    },
 
-    hide_assessments: (state) => { state.visible = false; },
+    hide_assessments: (state) => {
+      state.visible = false;
+    },
 
     populate_assessments: (state, assessments) => {
       state.assessments = assessments;
@@ -23,12 +27,14 @@ export default {
     },
 
     populate_assessment_history: (state, payload) => {
+
       state.assessmentHistory = payload.history;
       state.historyOwner = payload.assessor;
     }
   },
   actions: {
     showAssessments: (context, payload) => {
+      
       context.commit('populate_assessments', payload);
       context.commit('show_assessments');
     },

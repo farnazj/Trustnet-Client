@@ -9,9 +9,14 @@ export default {
   },
   getters: {
 
-    isLoggedIn: (state) => { return !!state.token; },
-    authStatus: (state) => { return state.status; },
+    isLoggedIn: (state) => {
+      return !!state.token;
+    },
+    authStatus: (state) => {
+      return state.status;
+    },
     user: (state) => {
+
       if (Object.entries(state.token).length)
         return state.token;
       else {
@@ -22,7 +27,7 @@ export default {
   mutations: {
 
     auth_request(state){
-    state.status = 'loading'
+      state.status = 'loading'
     },
     auth_success(state, user){
       state.status = 'success';
@@ -42,6 +47,7 @@ export default {
   },
   actions: {
     updateUser: (context) => {
+
       return new Promise((resolve, reject) => {
         let id = context.state.token.id;
         sourceServices.getSourceById(id)
@@ -57,6 +63,7 @@ export default {
     },
 
     login: (context, user) => {
+
       return new Promise((resolve, reject) => {
         context.commit('auth_request')
         authServices.login(user)
@@ -78,10 +85,10 @@ export default {
     },
 
     signup: ({commit}, user) => {
+
       return new Promise((resolve, reject) => {
         commit('auth_request');
         authServices.signup(user).then(resp => {
-          //commit('auth_success', user);
           resolve(resp);
         })
         .catch(err => {
@@ -92,6 +99,7 @@ export default {
     },
 
     logout: ({commit}) => {
+
       console.log('going to logout')
       return new Promise((resolve, reject) => {
         authServices.logout().then(resp => {

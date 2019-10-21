@@ -4,20 +4,20 @@ import postServices from '@/services/postServices'
 export default {
   namespaced: true,
   state: {
-    validity_filter: 'All',
-    source_filter: 'Followed',
-    seen_filter: 'Not Seen',
-    source_usernames: [],
+    validityFilter: 'All',
+    sourceFilter: 'Followed',
+    seenFilter: 'Not Seen',
+    sourceUsernames: [],
     articles: [],
     offset: 0,
     limit: 10,
-    articles_fetched: false
+    articlesFetched: false
   },
   mutations: {
     append_articles: (state, posts) => {
-      let article_ids = state.articles.map(article => article.id);
-      let filtered_posts = posts.filter(post => !article_ids.includes(post.id) );
-      state.articles.push(...filtered_posts);
+      let articleIds = state.articles.map(article => article.id);
+      let filteredPosts = posts.filter(post => !articleIds.includes(post.id) );
+      state.articles.push(...filteredPosts);
       state.offset += posts.length;
     },
 
@@ -27,18 +27,19 @@ export default {
     },
 
     change_filter_value: (state, filters) => {
-      state.validity_filter = filters.filters.validity ? filters.filters.validity : 'All';
-      state.source_filter = filters.filters.sources ?
+      console.log('in store module', JSON.stringify(filters))
+      state.validityFilter = filters.filters.validity ? filters.filters.validity : 'All';
+      state.sourceFilter = filters.filters.sources ?
         (filters.filters.sources == 'Selected Sources' ?  'usernames' : filters.filters.sources)
         : 'All';
 
-      state.seen_filter = filters.filters.seen_status ? filters.filters.seen_status : 'All';
+      state.seenFilter = filters.filters.seenStatus ? filters.filters.seenStatus : 'All';
 
-      state.validity_filter = state.validity_filter.toLowerCase();
-      state.source_filter = state.source_filter.toLowerCase();
-      state.seen_filter = state.seen_filter.toLowerCase();
+      state.validityFilter = state.validityFilter.toLowerCase();
+      state.sourceFilter = state.sourceFilter.toLowerCase();
+      state.seenFilter = state.seenFilter.toLowerCase();
 
-      state.source_usernames = filters.source_usernames;
+      state.sourceUsernames = filters.sourceUsernames;
     },
 
     update_boost: (state, boost) => {
@@ -52,7 +53,7 @@ export default {
     },
 
     set_fetch_status: (state, status) =>{
-      state.articles_fetched = status;
+      state.articlesFetched = status;
     }
   },
   actions: {
@@ -62,10 +63,10 @@ export default {
       return new Promise((resolve, reject) => {
 
         postServices.getBoosts({offset: context.state.offset, limit: context.state.limit},
-          { source: context.state.source_filter,
-            validity: context.state.validity_filter,
-            seenstatus: context.state.seen_filter,
-            usernames: context.state.source_usernames.toString()
+          { source: context.state.sourceFilter,
+            validity: context.state.validityFilter,
+            seenstatus: context.state.seenFilter,
+            usernames: context.state.sourceUsernames.toString()
           })
         .then(response => {
           resolve(response.data);
@@ -76,6 +77,7 @@ export default {
     },
 
     getMoreBoosts: (context) => {
+
       context.dispatch('loader/setLoading', true, { root: true });
       return new Promise((resolve, reject) => {
 
@@ -94,10 +96,12 @@ export default {
       })
     },
     refreshArticles: (context) => {
+
       context.dispatch('loader/setLoading', true, { root: true });
       context.commit('refresh_articles');
       context.commit('set_fetch_status', false);
       return new Promise((resolve, reject) => {
+
         context.dispatch('getMoreBoosts')
         .then(() => {
           resolve();
@@ -113,6 +117,7 @@ export default {
     },
 
     applyFilter: (context, payload) => {
+
       context.dispatch('loader/setLoading', true, { root: true });
 
       context.commit('refresh_articles');
@@ -134,12 +139,13 @@ export default {
     },
 
     updateStateArticle: (context, payload) => {
+
       return new Promise((resolve, reject) => {
 
         postServices.getBoostByPostId(payload,
-          { source: context.state.source_filter,
-            validity: context.state.validity_filter,
-            usernames: context.state.source_usernames.toString()
+          { source: context.state.sourceFilter,
+            validity: context.state.validityFilter,
+            usernames: context.state.sourceUsernames.toString()
           })
           .then(response => {
             context.commit('update_boost', response.data);

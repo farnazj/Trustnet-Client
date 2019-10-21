@@ -16,9 +16,9 @@ export default {
     },
 
     append_articles: (state, posts) => {
-      let article_ids = state.articles.map(article => article.id);
-      let filtered_posts = posts.filter(post => !article_ids.includes(post.id) );
-      state.articles.push(...filtered_posts);
+      let articleIds = state.articles.map(article => article.id);
+      let filteredPosts = posts.filter(post => !articleIds.includes(post.id) );
+      state.articles.push(...filteredPosts);
       state.offset += posts.length;
     },
 
@@ -32,8 +32,8 @@ export default {
       Vue.set(state.articles, index, boost);
     },
 
-    remove_boost: (state, post_id) => {
-      let index = state.articles.findIndex(article => article.id == post_id);
+    remove_boost: (state, postId) => {
+      let index = state.articles.findIndex(article => article.id == postId);
       state.articles.splice(index, 1);
     }
   },
@@ -44,6 +44,7 @@ export default {
     },
 
     getArticles: (context) => {
+
       return new Promise((resolve, reject) => {
 
         postServices.getActivity({
@@ -60,6 +61,7 @@ export default {
     },
 
     getMoreBoosts: (context) => {
+
       context.dispatch('loader/setLoading', true, { root: true });
       return new Promise((resolve, reject) => {
 
@@ -78,9 +80,11 @@ export default {
       })
     },
     refreshArticles: (context) => {
+
       context.dispatch('loader/setLoading', true, { root: true });
       context.commit('refresh_articles');
       return new Promise((resolve, reject) => {
+        
         context.dispatch('getMoreBoosts')
         .then(() => {
           resolve();
@@ -95,6 +99,7 @@ export default {
     },
 
     updateStateArticle: (context, payload) => {
+
       return new Promise((resolve, reject) => {
 
         postServices.getActivityByPostId(
@@ -112,7 +117,7 @@ export default {
       })
     },
 
-    removeArticle: (context, payload) =>{
+    removeArticle: (context, payload) => {
       context.commit('remove_boost', payload);
     }
   }

@@ -5,26 +5,28 @@
 </template>
 
 <script>
-import axios from 'axios'
+//import axios from 'axios'
+
 export default {
   name: 'App',
   components: {
   },
   data () {
     return {
-      //
     }
   },
   created() {
   },
   computed : {
-      isLoggedIn : function(){ return this.$store.getters.isLoggedIn}
+      isLoggedIn : function() {
+        return this.$store.getters.isLoggedIn;
+      }
     },
   methods: {
     logout: function () {
       this.$store.dispatch['auth/logout']
       .then(() => {
-        this.$router.push('/login')
+        this.$router.push('/login');
       })
     }
   }

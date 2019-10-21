@@ -27,5 +27,4 @@ instance.interceptors.response.use(undefined, function (err) {
 
 export default() => {
   return instance;
-
 }

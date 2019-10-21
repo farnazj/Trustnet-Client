@@ -1,36 +1,41 @@
 import store from '../store/store'
 
-//function to sort sources by full name or username if they don't have full name
+//function to sort sources by full name or username (for news publishing entities)
 function compareNames(a, b) {
-  let source_names = []
-  Array.from(arguments).forEach(source => source_names.push(source.systemMade ? source.userName :
-    source.firstName.toLowerCase() + ' ' + source.lastName.toLowerCase()));
 
-  return source_names[0].localeCompare(source_names[1]);
+  let sourceNames = []
+  Array.from(arguments).forEach(source => sourceNames.push(
+    source.systemMade
+    ? source.userName
+    : source.firstName.toLowerCase() + ' ' + source.lastName.toLowerCase())
+  );
+
+  return sourceNames[0].localeCompare(sourceNames[1]);
 }
 
-function compare2Sources(a_id, b_id) {
+function compare2Sources(aId, bId) {
 
-  let auth_userid = store.getters['auth/user'].id;
+  let authUserId = store.getters['auth/user'].id;
 
-  if (a_id == auth_userid)
+  if (aId == authUserId)
     return -1;
-  else if (b_id == auth_userid)
+  else if (bId == authUserId)
     return 1;
   else {
-    let trusted_ids = store.getters['relatedSources/trustedIds'];
-    let followed_ids = store.getters['relatedSources/followedIds'];
-    if (trusted_ids.includes(a_id) && trusted_ids.includes(b_id)) {
-      if (followed_ids.includes(a_id))
+    let trustedIds = store.getters['relatedSources/trustedIds'];
+    let followedIds = store.getters['relatedSources/followedIds'];
+
+    if (trustedIds.includes(aId) && trustedIds.includes(bId)) {
+      if (followedIds.includes(aId))
         return -1;
-      else if (followed_ids.includes(b_id))
+      else if (followedIds.includes(bId))
         return 1;
       else
         return -1
     }
-    else if (trusted_ids.includes(a_id))
+    else if (trustedIds.includes(aId))
       return -1;
-    else if (trusted_ids.includes(b_id))
+    else if (trustedIds.includes(bId))
       return 1;
     else
       return 0;
@@ -40,6 +45,7 @@ function compare2Sources(a_id, b_id) {
 
 
 function compareAssessments(a, b) {
+
   if (!a.lastVersion.isTransitive && b.lastVersion.isTransitive)
     return -1;
   else if (a.lastVersion.isTransitive && !b.lastVersion.isTransitive)
@@ -49,12 +55,12 @@ function compareAssessments(a, b) {
     if (compareVal != 0)
       return compareVal;
     else {
-      let a_credVal = Math.abs(a.lastVersion.postCredibility);
-      let b_credVal = Math.abs(b.lastVersion.postCredibility);
+      let aCredVal = Math.abs(a.lastVersion.postCredibility);
+      let bCredVal = Math.abs(b.lastVersion.postCredibility);
 
-      if ( (a_credVal == 0 && b_credVal != 0) || (a_credVal > b_credVal) )
+      if ( (aCredVal == 0 && bCredVal != 0) || (aCredVal > bCredVal) )
         return -1;
-      else if ( (a_credVal != 0 && b_credVal == 0) || (a_credVal < b_credVal) )
+      else if ( (aCredVal != 0 && bCredVal == 0) || (aCredVal < bCredVal) )
         return 1;
       else
         return compareNames(a.assessor, b.assessor);
@@ -65,25 +71,26 @@ function compareAssessments(a, b) {
 
 
 function compareSources(a, b) {
+
   let compareVal = compare2Sources(a.id, b.id);
   if (compareVal != 0)
     return compareVal;
   else
     return compareNames(a, b);
-
 }
 
 function compareBoosters(a, b) {
+
   let compareVal = compare2Sources(a.booster.id, b.booster.id);
   if (compareVal != 0)
     return compareVal;
   else
   {
-    let a_date = new Date(a.updatedAt);
-    let b_date = new Date(b.updatedAt);
-    if (a < b)
+    let aDate = new Date(a.updatedAt);
+    let bDate = new Date(b.updatedAt);
+    if (aDate < bDate)
       return -1;
-    else if (a > b)
+    else if (aDate > bBdate)
       return 1;
     else
       return compareNames(a.booster, b.booster);
@@ -91,13 +98,14 @@ function compareBoosters(a, b) {
 }
 
 function compareTitles(a, b) {
+
   let compareVal = compare2Sources(a.author.id, b.author.id);
   if (compareVal != 0)
     return compareVal;
   else {
-    let a_date = new Date(a.updatedAt);
-    let b_date = new Date(b.updatedAt);
-    if (a < b)
+    let aDate = new Date(a.updatedAt);
+    let bDate = new Date(b.updatedAt);
+    if (aDate < bDate)
       return -1;
     else if (a > b)
       return 1;
@@ -107,6 +115,7 @@ function compareTitles(a, b) {
 }
 
 function getUnique(arr, comp) {
+
   const unique = arr.map(e => e[comp])
   .map((e, i, final) => final.indexOf(e) === i && i)
   .filter(e => arr[e]).map(e => arr[e]);
@@ -116,18 +125,19 @@ function getUnique(arr, comp) {
 
 function isTrusted(source) {
 
-  let trusted_ids = store.getters['relatedSources/trustedIds'];
+  let trustedIds = store.getters['relatedSources/trustedIds'];
 
-  if (trusted_ids.includes(source.id))
+  if (trustedIds.includes(source.id))
     return true;
   else
     return false;
 }
 
 function isFollowed(source) {
- let followed_ids = store.getters['relatedSources/followedIds'];
+  
+ let followedIds = store.getters['relatedSources/followedIds'];
 
- if (followed_ids.includes(source.id))
+ if (followedIds.includes(source.id))
    return true;
  else
    return false;

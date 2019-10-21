@@ -4,31 +4,32 @@ import utils from '@/services/utils'
 export default {
   namespaced: true,
   state: {
-    followed_sources: [],
-    trusted_sources: [],
+    followedSources: [],
+    trustedSources: [],
     followers: []
   },
   getters: {
     trustedIds: (state) => {
-      return state.trusted_sources.map(source => source.id);
+      return state.trustedSources.map(source => source.id);
     },
     followedIds: (state) => {
-      return state.followed_sources.map(source => source.id);
+      return state.followedSources.map(source => source.id);
     },
     followedOrTrusteds: (state) => {
-      let all_sources = [];
-      for (let key of [state.followed_sources, state.trusted_sources]) {
+
+      let allSources = [];
+      for (let key of [state.followedSources, state.trustedSources]) {
 
         key.forEach(source => {
-          let index = all_sources.findIndex(el => el.id == source.id);
+          let index = allSources.findIndex(el => el.id == source.id);
           let target_source;
           if (index == -1) {
             let new_source = Object.assign({}, source);
-            all_sources.push(new_source);
+            allSources.push(new_source);
           }
         })
       }
-      return all_sources;
+      return allSources;
     }
 
   },
@@ -36,11 +37,11 @@ export default {
 
     populate_follows: (state, sources) => {
       sources.sort(utils.compareSources);
-      state.followed_sources = sources;
+      state.followedSources = sources;
     },
     populate_trusteds: (state, sources) => {
       sources.sort(utils.compareSources);
-      state.trusted_sources = sources;
+      state.trustedSources = sources;
     },
     populate_followers: (state, sources) => {
       sources.sort(utils.compareSources);
@@ -52,6 +53,7 @@ export default {
     fetchFollows: (context) => {
 
       return new Promise((resolve, reject) => {
+
         relationServices.getFollows()
         .then(response => {
           context.commit('populate_follows', response.data);
@@ -62,6 +64,7 @@ export default {
     fetchTrusteds: (context) => {
 
       return new Promise((resolve, reject) => {
+
         relationServices.getTrusteds()
         .then(response => {
           context.commit('populate_trusteds', response.data);
@@ -70,10 +73,12 @@ export default {
       })
     },
     fetchFollowers: (context) => {
-      let auth_username = context.rootGetters['auth/user'].userName;
+
+      let authUsername = context.rootGetters['auth/user'].userName;
 
       return new Promise((resolve, reject) => {
-        relationServices.getFollowers({username: auth_username})
+
+        relationServices.getFollowers({username: authUsername})
         .then(response => {
           context.commit('populate_followers', response.data);
           resolve();
@@ -81,7 +86,9 @@ export default {
       })
     },
     addTrusted: (context, payload) => {
+
       return new Promise((resolve, reject) => {
+
         relationServices.addTrusted(payload)
         .then(response => {
           context.dispatch('fetchTrusteds')
@@ -96,7 +103,9 @@ export default {
       })
     },
     deleteTrusted: (context, payload) => {
+
       return new Promise((resolve, reject) => {
+
         relationServices.deleteTrusted(payload)
         .then(response => {
           context.dispatch('fetchTrusteds')
@@ -111,7 +120,9 @@ export default {
       })
     },
     follow: (context, payload) => {
+
       return new Promise((resolve, reject) => {
+
         relationServices.follow(payload)
         .then(() => {
           context.dispatch('fetchFollows')
@@ -126,11 +137,10 @@ export default {
       });
     },
     unfollow: (context, payload) => {
+
       return new Promise((resolve, reject) => {
-        let relation_proms = [
-          relationServices.unfollow(payload)
-        ];
-        Promise.all(relation_proms)
+
+        relationServices.unfollow(payload)
         .then(() => {
           let dispatch_proms = [
             context.dispatch('fetchFollows'),

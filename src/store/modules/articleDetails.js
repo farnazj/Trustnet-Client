@@ -66,10 +66,11 @@ export default {
     },
 
     getAuthUserPostAssessment: (context) => {
-      let auth_userid = context.rootGetters['auth/user'].id;
+
+      let authUserId = context.rootGetters['auth/user'].id;
 
       return new Promise((resolve, reject) => {
-        assessmentServices.getPostSourceAssessment(auth_userid, context.state.article.id)
+        assessmentServices.getPostSourceAssessment(authUserId, context.state.article.id)
         .then(response => {
           let assessment = response.data.length ? response.data[0] : {};
           context.commit('set_assessment', assessment);
@@ -82,6 +83,7 @@ export default {
     },
 
     postAuthUserAssessment: (context, payload) => {
+
       return new Promise((resolve, reject) => {
         assessmentServices.postAssessment(context.state.article.id, payload)
         .then(() => {
@@ -97,9 +99,10 @@ export default {
     },
 
     updateDisplayedArticle: (context, payload) => {
+
       let articles = context.rootState[payload.namespace].articles;
-      let updated_article = articles.find(el => el.id == context.state.article.id);
-      context.commit('update_article', updated_article);
+      let updatedArticle = articles.find(el => el.id == context.state.article.id);
+      context.commit('update_article', updatedArticle);
     },
 
     setBoostersVisibility: (context, payload) => {
