@@ -1,7 +1,7 @@
 <template>
-  <div  class="pa-1">
+  <div class="pa-1">
 
-    <v-layout row class="mb-2" align-center wrap>
+    <v-row class="mb-2" align="center" wrap no-gutters>
         <assessor :user="assessmentObj.assessor" :clickEnabled="true" :isTransitive="assessmentObj.lastVersion.isTransitive"
           :credibilityValue="assessmentObj.lastVersion.postCredibility" class="mb-1">
         </assessor>
@@ -10,10 +10,10 @@
         <span class="ml-2 caption grey--text text--darken-3"> {{timeElapsed(assessmentObj.lastVersion.createdAt)}} </span>
         <span v-if="assessmentObj.history.length" class="ml-2 caption grey--text text--darken-1 cursor-pointer" @click.stop="showHistory">
           Edited</span>
-    </v-layout>
+    </v-row>
 
-    <v-layout row v-if="assessmentObj.lastVersion.body" class="pa-1 pr-2 body-2 assessment-text">
-      <v-flex xs12>
+    <v-row v-if="assessmentObj.lastVersion.body" no-gutters class="pa-1 pr-2 body-2 assessment-text">
+      <v-col cols="12">
         <p v-if="!showFullText && bodyWordCount > 25">{{truncatedText}}
           <span class="blue--text text--darken-3 cursor-pointer" @click="showFullText = true">
             show more
@@ -26,8 +26,8 @@
           </span>
         </p>
 
-      </v-flex>
-    </v-layout>
+      </v-col>
+    </v-row>
 
     <v-divider></v-divider>
   </div>
@@ -35,14 +35,12 @@
 </template>
 
 <script>
-import customAvatar from '@/components/CustomAvatar'
 import assessor from '@/components/Assessor'
 import timeHelpers from '@/mixins/timeHelpers'
 import { mapActions } from 'vuex'
 
 export default {
   components: {
-   'custom-avatar': customAvatar,
    'assessor': assessor
   },
   props: {

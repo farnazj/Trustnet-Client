@@ -1,17 +1,17 @@
 <template>
-  <v-layout wrap>
+  <v-row wrap v-show="articleDetailsVisible">
     <v-navigation-drawer v-model="articleDetailsVisible"
       temporary right width="1000" fixed disable-route-watcher>
 
      <v-card class="full-height">
 
-       <v-layout row class="pa-2" full-height align-center>
+       <v-row class="pa-2" full-height align="center" no-gutters>
 
-         <v-flex>
+         <v-col>
            <v-icon large @click="articleDetailsVisible = false">clear</v-icon>
-         </v-flex>
+         </v-col>
 
-         <v-flex xs4 class="right-align">
+         <v-col cols="4" class="right-align">
 
            <v-menu v-model="assessmentMenu"
              :close-on-content-click="false"
@@ -69,14 +69,14 @@
              <v-card>
                <v-container fluid>
 
-                 <v-layout row>
-                   <v-flex xs12>
+                 <v-row no-gutters>
+                   <v-col cols="12">
                      <!-- <span>Select your target audience or leave this empty to
                        include everyone</span> -->
                      <source-selector ref="boostTargets" class="mt-2">
                      </source-selector>
-                   </v-flex>
-                 </v-layout>
+                   </v-col>
+                 </v-row>
                </v-container>
 
                  <v-card-actions>
@@ -101,11 +101,11 @@
         </v-tooltip>
 
 
-         </v-flex>
-       </v-layout>
+         </v-col>
+       </v-row>
        <v-divider></v-divider>
 
-       <v-layout row full-height>
+       <v-row full-height no-gutters>
          <v-container>
 
            <v-snackbar v-model="showInfoSnackbar" top>
@@ -119,7 +119,7 @@
             @close="showDeleteDialog = false" @confirm="deleteArticle">
           </delete-dialog>
 
-           <v-layout row class="edit-tools" v-if="AuthUserIsOwner">
+           <v-row no-gutters class="edit-tools" v-if="AuthUserIsOwner">
              <v-speed-dial v-model="fab"
               direction="top" transition="slide-y-transition">
                 <template v-slot:activator>
@@ -138,9 +138,9 @@
                   <v-icon>delete</v-icon>
                 </v-btn>
             </v-speed-dial>
-           </v-layout>
+           </v-row>
 
-           <v-layout row class="save-edits" v-show="editMode" justify-end>
+           <v-row no-gutters class="save-edits" v-show="editMode" justify="end">
              <v-fab-transition>
 
              <v-btn fab dark @click="saveEdits"
@@ -148,18 +148,17 @@
                <v-icon>check</v-icon>
              </v-btn>
            </v-fab-transition>
-           </v-layout>
+           </v-row>
 
 
-           <v-layout row justify-center class="centered">
-             <v-flex xs8>
+           <v-row no-gutters justify="center" class="centered">
+             <v-col cols="8">
 
                <v-card-title primary-title class="mb-2">
-                  <v-layout row justify-center>
+                  <v-row no-gutters justify="center">
                     <div v-if="!editMode" class="headline">{{article.title}}</div>
                     <v-text-field v-else v-model="edit.title"></v-text-field>
-
-                  </v-layout>
+                  </v-row>
 
                 </v-card-title>
 
@@ -169,11 +168,11 @@
 
                <v-img v-if="article.image" :src="article.image" contain class="rounded">
                </v-img>
-             </v-flex>
-           </v-layout>
+             </v-col>
+           </v-row>
 
-           <v-layout row class="my-2" justify-center>
-             <v-flex xs10>
+           <v-row no-gutters class="my-2" justify="center">
+             <v-col cols="10">
                <v-card-text class="body-text">
                  <div v-if="!editMode">
                    <p v-if="article.body" class="body-1" v-html="article.body">
@@ -192,35 +191,35 @@
 
                </v-card-text>
 
-             </v-flex>
-           </v-layout>
+             </v-col>
+           </v-row>
 
-           <v-layout row justify-center class="mt-2 mb-3">
-             <v-flex xs6>
+           <v-row no-gutters justify="center" class="mt-2 mb-3">
+             <v-col cols="6">
                <v-card-actions v-if="article.url">
                  <v-btn outlined block color="blue darken-1"
                   :href="article.url" target="_blank">
                    Visit Website</v-btn>
 
                </v-card-actions>
-             </v-flex>
-           </v-layout>
+             </v-col>
+           </v-row>
 
            <v-divider></v-divider>
 
-           <v-layout class="mt-2" row justify-center>
+           <v-row no-gutters class="mt-2" justify="center">
             <div class="fb-comments ma-1" :data-href="facebookCommentsURL"
             data-width="500" data-numposts="5"></div>
-           </v-layout>
+           </v-row>
 
          </v-container>
 
-       </v-layout>
+       </v-row>
 
      </v-card>
 
    </v-navigation-drawer>
-  </v-layout>
+  </v-row>
 
 </template>
 

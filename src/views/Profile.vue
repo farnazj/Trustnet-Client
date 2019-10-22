@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid class="px-0">
+  <v-container fluid class="px-0 flex-parent">
 
     <photo-upload field="avatar" v-model="showUploader"
         @crop-upload-success="updateAuthUser()"
@@ -8,50 +8,49 @@
         :url="uploadUrl"
         :withCredentials="true"
     langType="en">
-  </photo-upload>
+    </photo-upload>
 
-    <v-layout row>
-      <custom-toolbar></custom-toolbar>
-    </v-layout>
+    <custom-toolbar></custom-toolbar>
 
-    <v-layout row class="pt-5" >
+    <article-details detailsNamespace="profileArticleDetails"
+     filtersNamespace="profileArticles"> </article-details>
+
+     <v-row no-gutters class="pt-12 flex-first-child">
       <v-card width="100%" color="secondary">
         <v-container fluid>
 
-          <v-layout row align-end>
-            <v-flex sm2 xs4>
+          <v-row align="end" no-gutters >
 
-              <v-layout row justify-center>
+            <v-col sm="2" cols="4">
+              <v-row no-gutters justify="center">
+                <v-hover>
+                  <v-img :src="profileOwner.photoUrl ? profileOwner.photoUrl : 'https://api.adorable.io/avatars/249/farnaz.png'"
+                  class="profile-img" slot-scope="{ hover }" aspect-ratio="1" width="10">
+                    <v-expand-transition>
+                      <div v-if="hover && profileOwner.userName == user.userName "
+                        class="d-flex transition-fast-in-fast-out grey darken-4 v-card--reveal white--text">
+                        <v-btn @click="showUploader = true" small text rounded dark>
+                          <v-icon class ="pl-0 ml-0" right dark>photo_camera</v-icon>
+                        </v-btn>
+                      </div>
+                    </v-expand-transition>
+                  </v-img>
+                </v-hover>
+              </v-row>
+            </v-col>
 
-              <v-hover>
-
-              <v-img :src="profileOwner.photoUrl ? profileOwner.photoUrl : 'https://api.adorable.io/avatars/249/farnaz.png'"
-              class="profile-img" slot-scope="{ hover }" aspect-ratio="1" width="10"  >
-              <v-expand-transition>
-                <div v-if="hover && profileOwner.userName == user.userName "
-                  class="d-flex transition-fast-in-fast-out grey darken-4 v-card--reveal white--text">
-                  <v-btn @click="showUploader = true" small text rounded dark>
-                    <v-icon class ="pl-0 ml-0" right dark>photo_camera</v-icon>
-                  </v-btn>
-                </div>
-              </v-expand-transition>
-              </v-img>
-            </v-hover>
-              </v-layout>
-
-            </v-flex>
-            <v-flex sm7 xs5>
+            <v-col sm="7" cols="5">
               <v-card-title>
                 <div>
                   <div class="headline grey--text text--lighten-4" v-if="!profileOwner.systemMade">{{profileOwner.firstName}} {{profileOwner.lastName}}</div>
                   <div class="subheading grey--text text--lighten-2">({{profileOwner.userName}})</div>
                 </div>
               </v-card-title>
-            </v-flex>
+            </v-col>
 
-            <v-flex xs3>
+            <v-col cols="3">
 
-              <v-layout row v-if="notUser" justify-end wrap>
+              <v-row v-if="notUser" justify="end" wrap no-gutters>
                 <v-btn :small="$vuetify.breakpoint.xsOnly" depressed @click="changeTrustStatus()"
                 :color="isTrusted ? 'grey lighten-1' : 'light-green lighten-1' " class="ma-1">
                   <span v-if="!isTrusted">Trust</span>
@@ -63,56 +62,61 @@
                   <span v-if="!isFollowed">Follow</span>
                   <span v-else>Unfollow</span>
                 </v-btn>
-              </v-layout>
+              </v-row>
 
-            </v-flex>
-          </v-layout>
+            </v-col>
+          </v-row>
 
         </v-container>
       </v-card>
-    </v-layout>
 
-    <v-tabs centered background-color="blue darken-3" height=50 v-model="tabs"
-      slider-color="amber lighten-1" dark>
-      <v-tab >
-        <v-icon class="mr-1">list</v-icon>
-        Activity List
-      </v-tab>
+    </v-row>
 
-      <v-tab >
-        <v-icon class="mr-1">people</v-icon>
-        Followers
-      </v-tab>
-    </v-tabs>
+    <v-row no-gutters class="flex-child">
 
-    <v-tabs-items v-model="tabs">
-      <v-tab-item>
-        <v-container fluid class="px-0">
-        <v-layout>
-          <loading></loading>
-          <boosters-list detailsNamespace="profileArticleDetails"></boosters-list>
-          <assessment-history namespace="profileAssessments"></assessment-history>
+      <v-col cols="12">
+        <v-tabs centered background-color="blue darken-3" height=50 v-model="tabs"
+          slider-color="amber lighten-1" dark>
+          <v-tab >
+            <v-icon class="mr-1">list</v-icon>
+            Activity List
+          </v-tab>
 
-          <v-flex xs7>
-            <article-holder detailsNamespace="profileArticleDetails" filtersNamespace="profileArticles"
-            assessmentsNamespace="profileAssessments"></article-holder>
-          </v-flex>
+          <v-tab >
+            <v-icon class="mr-1">people</v-icon>
+            Followers
+          </v-tab>
+        </v-tabs>
 
-          <assessments-container namespace="profileAssessments" class="assessments-container">
-          </assessments-container>
+        <v-tabs-items v-model="tabs" class="parent-height">
+          <v-tab-item>
 
-        </v-layout>
-        </v-container>
+            <v-container fluid class="px-0">
+              <v-row no-gutters  >
+                <loading></loading>
+                <boosters-list detailsNamespace="profileArticleDetails"></boosters-list>
+                <assessment-history namespace="profileAssessments"></assessment-history>
 
-      </v-tab-item>
-      <v-tab-item>
+                <v-col cols="7">
+                  <article-holder detailsNamespace="profileArticleDetails" filtersNamespace="profileArticles"
+                  assessmentsNamespace="profileAssessments"></article-holder>
+                </v-col>
 
-        <followers-container :username="username"></followers-container>
-      </v-tab-item>
-    </v-tabs-items>
+                <assessments-container namespace="profileAssessments" class="assessments-container">
+                </assessments-container>
 
-  <article-details detailsNamespace="profileArticleDetails"
-   filtersNamespace="profileArticles"> </article-details>
+              </v-row>
+            </v-container>
+
+          </v-tab-item>
+          <v-tab-item>
+
+            <followers-container :username="username"></followers-container>
+          </v-tab-item>
+        </v-tabs-items>
+      </v-col>
+    </v-row>
+
 
   </v-container>
 </template>
@@ -289,4 +293,14 @@ export default {
   position: sticky;
   top: 30px;
 }
+
+.flex-first-child {
+  flex: 0 0 auto;
+}
+
+.flex-child {
+  flex-grow: 2;
+  flex-basis: auto;
+}
+
 </style>

@@ -1,14 +1,11 @@
 <template>
-  <v-container fluid class="px-0">
-    <v-layout row>
-      <custom-toolbar></custom-toolbar>
-    </v-layout>
+  <v-container fluid class="px-0 pt-12">
+    <custom-toolbar></custom-toolbar>
 
-    <v-layout class="pt-5" row fill-height >
-      <v-flex xs2>
+    <v-row class="pt-5" fill-height no-gutters>
+      <v-col cols="2">
         <v-tabs centered dark icons-and-text vertical background-color="grey darken-3"
-        icons-and-text slider-color="lime lighten-4" v-model="tabs"
-        @change="tabChanged">
+          slider-color="lime lighten-4" v-model="tabs" @change="tabChanged">
           <v-tab href="#feeds">
             Feeds
           </v-tab>
@@ -17,21 +14,20 @@
             Themes
           </v-tab>
         </v-tabs>
-      </v-flex>
-      <v-flex xs10>
-        <v-tabs-items v-model="tabs" vertical>
+      </v-col>
+      <v-col cols="10">
+        <v-tabs-items v-model="tabs" vertical >
           <v-tab-item value="feeds">
             <feed-manager @loading-on="setLoading(true)" @loading-off="setLoading(false)"></feed-manager>
           </v-tab-item>
-
 
           <v-tab-item value="themes">
             hey
           </v-tab-item>
 
         </v-tabs-items>
-      </v-flex>
-    </v-layout>
+      </v-col>
+    </v-row>
 
   </v-container>
 </template>

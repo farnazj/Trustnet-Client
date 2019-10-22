@@ -90,7 +90,7 @@ function compareBoosters(a, b) {
     let bDate = new Date(b.updatedAt);
     if (aDate < bDate)
       return -1;
-    else if (aDate > bBdate)
+    else if (aDate > bdate)
       return 1;
     else
       return compareNames(a.booster, b.booster);
@@ -134,7 +134,7 @@ function isTrusted(source) {
 }
 
 function isFollowed(source) {
-  
+
  let followedIds = store.getters['relatedSources/followedIds'];
 
  if (followedIds.includes(source.id))

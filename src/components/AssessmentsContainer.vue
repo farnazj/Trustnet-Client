@@ -1,27 +1,27 @@
 <template>
 
 <v-fade-transition v-if="visible">
-  <v-layout row class="pt-5" id="assessment_container">
-    <v-flex xs12>
+  <v-row class="pt-12" id="assessment_container" no-gutters>
+    <v-col cols="12">
       <v-card>
-        <v-layout row align-center fill-height >
+        <v-row align-center fill-height no-gutters>
 
-          <v-flex xs1>
-            <v-layout row justify-start>
+          <v-col cols="1">
+            <v-row justify="start" no-gutters>
               <v-icon @click="hideContainer">clear</v-icon>
-            </v-layout>
-          </v-flex>
+            </v-row>
+          </v-col>
 
-          <v-flex xs11>
-            <v-layout row justify-center>
+          <v-col cols="11">
+            <v-row justify="center" no-gutters>
               <p class="pb-0 mb-0 subheading font-weight-medium">Accurate?</p>
-            </v-layout>
-          </v-flex>
+            </v-row>
+          </v-col>
 
-        </v-layout>
+        </v-row>
 
-      <v-layout v-if="sortedAssessments.questioned.length != 0" row wrap class="pa-1">
-        <v-flex xs12>
+      <v-row v-if="sortedAssessments.questioned.length != 0" row wrap class="pa-1" no-gutters>
+        <v-col cols="12">
           <v-card-title>
            <div>
              <p class="body-2 font-weight-medium mb-1">Questioned</p>
@@ -33,21 +33,21 @@
             :key="assessment.lastVersion.id"></inner-assessment>
          </template>
 
-        </v-flex>
-      </v-layout>
+        </v-col>
+      </v-row>
 
-      <v-layout v-if="sortedAssessments.questioned.length != 0" row class="pa-1">
+      <v-row v-if="sortedAssessments.questioned.length != 0" row class="pa-1" no-gutters>
         <span v-if="assessmentsRemaining('questioned')" @click="revealMore('questioned')"
           class="blue--text text--darken-3 body-2 cursor-pointer">
           Show More Assessments</span>
         <v-spacer></v-spacer>
         <span class="grey--text text--darken-3 pr-1"> {{getAssessmentStats('questioned')}} </span>
-      </v-layout>
+      </v-row>
 
     </v-card>
-      <v-layout row class="border-top">
+      <v-row no-gutters class="border-top">
         <template v-for="(key,index) in ['confirmed', 'refuted']" >
-          <v-flex :key="index" :xs6="isDebated" :xs12="!isDebated" v-if="sortedAssessments[key].length != 0">
+          <v-col :key="index" :xs6="isDebated" :xs12="!isDebated" v-if="sortedAssessments[key].length != 0">
 
             <v-card class="assessment-col">
 
@@ -64,22 +64,22 @@
                 :key="assessment.lastVersion.id"></inner-assessment>
               </template>
 
-              <v-layout row class="pa-1">
+              <v-row no-gutters class="pa-1">
                 <span v-if="assessmentsRemaining(key)" @click="revealMore(key)"
                   class="blue--text text--darken-3 body-2 cursor-pointer">
                   Show More Assessments</span>
                 <v-spacer></v-spacer>
                 <span class="grey--text text--darken-3 pr-1"> {{getAssessmentStats(key)}} </span>
-              </v-layout>
+              </v-row>
 
            </v-card>
 
-          </v-flex>
+          </v-col>
         </template>
-      </v-layout>
+      </v-row>
 
-    </v-flex>
-  </v-layout>
+    </v-col>
+  </v-row>
 </v-fade-transition>
 
 </template>

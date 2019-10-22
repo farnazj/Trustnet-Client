@@ -3,38 +3,38 @@
     <v-card :color="source.systemMade ? 'blue lighten-4' : 'lime lighten-3'" class="ma-1">
 
       <v-container fill-height pa-2>
-        <v-layout fill-height row>
-          <v-flex xs align-end flexbox>
-            <v-layout row align-end>
+        <v-row fill-height no-gutters>
+          <v-col cols="9" align="end" >
+            <v-row align="end" no-gutters>
               <custom-avatar :user="source" :clickEnabled="true" class="mr-3"></custom-avatar>
               <span class="body-2" v-text="source.userName"></span>
-            </v-layout>
+            </v-row>
 
-            <v-layout row mt-2 class="body-2">
+            <v-row no-gutters class="body-2 mt-2">
               {{sourceDisplayName(source)}}
-            </v-layout>
+            </v-row>
 
-          </v-flex>
-          <v-flex xs>
-            <v-layout justify-end mb-0>
+          </v-col>
+          <v-col>
+            <v-row no-gutters justify="end" class="mb-0">
               <span class="caption trusted-text" v-if="isTrusted"> Trusted &#x2713;</span>
-            </v-layout>
+            </v-row>
 
-            <v-layout justify-end>
+            <v-row no-gutters justify="end">
               <span class="caption followed-text" v-if="isFollowed"> Followed &#x2713;</span>
-            </v-layout>
+            </v-row>
 
-          </v-flex>
-        </v-layout>
+          </v-col>
+        </v-row>
 
       </v-container>
 
       <v-card-actions>
-        <v-layout row v-if="user && source.id == user.id" class="pr-1 pb-2 grey--text text--darken-3 caption" >
+        <v-row v-if="user && source.id == user.id" no-gutters class="pr-1 pb-2 grey--text text--darken-3 caption" >
           This is you
-        </v-layout>
+        </v-row>
 
-        <v-layout row v-else>
+        <v-row v-else no-gutters>
 
           <v-btn small text :color="isTrusted ? 'grey darken-2' : 'light-green darken-3' "
             @click.stop="changeTrustStatus(source)" class="custom-btn-text">
@@ -50,7 +50,7 @@
             <span v-else> Follow</span>
           </v-btn>
 
-        </v-layout>
+        </v-row>
 
       </v-card-actions>
     </v-card>

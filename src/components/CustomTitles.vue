@@ -15,51 +15,51 @@
 
      <v-card max-height="50vh" class="pa-1" >
 
-       <v-layout row align-center >
-         <v-flex xs11>
-           <v-layout row justify-start>
+       <v-row no-gutters align="center">
+         <v-col cols="11">
+           <v-row no-gutters justify="start">
              <p class="pb-0 mb-0 subheading font-weight-regular">Alternative Titles</p>
-           </v-layout>
-         </v-flex>
-         <v-flex xs1>
-           <v-layout row justify-end>
+           </v-row>
+         </v-col>
+         <v-col cols="1">
+           <v-row no-gutters justify="end">
              <v-icon @click="titleDialogVisible = false">clear</v-icon>
-           </v-layout>
-         </v-flex>
-       </v-layout>
+           </v-row>
+         </v-col>
+       </v-row>
 
        <v-divider></v-divider>
 
-       <v-layout class="pa-1">
-         <v-flex xs12>
+       <v-row no-gutters class="pa-1">
+         <v-col cols="12">
            <v-form ref="newTitleForm" lazy-validation>
              <v-text-field v-model="newTitle" label="Suggest alternative title"
              required :rules="formsRules.newTitleRules">
              </v-text-field>
           </v-form>
-         </v-flex>
-       </v-layout>
+         </v-col>
+       </v-row>
 
        <v-card-text>
 
-       <v-layout justify-end>
+       <v-row no-gutters justify="end">
          <v-card-actions >
            <v-btn outlined small color="primary" @click="postNewTitle">Submit</v-btn>
          </v-card-actions>
-       </v-layout>
+       </v-row>
 
        <v-divider></v-divider>
 
        <template v-for="titleObj in titles">
-         <v-layout align-center class="py-1">
+         <v-row align="center" class="py-1">
            <custom-avatar :user="titleObj.author" :clickEnabled="true"></custom-avatar>
            <span class="ml-2 caption grey--text text--darken-3"> {{timeElapsed(titleObj.lastVersion.createdAt)}} </span>
            <span v-if="titleObj.history.length" class="ml-2 caption grey--text text--darken-1 cursor-pointer"
             @click.stop="showHistory(titleObj)">Edited</span>
-          </v-layout>
+          </v-row>
 
-          <v-layout>
-            <v-flex xs12>
+          <v-row no-gutters>
+            <v-col cols="12">
               <v-form ref="editTitleForm" lazy-validation>
                 <div v-if="titleObj.author.id == user.id && edit.on && edit.setId == titleObj.lastVersion.setId">
                   <v-text-field v-model="edit.text" background-color="blue lighten-5"
@@ -70,10 +70,10 @@
                 <p class="grey--text text--darken-3 mb-1">{{titleObj.lastVersion.text}}</p>
               </div>
               </v-form>
-            </v-flex>
-          </v-layout>
+            </v-col>
+          </v-row>
 
-          <v-layout justify-end v-if="titleObj.author.id == user.id" class="py-1">
+          <v-row no-gutters justify="end" v-if="titleObj.author.id == user.id" class="py-1">
 
             <v-tooltip bottom :open-on-hover="true" open-delay="500">
               <template v-slot:activator="{ on }">
@@ -115,7 +115,7 @@
               <span>Delete</span>
             </v-tooltip>
 
-          </v-layout>
+          </v-row>
 
           <v-divider></v-divider>
 

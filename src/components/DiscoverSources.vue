@@ -1,40 +1,33 @@
 <template>
-  <v-layout >
-    <v-flex xs12>
-    <v-layout row class="pa-4" >
-      <v-flex xs6>
-        <v-text-field
-          v-model="search" append-icon="search" label="Search sources you do not follow yet"
-          single-line hide-details></v-text-field>
-      </v-flex>
-    </v-layout>
+  <v-row no-gutters>
+    <v-col cols="12">
+      <v-row class="pa-4">
+        <v-col cols="6">
+          <v-text-field
+            v-model="search" append-icon="search" label="Search sources you do not follow yet"
+            single-line hide-details></v-text-field>
+        </v-col>
+      </v-row>
 
-    <v-layout row>
-      <template>
+      <v-row no-gutters class="pt-2">
+        <v-container fluid grid-list-xs class="pa-2">
+          <v-row wrap no-gutters>
+            <v-col v-for="source in sourcesToFollow" sm="4" lg="3" xl="2" cols="6"
+              :key="source.id" >
+              <source-card :source="source"></source-card>
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-row>
 
-          <v-container fluid grid-list-xs>
-            <v-layout row wrap>
-              <v-flex v-for="source in sourcesToFollow"
-                :key="source.id" md3 :xs6="$vuetify.breakpoint.xs">
-
-                <source-card :source="source"></source-card>
-
-              </v-flex>
-            </v-layout>
-          </v-container>
-
-      </template>
-
-    </v-layout>
-
-    <v-layout row justify-center v-if="sourceResults.length">
-      <v-btn depressed @click="loadMore"
-       :disabled="loadDisabled" color="primary" >
-        Load More
-      </v-btn>
-    </v-layout>
-  </v-flex>
- </v-layout>
+      <v-row justify="center" v-if="sourceResults.length">
+        <v-btn depressed @click="loadMore"
+         :disabled="loadDisabled" color="primary" >
+          Load More
+        </v-btn>
+      </v-row>
+    </v-col>
+  </v-row>
 </template>
 
 <script>

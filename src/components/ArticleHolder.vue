@@ -1,13 +1,13 @@
 <template>
-  <v-layout row>
-    <v-flex xs12>
-      <v-layout v-for="article in articles" :key="article.id">
+  <v-row>
+    <v-col cols="12">
+      <v-row v-for="article in articles" :key="article.id">
         <article-preview :post="article" :detailsNamespace="detailsNamespace"
           :assessmentsNamespace="assessmentsNamespace">
         </article-preview>
-      </v-layout>
-      <v-layout v-if="articles_fetched && !articles.length" justify-center  fill-height class="pt-5">
-        <v-flex xs8>
+      </v-row>
+      <v-row v-if="articles_fetched && !articles.length" justify-center  fill-height class="pt-5">
+        <v-col sm="8">
           <span class="subheading font-weight-light" >
             Looks like we don't have any posts to show you. Maybe you aren't following enough sources?<br/><br/>
             You can follow sources by clicking on your avatar at the
@@ -18,11 +18,11 @@
           <span>
             <span class="subheading font-weight-light"> page.</span>
           </span>
-        </v-flex>
+        </v-col>
 
-      </v-layout>
-    </v-flex>
-  </v-layout>
+      </v-row>
+    </v-col>
+  </v-row>
 </template>
 
 <script>

@@ -78,3 +78,31 @@ div.vicp-preview-item.vicp-preview-item-circle {
 .xs-icon-font {
   font-size: 1.3em !important;
 }
+
+.parent-height {
+  height: 100% !important;
+}
+
+.full-height {
+  height: 100vh !important;
+}
+
+.flex-parent {
+  display: -webkit-box !important;
+  display: -moz-box !important;
+  display: -ms-flexbox !important;
+  display: -moz-flex !important;
+  display: -webkit-flex !important;
+  display: flex !important;
+
+  flex-direction: column !important;
+  height: 100% !important;
+}
+
+.flex-fixed-height-child {
+  flex: 0 0 auto;
+}
+
+.no-break-word {
+  word-break: initial !important;
+}

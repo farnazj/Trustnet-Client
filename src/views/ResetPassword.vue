@@ -1,11 +1,10 @@
 <template>
   <v-container fluid>
-    <v-layout row>
-      <custom-toolbar></custom-toolbar>
-    </v-layout>
 
-    <v-layout row class="pt-5 full-height" justify-center align-center fill-height>
-      <v-flex xs6 md4 >
+    <custom-toolbar></custom-toolbar>
+
+    <v-row no-gutters class="pt-5 full-height" justify="center" align="center" fill-height>
+      <v-col md="4" cols="6">
         <v-alert v-model="info" :type="type">
           {{alertMessage}}
         </v-alert>
@@ -13,30 +12,30 @@
         <v-form ref="resetPasswordForm" v-if="!loginVisible">
           <v-card>
             <v-container fluid>
-              <v-layout row justify-center>
+              <v-row no-gutters justify="center">
                 <v-card-title primary-title >
                   <h4 class="headline">Enter your new password</h4>
                 </v-card-title>
-              </v-layout>
+              </v-row>
 
-              <v-layout row>
+              <v-row no-gutters>
                 <v-text-field v-model="password" type="password" label="Password"
                   tabindex="5" required :rules="formRules.passwordRules">
                 </v-text-field>
-              </v-layout>
+              </v-row>
 
-              <v-layout row>
+              <v-row no-gutters>
                 <v-text-field v-model="match" type="password" label="Type password again"
                   tabindex="6" required>
                 </v-text-field>
-              </v-layout>
+              </v-row>
 
 
-            <v-layout row justify-center>
+            <v-row no-gutters justify-center>
               <v-card-actions class="mb-2">
                 <v-btn tabindex="3" depressed color="primary" @click="resetPassword">Submit</v-btn>
               </v-card-actions>
-            </v-layout>
+            </v-row>
           </v-container>
 
           </v-card>
@@ -45,23 +44,23 @@
         <v-fade-transition v-if="loginVisible">
           <v-card>
             <v-container>
-              <v-layout row justify-center>
+              <v-row no-gutters justify="center">
                 <v-card-title primary-title>
                   <h3 class="headline">Proceed to Log in</h3>
                 </v-card-title>
-              </v-layout>
+              </v-row>
 
-              <v-layout row justify-center>
+              <v-row no-gutters justify="center">
                 <v-card-actions>
                   <v-btn tabindex="8" depressed @click="goToLogin">Go to login</v-btn>
                 </v-card-actions>
-              </v-layout>
+              </v-row>
             </v-container>
           </v-card>
         </v-fade-transition>
 
-      </v-flex>
-    </v-layout>
+      </v-col>
+    </v-row>
   </v-container>
 
 </template>

@@ -1,11 +1,9 @@
 <template>
   <v-container fluid>
-    <v-layout row>
-      <custom-toolbar></custom-toolbar>
-    </v-layout>
+    <custom-toolbar></custom-toolbar>
 
-    <v-layout row class="pt-5 full-height" justify-center align-center fill-height>
-      <v-flex xs6 md4 >
+    <v-row no-gutters class="pt-5 full-height" justify="center" align="center" fill-height>
+      <v-col cols="6" md="4" >
         <v-alert v-model="alert" type="info">
           {{alertMessage}}
         </v-alert>
@@ -13,30 +11,30 @@
         <v-form ref="emailForm">
           <v-card>
             <v-container fluid>
-              <v-layout row justify-center>
-                <v-card-title primary-title >
+              <v-row no-gutters justify="center" >
+                <v-card-title primary-title class="no-break-word">
                   <h4 class="headline">Enter your email address to reset your password</h4>
                 </v-card-title>
-              </v-layout>
+              </v-row>
 
-              <v-layout row>
+              <v-row no-gutters >
                 <v-text-field v-model="email" type="email" label="Email"
                   tabindex="4" required :rules="formRules.emailRules">
                 </v-text-field>
-              </v-layout>
+              </v-row>
 
             </v-container>
 
-            <v-layout row justify-center>
+            <v-row justify="center" no-gutters >
               <v-card-actions class="mb-2">
                 <v-btn tabindex="3" depressed color="primary" @click="sendEmail" :disabled="disabled">Submit</v-btn>
               </v-card-actions>
-            </v-layout>
+            </v-row>
 
           </v-card>
         </v-form>
-      </v-flex>
-    </v-layout>
+      </v-col>
+    </v-row>
   </v-container>
 
 </template>
@@ -82,9 +80,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.full-height {
-  height: 70vh;
-}
-</style>

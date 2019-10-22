@@ -1,63 +1,59 @@
 <template>
-  <v-container fluid class="pt-4 px-0">
-    <v-layout row>
-      <custom-toolbar></custom-toolbar>
-    </v-layout>
+  <v-container fluid class="pt-12 px-0">
+    <custom-toolbar></custom-toolbar>
 
-    <v-layout row v-if="$vuetify.breakpoint.smAndDown" justify-center class="pt-5">
-      <v-flex xs8 >
+    <v-row no-gutters v-if="$vuetify.breakpoint.smAndDown" justify="center" class="pt-5">
+      <v-col cols="8" >
         <v-dialog v-model="fullScreenFilterVisible" scrollable persistent>
           <template v-slot:activator="{ on }">
             <v-btn outlined block color="secondary" @click="fullScreenFilterVisible = true">
               <v-icon>filter_list</v-icon>
             Filters</v-btn>
           </template>
+
           <v-card dark>
             <filters></filters>
 
             <v-divider></v-divider>
             <v-card-actions>
-              <v-layout row justify-space-around>
+              <v-row justify="space-around">
                 <v-btn color="blue darken-1" text @click="fullScreenFilterVisible = false">Close</v-btn>
                 <v-btn color="blue darken-1" text @click="fullScreenFilterVisible = false">Done</v-btn>
-              </v-layout>
+              </v-row>
             </v-card-actions>
           </v-card>
         </v-dialog>
+      </v-col>
+    </v-row>
 
-      </v-flex>
-    </v-layout>
-
-
-    <v-layout row>
+    <v-row no-gutters>
       <loading></loading>
       <boosters-list detailsNamespace="homeArticleDetails"></boosters-list>
       <custom-titles detailsNamespace="homeArticleDetails"></custom-titles>
       <assessment-history namespace="homeAssessments"></assessment-history>
 
-      <v-flex xs3 md2 v-show="filtersVisible">
+      <v-col sm="3" md="2" v-show="filtersVisible">
         <filters class="frozen"></filters>
-      </v-flex>
+      </v-col>
 
       <div v-show="filtersHidden" @click="hideAssessments" class="mt-5 grippy-container frozen">
-        <v-layout row justify-center align-center fill-height>
+        <v-row justify="center" align="center" no-gutters class="fill-height">
           <span class="grippy">.. .. .. ..</span>
-        </v-layout>
+        </v-row>
       </div>
 
-      <v-flex :xs7="!$vuetify.breakpoint.smAndDown" :offset-xs1="filtersHidden" :xs8="$vuetify.breakpoint.smAndDown"
-       :class="{'ml-4':filtersHidden}" >
+      <v-col md="7" cols="8" :offset="$vuetify.breakpoint.smAndDown ? 0 : 1" >
         <article-holder detailsNamespace="homeArticleDetails" filtersNamespace="articleFilters"
           assessmentsNamespace="homeAssessments" :class="{'pt-5': !$vuetify.breakpoint.smAndDown}">
        </article-holder>
-      </v-flex>
+      </v-col>
 
-      <v-flex>
+      <v-col>
         <assessments-container namespace="homeAssessments" class="frozen">
         </assessments-container>
-      </v-flex>
+      </v-col>
 
-    </v-layout>
+    </v-row>
 
     <article-details detailsNamespace="homeArticleDetails"
      filtersNamespace="articleFilters"> </article-details>
@@ -151,7 +147,7 @@ export default {
 .grippy-container {
   background-color: #424242;
   height: 14vh;
-  width: calc(1% + 0.3em);
+  width: calc(1% + 0.4em);
   border-radius: 0 80% 80% 0;
   cursor: pointer;
 }

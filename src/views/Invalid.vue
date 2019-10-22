@@ -1,12 +1,11 @@
 <template>
-  <v-container fluid class="px-0">
-    <v-layout row>
-      <custom-toolbar></custom-toolbar>
-    </v-layout>
+  <v-container fluid class="pt-12">
 
-    <v-layout row justify-center class="padded-text">
+    <custom-toolbar></custom-toolbar>
+
+    <v-row row justify="center" class="padded-text pt-5">
       <h3 class="display-2">The page you requested does not exist. :(</h3>
-    </v-layout>
+    </v-row>
 
   </v-container>
 </template>

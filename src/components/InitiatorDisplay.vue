@@ -1,5 +1,5 @@
 <template>
-  <v-layout row wrap align-center>
+  <v-row wrap align="center" no-gutters>
 
     <div v-if="Object.entries(initiator).length != 0" class="mr-2 pb-2">
       <span class="mr-2 caption">By</span>
@@ -7,7 +7,7 @@
     </div>
     <span class="caption"> {{timeElapsed(postDate)}} </span>
 
-  </v-layout>
+  </v-row>
 
 </template>
 

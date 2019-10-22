@@ -1,40 +1,40 @@
 <template>
 
-  <v-layout >
-    <v-flex xs12>
-    <v-layout row class="pa-4" >
-      <v-flex xs6>
+  <v-row class="parent-height" >
+    <v-col cols="12">
+    <v-row class="pa-4" >
+      <v-col cols="6">
         <v-text-field
           v-model="search" append-icon="search" label="Search sources you trust or follow"
           single-line hide-details></v-text-field>
-      </v-flex>
-    </v-layout>
+      </v-col>
+    </v-row>
 
-    <v-layout row>
+    <v-row>
       <template>
 
           <v-container fluid grid-list-xs>
-            <v-layout row wrap>
-              <v-flex v-for="source in sourceResults"
-                :key="source.id" md3 :xs6="$vuetify.breakpoint.xs" >
+            <v-row wrap>
+              <v-col v-for="source in sourceResults"
+                :key="source.id" sm="4" lg="3" xl="2" cols="6">
 
                 <source-card :source="source"></source-card>
 
-              </v-flex>
-            </v-layout>
+              </v-col>
+            </v-row>
           </v-container>
 
       </template>
-    </v-layout>
+    </v-row>
 
-    <v-layout row justify-center v-if="sourceResults.length">
+    <v-row justify="center" v-if="sourceResults.length">
       <v-btn depressed @click="loadMore"
        :disabled="loadDisabled" color="primary" >
         Load More
       </v-btn>
-    </v-layout>
-  </v-flex>
- </v-layout>
+    </v-row>
+  </v-col>
+ </v-row>
 </template>
 
 <script>

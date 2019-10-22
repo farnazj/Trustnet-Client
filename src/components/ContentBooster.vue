@@ -31,38 +31,36 @@
               <v-card>
                 <v-container fluid>
 
-                  <v-layout row class="mb-3">
-                    <v-flex xs12>
+                  <v-row no-gutters class="my-3">
+                    <v-col cols="12">
                       <v-text-field v-model="title"
                         label="Title for your post" required
                         :rules="createPostFormRules.titleRules">
                       </v-text-field>
-                    </v-flex>
-                  </v-layout>
+                    </v-col>
+                  </v-row>
 
-                  <v-layout row>
-                    <v-flex xs12>
-                      <v-flex xs12>
-                        <v-textarea v-model="body" label="Post body" rows=8
-                        required :rules="createPostFormRules.bodyRules">
-                        </v-textarea>
-                      </v-flex>
-                    </v-flex>
-                  </v-layout>
+                  <v-row no-gutters>
+                    <v-col cols="12">
+                      <v-textarea v-model="body" label="Post body" rows=8
+                      required :rules="createPostFormRules.bodyRules">
+                      </v-textarea>
+                    </v-col>
+                  </v-row>
 
-                <v-layout row>
-                  <v-flex xs12>
+                <v-row no-gutters>
+                  <v-col cols="12">
                     <!-- <span>Select your target audience or leave this empty to
                       include everyone</span> -->
                     <source-selector ref="initiateTargets" class="mt-2">
                     </source-selector>
 
-                  </v-flex>
-                </v-layout>
+                  </v-col>
+                </v-row>
 
                 <v-divider></v-divider>
-                <!-- <v-layout row>
-                  <v-flex xs12>
+                <!-- <v-row>
+                  <v-col xs12>
 
                     <div class="uploaded-media">
                     </div>
@@ -72,8 +70,8 @@
                       Photo/Video
                     </v-btn>
 
-                  </v-flex>
-                </v-layout>
+                  </v-col>
+                </v-row>
 
                <v-divider></v-divider> -->
 
@@ -97,25 +95,25 @@
               <v-card>
                 <v-container fluid>
 
-                  <v-layout row class="mb-3">
-                    <v-flex xs12>
+                  <v-row no-gutters class="mb-3">
+                    <v-col cols="12">
                       <v-textarea v-model="articleLink"
                         label="Import an article by pasting its URL" required
                         :rules="importArticleFormRules.urlRules">
                       </v-textarea>
-                    </v-flex>
-                  </v-layout>
+                    </v-col>
+                  </v-row>
 
                   <assessment-collector ref="assessmentColl" :validityRules="importArticleFormRules.validityRules"
                     :postCredibility="postCredibility" :assessmentBody="assessmentBody" class="mb-2">
                   </assessment-collector>
 
-                  <v-layout row class="mt-2">
-                    <v-flex xs12>
+                  <v-row no-gutters class="mt-2">
+                    <v-col cols="12">
                       <source-selector ref="importTargets" >
                       </source-selector>
-                    </v-flex>
-                  </v-layout>
+                    </v-col>
+                  </v-row>
 
                 </v-container>
 
@@ -212,9 +210,9 @@ export default {
               'filters': {
                 'validity': 'All',
                 'sources': 'Followed',
-                'seen_status':'Not Seen'
+                'seenStatus':'Not Seen'
               },
-              'source_usernames': []
+              'sourceUsernames': []
             });
           }
 
@@ -245,9 +243,9 @@ export default {
               'filters': {
                 'validity': 'All',
                 'sources': 'Followed',
-                'seen_status':'Not Seen'
+                'seenStatus':'Not Seen'
               },
-              'source_usernames': []
+              'sourceUsernames': []
             });
           }
         })

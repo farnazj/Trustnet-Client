@@ -1,9 +1,8 @@
 <template>
   <v-container class="pa-0">
 
-    <v-layout row>
-
-      <v-flex xs12>
+    <v-row no-gutters>
+      <v-col cols="12">
         <v-select :items="validity_status" v-model="credibility"
           item-text="label" item-value="value"
           label="Article Validity" outline required
@@ -20,17 +19,16 @@
           </template>
 
         </v-select>
+      </v-col>
+    </v-row>
 
-      </v-flex>
-    </v-layout>
-
-    <v-layout row class="pt-3">
-      <v-flex xs12>
+    <v-row no-gutters class="pt-3">
+      <v-col cols="12">
         <v-textarea v-model="assessmentText" :rules="credibility - 2 != 0 ? validityRules.bodyRules : []"
           label="Provide your reasoning">
         </v-textarea>
-      </v-flex>
-    </v-layout>
+      </v-col>
+    </v-row>
 
   </v-container>
 </template>

@@ -1,6 +1,6 @@
 <template>
 
-  <v-list class="pt-5 article-filters scrollable" expand dark>
+  <v-list class="pt-4 article-filters scrollable" expand dark>
     <v-list-item>
       <v-list-item-action>
           <v-icon>filter_list</v-icon>
@@ -267,7 +267,7 @@
 <style scoped>
 
 .article-filters {
-  height: 97vh;
+  height: calc(100vh - 48px);
   overflow-x: scroll;
   max-width: 17%;
   text-overflow: ellipsis;

@@ -27,7 +27,6 @@ export default {
     },
 
     change_filter_value: (state, filters) => {
-      console.log('in store module', JSON.stringify(filters))
       state.validityFilter = filters.filters.validity ? filters.filters.validity : 'All';
       state.sourceFilter = filters.filters.sources ?
         (filters.filters.sources == 'Selected Sources' ?  'usernames' : filters.filters.sources)
@@ -62,8 +61,12 @@ export default {
 
       return new Promise((resolve, reject) => {
 
-        postServices.getBoosts({offset: context.state.offset, limit: context.state.limit},
-          { source: context.state.sourceFilter,
+        postServices.getBoosts({
+            offset: context.state.offset,
+            limit: context.state.limit
+          },
+          {
+            source: context.state.sourceFilter,
             validity: context.state.validityFilter,
             seenstatus: context.state.seenFilter,
             usernames: context.state.sourceUsernames.toString()
@@ -95,6 +98,7 @@ export default {
 
       })
     },
+
     refreshArticles: (context) => {
 
       context.dispatch('loader/setLoading', true, { root: true });

@@ -1,12 +1,11 @@
 <template>
   <v-container>
-    <v-layout row>
-      <custom-toolbar></custom-toolbar>
-    </v-layout>
 
-    <v-layout justify-center align-center row fill-height class="pt-5 full-height">
+    <custom-toolbar></custom-toolbar>
+
+    <v-row justify="center" align="center" fill-height class="pt-5 full-height">
       <loading>Please wait while we verify your account</loading>
-      <v-flex xs6 lg4 align-self-center>
+      <v-col cols="6" lg="4" align="self-center">
         <v-alert v-model="alert" :type="type">
           {{alertMessage}}
         </v-alert>
@@ -14,22 +13,22 @@
         <v-fade-transition v-if="loginVisible">
           <v-card>
             <v-container fluid>
-              <v-layout row justify-center>
+              <v-row justify="center">
                 <v-card-title primary-title>
                   <h3 class="headline">Proceed to Log in</h3>
                 </v-card-title>
-              </v-layout>
+              </v-row>
 
-              <v-layout row justify-center>
+              <v-row justify="center">
                 <v-card-actions>
                   <v-btn tabindex="8" depressed @click="goToLogin">Go to login</v-btn>
                 </v-card-actions>
-              </v-layout>
+              </v-row>
             </v-container>
           </v-card>
         </v-fade-transition>
-      </v-flex>
-    </v-layout>
+      </v-col>
+    </v-row>
 
   </v-container>
 </template>

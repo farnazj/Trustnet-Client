@@ -1,13 +1,10 @@
 <template>
-  <v-container>
+  <v-container fluid class="pt-12">
+    <custom-toolbar></custom-toolbar>
 
-    <v-layout row>
-      <custom-toolbar></custom-toolbar>
-    </v-layout>
-
-    <v-layout row class="pt-5">
+    <v-row class="pt-5">
       <h5 class="headline">This is an about page</h5>
-    </v-layout>
+    </v-row>
 
   </v-container>
 </template>

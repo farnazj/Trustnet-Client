@@ -3,60 +3,56 @@
     callback: visibilityChanged,
     throttle: 300
   }">
-    <v-layout row align-center>
-      <!-- <v-flex xs1>
+    <v-row align="center" no-gutters>
+      <!-- <v-col cols="1>
         <v-icon v-if="postSeen">far fa-eye</v-icon>
         <v-icon v-else>far fa-eye-slash</v-icon>
-      </v-flex> -->
-      <v-flex xs12>
+      </v-col> -->
+      <v-col cols="11">
 
         <v-card @click="revealArticleDetails(post)" class="pa-1 pb-2" flat>
-          <v-layout row>
-            <v-flex xs3>
-              <v-layout row>
-                <v-flex xs12>
+          <v-row no-gutters >
+            <v-col cols="3">
+              <v-row no-gutters>
+                <v-col cols="12">
                   <v-img v-if="post.image" :src="post.image" contain class="rounded"> </v-img>
-                </v-flex>
-              </v-layout>
+                </v-col>
+              </v-row>
 
-              <v-layout row class="py-2">
-                <initiator-display :userId="post.SourceId" :postDate="post.updatedAt">
-                </initiator-display>
-              </v-layout>
+              <v-row class="py-2" no-gutters>
+                <v-col cols="12">
+                  <initiator-display :userId="post.SourceId" :postDate="post.updatedAt">
+                  </initiator-display>
+                </v-col>
+              </v-row>
+            </v-col>
 
-            </v-flex>
-
-            <v-flex xs5>
-              <v-layout row>
-                <v-flex xs12>
-
+            <v-col cols="5">
+              <v-row no-gutters>
+                <v-col cols="12">
                    <div class="px-2">
                      <p class="mr-1 cursor-pointer title title-custom">{{post.title}}</p>
-
-                     <v-tooltip bottom >
-                       <template v-slot:activator="{ on }">
-                         <v-btn v-on="on" @click.stop="showTitles" class="ml-1" small icon color="lime lighten-1">
-                           <v-icon class="xs-icon-font">fas fa-info</v-icon>
-                         </v-btn>
-                       </template>
-                       <span>alternative titles</span>
-                     </v-tooltip>
-
+                       <v-tooltip bottom>
+                         <template v-slot:activator="{ on }">
+                           <v-btn v-on="on" @click.stop="showTitles" class="ml-1" small icon color="lime lighten-1">
+                             <v-icon class="xs-icon-font">fas fa-info</v-icon>
+                           </v-btn>
+                         </template>
+                         <span>alternative titles</span>
+                       </v-tooltip>
                      <p class="mt-2 grey--text text--darken-3 body-2">{{post.description}}</p>
                    </div>
+                </v-col>
+              </v-row>
+            </v-col>
 
-                </v-flex>
-              </v-layout>
+            <v-col cols="4">
+              <v-row justify="space-around" fill-height wrap no-gutters>
 
-            </v-flex>
-
-            <v-flex xs4>
-              <v-layout col justify-space-around fill-height wrap>
-
-                <v-flex xs12 >
-                  <v-layout row wrap v-for="(item, key, index) in sortedAssessments" :key="index">
-                    <v-flex xs12 :class="item.length ? 'mb-2' : 'mb-0' " >
-                      <v-layout align-center wrap>
+                <v-col cols="12" >
+                  <v-row wrap v-for="(item, key, index) in sortedAssessments" :key="index" no-gutters>
+                    <v-col cols="12" :class="item.length ? 'mb-2' : 'mb-0' " >
+                      <v-row align="center" wrap no-gutters>
                         <v-icon class="mr-3" v-if="key == 'confirmed' && item.length">fas fa-check</v-icon>
                         <v-icon class="mr-4" v-else-if="key == 'refuted' && item.length">fas fa-times</v-icon>
                         <v-icon class="mr-4" v-else-if="key == 'questioned' && item.length">fas fa-question</v-icon>
@@ -68,19 +64,18 @@
 
                         <span v-if="item.length > 3" >...</span>
 
-                      </v-layout>
-                    </v-flex>
-                  </v-layout>
-                </v-flex>
+                      </v-row>
+                    </v-col>
+                  </v-row>
+                </v-col>
 
-              </v-layout>
+              </v-row>
+            </v-col>
 
-            </v-flex>
+          </v-row>
 
-          </v-layout>
-
-          <v-layout row v-if="uniqueBoosters.length" class="pt-1" wrap>
-            <v-flex xs12 >
+          <v-row v-if="uniqueBoosters.length" class="pt-1" no-gutters wrap>
+            <v-col cols="12" >
                <v-icon >fas fa-share</v-icon>
               <!--<span class="mr-3"> Shared by</span>
 
@@ -90,29 +85,29 @@
 
               <span @click.stop="showBoosters" class="caption blue--text text--darken-3 cursor-pointer">
                 Show sharers info</span>
-            </v-flex>
-          </v-layout>
+            </v-col>
+          </v-row>
 
         </v-card>
 
-      </v-flex>
+      </v-col>
 
-      <v-flex>
+      <v-col >
         <v-card flat @click.stop="revealAssessments" height="80px" color="lime lighten-3"
           class="assessment-hinter cursor-pointer">
-          <v-layout row fill-height align-center>
-            <v-icon medium>arrow_right</v-icon>
-          </v-layout>
-        </v-card>
-      </v-flex>
+          <v-row align="center" no-gutters class="parent-height" >
 
-    </v-layout>
+            <v-icon medium>arrow_right</v-icon>
+          </v-row>
+        </v-card>
+      </v-col>
+
+    </v-row>
 
   </v-container>
 </template>
 
 <script>
-  import customAvatar from '@/components/CustomAvatar'
   import assessor from '@/components/Assessor'
   import initiatorDisplay from '@/components/InitiatorDisplay'
   import titleHelpers from '@/mixins/titleHelpers'
@@ -124,7 +119,6 @@
 
   export default {
     components: {
-     'custom-avatar': customAvatar,
      'initiator-display': initiatorDisplay,
      'assessor': assessor
     },
@@ -284,6 +278,7 @@
 
 .assessment-hinter {
   border-radius: 0 30% 30% 0;
+  max-width: 22px;
 }
 
 .title-custom {
@@ -291,5 +286,10 @@
   font-size: 1.1rem !important;
   display: inline !important;
 }
+
+.assessment-handle {
+  max-width: 22px;
+}
+
 
 </style>

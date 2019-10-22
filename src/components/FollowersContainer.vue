@@ -1,39 +1,33 @@
 <template>
   <v-container fluid>
 
-    <v-layout row justify-center>
-      <v-flex xs6>
+    <v-row justify="center" no-gutters>
+      <v-col cols="6">
         <v-card-title>
           <v-text-field
             v-model="search" append-icon="search" label="Search followers"
             single-line hide-details></v-text-field>
         </v-card-title>
-      </v-flex>
-    </v-layout>
+      </v-col>
+    </v-row>
 
-    <v-layout row>
-      <template>
+    <v-row no-gutters>
+      <v-container fluid grid-list-xs>
+        <v-row wrap>
+          <v-col v-for="source in sourceResults"
+            :key="source.id" sm="4" lg="3" xlg="2" cols="6">
+            <source-card :source="source" :user="user"></source-card>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-row>
 
-        <v-container fluid grid-list-xs>
-          <v-layout row wrap>
-            <v-flex v-for="source in sourceResults"
-              :key="source.id" md3 :xs6="$vuetify.breakpoint.xs">
-              <source-card :source="source" :user="user"></source-card>
-
-            </v-flex>
-          </v-layout>
-        </v-container>
-
-      </template>
-
-    </v-layout>
-
-    <v-layout row justify-center v-if="sourceResults.length">
+    <v-row justify="center" v-if="sourceResults.length">
       <v-btn depressed @click="loadMore"
        :disabled="loadDisabled" color="primary" >
         Load More
       </v-btn>
-    </v-layout>
+    </v-row>
 
  </v-container>
 </template>
