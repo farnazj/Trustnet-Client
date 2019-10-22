@@ -20,26 +20,25 @@
           <template v-slot:activator="{ on: { click } }">
             <custom-avatar v-if="Object.entries(user).length" :size=40 class="mr-1"
               :user="user" :clickEnabled="false" v-on:click.native="click" ></custom-avatar>
-            </template>
-            <v-card>
-              <v-list>
+          </template>
+          <v-card>
+            <v-list>
+              <template v-for="item in settingItems">
+                <v-list-item :key="item.name" @click="clickHandler(item.name)">
 
-                <template v-for="item in settingItems">
-                  <v-list-item :key="item.name" @click="clickHandler(item.name)">
+                  <v-list-item-action v-if="item.icon">
+                    <v-icon>{{ item.icon }}</v-icon>
+                  </v-list-item-action>
 
-                    <v-list-item-action v-if="item.icon">
-                      <v-icon>{{ item.icon }}</v-icon>
-                    </v-list-item-action>
+                  <v-list-item-content>
+                    <v-list-item-title v-html="item.name"> </v-list-item-title>
+                  </v-list-item-content>
 
-                    <v-list-item-content>
-                      <v-list-item-title v-html="item.name"> </v-list-item-title>
-                    </v-list-item-content>
-
-                  </v-list-item>
-                </template>
-
+                </v-list-item>
+              </template>
             </v-list>
           </v-card>
+
         </v-menu>
 
       </v-toolbar-items>

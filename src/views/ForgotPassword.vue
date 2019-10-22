@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid>
+  <v-container fluid class="pt-12">
     <custom-toolbar></custom-toolbar>
 
     <v-row no-gutters class="pt-5 full-height" justify="center" align="center" fill-height>

@@ -3,7 +3,7 @@
 
     <v-row no-gutters>
       <v-col cols="12">
-        <v-select :items="validity_status" v-model="credibility"
+        <v-select :items="validityStatus" v-model="credibility"
           item-text="label" item-value="value"
           label="Article Validity" outline required
           :rules="validityRules.selectRules">
@@ -46,7 +46,7 @@ export default {
     return {
       credibility: null,
       assessmentText: null,
-      validity_status : [
+      validityStatus : [
         {
           label: 'This article is accurate',
           value: consts.VALIDITY_CODES.CONFIRMED + 2,
@@ -67,6 +67,7 @@ export default {
   },
   methods: {
     credibilitySelectMapping: function(credValue) {
+      
       if (credValue < 0)
         return consts.VALIDITY_CODES.REFUTED + 2;
       else if (credValue > 0)

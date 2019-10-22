@@ -8,7 +8,8 @@
           <template v-slot:activator="{ on }">
             <v-btn outlined block color="secondary" @click="fullScreenFilterVisible = true">
               <v-icon>filter_list</v-icon>
-            Filters</v-btn>
+              Filters
+            </v-btn>
           </template>
 
           <v-card dark>

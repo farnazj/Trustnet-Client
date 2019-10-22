@@ -119,7 +119,7 @@
 
           <v-divider></v-divider>
 
-       </template>
+        </template>
 
         <!-- <span>{{sourceDisplayName(historyOwner)}}</span> -->
 
@@ -182,6 +182,7 @@ export default {
   },
   computed: {
     titleDialogVisible: {
+
       get: function() {
         return this.state.customTitlesVisible;
       },
@@ -208,7 +209,8 @@ export default {
     postNewTitle: function() {
 
       if (this.$refs.newTitleForm.validate()) {
-        postServices.postCustomTitle({postId: this.post.id}, {text: this.newTitle})
+
+        postServices.postCustomTitle({ postId: this.post.id }, { text: this.newTitle })
         .then(res => {
           this.newTitle = '';
           this.$refs.newTitleForm.resetValidation();
@@ -232,6 +234,7 @@ export default {
       this.showDeleteDialog = false;
     },
     proceedDelete: function() {
+
       this.showDeleteDialog = false;
 
       if (this.edit && this.delete.selectedTitle.lastVersion.setId == this.edit.setId) {

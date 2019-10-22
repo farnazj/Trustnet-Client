@@ -57,14 +57,15 @@ export default {
   },
   methods: {
     populateFollowers: function() {
-      let auth_username = this.user.userName;
 
-      if (auth_username == this.username) {
+      let authUsername = this.user.userName;
+
+      if (authUsername == this.username) {
         this.sourceFollowers = this.followers;
         this.initiateSearch();
       }
       else {
-        relationServices.getFollowers({username: this.username})
+        relationServices.getFollowers({ username: this.username })
         .then(res => {
           this.sourceFollowers = res.data;
           this.initiateSearch();
@@ -72,14 +73,15 @@ export default {
       }
     },
     querySources: function() {
-      let search_l = this.search.toLowerCase();
+
+      let searchLowerCase = this.search.toLowerCase();
       return new Promise((resolve, reject) => {
 
-      let filtered_sources = this.sourceFollowers.filter(source => source.userName.toLowerCase().includes(search_l)
-        || (source.firstName + ' ' + source.lastName).toLowerCase().includes(search_l));
+      let filteredSources = this.sourceFollowers.filter(source => source.userName.toLowerCase().includes(searchLowerCase)
+        || (source.firstName + ' ' + source.lastName).toLowerCase().includes(searchLowerCase));
 
-      let sliced_sources = filtered_sources.slice(this.offset, this.offset + this.limit);
-      resolve({data: sliced_sources});
+      let slicedSources = filteredSources.slice(this.offset, this.offset + this.limit);
+      resolve({ data: slicedSources });
       });
 
     },

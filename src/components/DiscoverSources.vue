@@ -51,22 +51,22 @@ export default {
   methods: {
     querySources: function() {
       return sourceServices.getSources(
-        {limit: this.limit, offset: this.offset},
-        {searchterm: this.search}
+        { limit: this.limit, offset: this.offset },
+        { searchterm: this.search }
       )
     },
     setupSourcestoFollow: function() {
-      let auth_user_id = this.$store.getters['auth/user'].id;
+      let authUserId = this.$store.getters['auth/user'].id;
       this.sourcesToFollow = this.sourceResults.filter(source => (!this.followedIds.includes(source.id)
-        && source.id != auth_user_id));
+        && source.id != authUserId));
 
     }
   },
   computed: {
     // sourcesToFollow: function() {
-    //   let auth_user_id = this.$store.getters['auth/user'].id;
+    //   let authUserId = this.$store.getters['auth/user'].id;
     //   let filtered_sources = this.sourceResults.filter(source => (!this.followedIds.includes(source.id)
-    //     && source.id != auth_user_id));
+    //     && source.id != authUserId));
     //
     //   return filtered_sources;
     // },

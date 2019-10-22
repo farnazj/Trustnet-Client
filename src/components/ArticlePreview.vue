@@ -12,6 +12,7 @@
 
         <v-card @click="revealArticleDetails(post)" class="pa-1 pb-2" flat>
           <v-row no-gutters >
+
             <v-col cols="3">
               <v-row no-gutters>
                 <v-col cols="12">
@@ -89,10 +90,9 @@
           </v-row>
 
         </v-card>
-
       </v-col>
 
-      <v-col >
+      <v-col>
         <v-card flat @click.stop="revealAssessments" height="80px" color="lime lighten-3"
           class="assessment-hinter cursor-pointer">
           <v-row align="center" no-gutters class="parent-height" >
@@ -150,17 +150,19 @@
         return utils.getUnique(this.sortedBoosts, 'id');
       },
       sortedAssessments: function() {
-        let sorted_assessments = {};
+
+        let sortedAssessments = {};
 
         for (const [key, value] of Object.entries(this.assessments)) {
-          sorted_assessments[key] = this.assessments[key].slice().sort(utils.compareAssessments);
+          sortedAssessments[key] = this.assessments[key].slice().sort(utils.compareAssessments);
         }
-        return sorted_assessments;
+        return sortedAssessments;
       }
 
     },
     methods: {
       visibilityChanged: function(isVisible, entry) {
+
         if (isVisible) {
           if (!this.postSeen)
             postServices.changeSeenStatus({postId: this.post.id},
@@ -175,6 +177,7 @@
         this.showAssessments(this.assessments);
       },
       validityMapping: function(credibility) {
+
         if (credibility < consts.VALIDITY_CODES.QUESTIONED)
           return 'refuted';
         else if (credibility == consts.VALIDITY_CODES.QUESTIONED)
@@ -183,13 +186,14 @@
           return 'confirmed';
       },
       fetchAssociations: function() {
+
         this.boostObjects = [];
         this.post.PostBoosts.forEach(postBoost => {
           sourceServices.getSourceById(postBoost.SourceId)
           .then(response => {
-            let boost_obj = Object.assign({}, postBoost);
-            boost_obj.booster = response.data;
-            this.boostObjects.push(boost_obj);
+            let boostObj = Object.assign({}, postBoost);
+            boostObj.booster = response.data;
+            this.boostObjects.push(boostObj);
           })
         });
         this.boostObjects.sort(utils.compareBoosters);
@@ -199,28 +203,28 @@
           this.assessments[key] = [];
 
         let assessmentsBySource = {};
-        this.post.PostAssessments.forEach(post_assessment => {
+        this.post.PostAssessments.forEach(postAssessment => {
 
-          if (!(post_assessment.SourceId in assessmentsBySource)) {
-            let assessments_obj = {};
-            assessments_obj['history'] = [];
-            assessmentsBySource[post_assessment.SourceId] = assessments_obj;
+          if (!(postAssessment.SourceId in assessmentsBySource)) {
+            let assessmentsObj = {};
+            assessmentsObj['history'] = [];
+            assessmentsBySource[postAssessment.SourceId] = assessmentsObj;
           }
 
-          if (post_assessment.version == 1) {
-            assessmentsBySource[post_assessment.SourceId]['lastVersion'] = post_assessment;
+          if (postAssessment.version == 1) {
+            assessmentsBySource[postAssessment.SourceId]['lastVersion'] = postAssessment;
           }
           else {
-            assessmentsBySource[post_assessment.SourceId]['history'].push(post_assessment);
+            assessmentsBySource[postAssessment.SourceId]['history'].push(postAssessment);
           }
        })
 
-       for (const [SourceId, assessments_obj] of Object.entries(assessmentsBySource)) {
-          let cred_value = this.validityMapping(assessments_obj.lastVersion.postCredibility);
+       for (const [SourceId, assessmentsObj] of Object.entries(assessmentsBySource)) {
+          let credValue = this.validityMapping(assessmentsObj.lastVersion.postCredibility);
           sourceServices.getSourceById(SourceId)
           .then(response => {
             assessmentsBySource[SourceId]['assessor'] = response.data;
-            this.assessments[cred_value].push(assessments_obj);
+            this.assessments[credValue].push(assessmentsObj);
           })
        }
 

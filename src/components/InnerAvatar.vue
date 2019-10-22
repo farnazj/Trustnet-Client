@@ -30,12 +30,13 @@ export default {
   },
   computed: {
     getInitials: function() {
+      
       if (Object.entries(this.user).length) {
         if (!this.user.systemMade)
           return (this.user.firstName.charAt(0) + this.user.lastName.charAt(0)).toUpperCase();
         else {
-          let cropped_arr = this.user.userName.replace('The', '').trim().split(' ');
-          let inits = cropped_arr.map(el => el.charAt(0).toUpperCase());
+          let croppedArr = this.user.userName.replace('The', '').trim().split(' ');
+          let inits = croppedArr.map(el => el.charAt(0).toUpperCase());
           return inits.join('');
         }
       }
@@ -52,12 +53,6 @@ export default {
       else
         return consts.baseURL + '/' + this.user.photoUrl;
     }
-  },
-  methods: {
-    // goToPage: function(event) {
-    //   console.log(this.user)
-    //   this.$router.push({ name: 'profile', params: { username: this.user.userName } });
-    // },
   }
 
 }

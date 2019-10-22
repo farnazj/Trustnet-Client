@@ -64,7 +64,7 @@ export default {
       this.setLoading(true);
       authServices.verifyAccount({token: this.token})
       .then(response => {
-        this.type
+        this.type = 'info';
         this.alertMessage = response.data.message;
         this.alert = true;
         this.loginVisible = true;
@@ -86,9 +86,3 @@ export default {
 }
 
 </script>
-
-<style scoped>
-.full-height {
-  height: 80vh;
-}
-</style>

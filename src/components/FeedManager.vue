@@ -1,46 +1,46 @@
 <template>
   <v-container fluid>
-  <v-row>
-    <v-col sm="6" offset-sm2 cols="10">
-      <p>
-        Add an RSS feed to the system so that you and other users can hear
-        about its latest content.
-      </p>
+    <v-row>
+      <v-col sm="6" offset-sm2 cols="10">
+        <p>
+          Add an RSS feed to the system so that you and other users can hear
+          about its latest content.
+        </p>
 
-      <v-alert v-model="alert" :type="type">
-        {{alertMessage}}
-      </v-alert>
+        <v-alert v-model="alert" :type="type">
+          {{alertMessage}}
+        </v-alert>
 
-      <v-form ref="feedMenu">
-        <v-card>
-          <v-container fluid>
+        <v-form ref="feedMenu">
+          <v-card>
+            <v-container fluid>
 
-          <v-row class="mb-4">
-            <v-text-field v-model="feed" tabindex="1"
-              label="Feed URL" required :rules="formRules.feedURLRules">
-            </v-text-field>
-          </v-row>
+              <v-row class="mb-4">
+                <v-text-field v-model="feed" tabindex="1"
+                  label="Feed URL" required :rules="formRules.feedURLRules">
+                </v-text-field>
+              </v-row>
 
-          <v-row>
-            <v-col cols="12" d-flex>
-              <v-select :items="frequencySelects" label="How frequently does the feed publish new content?"
-                outlined v-model="frequency" item-text="label" item-value="value" required
-                :rules="formRules.frequencyRules"></v-select>
-            </v-col>
-          </v-row>
+              <v-row>
+                <v-col cols="12" d-flex>
+                  <v-select :items="frequencySelects" label="How frequently does the feed publish new content?"
+                    outlined v-model="frequency" item-text="label" item-value="value" required
+                    :rules="formRules.frequencyRules"></v-select>
+                </v-col>
+              </v-row>
 
-          <v-row justify-center>
-            <v-card-actions >
-              <v-btn depressed color="primary" @click="submit">Submit</v-btn>
-            </v-card-actions>
-          </v-row>
+              <v-row justify-center>
+                <v-card-actions >
+                  <v-btn depressed color="primary" @click="submit">Submit</v-btn>
+                </v-card-actions>
+              </v-row>
 
-        </v-container>
-        </v-card>
-      </v-form>
+            </v-container>
+          </v-card>
+        </v-form>
 
-    </v-col>
-  </v-row>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 

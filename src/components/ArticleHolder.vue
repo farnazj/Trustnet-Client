@@ -1,11 +1,13 @@
 <template>
   <v-row>
     <v-col cols="12">
+
       <v-row v-for="article in articles" :key="article.id">
         <article-preview :post="article" :detailsNamespace="detailsNamespace"
           :assessmentsNamespace="assessmentsNamespace">
         </article-preview>
       </v-row>
+
       <v-row v-if="articles_fetched && !articles.length" justify-center  fill-height class="pt-5">
         <v-col sm="8">
           <span class="subheading font-weight-light" >
@@ -19,8 +21,8 @@
             <span class="subheading font-weight-light"> page.</span>
           </span>
         </v-col>
-
       </v-row>
+
     </v-col>
   </v-row>
 </template>
@@ -77,11 +79,12 @@ export default {
   methods: {
 
     extend: function() {
-      let pre_offset = this.offset;
+
+      let preOffset = this.offset;
       this.getMoreBoosts()
       .then(() => {
-        let post_offset = this.offset;
-        if (pre_offset == post_offset)
+        let postOffset = this.offset;
+        if (preOffset == postOffset)
           this.endOfResults = true;
         else
           this.endOfResults = false;
@@ -105,7 +108,3 @@ export default {
 
 }
 </script>
-
-<style>
-
-</style>

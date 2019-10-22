@@ -15,7 +15,7 @@
     <article-details detailsNamespace="profileArticleDetails"
      filtersNamespace="profileArticles"> </article-details>
 
-     <v-row no-gutters class="pt-12 flex-first-child">
+     <v-row no-gutters class="pt-12 flex-fixed-height-child">
       <v-card width="100%" color="secondary">
         <v-container fluid>
 
@@ -49,7 +49,6 @@
             </v-col>
 
             <v-col cols="3">
-
               <v-row v-if="notUser" justify="end" wrap no-gutters>
                 <v-btn :small="$vuetify.breakpoint.xsOnly" depressed @click="changeTrustStatus()"
                 :color="isTrusted ? 'grey lighten-1' : 'light-green lighten-1' " class="ma-1">
@@ -63,13 +62,12 @@
                   <span v-else>Unfollow</span>
                 </v-btn>
               </v-row>
-
             </v-col>
+
           </v-row>
 
         </v-container>
       </v-card>
-
     </v-row>
 
     <v-row no-gutters class="flex-child">
@@ -90,7 +88,6 @@
 
         <v-tabs-items v-model="tabs" class="parent-height">
           <v-tab-item>
-
             <v-container fluid class="px-0">
               <v-row no-gutters  >
                 <loading></loading>
@@ -107,16 +104,15 @@
 
               </v-row>
             </v-container>
-
           </v-tab-item>
-          <v-tab-item>
 
+          <v-tab-item>
             <followers-container :username="username"></followers-container>
           </v-tab-item>
         </v-tabs-items>
+
       </v-col>
     </v-row>
-
 
   </v-container>
 </template>
@@ -233,17 +229,17 @@ export default {
     changeTrustStatus() {
       let source = this.profileOwner;
       if (!this.trustedIds.includes(source.id)) {
-        this.addTrusted({username: source.userName});
+        this.addTrusted({ username: source.userName });
       }
       else
-        this.deleteTrusted({username: source.userName});
+        this.deleteTrusted({ username: source.userName });
     },
     changeFollowStatus() {
       let source = this.profileOwner;
       if (!this.followedIds.includes(source.id))
-        this.follow({username: source.userName});
+        this.follow({ username: source.userName });
       else
-        this.unfollow({username: source.userName});
+        this.unfollow({ username: source.userName });
     },
     ...mapActions('profileArticles', [
       'setUsername'
@@ -292,10 +288,6 @@ export default {
 .assessments-container {
   position: sticky;
   top: 30px;
-}
-
-.flex-first-child {
-  flex: 0 0 auto;
 }
 
 .flex-child {

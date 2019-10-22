@@ -49,15 +49,9 @@ export default {
       tabs: null
     }
   },
-  created() {
-
-  },
-  computed: {
-
-  },
   methods: {
     tabChanged: function(val) {
-
+      //
     },
     ...mapActions('loader', [
       'setLoading',

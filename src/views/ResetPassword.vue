@@ -31,12 +31,12 @@
               </v-row>
 
 
-            <v-row no-gutters justify-center>
-              <v-card-actions class="mb-2">
-                <v-btn tabindex="3" depressed color="primary" @click="resetPassword">Submit</v-btn>
-              </v-card-actions>
-            </v-row>
-          </v-container>
+              <v-row no-gutters justify-center>
+                <v-card-actions class="mb-2">
+                  <v-btn tabindex="3" depressed color="primary" @click="resetPassword">Submit</v-btn>
+                </v-card-actions>
+              </v-row>
+            </v-container>
 
           </v-card>
         </v-form>
@@ -96,10 +96,10 @@ export default {
       if (this.$refs.resetPasswordForm.validate()) {
 
         authServices.resetPassword(
-          {token: this.token},
-          {password: this.password})
+          { token: this.token },
+          { password: this.password })
         .then(response => {
-          console.log(response)
+          console.log('password reset success', response);
           this.alertMessage = response.data.message;
           this.type = 'info';
           this.info = true;
@@ -113,10 +113,10 @@ export default {
       }
     },
     goToLogin: function() {
-      this.$router.push({name: 'login'});
+      this.$router.push({ name: 'login' });
     },
     validateField () {
-        this.$refs.resetPasswordForm.validate()
+      this.$refs.resetPasswordForm.validate()
     }
   },
   watch: {
@@ -124,9 +124,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.full-height {
-  height: 82vh;
-}
-</style>

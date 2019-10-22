@@ -1,6 +1,5 @@
 <template>
   <v-container fluid class="pt-12">
-
     <custom-toolbar></custom-toolbar>
 
     <v-row row justify="center" class="padded-text pt-5">

@@ -1,6 +1,7 @@
 <template>
   <v-dialog v-model="visible" max-width="550" scrollable>
      <v-card max-height="50vh">
+
        <v-row align="center" class="pa-1" >
          <v-col cols="11">
            <v-row justify="start">
@@ -36,10 +37,10 @@
                 Adopted through their network
               </span>
             </v-col>
-         </v-row>
-         <v-divider></v-divider>
+          </v-row>
+          <v-divider></v-divider>
 
-        </template>
+         </template>
       </v-card-text>
      </v-card>
   </v-dialog>

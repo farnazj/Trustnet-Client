@@ -1,86 +1,86 @@
 <template>
 
-<v-fade-transition v-if="visible">
-  <v-row class="pt-12" id="assessment_container" no-gutters>
-    <v-col cols="12">
-      <v-card>
-        <v-row align-center fill-height no-gutters>
+  <v-fade-transition v-if="visible">
+    <v-row class="pt-12" id="assessment_container" no-gutters>
+      <v-col cols="12">
+        <v-card>
 
-          <v-col cols="1">
-            <v-row justify="start" no-gutters>
-              <v-icon @click="hideContainer">clear</v-icon>
-            </v-row>
-          </v-col>
+          <v-row align-center fill-height no-gutters>
+            <v-col cols="1">
+              <v-row justify="start" no-gutters>
+                <v-icon @click="hideContainer">clear</v-icon>
+              </v-row>
+            </v-col>
 
-          <v-col cols="11">
-            <v-row justify="center" no-gutters>
-              <p class="pb-0 mb-0 subheading font-weight-medium">Accurate?</p>
-            </v-row>
-          </v-col>
+            <v-col cols="11">
+              <v-row justify="center" no-gutters>
+                <p class="pb-0 mb-0 subheading font-weight-medium">Accurate?</p>
+              </v-row>
+            </v-col>
+          </v-row>
 
-        </v-row>
-
-      <v-row v-if="sortedAssessments.questioned.length != 0" row wrap class="pa-1" no-gutters>
-        <v-col cols="12">
-          <v-card-title>
-           <div>
-             <p class="body-2 font-weight-medium mb-1">Questioned</p>
-           </div>
-         </v-card-title>
-
-         <template v-for="assessment in getAssessmentsSlice('questioned')" >
-           <inner-assessment :assessmentObj="assessment" :namespace="namespace"
-            :key="assessment.lastVersion.id"></inner-assessment>
-         </template>
-
-        </v-col>
-      </v-row>
-
-      <v-row v-if="sortedAssessments.questioned.length != 0" row class="pa-1" no-gutters>
-        <span v-if="assessmentsRemaining('questioned')" @click="revealMore('questioned')"
-          class="blue--text text--darken-3 body-2 cursor-pointer">
-          Show More Assessments</span>
-        <v-spacer></v-spacer>
-        <span class="grey--text text--darken-3 pr-1"> {{getAssessmentStats('questioned')}} </span>
-      </v-row>
-
-    </v-card>
-      <v-row no-gutters class="border-top">
-        <template v-for="(key,index) in ['confirmed', 'refuted']" >
-          <v-col :key="index" :xs6="isDebated" :xs12="!isDebated" v-if="sortedAssessments[key].length != 0">
-
-            <v-card class="assessment-col">
-
+          <v-row v-if="sortedAssessments.questioned.length != 0" row wrap class="pa-1" no-gutters>
+            <v-col cols="12">
               <v-card-title>
                <div>
-                 <p class="mb-1 body-2 font-weight-medium" v-if="key == 'confirmed'"> Yes</p>
-                 <p class="mb-1 body-2 font-weight-medium" v-else-if="key == 'refuted'"> No</p>
+                 <p class="body-2 font-weight-medium mb-1">Questioned</p>
                </div>
              </v-card-title>
-             <v-divider ></v-divider>
 
-              <template v-for="assessment in getAssessmentsSlice(key)" >
-                <inner-assessment :assessmentObj="assessment" :namespace="namespace"
+             <template v-for="assessment in getAssessmentsSlice('questioned')" >
+               <inner-assessment :assessmentObj="assessment" :namespace="namespace"
                 :key="assessment.lastVersion.id"></inner-assessment>
-              </template>
+             </template>
 
-              <v-row no-gutters class="pa-1">
-                <span v-if="assessmentsRemaining(key)" @click="revealMore(key)"
-                  class="blue--text text--darken-3 body-2 cursor-pointer">
-                  Show More Assessments</span>
-                <v-spacer></v-spacer>
-                <span class="grey--text text--darken-3 pr-1"> {{getAssessmentStats(key)}} </span>
-              </v-row>
+            </v-col>
+          </v-row>
 
-           </v-card>
+          <v-row v-if="sortedAssessments.questioned.length != 0" row class="pa-1" no-gutters>
+            <span v-if="assessmentsRemaining('questioned')" @click="revealMore('questioned')"
+              class="blue--text text--darken-3 body-2 cursor-pointer">
+              Show More Assessments</span>
+            <v-spacer></v-spacer>
+            <span class="grey--text text--darken-3 pr-1"> {{getAssessmentStats('questioned')}} </span>
+          </v-row>
 
-          </v-col>
-        </template>
-      </v-row>
+        </v-card>
 
-    </v-col>
-  </v-row>
-</v-fade-transition>
+        <v-row no-gutters class="border-top">
+          <template v-for="(key,index) in ['confirmed', 'refuted']" >
+            <v-col :key="index" :xs6="isDebated" :xs12="!isDebated" v-if="sortedAssessments[key].length != 0">
+
+              <v-card class="assessment-col">
+
+                <v-card-title>
+                 <div>
+                   <p class="mb-1 body-2 font-weight-medium" v-if="key == 'confirmed'"> Yes</p>
+                   <p class="mb-1 body-2 font-weight-medium" v-else-if="key == 'refuted'"> No</p>
+                 </div>
+               </v-card-title>
+               <v-divider ></v-divider>
+
+                <template v-for="assessment in getAssessmentsSlice(key)" >
+                  <inner-assessment :assessmentObj="assessment" :namespace="namespace"
+                  :key="assessment.lastVersion.id"></inner-assessment>
+                </template>
+
+                <v-row no-gutters class="pa-1">
+                  <span v-if="assessmentsRemaining(key)" @click="revealMore(key)"
+                    class="blue--text text--darken-3 body-2 cursor-pointer">
+                    Show More Assessments</span>
+                  <v-spacer></v-spacer>
+                  <span class="grey--text text--darken-3 pr-1"> {{getAssessmentStats(key)}} </span>
+                </v-row>
+
+             </v-card>
+
+            </v-col>
+          </template>
+        </v-row>
+
+      </v-col>
+    </v-row>
+  </v-fade-transition>
 
 </template>
 
@@ -106,11 +106,11 @@ export default {
   },
   computed: {
     sortedAssessments: function() {
-      let sorted_assessments = {};
+      let sortedAssessments = {};
       for (const [key, value] of Object.entries(this.assessments))
-        sorted_assessments[key] = this.assessments[key].slice().sort(utils.compareAssessments);
+        sortedAssessments[key] = this.assessments[key].slice().sort(utils.compareAssessments);
 
-      return sorted_assessments;
+      return sortedAssessments;
     },
     isDebated: function () {
       return this.assessments.confirmed.length && this.assessments.refuted.length;

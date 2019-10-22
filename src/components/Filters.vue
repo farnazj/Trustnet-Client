@@ -84,32 +84,32 @@
 
     <v-divider></v-divider>
 
-      <v-list subheader>
-        <v-subheader>Followed or Trusted Sources</v-subheader>
-        <v-list-item v-for="source in followedOrTrusteds"
-            :key="source.id" @click="selectSource(source)"
-            :class="{highlighted: sourceSelectionMode && selectedSources.includes(source.userName)}">
+    <v-list subheader>
+      <v-subheader>Followed or Trusted Sources</v-subheader>
+      <v-list-item v-for="source in followedOrTrusteds"
+          :key="source.id" @click="selectSource(source)"
+          :class="{highlighted: sourceSelectionMode && selectedSources.includes(source.userName)}">
 
-            <v-list-item-action v-if="sourceSelectionMode" class="pa-0 source-checkbox">
-              <v-checkbox v-model="selectedSourcesCheckMark[source.userName]"></v-checkbox>
-            </v-list-item-action>
+          <v-list-item-action v-if="sourceSelectionMode" class="pa-0 source-checkbox">
+            <v-checkbox v-model="selectedSourcesCheckMark[source.userName]"></v-checkbox>
+          </v-list-item-action>
 
-          <v-list-item-avatar>
-            <custom-avatar :user="source" :clickEnabled="false" :size="36"></custom-avatar>
-          </v-list-item-avatar>
+        <v-list-item-avatar>
+          <custom-avatar :user="source" :clickEnabled="false" :size="36"></custom-avatar>
+        </v-list-item-avatar>
 
-          <v-list-item-content>
-            <v-list-item-subtitle>
-              <v-tooltip right>
-                <template v-slot:activator="{ on }">
-                  <span v-on="on">{{sourceDisplayName(source)}}</span>
-                </template>
-                <span>{{sourceDisplayName(source)}}</span>
-              </v-tooltip>
-            </v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
+        <v-list-item-content>
+          <v-list-item-subtitle>
+            <v-tooltip right>
+              <template v-slot:activator="{ on }">
+                <span v-on="on">{{sourceDisplayName(source)}}</span>
+              </template>
+              <span>{{sourceDisplayName(source)}}</span>
+            </v-tooltip>
+          </v-list-item-subtitle>
+        </v-list-item-content>
+      </v-list-item>
+    </v-list>
 
   </v-list>
 

@@ -79,8 +79,8 @@ export default {
   },
   methods: {
    login: function() {
-     let username = this.username
-     let password = this.password
+     let username = this.username;
+     let password = this.password;
      this.$store.dispatch('auth/login',
       {
         'username': username,
@@ -104,9 +104,3 @@ export default {
 }
 
 </script>
-
-<style scoped>
-.full-height {
-  height: 92vh;
-}
-</style>

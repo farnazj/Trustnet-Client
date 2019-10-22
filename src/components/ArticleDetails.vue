@@ -27,11 +27,10 @@
              <v-form ref="assessmentMenu" lazy-validation>
                <v-card>
                  <v-container fluid>
-
                    <assessment-collector ref="assessmentColl" :validityRules="assessmentValidityRules"
                      :postCredibility="postCredibility" :assessmentBody="assessmentBody" :assessmentId="assessment.id">
                    </assessment-collector>
-                </v-container>
+                 </v-container>
 
                 <v-card-actions>
                   <v-spacer></v-spacer>
@@ -41,7 +40,6 @@
                     <v-icon class="pr-1" >gavel</v-icon> Assess
                   </v-btn>
                 </v-card-actions>
-
               </v-card>
             </v-form>
 
@@ -49,23 +47,23 @@
               Something went wrong. Try again later.
             </v-alert>
 
-         </v-menu>
+          </v-menu>
 
-            <v-tooltip bottom :disabled="!disableBoost" >
-              <template v-slot:activator="{ on }">
+          <v-tooltip bottom :disabled="!disableBoost" >
+            <template v-slot:activator="{ on }">
 
-             <v-menu v-model="boostMenu"
-               :close-on-content-click="false" :disabled="disableBoost"
-               :nudge-width="350" offset-y left attach>
+           <v-menu v-model="boostMenu"
+             :close-on-content-click="false" :disabled="disableBoost"
+             :nudge-width="350" offset-y left attach>
 
-               <template v-slot:activator="{ on }">
-               <v-btn text icon color="blue darken-1" :class="['mr-4', 'reset-pointer-events',
-                {'v-btn--disabled': disableBoost }]" v-on="on">
-                 <v-icon >fas fa-share</v-icon>
-               </v-btn>
-              </template>
+             <template v-slot:activator="{ on }">
+             <v-btn text icon color="blue darken-1" :class="['mr-4', 'reset-pointer-events',
+              {'v-btn--disabled': disableBoost }]" v-on="on">
+               <v-icon >fas fa-share</v-icon>
+             </v-btn>
+            </template>
 
-           <v-form ref="boostMenu" lazy-validation>
+            <v-form ref="boostMenu" lazy-validation>
              <v-card>
                <v-container fluid>
 
@@ -95,126 +93,125 @@
                Something went wrong. Try again later.
              </v-alert>
 
-          </v-menu>
+            </v-menu>
           </template>
-          <span >To share the article, first you need to assess it.</span>
+
+          <span>To share the article, first you need to assess it.</span>
         </v-tooltip>
+      </v-col>
+    </v-row>
+    <v-divider></v-divider>
 
+    <v-row no-gutters class="full-height">
+     <v-container>
 
-         </v-col>
-       </v-row>
-       <v-divider></v-divider>
+       <v-snackbar v-model="showInfoSnackbar" top>
+        {{ editSubmitInfo }}
+         <v-btn color="blue lighten-1" text @click="snackbar = false">
+           Close
+         </v-btn>
+       </v-snackbar>
 
-       <v-row full-height no-gutters>
-         <v-container>
+       <delete-dialog itemType="post" :showDialog="showDeleteDialog"
+        @close="showDeleteDialog = false" @confirm="deleteArticle">
+       </delete-dialog>
 
-           <v-snackbar v-model="showInfoSnackbar" top>
-            {{ editSubmitInfo }}
-             <v-btn color="blue lighten-1" text @click="snackbar = false">
-               Close
-             </v-btn>
-           </v-snackbar>
+       <v-row no-gutters class="edit-tools" v-if="AuthUserIsOwner">
+         <v-speed-dial v-model="fab"
+          direction="top" transition="slide-y-transition">
+            <template v-slot:activator>
+              <v-btn v-model="fab" color="blue darken-2"
+              dark fab large>
+                <v-icon v-if="fab">close</v-icon>
+                <v-icon v-else>build</v-icon>
+              </v-btn>
+            </template>
 
-           <delete-dialog itemType="post" :showDialog="showDeleteDialog"
-            @close="showDeleteDialog = false" @confirm="deleteArticle">
-          </delete-dialog>
+            <v-btn fab dark @click="editMode = true"
+              color="green lighten-1">
+              <v-icon>edit</v-icon>
+            </v-btn>
 
-           <v-row no-gutters class="edit-tools" v-if="AuthUserIsOwner">
-             <v-speed-dial v-model="fab"
-              direction="top" transition="slide-y-transition">
-                <template v-slot:activator>
-                    <v-btn v-model="fab" color="blue darken-2"
-                    dark fab large>
-                      <v-icon v-if="fab">close</v-icon>
-                      <v-icon v-else>build</v-icon>
-                    </v-btn>
-                </template>
-                <v-btn fab dark @click="editMode = true"
-                  color="green lighten-1">
-                  <v-icon>edit</v-icon>
-                </v-btn>
-                <v-btn fab dark @click="showDeleteDialog = true"
-                  color="red lighten-1">
-                  <v-icon>delete</v-icon>
-                </v-btn>
-            </v-speed-dial>
-           </v-row>
+            <v-btn fab dark @click="showDeleteDialog = true"
+              color="red lighten-1">
+              <v-icon>delete</v-icon>
+            </v-btn>
 
-           <v-row no-gutters class="save-edits" v-show="editMode" justify="end">
-             <v-fab-transition>
+          </v-speed-dial>
+        </v-row>
 
-             <v-btn fab dark @click="saveEdits"
-               color="green">
-               <v-icon>check</v-icon>
-             </v-btn>
-           </v-fab-transition>
-           </v-row>
+        <v-row no-gutters class="save-edits" v-show="editMode" justify="end">
+          <v-fab-transition>
+            <v-btn fab dark @click="saveEdits"
+             color="green">
+             <v-icon>check</v-icon>
+            </v-btn>
+          </v-fab-transition>
+        </v-row>
 
+         <v-row no-gutters justify="center" class="centered">
+           <v-col cols="8">
 
-           <v-row no-gutters justify="center" class="centered">
-             <v-col cols="8">
+             <v-card-title primary-title class="mb-2">
+                <v-row no-gutters justify="center">
+                  <div v-if="!editMode" class="headline">{{article.title}}</div>
+                  <v-text-field v-else v-model="edit.title"></v-text-field>
+                </v-row>
+              </v-card-title>
 
-               <v-card-title primary-title class="mb-2">
-                  <v-row no-gutters justify="center">
-                    <div v-if="!editMode" class="headline">{{article.title}}</div>
-                    <v-text-field v-else v-model="edit.title"></v-text-field>
-                  </v-row>
+              <initiator-display :userId="article.SourceId"
+              :postDate="article.updatedAt" class="mb-3">
+              </initiator-display>
 
-                </v-card-title>
+             <v-img v-if="article.image" :src="article.image" contain class="rounded">
+             </v-img>
+           </v-col>
+         </v-row>
 
-                <initiator-display :userId="article.SourceId"
-                :postDate="article.updatedAt" class="mb-3">
-                </initiator-display>
+         <v-row no-gutters class="my-2" justify="center">
+           <v-col cols="10">
+             <v-card-text class="body-text">
+               <div v-if="!editMode">
+                 <p v-if="article.body" class="body-1" v-html="article.body">
 
-               <v-img v-if="article.image" :src="article.image" contain class="rounded">
-               </v-img>
-             </v-col>
-           </v-row>
+                 </p>
+                 <p v-else-if="article.description" class="body-1">
+                   {{article.description}}
+                 </p>
+               </div>
 
-           <v-row no-gutters class="my-2" justify="center">
-             <v-col cols="10">
-               <v-card-text class="body-text">
-                 <div v-if="!editMode">
-                   <p v-if="article.body" class="body-1" v-html="article.body">
+               <div v-else>
+                 <v-textarea v-model="edit.body" rows=16 auto-grow filled
+                 background-color="blue lighten-5">
+                 </v-textarea>
+               </div>
 
-                   </p>
-                   <p v-else-if="article.description" class="body-1">
-                     {{article.description}}
-                   </p>
-                 </div>
+             </v-card-text>
 
-                 <div v-else>
-                   <v-textarea v-model="edit.body" rows=16 auto-grow filled
-                   background-color="blue lighten-5">
-                   </v-textarea>
-                 </div>
+           </v-col>
+         </v-row>
 
-               </v-card-text>
+         <v-row no-gutters justify="center" class="mt-2 mb-3">
+           <v-col cols="6">
+             <v-card-actions v-if="article.url">
+               <v-btn outlined block color="blue darken-1"
+                :href="article.url" target="_blank">
+                 Visit Website</v-btn>
 
-             </v-col>
-           </v-row>
+             </v-card-actions>
+           </v-col>
+         </v-row>
 
-           <v-row no-gutters justify="center" class="mt-2 mb-3">
-             <v-col cols="6">
-               <v-card-actions v-if="article.url">
-                 <v-btn outlined block color="blue darken-1"
-                  :href="article.url" target="_blank">
-                   Visit Website</v-btn>
+         <v-divider></v-divider>
 
-               </v-card-actions>
-             </v-col>
-           </v-row>
+         <v-row no-gutters class="mt-2" justify="center">
+          <div class="fb-comments ma-1" :data-href="facebookCommentsURL"
+          data-width="500" data-numposts="5"></div>
+         </v-row>
 
-           <v-divider></v-divider>
+        </v-container>
 
-           <v-row no-gutters class="mt-2" justify="center">
-            <div class="fb-comments ma-1" :data-href="facebookCommentsURL"
-            data-width="500" data-numposts="5"></div>
-           </v-row>
-
-         </v-container>
-
-       </v-row>
+      </v-row>
 
      </v-card>
 

@@ -29,15 +29,15 @@
 
     </template>
 
-  <template v-if="!targets.length" slot="append">
-    <template>
-      <v-list-item-content>
-        <v-list-item-title>default is everyone</v-list-item-title>
-      </v-list-item-content>
+    <template v-if="!targets.length" slot="append">
+      <template>
+        <v-list-item-content>
+          <v-list-item-title>default is everyone</v-list-item-title>
+        </v-list-item-content>
+      </template>
     </template>
-  </template>
 
-</v-autocomplete>
+  </v-autocomplete>
 
 </template>
 

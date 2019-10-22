@@ -32,10 +32,9 @@
                <span v-else-if="boostObj.Targets[0].userName == user.userName">you</span>
                <span v-else> {{sourceDisplayName(boostObj.Targets[0])}}</span>
              </v-col>
-         </v-row>
-         <v-divider></v-divider>
-
-        </template>
+           </v-row>
+           <v-divider></v-divider>
+         </template>
        </v-card-text>
 
      </v-card>

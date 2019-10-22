@@ -33,9 +33,9 @@ export default {
           res.data.forEach(title => {
 
             if (!(title.setId in titlesBySetId )) {
-                let title_obj = {};
-                title_obj['history'] = [];
-                titlesBySetId[title.setId] = title_obj;
+                let titleObj = {};
+                titleObj['history'] = [];
+                titlesBySetId[title.setId] = titleObj;
             }
 
             if (title.version != 1) {
@@ -49,12 +49,12 @@ export default {
 
           let all_proms = [] ;
           for (const [setId, title_obj] of Object.entries(titlesBySetId)) {
-            let titleset_proms = [
+            let titlesetProms = [
               sourceServices.getSourceById(title_obj['lastVersion'].SourceId),
-              postServices.hasUserEndorsedTitle({setId: setId})
+              postServices.hasUserEndorsedTitle({ setId: setId })
             ];
 
-            all_proms.push(Promise.all(titleset_proms)
+            all_proms.push(Promise.all(titlesetProms)
             .then(resp => {
               titlesBySetId[setId]['author'] = resp[0].data;
               titlesBySetId[setId]['userEndorsed'] = resp[1].data;

@@ -129,6 +129,7 @@ export default {
   },
   methods: {
     signup: function() {
+
       if (this.$refs.signupForm.validate()) {
 
         this.$store.dispatch('auth/signup', this.user)
@@ -143,11 +144,10 @@ export default {
           this.type = 'error';
           this.alert = true;
         })
-
       }
     },
     goToLogin: function() {
-      this.$router.push({name: 'login'});
+      this.$router.push({ name: 'login' });
     },
     validateField () {
         this.$refs.signupForm.validate()
@@ -159,9 +159,3 @@ export default {
 }
 
 </script>
-
-<style scoped>
-.full-height {
-  -height: 100vh;
-}
-</style>

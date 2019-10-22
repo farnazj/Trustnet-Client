@@ -4,6 +4,7 @@
 
       <v-container fill-height pa-2>
         <v-row fill-height no-gutters>
+
           <v-col cols="9" align="end" >
             <v-row align="end" no-gutters>
               <custom-avatar :user="source" :clickEnabled="true" class="mr-3"></custom-avatar>
@@ -13,8 +14,8 @@
             <v-row no-gutters class="body-2 mt-2">
               {{sourceDisplayName(source)}}
             </v-row>
-
           </v-col>
+
           <v-col>
             <v-row no-gutters justify="end" class="mb-0">
               <span class="caption trusted-text" v-if="isTrusted"> Trusted &#x2713;</span>
@@ -23,10 +24,9 @@
             <v-row no-gutters justify="end">
               <span class="caption followed-text" v-if="isFollowed"> Followed &#x2713;</span>
             </v-row>
-
           </v-col>
-        </v-row>
 
+        </v-row>
       </v-container>
 
       <v-card-actions>
@@ -51,8 +51,8 @@
           </v-btn>
 
         </v-row>
-
       </v-card-actions>
+
     </v-card>
 
 </template>
@@ -90,16 +90,17 @@ export default {
     changeTrustStatus(source) {
 
       if (!this.trustedIds.includes(source.id)) {
-        this.addTrusted({username: source.userName});
+        this.addTrusted({ username: source.userName });
       }
       else
-        this.deleteTrusted({username: source.userName});
+        this.deleteTrusted({ username: source.userName });
     },
     changeFollowStatus(source) {
+
       if (!this.followedIds.includes(source.id))
-        this.follow({username: source.userName});
+        this.follow({ username: source.userName });
       else
-        this.unfollow({username: source.userName});
+        this.unfollow({ username: source.userName });
     },
     ...mapActions('relatedSources', [
       'addTrusted',
@@ -113,7 +114,9 @@ export default {
 }
 
 </script>
-<style>
+
+<style scoped>
+
 .trusted-text {
   color: #1B5E20;
 }

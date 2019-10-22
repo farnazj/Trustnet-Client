@@ -4,6 +4,7 @@
 
     <v-row class="pt-12 parent-height" >
       <v-col cols="12">
+
         <v-tabs centered grow dark background-color="grey darken-3"
           slider-color="lime lighten-4" v-model="tabs" @change="tabChanged">
           <v-tab href="#manage" >
@@ -24,8 +25,8 @@
             <discover-sources ref="discover">
             </discover-sources>
           </v-tab-item>
-
         </v-tabs-items>
+
       </v-col>
     </v-row>
 
@@ -63,7 +64,7 @@ export default {
   methods: {
     presetTab: function() {
       if (!this.followedOrTrusteds.length)
-        this.tabs = "discover";
+        this.tabs = 'discover';
     },
     tabChanged: function(val) {
       if (this.$refs[val])

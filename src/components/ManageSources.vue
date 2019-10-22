@@ -11,20 +11,16 @@
     </v-row>
 
     <v-row>
-      <template>
+      <v-container fluid grid-list-xs>
+        <v-row wrap>
+          <v-col v-for="source in sourceResults"
+            :key="source.id" sm="4" lg="3" xl="2" cols="6">
 
-          <v-container fluid grid-list-xs>
-            <v-row wrap>
-              <v-col v-for="source in sourceResults"
-                :key="source.id" sm="4" lg="3" xl="2" cols="6">
+            <source-card :source="source"></source-card>
 
-                <source-card :source="source"></source-card>
-
-              </v-col>
-            </v-row>
-          </v-container>
-
-      </template>
+          </v-col>
+        </v-row>
+      </v-container>
     </v-row>
 
     <v-row justify="center" v-if="sourceResults.length">
@@ -35,6 +31,7 @@
     </v-row>
   </v-col>
  </v-row>
+
 </template>
 
 <script>
@@ -71,17 +68,17 @@ export default {
   },
   methods: {
     querySources: function() {
-      let search_l = this.search.toLowerCase();
+      let searchLowerCase = this.search.toLowerCase();
 
       return new Promise((resolve, reject) => {
-        let filtered_sources = this.followedOrTrusteds.filter(source => {
+        let filteredSources = this.followedOrTrusteds.filter(source => {
 
-          let full_name = source.systemMade ? '' : source.firstName + ' ' + source.lastName;
-          return source.userName.toLowerCase().includes(search_l) ||
-            full_name.toLowerCase().includes(search_l);
+          let fullName = source.systemMade ? '' : source.firstName + ' ' + source.lastName;
+          return source.userName.toLowerCase().includes(searchLowerCase) ||
+            fullName.toLowerCase().includes(searchLowerCase);
         });
-        let sliced_sources = filtered_sources.slice(this.offset, this.offset + this.limit);
-        resolve({data: sliced_sources});
+        let slicedSources = filteredSources.slice(this.offset, this.offset + this.limit);
+        resolve({ data: slicedSources });
       });
     },
     ...mapActions('relatedSources', [
