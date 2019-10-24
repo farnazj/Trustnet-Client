@@ -1,29 +1,23 @@
-# trustnet-client
+TrustNetClient
+=
 
-## Project setup
-```
-npm install
-```
+TrustNetClientVue is a client written in Vue that connects to [TrustnetBackend](https://github.com/farnazj/TrustNetBackend).
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+### Setup Instructions
 
-### Compiles and minifies for production
-```
-npm run build
-```
+#### Install Git and clone this repository
+* `git clone https://github.com/farnazj/TrustNetClientVue`
 
-### Run your tests
-```
-npm run test
-```
+#### Install Node Module Dependencies
+cd to the root directory of the project where package.json is. Run:
+* `npm install`
 
-### Lints and fixes files
-```
-npm run lint
-```
+#### Specify the Backend
+Specify the URL of the backend that this client connects to in './src/services/constants'
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+#### Compile with hot-reloads for development
+In the root directory of the project run:
+* `npm run serve`
+
+#### Compile and minify for production
+* `npm run build`
