@@ -1,6 +1,6 @@
 <template>
 
-  <v-card v-if="visible">
+  <v-card v-if="visible" max-width="270">
     <v-row no-gutters >
       <v-col class="drawer-opener" cols="1">
         <v-row no-gutters justify="end" align="center" class="fill-height">

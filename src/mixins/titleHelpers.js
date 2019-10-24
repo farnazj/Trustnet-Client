@@ -37,7 +37,7 @@ export default {
 
       this.titleObjects = [];
       let titlesBySetId = {};
-      return postServices.getCustomTitles({ postId: this.postId })
+      return postServices.getCustomTitlesOfPost({ postId: this.postId })
       .then(res => {
         if (res.data.length) {
           res.data.forEach(title => {
@@ -69,7 +69,6 @@ export default {
               titlesBySetId[setId]['author'] = resp[0].data;
               titlesBySetId[setId]['userEndorsed'] = resp[1].data;
               this.titleObjects.push(titlesBySetId[setId]);
-              console.log('pushed to titleObjects', JSON.stringify(titlesBySetId[setId]))
             }))
 
           }

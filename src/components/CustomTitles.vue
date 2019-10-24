@@ -1,6 +1,6 @@
 <template>
 
-  <v-dialog v-model="titleDialogVisible" max-width="550" scrollable>
+  <v-dialog v-model="titleDialogVisible" max-width="600" scrollable>
     <v-snackbar v-model="alert" top>
      {{ alertMessage }}
       <v-btn color="blue lighten-1" text @click="snackbar = false">
@@ -48,7 +48,7 @@
 
        <v-divider></v-divider>
 
-       <template v-for="titleObj in titles">
+       <template v-for="(titleObj, index) in titles">
          <v-row no-gutters align="center" class="py-1">
            <custom-avatar :user="titleObj.author" :clickEnabled="true"></custom-avatar>
            <span class="ml-2 caption grey--text text--darken-3"> {{timeElapsed(titleObj.lastVersion.createdAt)}} </span>
@@ -71,55 +71,68 @@
             </v-col>
           </v-row>
 
-          <v-row no-gutters justify="end" v-if="titleObj.author.id == user.id" class="py-1">
+          <v-row no-gutters >
+            <v-col cols="1">
+              <v-icon @click="changeEndorsement(titleObj, index, false)"
+              v-if="titleObj.userEndorsed" color="primary" class="xs-icon-font cursor-pointer">
+                fas fa-thumbs-up
+              </v-icon>
+              <v-icon @click="changeEndorsement(titleObj, index, true)" v-else
+              color="primary" class="xs-icon-font cursor-pointer">
+                far fa-thumbs-up
+              </v-icon>
+            </v-col>
 
-            <v-tooltip bottom :open-on-hover="true" open-delay="500">
-              <template v-slot:activator="{ on }">
-                <v-btn v-show="!edit.on || edit.setId != titleObj.lastVersion.setId" x-small outlined
-                  @click="startEdit(titleObj)" v-on="on" color="green lighten-1" class="mr-2">
-                  <v-icon class="xs-icon-font">edit</v-icon>
-                </v-btn>
-              </template>
-              <span>Edit</span>
-            </v-tooltip>
+            <v-col cols="11" v-if="titleObj.author.id == user.id" class="py-1">
 
-            <v-tooltip bottom :open-on-hover="true" open-delay="500">
-              <template v-slot:activator="{ on }">
-                <v-btn v-show="edit.on && edit.setId == titleObj.lastVersion.setId" x-small outlined
-                  @click="resetEdits" v-on="on" color="red lighten-1" class="mr-1">
-                  <v-icon class="xs-icon-font">cancel</v-icon>
-                </v-btn>
-              </template>
-              <span>Cancel edit</span>
-            </v-tooltip>
+              <v-row justify="end" no-gutters>
+                <v-tooltip bottom :open-on-hover="true" open-delay="500">
+                  <template v-slot:activator="{ on }">
+                    <v-btn v-show="!edit.on || edit.setId != titleObj.lastVersion.setId" x-small outlined
+                      @click="startEdit(titleObj)" v-on="on" color="green lighten-1" class="mr-2">
+                      <v-icon class="xs-icon-font">edit</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>Edit</span>
+                </v-tooltip>
 
-            <v-tooltip bottom :open-on-hover="true" open-delay="500">
-              <template v-slot:activator="{ on }">
-                <v-btn v-show="edit.on && edit.setId == titleObj.lastVersion.setId" x-small outlined
-                  @click="saveEdits" v-on="on" color="green lighten-1" class="mr-3">
-                  <v-icon class="xs-icon-font">check</v-icon>
-                </v-btn>
-              </template>
-              <span>Save edit</span>
-            </v-tooltip>
+                <v-tooltip bottom :open-on-hover="true" open-delay="500">
+                  <template v-slot:activator="{ on }">
+                    <v-btn v-show="edit.on && edit.setId == titleObj.lastVersion.setId" x-small outlined
+                      @click="resetEdits" v-on="on" color="red lighten-1" class="mr-1">
+                      <v-icon class="xs-icon-font">cancel</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>Cancel edit</span>
+                </v-tooltip>
 
-            <v-tooltip bottom :open-on-hover="true" open-delay="500">
-              <template v-slot:activator="{ on }">
-                <v-btn x-small outlined @click="startDelete(titleObj)" v-on="on"
-                  color="red lighten-1">
-                  <v-icon class="xs-icon-font">delete</v-icon>
-                </v-btn>
-              </template>
-              <span>Delete</span>
-            </v-tooltip>
+                <v-tooltip bottom :open-on-hover="true" open-delay="500">
+                  <template v-slot:activator="{ on }">
+                    <v-btn v-show="edit.on && edit.setId == titleObj.lastVersion.setId" x-small outlined
+                      @click="saveEdits" v-on="on" color="green lighten-1" class="mr-3">
+                      <v-icon class="xs-icon-font">check</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>Save edit</span>
+                </v-tooltip>
 
+                <v-tooltip bottom :open-on-hover="true" open-delay="500">
+                  <template v-slot:activator="{ on }">
+                    <v-btn x-small outlined @click="startDelete(titleObj)" v-on="on"
+                      color="red lighten-1">
+                      <v-icon class="xs-icon-font">delete</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>Delete</span>
+                </v-tooltip>
+
+              </v-row>
+            </v-col>
           </v-row>
 
           <v-divider></v-divider>
 
         </template>
-
-        <!-- <span>{{sourceDisplayName(historyOwner)}}</span> -->
 
       </v-card-text>
      </v-card>
@@ -212,6 +225,22 @@ export default {
           this.alert = true;
         })
       }
+    },
+    changeEndorsement: function(titleObj, arrIndex, endorsementVal) {
+      postServices.setEndorsementStatus({
+        setId: titleObj.lastVersion.setId
+      },
+      {
+        endorse_status: endorsementVal
+      })
+      .then(res => {
+        postServices.hasUserEndorsedTitle({ setId: titleObj.lastVersion.setId })
+        .then(res => {
+          titleObj['userEndorsed'] = res.data;
+          this.$set(this.titleObjects, arrIndex, titleObj);
+
+        })
+      })
     },
     startDelete: function(titleObj) {
       this.delete.selectedTitle = titleObj;

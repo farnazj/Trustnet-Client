@@ -60,7 +60,7 @@ export default {
         withCredentials: true
       })
   },
-  getCustomTitles(params) {
+  getCustomTitlesOfPost(params) {
     return Api().get('/posts/' + params.postId + '/custom-titles',
     {
       withCredentials: true
@@ -83,7 +83,14 @@ export default {
     { withCredentials: true })
   },
   hasUserEndorsedTitle(params) {
-    return Api().get('/posts/' + params.setId + '/is-custom-title-endorsed',
+    return Api().get('/posts/' + params.setId + '/custom-title-endorsement',
+    {
+      withCredentials: true
+    })
+  },
+  setEndorsementStatus(params, reqBody) {
+    return Api().post('/posts/' + params.setId + '/custom-title-endorsement',
+    reqBody,
     {
       withCredentials: true
     })
