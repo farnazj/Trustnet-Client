@@ -102,6 +102,7 @@ $primary-color-green= #43A047;
 $primary-color-red= #E57373;
 $primary-color-orange= #FB8C00;
 $primary-color-span= #3c4761;
+$background-grey= #d2dbe0;
 
 // CIRCLE
 // classes 2 extend
@@ -127,6 +128,11 @@ $primary-color-span= #3c4761;
   margin: 0 auto;
 } */
 
+.green.darken-1, red lighten-2 {
+    background-color: $background-grey !important;
+    border-color: $background-grey !important;
+}
+
 
 // main
 .c100 {
@@ -142,8 +148,7 @@ $primary-color-span= #3c4761;
 	border-radius: 50%;
 	float: left;
 	-margin: 0.4em;
-	-background-color: #dfe8ed !important;
-  background-color: #d2dbe0 !important;
+  background-color: $background-grey !important;
 
 // 	// center circle to its parent
 // 	&.center{
