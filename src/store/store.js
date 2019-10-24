@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import articleFilters from './modules/articleFilters'
 import assessments from './modules/assessments'
+import titles from './modules/titles'
 import auth from './modules/auth'
 import relatedSources from './modules/relatedSources'
 import articleDetails from './modules/articleDetails'
@@ -37,5 +38,8 @@ store.registerModule('profileArticleDetails', articleDetails);
 
 store.registerModule('homeAssessments', assessments);
 store.registerModule('profileAssessments', assessments);
+
+store.registerModule('homeTitles', titles);
+store.registerModule('profileTitles', titles);
 
 export default store;

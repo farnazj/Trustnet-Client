@@ -131,6 +131,10 @@
         type: String,
         required: true
       },
+      titlesNamespace: {
+        type: String,
+        required: true
+      },
       post: {
         type: Object
       }
@@ -230,7 +234,8 @@
 
       },
       fetchSeenStatus: function() {
-        postServices.getSeenStatus({postId: this.post.id})
+
+        postServices.getSeenStatus({ postId: this.post.id })
         .then(res => {
           this.postSeen = res.data.seen;
         })
@@ -239,14 +244,18 @@
         })
       },
       showBoosters: function() {
+
         this.populateBoosters(this.sortedBoosts);
         this.setBoostersVisibility(true);
       },
-      ...mapActions({
-        showAssessments (dispatch, payload) {
-          return dispatch(this.assessmentsNamespace + '/showAssessments', payload)
-        }
-      }),
+      showTitles: function() {
+        this.setPostId(this.post.id);
+        this.fetchCustomTitles() //in titleHelpers mixin
+        .then(res => {
+          this.populateTitles(this.titleObjects);
+          this.setTitlesVisibility(true);
+        })
+      },
       ...mapActions({
         populateBoosters (dispatch, payload) {
           return dispatch(this.detailsNamespace + '/populateBoosters', payload)
@@ -256,6 +265,10 @@
         },
         showArticleDrawer (dispatch, payload) {
           return dispatch(this.detailsNamespace + '/showArticleDrawer', payload)
+        },
+
+        showAssessments (dispatch, payload) {
+          return dispatch(this.assessmentsNamespace + '/showAssessments', payload)
         }
       })
 

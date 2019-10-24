@@ -34,18 +34,21 @@ export default {
   },
   actions: {
     showAssessments: (context, payload) => {
-      
+
       context.commit('populate_assessments', payload);
       context.commit('show_assessments');
     },
+
     hideContainer: (context) => {
       context.commit('hide_assessments');
     },
+
     setHistoryVisibility: (context, payload) => {
       context.commit('set_history_visibility', payload);
     },
+    
     populateAssessmentHistory: (context, payload) => {
       context.commit('populate_assessment_history', payload);
-    },
+    }
   }
 }

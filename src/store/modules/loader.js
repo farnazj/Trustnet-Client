@@ -12,6 +12,5 @@ export default {
     setLoading: (context, payload) => {
       context.commit('set_loading', payload);
     }
-
   }
 }

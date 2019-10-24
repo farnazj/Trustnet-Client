@@ -61,6 +61,7 @@ export default {
         })
       })
     },
+
     fetchTrusteds: (context) => {
 
       return new Promise((resolve, reject) => {
@@ -72,6 +73,7 @@ export default {
         })
       })
     },
+
     fetchFollowers: (context) => {
 
       let authUsername = context.rootGetters['auth/user'].userName;
@@ -85,6 +87,7 @@ export default {
         })
       })
     },
+
     addTrusted: (context, payload) => {
 
       return new Promise((resolve, reject) => {
@@ -102,6 +105,7 @@ export default {
         })
       })
     },
+
     deleteTrusted: (context, payload) => {
 
       return new Promise((resolve, reject) => {
@@ -119,6 +123,7 @@ export default {
         })
       })
     },
+
     follow: (context, payload) => {
 
       return new Promise((resolve, reject) => {
@@ -136,6 +141,7 @@ export default {
         })
       });
     },
+
     unfollow: (context, payload) => {
 
       return new Promise((resolve, reject) => {

@@ -40,27 +40,22 @@ export default {
 
     populate_boosters: (state, boosters) => {
       state.boosters = boosters;
-    },
-
-    set_titles_visibility: (state, visibility) => {
-      state.customTitlesVisible = visibility;
-    },
-
-    populate_titles: (state, titles) => {
-      state.titles = titles;
     }
   },
   actions: {
     populateArticle: (context, payload) => {
       context.commit('populate_drawer', payload);
     },
+
     showArticleDrawer: (context, payload) => {
       context.commit('populate_drawer', payload);
       context.commit('set_drawer_visibility', true);
     },
+
     hideDrawer: (context) => {
       context.commit('set_drawer_visibility', false);
     },
+    
     setDrawerVisibility: (context, payload) => {
       context.commit('set_drawer_visibility', payload);
     },
@@ -111,14 +106,7 @@ export default {
 
     populateBoosters: (context, payload) => {
       context.commit('populate_boosters', payload);
-    },
-
-    setTitlesVisibility: (context, payload) => {
-      context.commit('set_titles_visibility', payload);
-    },
-
-    populateTitles: (context, payload) => {
-      context.commit('populate_titles', payload);
     }
+
   }
 }

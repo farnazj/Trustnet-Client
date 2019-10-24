@@ -29,17 +29,21 @@ export default {
     auth_request(state){
       state.status = 'loading'
     },
+
     auth_success(state, user){
       state.status = 'success';
     },
+
     auth_error(state){
       state.status = 'error';
     },
+
     logout(state){
       state.status = '';
       state.token = '';
       localStorage.removeItem('token');
     },
+
     update_user(state, user) {
       localStorage.setItem('token', JSON.stringify(user));
       state.token = Object.assign({}, user);

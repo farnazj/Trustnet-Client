@@ -4,7 +4,7 @@
 
       <v-row v-for="article in articles" :key="article.id">
         <article-preview :post="article" :detailsNamespace="detailsNamespace"
-          :assessmentsNamespace="assessmentsNamespace">
+          :assessmentsNamespace="assessmentsNamespace" :titlesNamespace="titlesNamespace">
         </article-preview>
       </v-row>
 
@@ -46,6 +46,10 @@ export default {
       required: true
     },
     assessmentsNamespace: {
+      type: String,
+      required: true
+    },
+    titlesNamespace: {
       type: String,
       required: true
     }

@@ -12,9 +12,7 @@
      @close="cancelDelete" @confirm="proceedDelete">
     </delete-dialog>
 
-
      <v-card max-height="50vh" class="pa-1" >
-
        <v-row no-gutters align="center">
          <v-col cols="11">
            <v-row no-gutters justify="start">
@@ -51,7 +49,7 @@
        <v-divider></v-divider>
 
        <template v-for="titleObj in titles">
-         <v-row align="center" class="py-1">
+         <v-row no-gutters align="center" class="py-1">
            <custom-avatar :user="titleObj.author" :clickEnabled="true"></custom-avatar>
            <span class="ml-2 caption grey--text text--darken-3"> {{timeElapsed(titleObj.lastVersion.createdAt)}} </span>
            <span v-if="titleObj.history.length" class="ml-2 caption grey--text text--darken-1 cursor-pointer"
@@ -125,6 +123,9 @@
 
       </v-card-text>
      </v-card>
+
+     <title-history :namespace="titlesNamespace"></title-history>
+
   </v-dialog>
 
 </template>
@@ -132,6 +133,7 @@
 <script>
 import customAvatar from '@/components/CustomAvatar'
 import deleteConfirmationDialog from '@/components/DeleteConfirmationDialog'
+import titleHistory from '@/components/TitleHistory'
 
 import sourceHelpers from '@/mixins/sourceHelpers'
 import timeHelpers from '@/mixins/timeHelpers'
@@ -142,10 +144,11 @@ import { mapState, mapGetters, mapActions } from 'vuex'
 export default {
   components: {
    'custom-avatar': customAvatar,
-   'delete-dialog': deleteConfirmationDialog
+   'delete-dialog': deleteConfirmationDialog,
+   'title-history': titleHistory
   },
   props: {
-    detailsNamespace: {
+    titlesNamespace: {
       type: String,
       required: true
     }
@@ -153,10 +156,6 @@ export default {
   data: () => {
     return {
       newTitle: '',
-      history: {
-        visible: false,
-        selectedTitle: null
-      },
       edit: {
         on: false,
         setId: null,
@@ -175,8 +174,7 @@ export default {
         ]
       },
       alert: false,
-      alertMessage: '',
-      dialog3: false
+      alertMessage: ''
 
     }
   },
@@ -187,20 +185,10 @@ export default {
         return this.state.customTitlesVisible;
       },
       set: function(newValue) {
+        this.setHistoryVisiblity(false);
         this.setTitlesVisibility(newValue);
       }
     },
-    titles: function() {
-      return this.state.titles;
-    },
-    post: function() {
-      return this.state.article;
-    },
-    ...mapState({
-       state (state) {
-         return state[this.detailsNamespace];
-       }
-    }),
     ...mapGetters('auth', [
       'user'
     ])
@@ -210,7 +198,7 @@ export default {
 
       if (this.$refs.newTitleForm.validate()) {
 
-        postServices.postCustomTitle({ postId: this.post.id }, { text: this.newTitle })
+        postServices.postCustomTitle({ postId: this.postId}, { text: this.newTitle })
         .then(res => {
           this.newTitle = '';
           this.$refs.newTitleForm.resetValidation();
@@ -244,7 +232,7 @@ export default {
       }
 
       postServices.deleteCustomTitle({
-        postId: this.post.id,
+        postId: this.postId,
         setId: this.delete.selectedTitle.lastVersion.setId
       })
       .then(res => {
@@ -261,6 +249,7 @@ export default {
 
     },
     startEdit: function(title) {
+
       this.edit.on = true;
       this.edit.setId = title.lastVersion.setId;
       this.edit.text = title.lastVersion.text;
@@ -270,11 +259,13 @@ export default {
       let index = this.titleObjects.findIndex(title => title.lastVersion.setId == this.edit.setId);
 
       if (this.$refs.editTitleForm[index].validate()) {
+
         postServices.editCustomTitle({
-          postId: this.post.id,
+          postId: this.postId,
           setId: this.edit.setId
         }, {text: this.edit.text})
         .then(res => {
+
           this.resetEdits();
           this.$refs.editTitleForm[index].resetValidation();
           this.fetchCustomTitles()
@@ -290,20 +281,29 @@ export default {
 
     },
     resetEdits: function() {
+
       this.edit.on = false;
       this.edit.setId = null;
       this.edit.text = '';
     },
     showHistory: function(titleObj) {
-      this.history.visible = true;
-      this.history.selectedTitle = titleObj;
+
+      this.populateTitleHistory(titleObj);
+      this.setHistoryVisiblity(true);
     },
     hideTitles: function() {
+      this.setHistoryVisiblity(false);
       this.setTitlesVisibility(false);
     },
     ...mapActions({
       setTitlesVisibility (dispatch, payload) {
-        return dispatch(this.detailsNamespace + '/setTitlesVisibility', payload)
+        return dispatch(this.titlesNamespace + '/setTitlesVisibility', payload)
+      },
+      populateTitleHistory (dispatch, payload) {
+        return dispatch(this.titlesNamespace + '/populateTitleHistory', payload)
+      },
+      setHistoryVisiblity (dispatch, payload) {
+        return dispatch(this.titlesNamespace + '/setHistoryVisibility', payload)
       }
     })
   },

@@ -30,7 +30,7 @@
     <v-row no-gutters>
       <loading></loading>
       <boosters-list detailsNamespace="homeArticleDetails"></boosters-list>
-      <custom-titles detailsNamespace="homeArticleDetails"></custom-titles>
+      <custom-titles titlesNamespace="homeTitles"></custom-titles>
       <assessment-history namespace="homeAssessments"></assessment-history>
 
       <v-col sm="3" md="2" v-show="filtersVisible">
@@ -45,7 +45,8 @@
 
       <v-col md="7" cols="8" :offset="$vuetify.breakpoint.smAndDown ? 0 : 1" >
         <article-holder detailsNamespace="homeArticleDetails" filtersNamespace="articleFilters"
-          assessmentsNamespace="homeAssessments" :class="{'pt-5': !$vuetify.breakpoint.smAndDown}">
+          assessmentsNamespace="homeAssessments" titlesNamespace="homeTitles"
+          :class="{'pt-5': !$vuetify.breakpoint.smAndDown}">
        </article-holder>
       </v-col>
 
@@ -72,6 +73,7 @@ import customTitles from '@/components/CustomTitles'
 import assessmentHistory from '@/components/AssessmentHistory'
 import Filters from '@/components/Filters'
 import Loading from '@/components/Loading'
+
 import postServices from '@/services/postServices'
 import { mapState, mapActions } from 'vuex'
 
@@ -133,7 +135,9 @@ export default {
    ]),
    ...mapActions('homeArticleDetails', [
      'showArticleDrawer',
-     'setBoostersVisibility',
+     'setBoostersVisibility'
+   ]),
+   ...mapActions('homeTitles', [
      'setTitlesVisibility'
    ])
  }

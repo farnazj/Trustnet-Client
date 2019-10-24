@@ -92,11 +92,12 @@
               <v-row no-gutters  >
                 <loading></loading>
                 <boosters-list detailsNamespace="profileArticleDetails"></boosters-list>
+                <custom-titles titlesNamespace="profileTitles"></custom-titles>
                 <assessment-history namespace="profileAssessments"></assessment-history>
 
                 <v-col cols="7">
                   <article-holder detailsNamespace="profileArticleDetails" filtersNamespace="profileArticles"
-                  assessmentsNamespace="profileAssessments"></article-holder>
+                  assessmentsNamespace="profileAssessments" titlesNamespace="profileTitles"></article-holder>
                 </v-col>
 
                 <assessments-container namespace="profileAssessments" class="assessments-container">
@@ -124,6 +125,7 @@ import articleDetails from '@/components/ArticleDetails'
 import assessmentsContainer from '@/components/AssessmentsContainer'
 import followersContainer from '@/components/FollowersContainer'
 import boostersList from '@/components/BoostersList'
+import customTitles from '@/components/CustomTitles'
 import assessmentHistory from '@/components/AssessmentHistory'
 import loading from '@/components/Loading'
 import photoUpload from 'vue-image-crop-upload'
@@ -141,6 +143,7 @@ export default {
     'article-details': articleDetails,
     'assessments-container': assessmentsContainer,
     'boosters-list': boostersList,
+    'custom-titles': customTitles,
     'assessment-history': assessmentHistory,
     'followers-container': followersContainer,
     'loading': loading,

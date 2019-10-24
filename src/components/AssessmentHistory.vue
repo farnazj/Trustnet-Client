@@ -2,14 +2,14 @@
   <v-dialog v-model="visible" max-width="550" scrollable>
      <v-card max-height="50vh">
 
-       <v-row align="center" class="pa-1" >
+       <v-row no-gutters align="center" class="pa-1" >
          <v-col cols="11">
-           <v-row justify="start">
+           <v-row no-gutters justify="start">
              <p class="pb-0 mb-0 subheading font-weight-regular">Edit History</p>
            </v-row>
          </v-col>
          <v-col cols="1">
-           <v-row justify="end">
+           <v-row no-gutters justify="end">
              <v-icon @click="hideHistory">clear</v-icon>
            </v-row>
          </v-col>

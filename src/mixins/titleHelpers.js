@@ -4,6 +4,12 @@ import sourceServices from '@/services/sourceServices'
 import { mapState, mapActions } from 'vuex'
 
 export default {
+  props: {
+    titlesNamespace: {
+      type: String,
+      required: true
+    }
+  },
   data: () => {
     return {
       titleObjects: []
@@ -12,22 +18,26 @@ export default {
   computed: {
     sortedTitles: function() {
       return this.titleObjects.slice(utils.compareTitles);
-    }
+    },
+    titles: function() {
+      return this.state.titles;
+    },
+    postId: function() {
+      return this.state.postId;
+    },
+    ...mapState({
+       state (state) {
+         return state[this.titlesNamespace];
+       }
+    }),
   },
   methods: {
-    showTitles: function() {
-      this.populateArticle(this.post);
-      this.fetchCustomTitles()
-      .then(res => {
-        this.populateTitles(this.titleObjects);
-        this.setTitlesVisibility(true);
-      })
-    },
+
     fetchCustomTitles: function() {
 
       this.titleObjects = [];
       let titlesBySetId = {};
-      return postServices.getCustomTitles({postId: this.post.id})
+      return postServices.getCustomTitles({ postId: this.postId })
       .then(res => {
         if (res.data.length) {
           res.data.forEach(title => {
@@ -47,22 +57,23 @@ export default {
 
           })
 
-          let all_proms = [] ;
-          for (const [setId, title_obj] of Object.entries(titlesBySetId)) {
+          let allProms = [] ;
+          for (const [setId, titleObj] of Object.entries(titlesBySetId)) {
             let titlesetProms = [
-              sourceServices.getSourceById(title_obj['lastVersion'].SourceId),
+              sourceServices.getSourceById(titleObj['lastVersion'].SourceId),
               postServices.hasUserEndorsedTitle({ setId: setId })
             ];
 
-            all_proms.push(Promise.all(titlesetProms)
+            allProms.push(Promise.all(titlesetProms)
             .then(resp => {
               titlesBySetId[setId]['author'] = resp[0].data;
               titlesBySetId[setId]['userEndorsed'] = resp[1].data;
-              this.titleObjects.push(title_obj);
+              this.titleObjects.push(titlesBySetId[setId]);
+              console.log('pushed to titleObjects', JSON.stringify(titlesBySetId[setId]))
             }))
 
           }
-          return all_proms;
+          return Promise.all(allProms);
         }
       })
       .catch(err => {
@@ -71,14 +82,14 @@ export default {
     },
 
     ...mapActions({
-      populateArticle(dispatch, payload) {
-        return dispatch(this.detailsNamespace + '/populateArticle', payload)
+      setPostId(dispatch, payload) {
+        return dispatch(this.titlesNamespace + '/setPostId', payload)
       },
       populateTitles(dispatch, payload) {
-        return dispatch(this.detailsNamespace + '/populateTitles', payload)
+        return dispatch(this.titlesNamespace + '/populateTitles', payload)
       },
       setTitlesVisibility(dispatch, payload) {
-        return dispatch(this.detailsNamespace + '/setTitlesVisibility', payload)
+        return dispatch(this.titlesNamespace + '/setTitlesVisibility', payload)
       }
     })
 
