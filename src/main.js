@@ -11,6 +11,7 @@ import store from './store/store'
 import axios from 'axios'
 import VueObserveVisibility from 'vue-observe-visibility'
 import vuetify from './plugins/vuetify';
+import consts from './services/constants'
 
 Vue.config.productionTip = false
 Vue.prototype.$http = axios;
@@ -29,15 +30,14 @@ new Vue({
   created: function() {
    window.fbAsyncInit = function() {
      FB.init({
-       appId      : '1910706082368253',
+       appId      : consts.FB_APP_ID,
        xfbml      : true,
-       version    : 'v2.7'
+       version    : 'v4.0'
      });
 
     //  FB.getLoginStatus(function(response) {
     //    console.log(response);
     // });
-
   };
 
    (function(d, s, id){

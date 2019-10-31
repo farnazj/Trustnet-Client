@@ -1,12 +1,12 @@
 TrustNetClient
 =
 
-TrustNetClientVue is a client written in Vue that connects to [TrustnetBackend](https://github.com/farnazj/TrustNetBackend).
+TrustNetClient is a client written in Vue that connects to [TrustnetBackend](https://github.com/farnazj/TrustNetBackend).
 
 ### Setup Instructions
 
 #### Install Git and clone this repository
-* `git clone https://github.com/farnazj/TrustNetClientVue`
+* `git clone https://github.com/farnazj/TrustNetClient`
 
 #### Install Node Module Dependencies
 cd to the root directory of the project where package.json is. Run:

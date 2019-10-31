@@ -90,7 +90,7 @@ function compareBoosters(a, b) {
     let bDate = new Date(b.updatedAt);
     if (aDate < bDate)
       return -1;
-    else if (aDate > bdate)
+    else if (aDate > bDate)
       return 1;
     else
       return compareNames(a.booster, b.booster);

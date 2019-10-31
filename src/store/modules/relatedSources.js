@@ -22,10 +22,9 @@ export default {
 
         key.forEach(source => {
           let index = allSources.findIndex(el => el.id == source.id);
-          let target_source;
           if (index == -1) {
-            let new_source = Object.assign({}, source);
-            allSources.push(new_source);
+            let newSource = Object.assign({}, source);
+            allSources.push(newSource);
           }
         })
       }
