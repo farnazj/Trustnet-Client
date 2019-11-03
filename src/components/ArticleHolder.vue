@@ -8,7 +8,7 @@
         </article-preview>
       </v-row>
 
-      <v-row v-if="articles_fetched && !articles.length" justify-center  fill-height class="pt-5">
+      <v-row v-if="articlesFetched && !articles.length" justify-center  fill-height class="pt-5">
         <v-col sm="8">
           <span class="subheading font-weight-light" >
             Looks like we don't have any posts to show you. Maybe you aren't following enough sources?<br/><br/>
@@ -71,8 +71,8 @@ export default {
     offset: function() {
       return this.state.offset;
     },
-    articles_fetched: function() {
-      return this.state.articles_fetched;
+    articlesFetched: function() {
+      return this.state.articlesFetched;
     },
     ...mapState({
        state (state) {

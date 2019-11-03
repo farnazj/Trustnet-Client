@@ -48,17 +48,17 @@ export default {
     }
   },
   created() {
-    if (!this.followed_sources.length)
+    if (!this.followedSources.length)
       this.fetchFollows();
-    if (!this.trusted_sources.length)
+    if (!this.trustedSources.length)
       this.fetchTrusteds();
 
     this.initiateSearch();
   },
   computed: {
     ...mapState('relatedSources', [
-     'followed_sources',
-     'trusted_sources',
+     'followedSources',
+     'trustedSources',
    ]),
    ...mapGetters('relatedSources', [
      'followedOrTrusteds',
