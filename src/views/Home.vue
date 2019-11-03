@@ -146,9 +146,6 @@ export default {
 
 
 <style scoped>
-.frozen {
-  position: fixed;
-}
 .grippy-container {
   background-color: #424242;
   height: 14vh;

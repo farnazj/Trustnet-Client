@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
-    <v-row>
-      <v-col sm="6" offset-sm2 cols="10">
+    <v-row no-gutters justify="center">
+      <v-col cols="12">
         <p>
           Add an RSS feed to the system so that you and other users can hear
           about its latest content.
@@ -15,13 +15,13 @@
           <v-card>
             <v-container fluid>
 
-              <v-row class="mb-4">
+              <v-row class="mb-4" no-gutters>
                 <v-text-field v-model="feed" tabindex="1"
                   label="Feed URL" required :rules="formRules.feedURLRules">
                 </v-text-field>
               </v-row>
 
-              <v-row>
+              <v-row no-gutters>
                 <v-col cols="12" d-flex>
                   <v-select :items="frequencySelects" label="How frequently does the feed publish new content?"
                     outlined v-model="frequency" item-text="label" item-value="value" required

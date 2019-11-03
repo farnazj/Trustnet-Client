@@ -9,7 +9,7 @@
       </v-row>
 
       <v-row v-if="articlesFetched && !articles.length" justify-center  fill-height class="pt-5">
-        <v-col sm="8">
+        <v-col cols="8">
           <span class="subheading font-weight-light" >
             Looks like we don't have any posts to show you. Maybe you aren't following enough sources?<br/><br/>
             You can follow sources by clicking on your avatar at the

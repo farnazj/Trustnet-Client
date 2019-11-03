@@ -57,7 +57,7 @@
              :nudge-width="350" offset-y left attach>
 
              <template v-slot:activator="{ on }">
-             <v-btn text icon color="blue darken-1" :class="['mr-4', 'reset-pointer-events',
+             <v-btn text icon color="blue darken-1" :class="['mr-4', {'reset-pointer-events': !disableBoost},
               {'v-btn--disabled': disableBoost }]" v-on="on">
                <v-icon >fas fa-share</v-icon>
              </v-btn>

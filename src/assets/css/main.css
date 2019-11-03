@@ -2,6 +2,9 @@
   cursor: pointer;
 }
 
+.frozen {
+  position: fixed !important;
+}
 
 .transitive {
   opacity: 0.5;
