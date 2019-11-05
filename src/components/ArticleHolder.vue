@@ -8,7 +8,7 @@
         </article-preview>
       </v-row>
 
-      <v-row v-if="articlesFetched && !articles.length" justify-center  fill-height class="pt-5">
+      <v-row v-if="articlesFetched && !articles.length" justify-center fill-height class="pt-5">
         <v-col cols="8">
           <span class="subheading font-weight-light" >
             Looks like we don't have any posts to show you. Maybe you aren't following enough sources?<br/><br/>
@@ -96,6 +96,7 @@ export default {
     },
     ...mapActions({
       getMoreBoosts (dispatch, payload) {
+        console.log(payload)
         return dispatch(this.filtersNamespace + '/getMoreBoosts', payload)
       },
       refreshArticles (dispatch, payload) {

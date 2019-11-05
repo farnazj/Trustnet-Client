@@ -71,7 +71,7 @@
             </v-col>
           </v-row>
 
-          <v-row no-gutters >
+          <v-row no-gutters class="py-1">
             <v-col cols="1">
               <v-icon @click="changeEndorsement(titleObj, index, false)"
               v-if="titleObj.userEndorsed" color="primary" class="xs-icon-font cursor-pointer">
@@ -83,7 +83,7 @@
               </v-icon>
             </v-col>
 
-            <v-col cols="11" v-if="titleObj.author.id == user.id" class="py-1">
+            <v-col cols="11" v-if="titleObj.author.id == user.id">
 
               <v-row justify="end" no-gutters>
                 <v-tooltip bottom :open-on-hover="true" open-delay="500">

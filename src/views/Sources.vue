@@ -15,7 +15,7 @@
           </v-tab>
         </v-tabs>
 
-        <v-tabs-items v-model="tabs" class="parent-height">
+        <v-tabs-items v-model="tabs" class="parent-height light-grey-background">
           <v-tab-item value="manage">
             <manage-sources ref="manage">
             </manage-sources>

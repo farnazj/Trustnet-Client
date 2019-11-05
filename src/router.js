@@ -114,6 +114,7 @@ router.beforeEach((to, from, next) => {
   if(to.matched.some(record => record.meta.requiresAuth)) {
     if (store.getters['auth/isLoggedIn']) {
       next();
+      window.scrollTo(0, 0);
       return;
     }
     next('/login');

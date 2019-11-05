@@ -169,8 +169,8 @@
 
         if (isVisible) {
           if (!this.postSeen)
-            postServices.changeSeenStatus({postId: this.post.id},
-            {seen_status: 'seen'});
+            postServices.changeSeenStatus({ postId: this.post.id },
+            { seen_status: 'seen' });
           this.postSeen = true;
         }
       },

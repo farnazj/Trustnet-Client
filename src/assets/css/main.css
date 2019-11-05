@@ -9,6 +9,10 @@
 .transitive {
   opacity: 0.5;
 }
+
+.light-grey-background {
+  background-color: #fafafa !important;
+}
 /*
 body.dialog-is-open {
   overflow-y: hidden !important;

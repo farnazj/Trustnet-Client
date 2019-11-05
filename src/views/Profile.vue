@@ -86,16 +86,16 @@
           </v-tab>
         </v-tabs>
 
-        <v-tabs-items v-model="tabs" class="parent-height">
+        <v-tabs-items v-model="tabs" class="parent-height light-grey-background">
           <v-tab-item>
             <v-container fluid class="px-0">
-              <v-row no-gutters  >
+              <v-row no-gutters>
                 <loading></loading>
                 <boosters-list detailsNamespace="profileArticleDetails"></boosters-list>
                 <custom-titles titlesNamespace="profileTitles"></custom-titles>
                 <assessment-history namespace="profileAssessments"></assessment-history>
 
-                <v-col cols="7">
+                <v-col cols="7" class="ml-2">
                   <article-holder detailsNamespace="profileArticleDetails" filtersNamespace="profileArticles"
                   assessmentsNamespace="profileAssessments" titlesNamespace="profileTitles"></article-holder>
                 </v-col>

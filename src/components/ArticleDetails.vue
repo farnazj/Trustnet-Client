@@ -3,7 +3,7 @@
     <v-navigation-drawer v-model="articleDetailsVisible"
       temporary right width="1000" fixed disable-route-watcher>
 
-     <v-card class="full-height">
+     <v-card class="full-parent-height">
 
        <v-row class="pa-2" full-height align="center" no-gutters>
 
@@ -102,7 +102,7 @@
     </v-row>
     <v-divider></v-divider>
 
-    <v-row no-gutters class="full-height">
+    <v-row no-gutters class="full-parent-height">
      <v-container>
 
        <v-snackbar v-model="showInfoSnackbar" top>
@@ -462,9 +462,8 @@ export default {
   color: #212121 !important;
 }
 
-.full-height {
+.full-parent-height {
   min-height: 100%;
-
 }
 
 .edit-tools {
