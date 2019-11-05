@@ -128,7 +128,7 @@ $background-grey= #d2dbe0;
   margin: 0 auto;
 } */
 
-.green.darken-1, red lighten-2 {
+.green.darken-1, .red.lighten-2 {
     background-color: $background-grey !important;
     border-color: $background-grey !important;
 }

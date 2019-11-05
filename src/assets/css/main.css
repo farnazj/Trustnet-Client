@@ -107,7 +107,7 @@ div.vicp-preview-item.vicp-preview-item-circle {
 }
 
 .flex-fixed-height-child {
-  flex: 0 0 auto;
+  flex: 0 0 auto !important;
 }
 
 .no-break-word {

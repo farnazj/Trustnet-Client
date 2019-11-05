@@ -24,8 +24,8 @@
             <v-col sm="2" cols="4">
               <v-row no-gutters justify="center">
                 <v-hover>
-                  <v-img :src="profileOwner.photoUrl ? profileOwner.photoUrl : 'https://api.adorable.io/avatars/249/farnaz.png'"
-                  class="profile-img" slot-scope="{ hover }" aspect-ratio="1" width="10">
+                  <v-img :src="profileOwner.photoUrl ? profileOwner.photoUrl : adorablePhoto"
+                  class="profile-img" slot-scope="{ hover }" aspect-ratio="1" width="10" contain>
                     <v-expand-transition>
                       <div v-if="hover && profileOwner.userName == user.userName "
                         class="d-flex transition-fast-in-fast-out grey darken-4 v-card--reveal white--text">
@@ -167,6 +167,9 @@ export default {
   computed: {
     uploadUrl: function() {
       return consts.baseURL + '/profile-pictures/';
+    },
+    adorablePhoto: function() {
+      return 'https://api.adorable.io/avatars/249/' + this.profileOwner.userName + '.png';
     },
     notUser: function() {
 
