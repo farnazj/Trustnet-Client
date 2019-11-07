@@ -163,10 +163,10 @@
         return sortedAssessments;
       },
       shownAssessmentPostId: function() {
-        return this.state.postId;
+        return this.assessmsentState.postIdOfAssessments;
       },
       ...mapState({
-         state (state) {
+         assessmsentState (state) {
            return state[this.assessmentsNamespace];
          }
       })
@@ -188,7 +188,7 @@
       revealAssessments: function() {
         this.showAssessments({
           assessments: this.assessments,
-          postId: this.post.id
+          postIdOfAssessments: this.post.id
         });
       },
       validityMapping: function(credibility) {

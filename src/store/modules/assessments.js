@@ -4,7 +4,7 @@ export default {
     return {
       visible: false,
       assessments: {},
-      postId: null,
+      postIdOfAssessments: null,
       historyVisiblity: false,
       assessmentHistory: [],
       historyOwner: {}
@@ -17,11 +17,11 @@ export default {
 
     hide_assessments: (state) => {
       state.visible = false;
-      state.postId = null;
+      state.postIdOfAssessments = null;
     },
 
     populate_assessments: (state, payload) => {
-      state.postId = payload.postId;
+      state.postIdOfAssessments = payload.postIdOfAssessments;
       state.assessments = payload.assessments;
     },
 
