@@ -241,7 +241,6 @@
             this.filterBoosts();
         }
 
-
       },
       filterBoosts: function() {
 
@@ -258,6 +257,14 @@
         'fetchTrusteds'
       ])
 
+    },
+    watch: {
+      seenFilter: function(val) {
+        this.presetFilters();
+      },
+      validityFilter: function(val) {
+        this.presetFilters();
+      }
     },
     mixins: [sourceHelpers]
 

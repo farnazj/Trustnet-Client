@@ -20,6 +20,10 @@ body.dialog-is-open {
   position: fixed;
 } */
 
+.break-word {
+  word-break: break-word !important;
+}
+
 div.vicp-preview {
   width: 170px !important;
   height: 270px !important;

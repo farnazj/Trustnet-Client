@@ -154,7 +154,7 @@
 
              <v-card-title primary-title class="mb-2">
                 <v-row no-gutters justify="center">
-                  <div v-if="!editMode" class="headline">{{article.title}}</div>
+                  <div v-if="!editMode" class="headline break-word">{{article.title}}</div>
                   <v-text-field v-else v-model="edit.title"></v-text-field>
                 </v-row>
               </v-card-title>
