@@ -259,8 +259,11 @@ export default {
       }
     },
     cancel: function() {
-      for (let form of ['createPostForm', 'importArticleForm'])
-        this.$refs[form].reset();
+      console.log(this.$refs)
+      for (let form of ['createPostForm', 'importArticleForm']) {
+        if (typeof this.$refs[form] !== 'undefined')
+          this.$refs[form].reset();
+      }
       this.menu = false;
     },
     ...mapActions('articleFilters', [

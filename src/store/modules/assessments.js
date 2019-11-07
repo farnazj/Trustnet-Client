@@ -4,6 +4,7 @@ export default {
     return {
       visible: false,
       assessments: {},
+      postId: null,
       historyVisiblity: false,
       assessmentHistory: [],
       historyOwner: {}
@@ -16,10 +17,12 @@ export default {
 
     hide_assessments: (state) => {
       state.visible = false;
+      state.postId = null;
     },
 
-    populate_assessments: (state, assessments) => {
-      state.assessments = assessments;
+    populate_assessments: (state, payload) => {
+      state.postId = payload.postId;
+      state.assessments = payload.assessments;
     },
 
     set_history_visibility: (state, visiblity) => {
@@ -46,7 +49,7 @@ export default {
     setHistoryVisibility: (context, payload) => {
       context.commit('set_history_visibility', payload);
     },
-    
+
     populateAssessmentHistory: (context, payload) => {
       context.commit('populate_assessment_history', payload);
     }

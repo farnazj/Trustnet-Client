@@ -10,7 +10,7 @@
       </v-col> -->
       <v-col cols="11">
 
-        <v-card @click="revealArticleDetails(post)" class="pa-1 pb-2" flat>
+        <v-card @click="revealArticleDetails(post)" class="pa-1 pb-2" :flat="shownAssessmentPostId != post.id">
           <v-row no-gutters >
 
             <v-col cols="3">
@@ -161,7 +161,15 @@
           sortedAssessments[key] = this.assessments[key].slice().sort(utils.compareAssessments);
         }
         return sortedAssessments;
-      }
+      },
+      shownAssessmentPostId: function() {
+        return this.state.postId;
+      },
+      ...mapState({
+         state (state) {
+           return state[this.assessmentsNamespace];
+         }
+      })
 
     },
     methods: {
@@ -178,7 +186,10 @@
         this.showArticleDrawer(article);
       },
       revealAssessments: function() {
-        this.showAssessments(this.assessments);
+        this.showAssessments({
+          assessments: this.assessments,
+          postId: this.post.id
+        });
       },
       validityMapping: function(credibility) {
 
