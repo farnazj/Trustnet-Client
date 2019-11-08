@@ -211,6 +211,7 @@
       To highlight in the interface the selections previously set and maintained in store
       */
       presetFilters: function() {
+
         this.selectedFilters['validity'] = this.validityFilter.toLowerCase().split(' ').map((s) =>
           s.charAt(0).toUpperCase() + s.substring(1)).join(' ');
 
@@ -226,15 +227,26 @@
 
           let followedOrTrustedsUsernames = this.followedOrTrusteds.map(el => el.userName);
 
+          /*
+          See if the sources have changed since the last time filters were set
+          (because some of the previously selected sources might not exist anymore)
+          */
           let sourcesChanged = false;
 
           for (let username of this.sourceUsernames) {
+
             if (followedOrTrustedsUsernames.includes(username)) {
+              if (!this.selectedSources.includes(username)) {
                 this.selectedSources.push(username);
                 this.selectedSourcesCheckMark[username] = true;
+              }
             }
-            else
+            else {
+              this.selectedSources.splice(this.selectedSources.indexOf(username), 1);
+              this.selectedSourcesCheckMark[username] = false;
               sourcesChanged = true;
+            }
+
           }
 
           if (sourcesChanged)
