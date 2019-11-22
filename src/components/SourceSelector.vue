@@ -1,7 +1,7 @@
 <template>
 
   <v-autocomplete v-model="targets" :items="followers"
-  filled chips color="blue-grey lighten-2" label="Select target audience"
+  filled chips color="blue-grey lighten-2" label="Select target audience" :filter="filterFollower"
   item-text="userName" item-value="userName" multiple no-data-text="No followers found">
 
     <template slot="selection" slot-scope="data" >
@@ -71,6 +71,10 @@ export default {
     remove (item) {
       const index = this.targets.indexOf(item.userName)
       if (index >= 0) this.targets.splice(index, 1)
+    },
+    filterFollower (item, queryText, itemText) {
+      console.log(this.sourceDisplayName(item))
+      return this.sourceDisplayName(item).toLocaleLowerCase().indexOf(queryText.toLocaleLowerCase()) > -1;
     },
     ...mapActions('relatedSources', [
       'fetchFollowers'

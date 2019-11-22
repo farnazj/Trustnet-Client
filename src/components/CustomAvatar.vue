@@ -46,7 +46,7 @@ export default {
       return utils.isTrusted(this.user);
     },
     ...mapState('relatedSources', [
-      'trusted_sources'
+      'trustedSources'
     ])
   },
   methods: {
