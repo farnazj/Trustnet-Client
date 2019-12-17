@@ -1,6 +1,6 @@
 <template>
 
-  <div :class="['c100', valuePercentage, valueColor ,{transitive: isTransitive}]">
+  <div :class="['c100', valuePercentage, valueColor , {transitive: isTransitive}]">
       <span>
         <custom-avatar :user="user" :clickEnabled="true"></custom-avatar>
       </span>

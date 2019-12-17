@@ -1,3 +1,5 @@
+import postServices from '@/services/postServices'
+
 export default {
   namespaced: true,
   state() {
@@ -24,7 +26,7 @@ export default {
     },
 
     set_history_visibility: (state, visiblity) => {
-      state.historyVisiblity  = visiblity;
+      state.historyVisiblity = visiblity;
     },
 
     populate_title_history: (state, payload) => {
@@ -36,6 +38,21 @@ export default {
   actions: {
     setPostId: (context, payload) => {
       context.commit('set_post_id', payload);
+    },
+
+    fetchPostTitles: (context, payload) => {
+
+      return new Promise((resolve, reject) => {
+
+        postServices.getCustomTitlesOfPost({ postId: context.state.postId })
+        .then(response => {
+          context.dispatch('articleFilters/updateTitles', {
+            postId: context.state.postId,
+            titles: response.data
+          }, { root: true });
+          resolve();
+        })
+      })
     },
 
     setTitlesVisibility: (context, payload) => {

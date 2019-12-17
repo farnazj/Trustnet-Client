@@ -15,6 +15,9 @@ function compareNames(a, b) {
 
 function compare2Sources(aId, bId) {
 
+  if (aId == bId)
+    return 0;
+
   let authUserId = store.getters['auth/user'].id;
 
   if (aId == authUserId)
@@ -98,16 +101,29 @@ function compareBoosters(a, b) {
 }
 
 function compareTitles(a, b) {
+  let authUserId = store.getters['auth/user'].id;
+
+  if (a.author.id == authUserId && b.author.id != authUserId)
+    return -1;
+  else if (b.author.id == authUserId && !a.author.id == authUserId )
+    return 1;
+
+  if (a.userEndorsed && !b.userEndorsed)
+    return -1;
+  if (b.userEndorsed && !a.userEndorsed)
+    return 1;
 
   let compareVal = compare2Sources(a.author.id, b.author.id);
+  console.log('compareVal', compareVal)
   if (compareVal != 0)
     return compareVal;
   else {
-    let aDate = new Date(a.updatedAt);
-    let bDate = new Date(b.updatedAt);
+    console.log('in date')
+    let aDate = new Date(a.lastVersion.updatedAt);
+    let bDate = new Date(b.lastVersion.updatedAt);
     if (aDate < bDate)
       return -1;
-    else if (a > b)
+    else if (aDate > bDate)
       return 1;
     else
       return compareNames(a.author, b.author);

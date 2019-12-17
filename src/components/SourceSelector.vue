@@ -73,7 +73,6 @@ export default {
       if (index >= 0) this.targets.splice(index, 1)
     },
     filterFollower (item, queryText, itemText) {
-      console.log(this.sourceDisplayName(item))
       return this.sourceDisplayName(item).toLocaleLowerCase().indexOf(queryText.toLocaleLowerCase()) > -1;
     },
     ...mapActions('relatedSources', [

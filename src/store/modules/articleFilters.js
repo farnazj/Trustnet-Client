@@ -29,7 +29,7 @@ export default {
     change_filter_value: (state, filters) => {
       state.validityFilter = filters.filters.validity ? filters.filters.validity : 'All';
       state.sourceFilter = filters.filters.sources ?
-        (filters.filters.sources == 'Selected Sources' ?  'usernames' : filters.filters.sources)
+        (filters.filters.sources == 'Selected Sources' ? 'usernames' : filters.filters.sources)
         : 'All';
 
       state.seenFilter = filters.filters.seenStatus ? filters.filters.seenStatus : 'All';
@@ -46,14 +46,23 @@ export default {
       Vue.set(state.articles, index, boost);
     },
 
-    remove_boost: (state, post_id) => {
-      let index = state.articles.findIndex(article => article.id == post_id);
+    remove_boost: (state, postId) => {
+      let index = state.articles.findIndex(article => article.id == postId);
       state.articles.splice(index, 1);
     },
 
     set_fetch_status: (state, status) =>{
       state.articlesFetched = status;
+    },
+
+    update_titles: (state, payload) => {
+      let index = state.articles.findIndex(article => article.id == payload.postId);
+
+      let articleCopy = Object.assign({}, state.articles[index]);
+      articleCopy.PostCustomTitles = payload.titles;
+      Vue.set(state.articles, index, articleCopy);
     }
+
   },
   actions: {
 
@@ -161,8 +170,15 @@ export default {
       })
     },
 
-    removeArticle: (context, payload) =>{
+    removeArticle: (context, payload) => {
       context.commit('remove_boost', payload);
+    },
+
+    /*
+    Called from fetchPostTitles in titles module
+    */
+    updateTitles: (context, payload) => {
+      context.commit('update_titles', payload)
     }
 
   }

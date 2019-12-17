@@ -147,11 +147,11 @@ export default {
 
         relationServices.unfollow(payload)
         .then(() => {
-          let dispatch_proms = [
+          let dispatchProms = [
             context.dispatch('fetchFollows'),
             context.dispatch('fetchTrusteds')
           ];
-          Promise.all(dispatch_proms)
+          Promise.all(dispatchProms)
           .then(() => {
             resolve();
           })

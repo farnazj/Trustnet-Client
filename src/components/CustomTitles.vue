@@ -211,16 +211,14 @@ export default {
 
       if (this.$refs.newTitleForm.validate()) {
 
-        postServices.postCustomTitle({ postId: this.postId}, { text: this.newTitle })
+        postServices.postCustomTitle({ postId: this.postId }, { text: this.newTitle })
         .then(res => {
           this.newTitle = '';
           this.$refs.newTitleForm.resetValidation();
-          this.fetchCustomTitles()
-          .then(res => {
-            this.populateTitles(this.titleObjects);
-          })
+          this.fetchPostTitles();
         })
         .catch(err => {
+          console.log(err)
           this.alertMessage = err.response.data.message;
           this.alert = true;
         })
@@ -237,8 +235,7 @@ export default {
         postServices.hasUserEndorsedTitle({ setId: titleObj.lastVersion.setId })
         .then(res => {
           titleObj['userEndorsed'] = res.data;
-          this.$set(this.titleObjects, arrIndex, titleObj);
-
+          this.fetchPostTitles();
         })
       })
     },
@@ -255,7 +252,7 @@ export default {
       this.showDeleteDialog = false;
 
       if (this.edit && this.delete.selectedTitle.lastVersion.setId == this.edit.setId) {
-        let index = this.titleObjects.findIndex(title => title.lastVersion.setId == this.edit.setId);
+        let index = this.titles.findIndex(title => title.lastVersion.setId == this.edit.setId);
         this.$refs.editTitleForm[index].resetValidation();
         this.resetEdits();
       }
@@ -266,10 +263,7 @@ export default {
       })
       .then(res => {
         this.delete.selectedTitle = null;
-        this.fetchCustomTitles()
-        .then(res => {
-          this.populateTitles(this.titleObjects);
-        })
+        this.fetchPostTitles();
       })
       .catch(err => {
         this.alertMessage = err.response.data.message;
@@ -285,22 +279,19 @@ export default {
     },
     saveEdits: function() {
 
-      let index = this.titleObjects.findIndex(title => title.lastVersion.setId == this.edit.setId);
+      let index = this.titles.findIndex(title => title.lastVersion.setId == this.edit.setId);
 
       if (this.$refs.editTitleForm[index].validate()) {
 
         postServices.editCustomTitle({
           postId: this.postId,
           setId: this.edit.setId
-        }, {text: this.edit.text})
+        }, { text: this.edit.text })
         .then(res => {
 
           this.resetEdits();
           this.$refs.editTitleForm[index].resetValidation();
-          this.fetchCustomTitles()
-          .then(res => {
-            this.populateTitles(this.titleObjects);
-          })
+          this.fetchPostTitles();
         })
         .catch(err => {
           this.alertMessage = err.response.data.message;
@@ -333,7 +324,11 @@ export default {
       },
       setHistoryVisiblity (dispatch, payload) {
         return dispatch(this.titlesNamespace + '/setHistoryVisibility', payload)
+      },
+      fetchPostTitles (dispatch, payload) {
+        return dispatch(this.titlesNamespace + '/fetchPostTitles', payload)
       }
+
     })
   },
   mixins: [timeHelpers, titleHelpers]

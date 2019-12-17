@@ -32,7 +32,11 @@
               <v-row no-gutters>
                 <v-col cols="12">
                    <div class="px-2">
-                     <p class="mr-1 cursor-pointer title title-custom">{{post.title}}</p>
+                     <p :class="['mr-1', 'cursor-pointer', 'title', 'title-custom', { strikethrough: displayedAlternativeTitle}]"
+                     >{{post.title}}</p>
+                     <span v-if="displayedAlternativeTitle" class="mx-1 font-italic font-weight-light cursor-pointer title title-custom"
+                     >{{displayedAlternativeTitle}}</span>
+
                        <v-tooltip bottom>
                          <template v-slot:activator="{ on }">
                            <v-btn v-on="on" @click.stop="showTitles" class="ml-1" small icon color="lime lighten-1">
@@ -143,7 +147,8 @@
       return {
         boostObjects: [],
         assessments: {'confirmed': [], 'refuted': [], 'questioned': []},
-        postSeen: false
+        postSeen: false,
+        displayedAlternativeTitle: null
       }
     },
     computed: {
@@ -259,13 +264,22 @@
         this.populateBoosters(this.sortedBoosts);
         this.setBoostersVisibility(true);
       },
-      showTitles: function() {
+      arrangeTitles: function() {
+
         this.setPostId(this.post.id);
-        this.fetchCustomTitles() //in titleHelpers mixin
+
+        return this.arrangeCustomTitles(this.post.PostCustomTitles) //in titleHelpers mixin
         .then(res => {
-          this.populateTitles(this.titleObjects);
-          this.setTitlesVisibility(true);
+          if (this.sortedTitles.length) {
+            this.displayedAlternativeTitle = this.sortedTitles[0]['lastVersion'].text;
+          }
         })
+      },
+      showTitles: function() {
+
+        this.setPostId(this.post.id);
+        this.populateTitles(this.titleObjects);
+        this.setTitlesVisibility(true);
       },
       ...mapActions({
         populateBoosters (dispatch, payload) {
@@ -287,10 +301,18 @@
     created() {
       this.fetchAssociations();
       this.fetchSeenStatus();
+      this.arrangeTitles();
     },
     watch: {
       post: function(val) {
         this.fetchAssociations();
+        this.arrangeTitles()
+        .then( res => {
+          if (this.customTitlesVisible) {
+            this.populateTitles(this.sortedTitles);
+          }
+        })
+
       }
     },
     mixins: [titleHelpers]
@@ -319,5 +341,8 @@
   max-width: 22px;
 }
 
+.strikethrough {
+  text-decoration: line-through
+}
 
 </style>

@@ -17,7 +17,7 @@ export default {
   },
   computed: {
     sortedTitles: function() {
-      return this.titleObjects.slice(utils.compareTitles);
+      return this.titleObjects.slice().sort(utils.compareTitles);
     },
     titles: function() {
       return this.state.titles;
@@ -25,59 +25,58 @@ export default {
     postId: function() {
       return this.state.postId;
     },
+    customTitlesVisible: function() {
+      return this.state.customTitlesVisible;
+    },
     ...mapState({
        state (state) {
          return state[this.titlesNamespace];
        }
-    }),
+    })
   },
   methods: {
 
-    fetchCustomTitles: function() {
+    arrangeCustomTitles: function(resTitles) {
 
       this.titleObjects = [];
       let titlesBySetId = {};
-      return postServices.getCustomTitlesOfPost({ postId: this.postId })
-      .then(res => {
-        if (res.data.length) {
-          res.data.forEach(title => {
 
-            if (!(title.setId in titlesBySetId )) {
-                let titleObj = {};
-                titleObj['history'] = [];
-                titlesBySetId[title.setId] = titleObj;
-            }
+      if (resTitles) {
+        resTitles.forEach(title => {
 
-            if (title.version != 1) {
-              titlesBySetId[title.setId]['history'].push(title);
-            }
-            else {
-              titlesBySetId[title.setId]['lastVersion'] = title;
-            }
-
-          })
-
-          let allProms = [] ;
-          for (const [setId, titleObj] of Object.entries(titlesBySetId)) {
-            let titlesetProms = [
-              sourceServices.getSourceById(titleObj['lastVersion'].SourceId),
-              postServices.hasUserEndorsedTitle({ setId: setId })
-            ];
-
-            allProms.push(Promise.all(titlesetProms)
-            .then(resp => {
-              titlesBySetId[setId]['author'] = resp[0].data;
-              titlesBySetId[setId]['userEndorsed'] = resp[1].data;
-              this.titleObjects.push(titlesBySetId[setId]);
-            }))
-
+          if (!(title.setId in titlesBySetId )) {
+              let titleObj = {};
+              titleObj['history'] = [];
+              titlesBySetId[title.setId] = titleObj;
           }
-          return Promise.all(allProms);
+
+          if (title.version != 1) {
+            titlesBySetId[title.setId]['history'].push(title);
+          }
+          else {
+            titlesBySetId[title.setId]['lastVersion'] = title;
+          }
+        })
+
+        let allProms = [] ;
+        for (const [setId, titleObj] of Object.entries(titlesBySetId)) {
+          let titlesetProms = [
+            sourceServices.getSourceById(titleObj['lastVersion'].SourceId),
+            postServices.hasUserEndorsedTitle({ setId: setId })
+          ];
+
+          allProms.push(Promise.all(titlesetProms)
+          .then(resp => {
+            titlesBySetId[setId]['author'] = resp[0].data;
+            titlesBySetId[setId]['userEndorsed'] = resp[1].data;
+            this.titleObjects.push(titlesBySetId[setId]);
+          }))
+
         }
-      })
-      .catch(err => {
-        console.log(err);
-      })
+        return Promise.all(allProms);
+      }
+
+      return Promise.resolve();
     },
 
     ...mapActions({
