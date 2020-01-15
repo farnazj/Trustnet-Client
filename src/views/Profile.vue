@@ -27,7 +27,7 @@
                   <v-img :src="profileOwner.photoUrl ? profileOwner.photoUrl : adorablePhoto"
                   class="profile-img" slot-scope="{ hover }" aspect-ratio="1" width="10" contain>
                     <v-expand-transition>
-                      <div v-if="hover && profileOwner.userName == user.userName "
+                      <div v-if="hover && profileOwner.userName == user.userName"
                         class="d-flex transition-fast-in-fast-out grey darken-4 v-card--reveal white--text">
                         <v-btn @click="showUploader = true" small text rounded dark>
                           <v-icon class ="pl-0 ml-0" right dark>photo_camera</v-icon>
@@ -75,12 +75,12 @@
       <v-col cols="12">
         <v-tabs centered background-color="blue darken-3" height=50 v-model="tabs"
           slider-color="amber lighten-1" dark>
-          <v-tab >
-            <v-icon class="mr-1">list</v-icon>
-            Activity List
+          <v-tab>
+            <v-icon class="mr-1">history</v-icon>
+            Activity History
           </v-tab>
 
-          <v-tab >
+          <v-tab>
             <v-icon class="mr-1">people</v-icon>
             Followers
           </v-tab>
@@ -110,6 +110,7 @@
           <v-tab-item>
             <followers-container :username="username"></followers-container>
           </v-tab-item>
+
         </v-tabs-items>
 
       </v-col>

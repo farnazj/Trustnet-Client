@@ -159,6 +159,18 @@ function isFollowed(source) {
    return false;
 }
 
+function addLimitOffsetToQuery(params) {
+  let appendStr = '';
+  if (params.limit) {
+    appendStr += '/?limit=' + params.limit;
+    if (params.offset) {
+      appendStr += '&offset=' + params.offset;
+    }
+  }
+
+  return appendStr;
+}
+
 export default {
   compareNames,
   compareSources,
@@ -167,5 +179,6 @@ export default {
   compareAssessments,
   getUnique,
   isTrusted,
-  isFollowed
+  isFollowed,
+  addLimitOffsetToQuery
 }

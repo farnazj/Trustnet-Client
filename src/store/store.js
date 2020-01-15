@@ -8,6 +8,7 @@ import relatedSources from './modules/relatedSources'
 import articleDetails from './modules/articleDetails'
 import profileArticles from './modules/profileArticles'
 import loader from './modules/loader'
+import sourceLists from './modules/sourceLists'
 
 Vue.use(Vuex)
 
@@ -29,7 +30,8 @@ let store = new Vuex.Store({
     articleFilters,
     relatedSources,
     profileArticles,
-    loader
+    loader,
+    sourceLists
   }
 })
 

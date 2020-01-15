@@ -406,6 +406,7 @@ export default {
     deleteArticle: function() {
       postServices.deletePost({postId: this.article.id})
       .then(res => {
+        this.showDeleteDialog = false;
         this.editSubmitInfo = "Post has been deleted."
         this.showInfoSnackbar = true;
         this.removeArticle(this.article.id);

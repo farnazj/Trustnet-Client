@@ -10,6 +10,11 @@
           <v-tab href="#manage" >
             Manage your sources
           </v-tab>
+
+          <v-tab href="#lists">
+            Source Lists
+          </v-tab>
+
           <v-tab href="#discover">
             Discover sources
           </v-tab>
@@ -25,6 +30,12 @@
             <discover-sources ref="discover">
             </discover-sources>
           </v-tab-item>
+
+          <v-tab-item value="lists">
+            <source-lists-container>
+            </source-lists-container>
+          </v-tab-item>
+
         </v-tabs-items>
 
       </v-col>
@@ -36,6 +47,7 @@
 <script>
 import CustomToolbar from '@/components/CustomToolbar'
 import ManageSources from '@/components/ManageSources'
+import sourceListsContainer from '@/components/SourceListsContainer'
 import DiscoverSources from '@/components/DiscoverSources'
 import { mapGetters, mapActions } from 'vuex';
 
@@ -43,6 +55,7 @@ export default {
   components: {
     'custom-toolbar': CustomToolbar,
     'manage-sources': ManageSources,
+    'source-lists-container': sourceListsContainer,
     'discover-sources': DiscoverSources
   },
   data () {

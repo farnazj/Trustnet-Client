@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="isVisible" max-width="500px">
+  <v-dialog v-model="visible" max-width="500px">
     <v-card>
      <v-card-title class="headline">
      </v-card-title>
@@ -33,25 +33,24 @@ export default {
   ],
   data: () => {
     return {
-      isVisible: false
     }
   },
-  created: function(){
-    this.isVisible = this.showDialog
+  computed: {
+    visible: {
+      get: function() {
+        return this.showDialog;
+      },
+      set: function(newValue) {
+        this.$emit('close');
+      }
+    }
   },
   methods: {
     cancel: function() {
-      this.isVisible = false;
       this.$emit('close');
     },
     confirm: function() {
-      this.isVisible = false;
       this.$emit('confirm');
-    }
-  },
-  watch: {
-    showDialog: function(val) {
-      this.isVisible = val;
     }
   }
 }

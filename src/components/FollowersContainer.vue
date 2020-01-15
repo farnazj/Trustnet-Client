@@ -116,7 +116,4 @@ export default {
   font-size: 1.2em;
 }
 
-.sth {
-
-}
 </style>

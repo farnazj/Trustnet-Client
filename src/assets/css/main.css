@@ -24,6 +24,10 @@ body.dialog-is-open {
   word-break: break-word !important;
 }
 
+.dashed-border {
+  border-style: dashed !important;
+}
+
 div.vicp-preview {
   width: 170px !important;
   height: 270px !important;

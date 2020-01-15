@@ -27,7 +27,9 @@ export default {
   },
   editPost(params, reqBody) {
     return Api().put('/posts/' + params.postId,
-     reqBody, { withCredentials: true })
+     reqBody, {
+       withCredentials: true
+     })
   },
   deletePost(params) {
     return Api().delete('/posts/' + params.postId,
@@ -78,7 +80,7 @@ export default {
         withCredentials: true
       })
   },
-  deleteCustomTitle(params,) {
+  deleteCustomTitle(params) {
     return Api().delete('/posts/' + params.postId + '/custom-titles/' + params.setId,
     { withCredentials: true })
   },
@@ -90,8 +92,7 @@ export default {
   },
   setEndorsementStatus(params, reqBody) {
     return Api().post('/posts/' + params.setId + '/custom-title-endorsement',
-    reqBody,
-    {
+    reqBody, {
       withCredentials: true
     })
   },

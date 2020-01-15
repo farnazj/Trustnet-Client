@@ -46,7 +46,7 @@ export default {
     return {
       credibility: null,
       assessmentText: null,
-      validityStatus : [
+      validityStatus: [
         {
           label: 'This article is accurate',
           value: consts.VALIDITY_CODES.CONFIRMED + 2,
@@ -67,7 +67,7 @@ export default {
   },
   methods: {
     credibilitySelectMapping: function(credValue) {
-      
+
       if (credValue < 0)
         return consts.VALIDITY_CODES.REFUTED + 2;
       else if (credValue > 0)

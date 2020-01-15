@@ -54,6 +54,9 @@ export default {
       this.fetchTrusteds();
 
     this.initiateSearch();
+
+    if (!this.sourceLists.length)
+      this.fetchLists();
   },
   computed: {
     ...mapState('relatedSources', [
@@ -64,6 +67,9 @@ export default {
      'followedOrTrusteds',
      'trustedIds',
      'followedIds'
+   ]),
+   ...mapState('sourceLists', [
+     'sourceLists'
    ])
   },
   methods: {
@@ -84,6 +90,9 @@ export default {
     ...mapActions('relatedSources', [
       'fetchFollows',
       'fetchTrusteds'
+    ]),
+    ...mapActions('sourceLists', [
+      'fetchLists'
     ])
   },
   watch: {

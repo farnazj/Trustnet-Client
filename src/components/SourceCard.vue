@@ -29,12 +29,12 @@
         </v-row>
       </v-container>
 
-      <v-card-actions>
+      <v-card-actions class="pb-1 px-0">
         <v-row v-if="user && source.id == user.id" no-gutters class="pr-1 pb-2 grey--text text--darken-3 caption" >
           This is you
         </v-row>
 
-        <v-row v-else no-gutters>
+        <v-row v-else no-gutters align="end">
 
           <v-btn small text :color="isTrusted ? 'grey darken-2' : 'light-green darken-3' "
             @click.stop="changeTrustStatus(source)" class="custom-btn-text">
@@ -42,15 +42,33 @@
             <span v-else> Trust</span>
           </v-btn>
 
-          <v-spacer></v-spacer>
-
           <v-btn small text :color="isFollowed ? 'grey darken-2' : 'primary' "
-            @click.stop="changeFollowStatus(source)" class="custom-btn-text">
+            @click.stop="changeFollowStatus(source)" class="custom-btn-text ">
             <span v-if="isFollowed"> Unfollow</span>
             <span v-else> Follow</span>
           </v-btn>
 
+          <v-spacer></v-spacer>
+
+          <v-menu :close-on-content-click=false offset-y min-width=150>
+            <template v-slot:activator="{ on }">
+              <v-btn text x-small color="grey darken-3" v-on="on">
+                <v-icon >mdi-dots-horizontal</v-icon>
+              </v-btn>
+            </template>
+
+            <v-list dense>
+              <v-subheader>Add to lists</v-subheader>
+
+             <source-list-line v-for="(list, index) in sourceLists" :key="index"
+                :source="source" :list="list">
+             </source-list-line>
+
+            </v-list>
+          </v-menu>
+
         </v-row>
+
       </v-card-actions>
 
     </v-card>
@@ -59,12 +77,14 @@
 
 <script>
 import customAvatar from '@/components/CustomAvatar'
+import sourceListLine from '@/components/SourceListLine'
 import sourceHelpers from '@/mixins/sourceHelpers'
 import { mapState, mapGetters, mapActions } from 'vuex'
 
 export default {
   components: {
     'custom-avatar': customAvatar,
+    'source-list-line': sourceListLine
   },
   props: {
     source: {
@@ -74,13 +94,14 @@ export default {
       required: false
     }
   },
-  data () {
+  data() {
     return {
-
     }
   },
   computed: {
-
+    ...mapState('sourceLists', [
+      'sourceLists'
+    ]),
    ...mapGetters('relatedSources', [
      'trustedIds',
      'followedIds'
