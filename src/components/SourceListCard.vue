@@ -2,8 +2,36 @@
 
   <v-fade-transition>
     <v-card outlined @click="showFullList" class="pa-1">
-      <v-row no-gutters justify="center" class="list-header">
-        <div class="subtitle-1">{{list.name}}</div>
+      <v-row no-gutters class="list-header">
+        <v-col cols="12">
+          <v-row justify="center" no-gutters class="subtitle-1">
+            <span v-if="!edit.mode">{{list.name}} </span>
+            <span v-else>
+              <v-form ref="listNameForm" lazy-validation>
+                <v-text-field v-model="edit.listName" class="pt-1" @click.stop=""
+                :rules="edit.rules">
+                </v-text-field>
+              </v-form>
+            </span>
+          </v-row>
+        </v-col>
+
+        <v-col cols="1" class="right-placed">
+
+          <v-tooltip bottom :open-on-hover="true" open-delay="500">
+            <template v-slot:activator="{ on }">
+              <v-btn text icon x-small v-on="on" @click.stop="handleEdit"
+              :color="edit.mode ? 'green darken-1' : 'primary'" :ripple=false>
+                <v-icon v-if="!edit.mode">edit</v-icon>
+                <v-icon v-else :disabled="!edit.listName.length">check</v-icon>
+              </v-btn>
+            </template>
+            <span v-if="!edit.mode">Edit list name</span>
+            <span v-else>Save list name</span>
+          </v-tooltip>
+
+        </v-col>
+
       </v-row>
       <v-divider></v-divider>
 
@@ -62,6 +90,7 @@
 import customAvatar from '@/components/CustomAvatar'
 import sourceListServices from '@/services/sourceListServices'
 import sourceHelpers from '@/mixins/sourceHelpers'
+import { mapActions } from 'vuex'
 
 export default {
   components: {
@@ -71,7 +100,14 @@ export default {
     return {
       listSources: [],
       selectedItem: null,
-      previewedSourcesCount: 3
+      previewedSourcesCount: 3,
+      edit: {
+        mode: false,
+        listName: '',
+        rules: [
+          v => !!v || 'Forgot to write the list name?'
+        ]
+      }
     }
   },
   props: {
@@ -86,6 +122,7 @@ export default {
   },
   created() {
     this.fetchCardSources();
+    this.edit.listName = this.list.name;
   },
   computed: {
     sourcesCount: function() {
@@ -116,6 +153,15 @@ export default {
       this.$emit('delete', this.list.id);
     },
     removeSource: function(source) {
+
+      this.removeSourceFromList({
+        listId: this.list.id,
+        source: source
+      })
+      .catch(err => {
+        this.$emit('errorOccured', { message: err });
+      })
+
       this.$emit('removeSource',
       {
         listId: this.list.id,
@@ -125,7 +171,33 @@ export default {
     showFullList: function() {
       if (this.isPreview)
         this.$emit('showList', this.list);
-    }
+    },
+    handleEdit: function() {
+      if (this.edit.mode){
+        if (this.$refs.listNameForm.validate()) {
+
+          this.updateListName({
+            listId: this.list.id,
+            listName: this.edit.listName
+          })
+          .then(() => {
+            this.edit.mode = !this.edit.mode;
+          })
+          .catch(err => {
+            this.$emit('errorOccured', { message: err });
+          })
+        }
+      }
+      else {
+        this.edit.listName = this.list.name;
+        this.edit.mode = !this.edit.mode;
+      }
+
+    },
+    ...mapActions('sourceLists', [
+      'updateListName',
+      'removeSourceFromList'
+    ]),
 
   },
   watch: {
@@ -145,5 +217,10 @@ export default {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.right-placed {
+  position: absolute;
+  right: 0px;
 }
 </style>

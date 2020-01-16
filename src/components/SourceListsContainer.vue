@@ -17,7 +17,7 @@
 
     <v-dialog v-model="fullListDialog" scrollable :max-width="$vuetify.breakpoint.smAndDown ? '33%' : '25%'">
       <source-list-card :list="displayedFullList" :isPreview=false
-      @removeSource="removeSourceFromListLocal" @delete="confirmListRemoval"
+       @delete="confirmListRemoval"
       ></source-list-card>
     </v-dialog>
 
@@ -36,8 +36,8 @@
 
           <v-col v-for="list in sourceLists" :key="list.id" sm="4" lg="3" xlg="2" cols="6">
             <source-list-card :list="list" :isPreview=true
-            @removeSource="removeSourceFromListLocal" @delete="confirmListRemoval"
-            @showList="showFullList"
+            @delete="confirmListRemoval"
+            @showList="showFullList" @errorOccured="showError"
             ></source-list-card>
           </v-col>
         </v-row>
@@ -125,28 +125,19 @@ export default {
       this.showDeleteDialog = false;
       this.listIdToRemove = null;
     },
-    removeSourceFromListLocal: function(payload) {
-
-      this.removeSourceFromList({
-        listId: payload.listId,
-        source: payload.source
-      })
-      .catch(err => {
-        console.log(err)
-        this.sourceListInfo = err.response.data.message;
-        this.showInfoSnackbar = true;
-      })
-    },
     showFullList: function(list) {
 
       this.populateDisplayedList(list);
       this.setFullListVisibility(true);
     },
+    showError: function(err) {
+      this.sourceListInfo = err.message;
+      this.showInfoSnackbar = true;
+    },
     ...mapActions('sourceLists', [
       'fetchLists',
       'addList',
       'removeList',
-      'removeSourceFromList',
       'setFullListVisibility',
       'populateDisplayedList'
     ])

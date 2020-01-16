@@ -41,14 +41,28 @@ export default {
 
     remove_source_from_list: (state, payload) => {
       let listIndex = state.sourceLists.findIndex(sourceList => sourceList.id == payload.listId);
-      let sourceIndex = state.sourceLists[listIndex].ListEntities.findIndex(source => source.id == payload.sourceId);
+      let sourceIndex = state.sourceLists[listIndex].ListEntities.findIndex(source =>
+        source.id == payload.sourceId);
 
       let listCopy = Object.assign({}, state.sourceLists[listIndex]);
       listCopy.ListEntities.splice(sourceIndex, 1);
       Vue.set(state.sourceLists, listIndex, listCopy);
 
-      if (Object.entries(state.displayedFullList).length !== 0 && payload.listId == state.displayedFullList.id) {
+      if (Object.entries(state.displayedFullList).length !== 0 &&
+        payload.listId == state.displayedFullList.id) {
+
         state.displayedFullList.ListEntities = listCopy.ListEntities;
+      }
+    },
+
+    update_list_name: (state, payload) => {
+      let listIndex = state.sourceLists.findIndex(sourceList => sourceList.id == payload.listId);
+      state.sourceLists[listIndex].name = payload.listName;
+
+      if (Object.entries(state.displayedFullList).length !== 0 &&
+      payload.listId == state.displayedFullList.id) {
+
+        state.displayedFullList.name = payload.listName;
       }
     },
 
@@ -109,6 +123,23 @@ export default {
       })
     },
 
+    updateListName: function(context, payload) {
+
+      return new Promise((resolve, reject) => {
+        sourceListServices.updateList(
+          { listId: payload.listId },
+          { name: payload.listName }
+        )
+        .then(response => {
+          context.commit('update_list_name', payload);
+          resolve();
+        })
+        .catch(err => {
+          reject(err);
+        })
+      })
+    },
+
     addSourceToList: function(context, payload) {
 
       return new Promise((resolve, reject) => {
@@ -130,7 +161,7 @@ export default {
     },
 
     removeSourceFromList: function(context, payload) {
-      
+
       return new Promise((resolve, reject) => {
         sourceListServices.removeSourceFromList(
           { listId: payload.listId },
