@@ -15,6 +15,12 @@
       @confirm="concludeAddList" ref="addListDialogRef">
     </add-list-dialog>
 
+    <v-dialog v-model="fullListDialog" scrollable :max-width="$vuetify.breakpoint.smAndDown ? '33%' : '25%'">
+      <source-list-card :list="displayedFullList" :isPreview=false
+      @removeSource="removeSourceFromListLocal" @delete="confirmListRemoval"
+      ></source-list-card>
+    </v-dialog>
+
     <v-row no-gutters>
       <v-container fluid>
         <v-row >
@@ -29,8 +35,9 @@
           </v-col>
 
           <v-col v-for="list in sourceLists" :key="list.id" sm="4" lg="3" xlg="2" cols="6">
-            <source-list-card :list="list" @delete="confirmListRemoval"
-            @removeSource="removeSourceFromListLocal"
+            <source-list-card :list="list" :isPreview=true
+            @removeSource="removeSourceFromListLocal" @delete="confirmListRemoval"
+            @showList="showFullList"
             ></source-list-card>
           </v-col>
         </v-row>
@@ -67,8 +74,19 @@ export default {
       this.fetchLists();
   },
   computed: {
+
+    fullListDialog: {
+      get: function() {
+        return this.isFullListDisplayed;
+      },
+      set: function(newValue) {
+        this.setFullListVisibility(newValue);
+      }
+    },
     ...mapState('sourceLists', [
-      'sourceLists'
+      'sourceLists',
+      'isFullListDisplayed',
+      'displayedFullList'
     ])
   },
   methods: {
@@ -119,11 +137,18 @@ export default {
         this.showInfoSnackbar = true;
       })
     },
+    showFullList: function(list) {
+
+      this.populateDisplayedList(list);
+      this.setFullListVisibility(true);
+    },
     ...mapActions('sourceLists', [
       'fetchLists',
       'addList',
       'removeList',
-      'removeSourceFromList'
+      'removeSourceFromList',
+      'setFullListVisibility',
+      'populateDisplayedList'
     ])
   }
 }

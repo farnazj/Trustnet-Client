@@ -1,7 +1,7 @@
 <template>
 
   <v-fade-transition>
-    <v-card outlined @click="" class="pa-1">
+    <v-card outlined @click="showFullList" class="pa-1">
       <v-row no-gutters justify="center" class="list-header">
         <div class="subtitle-1">{{list.name}}</div>
       </v-row>
@@ -9,7 +9,7 @@
 
       <v-row no-gutters>
         <v-list flat dense min-width="100%">
-          <v-list-item-group v-model="item" color="primary">
+          <v-list-item-group v-model="selectedItem" color="primary">
             <v-list-item v-for="(source, i) in listSources" :key="i" >
               <v-list-item-avatar>
                 <custom-avatar :user="source" :clickEnabled="false" :size="36"></custom-avatar>
@@ -40,6 +40,10 @@
 
             </v-list-item>
           </v-list-item-group>
+          <v-list-item v-if="isPreview && sourcesCount > previewedSourcesCount"
+            class="caption font-weight-light">
+            + {{sourcesCount - previewedSourcesCount}} more
+          </v-list-item>
         </v-list>
       </v-row>
 
@@ -66,24 +70,40 @@ export default {
   data: () => {
     return {
       listSources: [],
-      item: null
+      selectedItem: null,
+      previewedSourcesCount: 3
     }
   },
   props: {
+    isPreview: {
+      type: Boolean,
+      required: true
+    },
     list: {
       type: Object,
       required: true
     }
   },
   created() {
-    this.fetchCardPreviewSources();
+    this.fetchCardSources();
+  },
+  computed: {
+    sourcesCount: function() {
+      return this.list.ListEntities.length;
+    },
   },
   methods: {
-    fetchCardPreviewSources: function() {
+    fetchCardSources: function() {
+
+      let paginationReq = this.isPreview ?
+      {
+        limit: this.previewedSourcesCount,
+        offset: 0
+      } : {};
+
       sourceListServices.getListSources({
         listId: this.list.id,
-        limit: 3,
-        offset: 0
+        ...paginationReq
       })
       .then(response => {
         this.listSources = response.data;
@@ -95,21 +115,25 @@ export default {
     deleteList: function() {
       this.$emit('delete', this.list.id);
     },
-    getListlength: function() {
-
-    },
     removeSource: function(source) {
       this.$emit('removeSource',
       {
         listId: this.list.id,
         source: source
       })
+    },
+    showFullList: function() {
+      if (this.isPreview)
+        this.$emit('showList', this.list);
     }
 
   },
   watch: {
-    list: function(newVal) {
-      this.fetchCardPreviewSources();
+    list: {
+      handler(newVal) {
+        this.fetchCardSources();
+      },
+      deep: true
     }
   },
   mixins: [sourceHelpers]

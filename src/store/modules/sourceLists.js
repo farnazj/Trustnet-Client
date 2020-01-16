@@ -4,7 +4,9 @@ import sourceListServices from '@/services/sourceListServices'
 export default {
   namespaced: true,
   state: {
-    sourceLists: []
+    sourceLists: [],
+    isFullListDisplayed: false,
+    displayedFullList: {}
   },
   getters: {
     isSourceInList: (state) => {
@@ -44,6 +46,18 @@ export default {
       let listCopy = Object.assign({}, state.sourceLists[listIndex]);
       listCopy.ListEntities.splice(sourceIndex, 1);
       Vue.set(state.sourceLists, listIndex, listCopy);
+
+      if (Object.entries(state.displayedFullList).length !== 0 && payload.listId == state.displayedFullList.id) {
+        state.displayedFullList.ListEntities = listCopy.ListEntities;
+      }
+    },
+
+    set_full_list_visibility: (state, payload) => {
+      state.isFullListDisplayed = payload;
+    },
+
+    populate_displayed_list: (state, payload) => {
+      state.displayedFullList = payload;
     }
   },
   actions: {
@@ -81,6 +95,12 @@ export default {
         sourceListServices.deleteList({ listId: payload.listId })
         .then(response => {
           context.commit('remove_list', payload.listId);
+
+          if (context.state.isFullListDisplayed) {
+            if (context.state.displayedFullList.id == payload.listId) {
+              context.dispatch('setFullListVisibility', false);
+            }
+          }
           resolve();
         })
         .catch(err => {
@@ -110,7 +130,7 @@ export default {
     },
 
     removeSourceFromList: function(context, payload) {
-
+      
       return new Promise((resolve, reject) => {
         sourceListServices.removeSourceFromList(
           { listId: payload.listId },
@@ -121,12 +141,23 @@ export default {
             listId: payload.listId,
             sourceId: payload.source.id
           });
+
           resolve();
         })
         .catch(err => {
           reject(err);
         })
       })
+    },
+
+    setFullListVisibility: (context, payload) => {
+      context.commit('set_full_list_visibility', payload);
+      if (payload == false)
+        context.dispatch('populateDisplayedList', {});
+    },
+
+    populateDisplayedList: (context, payload) => {
+      context.commit('populate_displayed_list', payload);
     }
 
   }

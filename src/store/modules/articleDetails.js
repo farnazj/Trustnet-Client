@@ -55,7 +55,7 @@ export default {
     hideDrawer: (context) => {
       context.commit('set_drawer_visibility', false);
     },
-    
+
     setDrawerVisibility: (context, payload) => {
       context.commit('set_drawer_visibility', payload);
     },
