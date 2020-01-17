@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import postServices from '@/services/postServices'
+import consts from '@/services/constants'
 
 export default {
   namespaced: true,
@@ -8,6 +9,7 @@ export default {
     sourceFilter: 'Followed',
     seenFilter: 'Not Seen',
     sourceUsernames: [],
+    sourceLists: [],
     articles: [],
     offset: 0,
     limit: 10,
@@ -29,7 +31,7 @@ export default {
     change_filter_value: (state, filters) => {
       state.validityFilter = filters.filters.validity ? filters.filters.validity : 'All';
       state.sourceFilter = filters.filters.sources ?
-        (filters.filters.sources == 'Selected Sources' ? 'usernames' : filters.filters.sources)
+        (filters.filters.sources == 'Selected Sources' ? 'specified' : filters.filters.sources)
         : 'All';
 
       state.seenFilter = filters.filters.seenStatus ? filters.filters.seenStatus : 'All';
@@ -39,6 +41,7 @@ export default {
       state.seenFilter = state.seenFilter.toLowerCase();
 
       state.sourceUsernames = filters.sourceUsernames;
+      state.sourceLists = filters.sourceLists;
     },
 
     update_boost: (state, boost) => {
@@ -78,7 +81,8 @@ export default {
             source: context.state.sourceFilter,
             validity: context.state.validityFilter,
             seenstatus: context.state.seenFilter,
-            usernames: context.state.sourceUsernames.toString()
+            usernames: context.state.sourceUsernames.join(consts.STRINGIFIED_ARR_SEP),
+            lists: context.state.sourceLists.join(consts.STRINGIFIED_ARR_SEP)
           })
         .then(response => {
           resolve(response.data);
@@ -98,7 +102,6 @@ export default {
            context.commit('append_articles', posts);
            resolve(); })
         .catch(error => {
-          console.log("in actions", error);
           reject(error);
         })
         .finally(() => {
@@ -158,7 +161,8 @@ export default {
         postServices.getBoostByPostId(payload,
           { source: context.state.sourceFilter,
             validity: context.state.validityFilter,
-            usernames: context.state.sourceUsernames.toString()
+            usernames: context.state.sourceUsernames.join(consts.STRINGIFIED_ARR_SEP),
+            lists: context.state.sourceLists.join(consts.STRINGIFIED_ARR_SEP)
           })
           .then(response => {
             context.commit('update_boost', response.data);

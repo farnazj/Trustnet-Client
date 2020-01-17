@@ -5,11 +5,11 @@
       <v-row no-gutters class="list-header">
         <v-col cols="12">
           <v-row justify="center" no-gutters class="subtitle-1">
-            <span v-if="!edit.mode">{{list.name}} </span>
+            <span v-if="!editMode">{{list.name}} </span>
             <span v-else>
               <v-form ref="listNameForm" lazy-validation>
-                <v-text-field v-model="edit.listName" class="pt-1" @click.stop=""
-                :rules="edit.rules">
+                <v-text-field v-model="editListName" class="pt-1" @click.stop=""
+                :rules="rules">
                 </v-text-field>
               </v-form>
             </span>
@@ -21,12 +21,12 @@
           <v-tooltip bottom :open-on-hover="true" open-delay="500">
             <template v-slot:activator="{ on }">
               <v-btn text icon x-small v-on="on" @click.stop="handleEdit"
-              :color="edit.mode ? 'green darken-1' : 'primary'" :ripple=false>
-                <v-icon v-if="!edit.mode">edit</v-icon>
-                <v-icon v-else :disabled="!edit.listName.length">check</v-icon>
+              :color="editMode ? 'green darken-1' : 'primary'" :ripple=false>
+                <v-icon v-if="!editMode">edit</v-icon>
+                <v-icon v-else :disabled="saveDisabled">check</v-icon>
               </v-btn>
             </template>
-            <span v-if="!edit.mode">Edit list name</span>
+            <span v-if="!editMode">Edit list name</span>
             <span v-else>Save list name</span>
           </v-tooltip>
 
@@ -101,13 +101,9 @@ export default {
       listSources: [],
       selectedItem: null,
       previewedSourcesCount: 3,
-      edit: {
-        mode: false,
-        listName: '',
-        rules: [
-          v => !!v || 'Forgot to write the list name?'
-        ]
-      }
+      editMode: false,
+      editListName: '',
+      saveDisabled: false
     }
   },
   props: {
@@ -122,12 +118,19 @@ export default {
   },
   created() {
     this.fetchCardSources();
-    this.edit.listName = this.list.name;
+    this.editListName = this.list.name;
   },
   computed: {
     sourcesCount: function() {
       return this.list.ListEntities.length;
     },
+    rules: function() {
+      const rules = [];
+      rules.push(v => !!v || 'Forgot to write the list name?');
+      rules.push(v => v.indexOf('^,') === -1 || 'List name cannot contain ^,');
+
+      return rules;
+    }
   },
   methods: {
     fetchCardSources: function() {
@@ -173,15 +176,15 @@ export default {
         this.$emit('showList', this.list);
     },
     handleEdit: function() {
-      if (this.edit.mode){
+      if (this.editMode){
         if (this.$refs.listNameForm.validate()) {
 
           this.updateListName({
             listId: this.list.id,
-            listName: this.edit.listName
+            listName: this.editListName
           })
           .then(() => {
-            this.edit.mode = !this.edit.mode;
+            this.editMode = !this.editMode;
           })
           .catch(err => {
             this.$emit('errorOccured', { message: err });
@@ -189,15 +192,23 @@ export default {
         }
       }
       else {
-        this.edit.listName = this.list.name;
-        this.edit.mode = !this.edit.mode;
+        this.editListName = this.list.name;
+        this.editMode = !this.editMode;
       }
+    },
+    validateListName: function() {
 
+      if (this.$refs.listNameForm) {
+        if (this.$refs.listNameForm.validate())
+          this.saveDisabled = false;
+        else
+          this.saveDisabled = true;
+      }
     },
     ...mapActions('sourceLists', [
       'updateListName',
       'removeSourceFromList'
-    ]),
+    ])
 
   },
   watch: {
@@ -206,6 +217,9 @@ export default {
         this.fetchCardSources();
       },
       deep: true
+    },
+    editListName: function(){
+      this.validateListName();
     }
   },
   mixins: [sourceHelpers]

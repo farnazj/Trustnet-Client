@@ -96,7 +96,6 @@ export default {
     },
     ...mapActions({
       getMoreBoosts (dispatch, payload) {
-        console.log(payload)
         return dispatch(this.filtersNamespace + '/getMoreBoosts', payload)
       },
       refreshArticles (dispatch, payload) {

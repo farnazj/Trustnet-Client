@@ -1,6 +1,6 @@
 <template>
 
-  <v-list class="pt-4 article-filters scrollable" expand dark>
+  <v-list class="pt-4 article-filters scrollable" expand dark dense>
     <v-list-item>
       <v-list-item-action>
           <v-icon>filter_list</v-icon>
@@ -31,8 +31,8 @@
           <v-list-item-content>
             <v-list-item-title v-text="status"></v-list-item-title>
           </v-list-item-content>
-
         </v-list-item>
+
       </v-list-group>
     </v-list-group>
     <v-divider></v-divider>
@@ -85,9 +85,34 @@
     <v-divider></v-divider>
 
     <v-list subheader>
+      <v-subheader>Source Lists</v-subheader>
+
+      <v-list-item v-for="list in sourceLists"
+          :key="list.id" @click="selectSource(list, false)"
+          :class="{highlighted: sourceSelectionMode && selectedLists.includes(list.id)}">
+
+          <v-list-item-action v-if="sourceSelectionMode" class="pa-0 source-checkbox">
+            <v-checkbox v-model="selectedListsCheckMark[list.id]"></v-checkbox>
+          </v-list-item-action>
+
+        <v-list-item-content>
+          <v-list-item-subtitle>
+            <v-tooltip right>
+              <template v-slot:activator="{ on }">
+                <span v-on="on">{{list.name}}</span>
+              </template>
+              <span>{{list.name}}</span>
+            </v-tooltip>
+          </v-list-item-subtitle>
+        </v-list-item-content>
+      </v-list-item>
+
+    </v-list>
+
+    <v-list subheader>
       <v-subheader>Followed or Trusted Sources</v-subheader>
       <v-list-item v-for="source in followedOrTrusteds"
-          :key="source.id" @click="selectSource(source)"
+          :key="source.id" @click="selectSource(source, true)"
           :class="{highlighted: sourceSelectionMode && selectedSources.includes(source.userName)}">
 
           <v-list-item-action v-if="sourceSelectionMode" class="pa-0 source-checkbox">
@@ -131,8 +156,10 @@
         seenStatusFilters: ['Not Seen', 'Seen'],
         selectedFilters: {'validity': undefined, 'sources': 'Followed', 'seenStatus':'Not Seen' },
         selectedSources: [],
+        selectedLists: [],
         sourceSelectionMode: false,
-        selectedSourcesCheckMark: {}
+        selectedSourcesCheckMark: {},
+        selectedListsCheckMark: {}
       }
     },
     created() {
@@ -141,13 +168,19 @@
       this.resetSourceCheckbox();
       this.presetFilters();
 
+      if (!this.sourceLists.length)
+        this.fetchLists();
     },
     computed: {
       ...mapState('articleFilters', [
           'validityFilter',
           'sourceFilter',
           'seenFilter',
-          'sourceUsernames'
+          'sourceUsernames',
+          'sourceLists'
+      ]),
+      ...mapState('sourceLists', [
+        'sourceLists'
       ]),
       ...mapGetters('relatedSources', [
        'followedOrTrusteds'
@@ -171,33 +204,43 @@
 
           if (this.selectedSources.length)
             this.selectedSources = [];
+          if (this.selectedLists.length)
+            this.selectedLists = [];
 
           if (prevValue == 'Selected Sources')
             this.resetSourceCheckbox();
         }
 
         if (this.selectedFilters[type] != prevValue) {
-          if (name != 'Selected Sources' || this.selectedSources.length > 0 )
+          if (name != 'Selected Sources' || this.selectedSources.length ||
+          this.selectedLists.length)
             this.filterBoosts();
         }
 
       },
-      selectSource: function(source) {
+      selectSource: function(entity, isSource) {
+
+        let uniqueSelector = isSource ? entity.userName : entity.id;
+        let selectedEntityList = isSource ? this.selectedSources : this.selectedLists;
+        let checkMarkEntity = isSource ? this.selectedSourcesCheckMark : this.selectedListsCheckMark;
 
         if (this.sourceSelectionMode) {
-          if (this.selectedSources.includes(source.userName)) {
-            this.selectedSources.splice(this.selectedSources.indexOf(source.userName), 1);
-            this.selectedSourcesCheckMark[source.userName] = false;
+          if (selectedEntityList.includes(uniqueSelector)) {
+            selectedEntityList.splice(selectedEntityList.indexOf(uniqueSelector), 1);
+            checkMarkEntity[uniqueSelector] = false;
           }
           else {
-            this.selectedSources.push(source.userName);
-            this.selectedSourcesCheckMark[source.userName] = true;
+            selectedEntityList.push(uniqueSelector);
+            checkMarkEntity[uniqueSelector] = true;
           }
 
+          console.log(this.selectedSources)
+          console.log(this.selectedLists)
           this.filterBoosts();
         }
         else {
-          this.$router.push({ name: 'profile', params: { username: source.userName } });
+          if (isSource)
+            this.$router.push({ name: 'profile', params: { username: source.userName } });
         }
 
       },
@@ -225,28 +268,36 @@
           this.selectedFilters['sources'] = 'Selected Sources';
           this.sourceSelectionMode = true;
 
-          let followedOrTrustedsUsernames = this.followedOrTrusteds.map(el => el.userName);
-
           /*
           See if the sources have changed since the last time filters were set
           (because some of the previously selected sources might not exist anymore)
           */
           let sourcesChanged = false;
 
-          for (let username of this.sourceUsernames) {
 
-            if (followedOrTrustedsUsernames.includes(username)) {
-              if (!this.selectedSources.includes(username)) {
-                this.selectedSources.push(username);
-                this.selectedSourcesCheckMark[username] = true;
+          for (let isSource of [0, 1]) {
+            let uniqueSelector = isSource ? entity.userName : entity.id;
+            let selectedEntityList = isSource ? this.selectedSources : this.selectedLists;
+            let checkMarkEntity = isSource ? this.selectedSourcesCheckMark : this.selectedListsCheckMark;
+
+            let prevSelectedEntities = isSource ? this.sourceUsernames : this.sourceLists;
+            let maintainedEntities = isSource ? this.followedOrTrusteds.map(el => el.userName) :
+              this.sourceLists.map(el => el.id);
+
+            for (let entity of prevSelectedEntities) {
+
+              if (maintainedEntities.includes(uniqueSelector)) {
+                if (!selectedEntityList.includes(maintainedEntities)) {
+                  selectedEntityList.push(maintainedEntities);
+                  checkMarkEntity[maintainedEntities] = true;
+                }
+              }
+              else {
+                selectedEntityList.splice(selectedEntityList.indexOf(maintainedEntities), 1);
+                checkMarkEntity[maintainedEntities] = false;
+                sourcesChanged = true;
               }
             }
-            else {
-              this.selectedSources.splice(this.selectedSources.indexOf(username), 1);
-              this.selectedSourcesCheckMark[username] = false;
-              sourcesChanged = true;
-            }
-
           }
 
           if (sourcesChanged)
@@ -258,7 +309,8 @@
 
         this.applyFilter({
           'filters': this.selectedFilters,
-          'sourceUsernames': this.selectedSources
+          'sourceUsernames': this.selectedSources,
+          'sourceLists': this.selectedLists
         });
       },
       ...mapActions('articleFilters', [
@@ -267,8 +319,10 @@
       ...mapActions('relatedSources', [
         'fetchFollows',
         'fetchTrusteds'
+      ]),
+      ...mapActions('sourceLists', [
+        'fetchLists'
       ])
-
     },
     watch: {
       seenFilter: function(val) {
