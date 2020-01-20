@@ -202,10 +202,10 @@
         else {
           this.sourceSelectionMode = false;
 
-          if (this.selectedSources.length)
-            this.selectedSources = [];
-          if (this.selectedLists.length)
-            this.selectedLists = [];
+          this.selectedSources = [];
+          this.selectedLists = [];
+          this.selectedSourcesCheckMark = [];
+          this.selectedListsCheckMark = [];
 
           if (prevValue == 'Selected Sources')
             this.resetSourceCheckbox();
@@ -234,8 +234,6 @@
             checkMarkEntity[uniqueSelector] = true;
           }
 
-          console.log(this.selectedSources)
-          console.log(this.selectedLists)
           this.filterBoosts();
         }
         else {
