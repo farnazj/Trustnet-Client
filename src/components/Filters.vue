@@ -176,8 +176,8 @@
           'validityFilter',
           'sourceFilter',
           'seenFilter',
-          'sourceUsernames',
-          'sourceLists'
+          'filteredUsernames',
+          'filteredLists'
       ]),
       ...mapState('sourceLists', [
         'sourceLists'
@@ -278,7 +278,7 @@
             let selectedEntityList = isSource ? this.selectedSources : this.selectedLists;
             let checkMarkEntity = isSource ? this.selectedSourcesCheckMark : this.selectedListsCheckMark;
 
-            let prevSelectedEntities = isSource ? this.sourceUsernames : this.sourceLists;
+            let prevSelectedEntities = isSource ? this.filteredUsernames : this.filteredLists;
             let maintainedEntities = isSource ? this.followedOrTrusteds.map(el => el.userName) :
               this.sourceLists.map(el => el.id);
 
@@ -307,8 +307,8 @@
 
         this.applyFilter({
           'filters': this.selectedFilters,
-          'sourceUsernames': this.selectedSources,
-          'sourceLists': this.selectedLists
+          'filteredUsernames': this.selectedSources,
+          'filteredLists': this.selectedLists
         });
       },
       ...mapActions('articleFilters', [

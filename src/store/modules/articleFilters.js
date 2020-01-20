@@ -8,8 +8,8 @@ export default {
     validityFilter: 'All',
     sourceFilter: 'Followed',
     seenFilter: 'Not Seen',
-    sourceUsernames: [],
-    sourceLists: [],
+    filteredUsernames: [],
+    filteredLists: [],
     articles: [],
     offset: 0,
     limit: 10,
@@ -40,8 +40,8 @@ export default {
       state.sourceFilter = state.sourceFilter.toLowerCase();
       state.seenFilter = state.seenFilter.toLowerCase();
 
-      state.sourceUsernames = filters.sourceUsernames;
-      state.sourceLists = filters.sourceLists;
+      state.filteredUsernames = filters.filteredUsernames;
+      state.filteredLists = filters.filteredLists;
     },
 
     update_boost: (state, boost) => {
@@ -81,8 +81,8 @@ export default {
             source: context.state.sourceFilter,
             validity: context.state.validityFilter,
             seenstatus: context.state.seenFilter,
-            usernames: context.state.sourceUsernames.join(consts.STRINGIFIED_ARR_SEP),
-            lists: context.state.sourceLists.join(consts.STRINGIFIED_ARR_SEP)
+            usernames: context.state.filteredUsernames.join(consts.STRINGIFIED_ARR_SEP),
+            lists: context.state.filteredLists.join(consts.STRINGIFIED_ARR_SEP)
           })
         .then(response => {
           resolve(response.data);
@@ -161,8 +161,8 @@ export default {
         postServices.getBoostByPostId(payload,
           { source: context.state.sourceFilter,
             validity: context.state.validityFilter,
-            usernames: context.state.sourceUsernames.join(consts.STRINGIFIED_ARR_SEP),
-            lists: context.state.sourceLists.join(consts.STRINGIFIED_ARR_SEP)
+            usernames: context.state.filteredUsernames.join(consts.STRINGIFIED_ARR_SEP),
+            lists: context.state.filteredLists.join(consts.STRINGIFIED_ARR_SEP)
           })
           .then(response => {
             context.commit('update_boost', response.data);
