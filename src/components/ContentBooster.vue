@@ -191,13 +191,28 @@ export default {
     }
   },
   methods: {
+
+    getSelectedUsernamesAndLists: function() {
+
+      let lists = this.$refs.initiateTargets.targets.filter(el =>
+        el.type === 'List').map(el => el.identifier);
+      let usernames = this.$refs.initiateTargets.targets.filter(el =>
+        el.type === 'Source').map(el => el.identifier);
+
+      return { usernames: usernames, lists: lists };
+    },
     createPost: function() {
+
       if (this.$refs.createPostForm.validate()) {
+
+        let targets = this.getSelectedUsernamesAndLists();
         let params = {
           title: this.title,
           body: this.body,
-          target_usernames: this.$refs.initiateTargets.targets
-        }
+          target_usernames: targets.usernames,
+          target_lists: targets.lists
+        };
+
         postServices.initiatePost(params)
         .then(response => {
           if (response.status != 200) {
@@ -212,7 +227,8 @@ export default {
                 'sources': 'Followed',
                 'seenStatus':'Not Seen'
               },
-              'sourceUsernames': []
+              'filteredUsernames': [],
+              'filteredLists': []
             });
           }
 
@@ -223,16 +239,17 @@ export default {
     importArticle: function() {
       if (this.$refs.importArticleForm.validate()) {
 
+        let targets = this.getSelectedUsernamesAndLists();
         let params = {
           postUrl: this.articleLink,
           postCredibility: this.$refs.assessmentColl.credibility - 2,
           assessmentBody: this.$refs.assessmentColl.assessmentText,
-          target_usernames: this.$refs.importTargets.targets
+          target_usernames: targets.usernames,
+          target_lists: targets.lists
         };
 
         postServices.importArticle(params)
         .then(response => {
-          console.log(response)
           if (response.status != 200) {
             this.alertMessage = this.importMessage;
             this.alert = true;
@@ -245,7 +262,8 @@ export default {
                 'sources': 'Followed',
                 'seenStatus':'Not Seen'
               },
-              'sourceUsernames': []
+              'filteredUsernames': [],
+              'filteredLists': []
             });
           }
         })
@@ -259,7 +277,7 @@ export default {
       }
     },
     cancel: function() {
-      console.log(this.$refs)
+
       for (let form of ['createPostForm', 'importArticleForm']) {
         if (typeof this.$refs[form] !== 'undefined')
           this.$refs[form].reset();

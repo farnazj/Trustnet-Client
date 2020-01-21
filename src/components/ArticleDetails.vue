@@ -361,12 +361,25 @@ export default {
 
       }
     },
+    getSelectedUsernamesAndLists: function() {
+
+      let lists = this.$refs.boostTargets.targets.filter(el =>
+        el.type === 'List').map(el => el.identifier);
+      let usernames = this.$refs.boostTargets.targets.filter(el =>
+        el.type === 'Source').map(el => el.identifier);
+
+      return { usernames: usernames, lists: lists };
+    },
     boostArticle: function() {
+
       if (this.$refs.boostMenu.validate()) {
+
+        let targets = this.getSelectedUsernamesAndLists();
         let reqBody = {
           post_id: this.article.id,
-          target_usernames: this.$refs.boostTargets.targets
-        }
+          target_usernames: targets.usernames,
+          target_lists: targets.lists
+        };
 
         postServices.boostArticle(reqBody)
         .then(response => {
