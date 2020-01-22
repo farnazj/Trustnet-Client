@@ -5,9 +5,9 @@ import consts from '@/services/constants'
 export default {
   namespaced: true,
   state: {
-    validityFilter: 'All',
-    sourceFilter: 'Followed',
-    seenFilter: 'Not Seen',
+    validityFilter: 'all',
+    sourceFilter: 'followed',
+    seenFilter: 'not seen',
     filteredUsernames: [],
     filteredLists: [],
     articles: [],
@@ -29,16 +29,14 @@ export default {
     },
 
     change_filter_value: (state, filters) => {
-      state.validityFilter = filters.filters.validity ? filters.filters.validity : 'All';
+      state.validityFilter = filters.filters.validity ?
+        consts.VALIDITY_REQ_MAPPING[filters.filters.validity] : 'All';
+
       state.sourceFilter = filters.filters.sources ?
-        (filters.filters.sources == 'Selected Sources' ? 'specified' : filters.filters.sources)
-        : 'All';
+        consts.CRED_SOURCES_REQ_MAPPING[filters.filters.sources] : 'All';
 
-      state.seenFilter = filters.filters.seenStatus ? filters.filters.seenStatus : 'All';
-
-      state.validityFilter = state.validityFilter.toLowerCase();
-      state.sourceFilter = state.sourceFilter.toLowerCase();
-      state.seenFilter = state.seenFilter.toLowerCase();
+      state.seenFilter = filters.filters.seenStatus ?
+      consts.SEEN_STATUS_REQ_MAPPING[filters.filters.seenStatus] : 'All';
 
       state.filteredUsernames = filters.filteredUsernames;
       state.filteredLists = filters.filteredLists;
@@ -159,7 +157,8 @@ export default {
       return new Promise((resolve, reject) => {
 
         postServices.getBoostByPostId(payload,
-          { source: context.state.sourceFilter,
+          {
+            source: context.state.sourceFilter,
             validity: context.state.validityFilter,
             usernames: context.state.filteredUsernames.join(consts.STRINGIFIED_ARR_SEP),
             lists: context.state.filteredLists.join(consts.STRINGIFIED_ARR_SEP)

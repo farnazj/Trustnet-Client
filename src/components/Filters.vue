@@ -144,6 +144,7 @@
   import customAvatar from '@/components/CustomAvatar'
   import sourceHelpers from '@/mixins/sourceHelpers'
   import { mapState, mapGetters, mapActions } from 'vuex'
+  import consts from '@/services/constants'
 
   export default {
     components: {
@@ -253,15 +254,22 @@
       */
       presetFilters: function() {
 
-        this.selectedFilters['validity'] = this.validityFilter.toLowerCase().split(' ').map((s) =>
+        this.selectedFilters['validity'] = this.validityFilter.split(' ').map((s) =>
           s.charAt(0).toUpperCase() + s.substring(1)).join(' ');
 
-        this.selectedFilters['seenStatus'] = this.seenFilter.toLowerCase().split(' ').map((s) =>
+        this.selectedFilters['seenStatus'] = this.seenFilter.split(' ').map((s) =>
           s.charAt(0).toUpperCase() + s.substring(1)).join(' ');
 
-        if (this.sourceFilter != 'usernames')
-          this.selectedFilters['sources'] = this.sourceFilter.toLowerCase().split(' ').map((s) =>
+        if (this.sourceFilter != consts.CRED_SOURCES_REQ_MAPPING['Selected Sources']) {
+          this.selectedFilters['sources'] = this.sourceFilter.split(' ').map((s) =>
             s.charAt(0).toUpperCase() + s.substring(1)).join(' ');
+
+          this.sourceSelectionMode = false;
+          this.selectedSources = [];
+          this.selectedLists = [];
+          this.selectedSourcesCheckMark = [];
+          this.selectedListsCheckMark = [];
+        }
         else {
           this.selectedFilters['sources'] = 'Selected Sources';
           this.sourceSelectionMode = true;
@@ -272,9 +280,8 @@
           */
           let sourcesChanged = false;
 
-
           for (let isSource of [0, 1]) {
-            let uniqueSelector = isSource ? entity.userName : entity.id;
+
             let selectedEntityList = isSource ? this.selectedSources : this.selectedLists;
             let checkMarkEntity = isSource ? this.selectedSourcesCheckMark : this.selectedListsCheckMark;
 
@@ -282,17 +289,17 @@
             let maintainedEntities = isSource ? this.followedOrTrusteds.map(el => el.userName) :
               this.sourceLists.map(el => el.id);
 
-            for (let entity of prevSelectedEntities) {
+            for (let uniqueSelector of prevSelectedEntities) {
 
               if (maintainedEntities.includes(uniqueSelector)) {
-                if (!selectedEntityList.includes(maintainedEntities)) {
-                  selectedEntityList.push(maintainedEntities);
-                  checkMarkEntity[maintainedEntities] = true;
+                if (!selectedEntityList.includes(uniqueSelector)) {
+                  selectedEntityList.push(uniqueSelector);
+                  checkMarkEntity[uniqueSelector] = true;
                 }
               }
               else {
-                selectedEntityList.splice(selectedEntityList.indexOf(maintainedEntities), 1);
-                checkMarkEntity[maintainedEntities] = false;
+                selectedEntityList.splice(selectedEntityList.indexOf(uniqueSelector), 1);
+                checkMarkEntity[uniqueSelector] = false;
                 sourcesChanged = true;
               }
             }
@@ -327,6 +334,9 @@
         this.presetFilters();
       },
       validityFilter: function(val) {
+        this.presetFilters();
+      },
+      sourceFilter: function(val) {
         this.presetFilters();
       }
     },
