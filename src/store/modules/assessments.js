@@ -30,7 +30,6 @@ export default {
     },
 
     populate_assessment_history: (state, payload) => {
-
       state.assessmentHistory = payload.history;
       state.historyOwner = payload.assessor;
     }

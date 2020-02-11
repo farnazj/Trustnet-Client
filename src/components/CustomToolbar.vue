@@ -74,6 +74,8 @@ export default {
       }, {
         name: 'Settings', icon: 'settings'
       }, {
+        name: 'About', icon: 'help'
+      }, {
         name: 'Logout', icon: 'power_settings_new'
       }]
     }

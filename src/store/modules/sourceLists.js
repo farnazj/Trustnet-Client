@@ -78,6 +78,7 @@ export default {
     fetchLists: function(context) {
 
       return new Promise((resolve, reject) => {
+
         sourceListServices.getLists({})
         .then(response => {
           context.commit('set_lists', response.data);
@@ -92,6 +93,7 @@ export default {
     addList: function(context, payload) {
 
       return new Promise((resolve, reject) => {
+
         sourceListServices.addList({ name: payload.listName })
         .then(response => {
           context.dispatch('fetchLists');
@@ -106,6 +108,7 @@ export default {
     removeList: function(context, payload) {
 
       return new Promise((resolve, reject) => {
+
         sourceListServices.deleteList({ listId: payload.listId })
         .then(response => {
           context.commit('remove_list', payload.listId);
@@ -126,6 +129,7 @@ export default {
     updateListName: function(context, payload) {
 
       return new Promise((resolve, reject) => {
+
         sourceListServices.updateList(
           { listId: payload.listId },
           { name: payload.listName }
@@ -143,6 +147,7 @@ export default {
     addSourceToList: function(context, payload) {
 
       return new Promise((resolve, reject) => {
+
         sourceListServices.addSourceToList(
           { listId: payload.listId },
           { username: payload.source.userName }
@@ -163,6 +168,7 @@ export default {
     removeSourceFromList: function(context, payload) {
 
       return new Promise((resolve, reject) => {
+
         sourceListServices.removeSourceFromList(
           { listId: payload.listId },
           { username: payload.source.userName }
@@ -172,7 +178,6 @@ export default {
             listId: payload.listId,
             sourceId: payload.source.id
           });
-
           resolve();
         })
         .catch(err => {
@@ -182,6 +187,7 @@ export default {
     },
 
     setFullListVisibility: (context, payload) => {
+
       context.commit('set_full_list_visibility', payload);
       if (payload == false)
         context.dispatch('populateDisplayedList', {});

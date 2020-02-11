@@ -72,44 +72,47 @@
         </v-list-item-content>
       </template>
 
-      <v-list-item v-for="(source, i) in sourceFilters"
-        :key="i" @click="filter(source, 'sources')"
-        :class="{highlighted:source == selectedFilters['sources']}">
-        <v-list-item-content>
-          <v-list-item-title> {{source}} </v-list-item-title>
-        </v-list-item-content>
+      <template v-for="(source, i) in sourceFilters">
 
-      </v-list-item>
+        <v-list-item v-if="source !== 'Selected Sources' || (sourceLists.length || followedOrTrusteds.length)" 
+          @click="filter(source, 'sources')" :key="i"
+          :class="{highlighted:source == selectedFilters['sources']}">
+          <v-list-item-content>
+            <v-list-item-title> {{source}} </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+      </template>
     </v-list-group>
 
     <v-divider></v-divider>
 
-    <v-list subheader>
+    <v-list subheader v-if="sourceLists.length">
       <v-subheader>Source Lists</v-subheader>
 
       <v-list-item v-for="list in sourceLists"
           :key="list.id" @click="selectSource(list, false)"
           :class="{highlighted: sourceSelectionMode && selectedLists.includes(list.id)}">
 
-          <v-list-item-action v-if="sourceSelectionMode" class="pa-0 source-checkbox">
-            <v-checkbox v-model="selectedListsCheckMark[list.id]"></v-checkbox>
-          </v-list-item-action>
+        <v-list-item-action v-if="sourceSelectionMode" class="pa-0 source-checkbox">
+          <v-checkbox v-model="selectedListsCheckMark[list.id]"></v-checkbox>
+        </v-list-item-action>
 
-          <v-list-item-content>
-            <v-list-item-subtitle>
-              <v-tooltip right>
-                <template v-slot:activator="{ on }">
-                  <span v-on="on">{{list.name}}</span>
-                </template>
-                <span>{{list.name}}</span>
-              </v-tooltip>
-            </v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
+        <v-list-item-content>
+          <v-list-item-subtitle>
+            <v-tooltip right>
+              <template v-slot:activator="{ on }">
+                <span v-on="on">{{list.name}}</span>
+              </template>
+              <span>{{list.name}}</span>
+            </v-tooltip>
+          </v-list-item-subtitle>
+        </v-list-item-content>
+      </v-list-item>
 
     </v-list>
 
-    <v-list subheader>
+    <v-list subheader v-if="followedOrTrusteds.length">
       <v-subheader>Followed or Trusted Sources</v-subheader>
       <v-list-item v-for="source in followedOrTrusteds"
           :key="source.id" @click="selectSource(source, true)"

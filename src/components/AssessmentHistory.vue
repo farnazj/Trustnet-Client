@@ -19,7 +19,7 @@
 
        <v-card-text>
 
-         <v-row justify="start" align="center" class="pb-3">
+         <v-row justify="start" align="center" class="pb-2 pt-1">
            <custom-avatar :user="historyOwner" :clickEnabled="true" class="mr-2">
            </custom-avatar>
             <span>{{sourceDisplayName(historyOwner)}}</span>
