@@ -10,6 +10,7 @@ import Sources from './views/Sources.vue'
 import Settings from './views/Settings.vue'
 import Profile from './views/Profile.vue'
 import Invalid from './views/Invalid.vue'
+import SinglePost from './views/SinglePost.vue'
 import store from './store/store'
 
 Vue.use(Router)
@@ -27,9 +28,9 @@ let router = new Router({
       }
     },
     {
-      path: '/test/:postid',
-      name: 'details',
-      component: Home,
+      path: '/posts/:postid',
+      name: 'singlePost',
+      component: SinglePost,
       props: true,
       meta: {
         requiresAuth: true

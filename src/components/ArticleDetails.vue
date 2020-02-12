@@ -354,6 +354,7 @@ export default {
           this.assessmentMenu = false;
           this.disableBoost = false;
           this.updateStateArticle({postId: this.article.id});
+          this.$emit('assessmentUpdate');
         })
         .catch(err => {
           this.assessmentAlert = true;

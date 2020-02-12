@@ -115,9 +115,9 @@
   import assessor from '@/components/Assessor'
   import initiatorDisplay from '@/components/InitiatorDisplay'
   import titleHelpers from '@/mixins/titleHelpers'
+  import assessmentHelpers from '@/mixins/assessmentHelpers'
   import sourceServices from '@/services/sourceServices'
   import postServices from '@/services/postServices'
-  import consts from '@/services/constants'
   import utils from '@/services/utils'
   import { mapState, mapActions } from 'vuex'
 
@@ -146,7 +146,6 @@
     data: () => {
       return {
         boostObjects: [],
-        assessments: {'confirmed': [], 'refuted': [], 'questioned': []},
         postSeen: false,
         displayedAlternativeTitle: null
       }
@@ -158,20 +157,12 @@
       uniqueBoosters: function() {
         return utils.getUnique(this.sortedBoosts, 'id');
       },
-      sortedAssessments: function() {
 
-        let sortedAssessments = {};
-
-        for (const [key, value] of Object.entries(this.assessments)) {
-          sortedAssessments[key] = this.assessments[key].slice().sort(utils.compareAssessments);
-        }
-        return sortedAssessments;
-      },
       shownAssessmentPostId: function() {
-        return this.assessmsentState.postIdOfAssessments;
+        return this.assessmentState.postIdOfAssessments;
       },
       ...mapState({
-         assessmsentState (state) {
+         assessmentState (state) {
            return state[this.assessmentsNamespace];
          }
       })
@@ -196,15 +187,6 @@
           postIdOfAssessments: this.post.id
         });
       },
-      validityMapping: function(credibility) {
-
-        if (credibility < consts.VALIDITY_CODES.QUESTIONED)
-          return 'refuted';
-        else if (credibility == consts.VALIDITY_CODES.QUESTIONED)
-          return 'questioned';
-        else if (credibility > consts.VALIDITY_CODES.QUESTIONED)
-          return 'confirmed';
-      },
       fetchAssociations: function() {
 
         this.boostObjects = [];
@@ -218,35 +200,7 @@
         });
         this.boostObjects.sort(utils.compareBoosters);
 
-
-        for (let key in this.assessments)
-          this.assessments[key] = [];
-
-        let assessmentsBySource = {};
-        this.post.PostAssessments.forEach(postAssessment => {
-
-          if (!(postAssessment.SourceId in assessmentsBySource)) {
-            let assessmentsObj = {};
-            assessmentsObj['history'] = [];
-            assessmentsBySource[postAssessment.SourceId] = assessmentsObj;
-          }
-
-          if (postAssessment.version == 1) {
-            assessmentsBySource[postAssessment.SourceId]['lastVersion'] = postAssessment;
-          }
-          else {
-            assessmentsBySource[postAssessment.SourceId]['history'].push(postAssessment);
-          }
-       })
-
-       for (const [SourceId, assessmentsObj] of Object.entries(assessmentsBySource)) {
-          let credValue = this.validityMapping(assessmentsObj.lastVersion.postCredibility);
-          sourceServices.getSourceById(SourceId)
-          .then(response => {
-            assessmentsBySource[SourceId]['assessor'] = response.data;
-            this.assessments[credValue].push(assessmentsObj);
-          })
-       }
+        this.restructureAssessments();
 
       },
       fetchSeenStatus: function() {
@@ -291,7 +245,6 @@
         showArticleDrawer (dispatch, payload) {
           return dispatch(this.detailsNamespace + '/showArticleDrawer', payload)
         },
-
         showAssessments (dispatch, payload) {
           return dispatch(this.assessmentsNamespace + '/showAssessments', payload)
         }
@@ -315,7 +268,7 @@
 
       }
     },
-    mixins: [titleHelpers]
+    mixins: [titleHelpers, assessmentHelpers]
 
 }
 </script>

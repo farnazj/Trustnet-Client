@@ -10,16 +10,24 @@
 
       <v-row v-if="articlesFetched && !articles.length" justify-center fill-height class="pt-5">
         <v-col cols="8">
-          <span class="subheading font-weight-light" >
-            Looks like we don't have any posts to show you. Maybe you aren't following enough sources?<br/><br/>
-            You can follow sources by clicking on your avatar at the
-            right side of the top toolbar, and going to the
-          </span>
-          <v-icon small>account_circle</v-icon>
-          <span class="subheading font-weight-bold"> Sources</span>
-          <span>
-            <span class="subheading font-weight-light"> page.</span>
-          </span>
+          <p>
+            <span class="subheading font-weight-light" >
+              Looks like we don't have any posts to show you. Maybe you aren't following enough sources?<br/><br/>
+              You can follow sources by clicking on your avatar at the
+              right side of the top toolbar, and going to the
+            </span>
+            <v-icon small>account_circle</v-icon>
+            <span class="subheading font-weight-bold"> Sources</span>
+            <span>
+              <span class="subheading font-weight-light"> page.</span>
+            </span>
+          </p>
+          <p class="subheading font-weight-light">
+            You can also visit the <v-icon small>help</v-icon>
+            <span class="subheading font-weight-bold"> About</span> page to learn
+            more about Trustnet.
+          </p>
+
         </v-col>
       </v-row>
 

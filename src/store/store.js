@@ -37,11 +37,14 @@ let store = new Vuex.Store({
 
 store.registerModule('homeArticleDetails', articleDetails);
 store.registerModule('profileArticleDetails', articleDetails);
+store.registerModule('singleArticleDetails', articleDetails);
 
 store.registerModule('homeAssessments', assessments);
 store.registerModule('profileAssessments', assessments);
+store.registerModule('singleArticleAssessments', assessments);
 
 store.registerModule('homeTitles', titles);
 store.registerModule('profileTitles', titles);
+store.registerModule('singleArticleTitles', titles);
 
 export default store;
