@@ -12,6 +12,8 @@
      @close="cancelDelete" @confirm="proceedDelete">
     </delete-dialog>
 
+    <v-slide-x-reverse-transition>
+
      <v-card max-height="50vh" class="pa-1" >
        <v-row no-gutters align="center">
          <v-col cols="11">
@@ -38,7 +40,7 @@
          </v-col>
        </v-row>
 
-       <v-card-text>
+       <v-card-text class="pa-1">
 
        <v-row no-gutters justify="end">
          <v-card-actions >
@@ -46,7 +48,7 @@
          </v-card-actions>
        </v-row>
 
-       <v-divider></v-divider>
+       <v-divider v-if="titles.length"></v-divider>
 
        <template v-for="(titleObj, index) in titles">
          <v-row no-gutters align="center" class="py-1">
@@ -136,6 +138,7 @@
 
       </v-card-text>
      </v-card>
+     </v-slide-x-reverse-transition>
 
      <title-history :namespace="titlesNamespace"></title-history>
 

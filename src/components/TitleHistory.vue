@@ -1,6 +1,7 @@
 <template>
 
-  <v-card v-if="visible" max-width="270">
+<v-slide-x-reverse-transition v-if="visible">
+  <v-card max-width="270">
     <v-row no-gutters >
       <v-col class="drawer-opener" cols="1">
         <v-row no-gutters justify="end" align="center" class="fill-height">
@@ -46,7 +47,7 @@
 
     </v-row>
   </v-card>
-
+</v-slide-x-reverse-transition>
 
 </template>
 
