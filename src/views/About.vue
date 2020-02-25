@@ -3,7 +3,7 @@
     <custom-toolbar></custom-toolbar>
 
     <v-row no-gutters class="pt-10">
-      <h5 class="headline">About Trustnet</h5>
+      <h5 class="headline">About {{siteName}}</h5>
     </v-row>
 
     <v-row no-gutters justify="center">
@@ -14,20 +14,20 @@
                 General
               </template>
               <template v-slot:title>
-                What's cool about Trustnet?
+                What's cool about {{siteName}}?
               </template>
               <template v-slot:body>
                 <p>
-                  Trustnet is a news reading and sharing platform where you can follow different
+                  {{siteName}} is a news reading and sharing platform where you can follow different
                   news publishing media or your friends to see what they post, write posts of your own, or
                   share posts to those you think would be interested in knowing about them.
                 </p>
 
                 <p>
-                  What's cool about Trustnet is that it empowers you to curate or filter your newsfeed
+                  What's cool about {{siteName}} is that it empowers you to curate or filter your newsfeed
                   with the help of those you trust. Of course not everyone you follow is trustworthy
                   (like that one person you follow just so that you see firshand what they say or that
-                  other person you became "friends" with, just because you had to). So on Trustnet,
+                  other person you became "friends" with, just because you had to). So on {{siteName}},
                   you can explicitly specify who you trust and then choose to see only those posts
                   that they have confirmed to be true or maybe the posts that they have refuted
                   and their reasons for doing so. If you feel adventurous, you can even choose to
@@ -36,7 +36,7 @@
 
                 <p>
                   Of course, we know that you shouldn't have to mark someone as trustworthy
-                  just to be polite. On Trustnet, no one other than you knows who you have marked as
+                  just to be polite. On {{siteName}}, no one other than you knows who you have marked as
                   trusted. This means that even the sources you have trusted will not have any idea
                   that you trust them. Similarly, you will not know who trusts you.
                 </p>
@@ -52,7 +52,7 @@
               </template>
               <template v-slot:body>
                 <p>
-                  A source is any user or a news publishing feed on Trustnet. As a user
+                  A source is any user or a news publishing feed on {{siteName}}. As a user
                   of the system, you are also a source of news. To see
                   what a source posts, you need to follow it. You can also trust a source
                   and use their assessments of posts to filter the posts on your newsfeed
@@ -186,6 +186,7 @@
 <script>
 import customToolbar from '@/components/CustomToolbar'
 import aboutCard from '@/components/AboutCard'
+import consts from '@/services/constants'
 
 export default {
   components: {
@@ -194,6 +195,11 @@ export default {
   },
   data(){
     return {
+    }
+  },
+  computed: {
+    siteName: function() {
+      return consts.SITE_NAME;
     }
   }
 }

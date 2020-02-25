@@ -311,9 +311,9 @@ export default {
     },
     emailLink: function() {
       return 'mailto:?subject=' + encodeURI('On ' + consts.SITE_NAME + '.com: ' +
-      this.article.title + '&body=On' + consts.SITE_NAME + '.com: ' + this.article.title +
+      this.article.title + '&body=On ' + consts.SITE_NAME + '.com: ' + this.article.title +
        '\n\n' + this.article.description + '\n\n' +
-       'Visit the link to see the article and its assessments:\n\n' + this.articleLink);
+       'Visit the link to see the article and its assessments:\n' + this.articleLink);
     },
     ...mapGetters('auth', [
       'user'
