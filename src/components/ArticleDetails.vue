@@ -277,6 +277,9 @@ export default {
       emails: null
     }
   },
+  created() {
+    this.prepopulateUserAssessment();
+  },
   computed: {
     articleDetailsVisible: {
       get: function() {
@@ -332,21 +335,7 @@ export default {
       this.edit.body = val.body;
       this.edit.title = val.title;
 
-      this.getAuthUserPostAssessment()
-      .then(() => {
-        if (Object.entries(this.assessment).length != 0) {
-            this.disableBoost = false;
-            this.assessmentBody = this.assessment.body;
-            this.postCredibility = parseFloat(this.assessment.postCredibility);
-          }
-          else {
-            this.disableBoost = true;
-            this.assessmentBody = '';
-            this.postCredibility = null;
-            if (this.$refs.assessmentMenu)
-              this.$refs.assessmentMenu.resetValidation();
-          }
-      });
+      this.prepopulateUserAssessment();
     },
     facebookCommentsURL: function() {
       setTimeout(function() {
@@ -368,12 +357,32 @@ export default {
           this.disableBoost = false;
           this.updateStateArticle({postId: this.article.id});
           this.$emit('assessmentUpdate');
+          this.prepopulateUserAssessment();
         })
         .catch(err => {
           this.assessmentAlert = true;
         })
 
       }
+    },
+    prepopulateUserAssessment: function() {
+
+      this.getAuthUserPostAssessment()
+      .then(() => {
+
+        if (Object.entries(this.assessment).length != 0) {
+            this.disableBoost = false;
+            this.assessmentBody = this.assessment.body;
+            this.postCredibility = parseFloat(this.assessment.postCredibility);
+          }
+          else {
+            this.disableBoost = true;
+            this.assessmentBody = '';
+            this.postCredibility = null;
+            if (this.$refs.assessmentMenu)
+              this.$refs.assessmentMenu.resetValidation();
+          }
+      });
     },
     getSelectedUsernamesAndLists: function() {
 
