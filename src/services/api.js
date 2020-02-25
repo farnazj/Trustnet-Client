@@ -5,7 +5,7 @@ import consts from './constants'
 
 //&& err.config && !err.config.__isRetryRequest
 const instance = axios.create({
-    baseURL: consts.baseURL,
+    baseURL: consts.BASE_URL,
     headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'

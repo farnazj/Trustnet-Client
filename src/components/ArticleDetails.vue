@@ -15,7 +15,7 @@
 
            <v-menu v-model="assessmentMenu"
              :close-on-content-click="false"
-             :nudge-width="350" offset-y left attach>
+             nudge-width="350" offset-y left attach>
 
              <template v-slot:activator="{ on }">
                 <v-btn text icon color="blue darken-1" v-on="on"
@@ -54,7 +54,7 @@
 
            <v-menu v-model="boostMenu"
              :close-on-content-click="false" :disabled="disableBoost"
-             :nudge-width="350" offset-y left attach>
+             max-width="380" offset-y left attach>
 
              <template v-slot:activator="{ on }">
              <v-btn text icon color="blue darken-1" :class="['mr-4', {'reset-pointer-events': !disableBoost},
@@ -64,9 +64,8 @@
             </template>
 
             <v-form ref="boostMenu" lazy-validation>
-             <v-card>
+             <v-card >
                <v-container fluid>
-
                  <v-row no-gutters>
                    <v-col cols="12">
                      <!-- <span>Select your target audience or leave this empty to
@@ -78,6 +77,10 @@
                </v-container>
 
                  <v-card-actions>
+                   <a :href="emailLink" class="ml-1 email-link">
+                    <v-icon small color="primary">email</v-icon>
+                   </a>
+
                    <v-spacer></v-spacer>
 
                    <v-btn text @click="cancelMenu('boostMenu')">Cancel</v-btn>
@@ -205,7 +208,7 @@
          <v-divider></v-divider>
 
          <v-row no-gutters class="mt-2" justify="center">
-          <div class="fb-comments ma-1" :data-href="facebookCommentsURL"
+          <div class="fb-comments ma-1" :data-href="articleLink"
           data-width="500" data-numposts="5"></div>
          </v-row>
 
@@ -270,7 +273,8 @@ export default {
       edit: {body: '', title: ''},
       showDeleteDialog: false,
       showInfoSnackbar: false,
-      editSubmitInfo: ''
+      editSubmitInfo: '',
+      emails: null
     }
   },
   computed: {
@@ -287,9 +291,9 @@ export default {
         this.setDrawerVisibility(newValue);
       }
     },
-    facebookCommentsURL: function() {
-      return consts.FBCommentsBaseURL + '/' + this.article.id;
-    },
+    // facebookCommentsURL: function() {
+    //   return consts.FB_COMMENTS_BASE_URL + '/' + this.article.id;
+    // },
     AuthUserIsOwner: function() {
       return this.user && this.article.SourceId == this.user.id;
     },
@@ -301,6 +305,15 @@ export default {
     },
     assessment: function() {
       return this.state.assessment;
+    },
+    articleLink: function() {
+      return consts.BASE_URL + '/posts/' + this.article.id;
+    },
+    emailLink: function() {
+      return 'mailto:?subject=' + encodeURI('On ' + consts.SITE_NAME + '.com: ' +
+      this.article.title + '&body=On' + consts.SITE_NAME + '.com: ' + this.article.title +
+       '\n\n' + this.article.description + '\n\n' +
+       'Visit the link to see the article and its assessments:\n\n' + this.articleLink);
     },
     ...mapGetters('auth', [
       'user'
@@ -495,5 +508,12 @@ export default {
   pointer-events: auto !important;
 }
 
+.align-initial {
+  text-align: initial;
+}
+
+.email-link {
+  text-decoration: none;
+}
 
 </style>

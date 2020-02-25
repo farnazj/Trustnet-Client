@@ -3,7 +3,6 @@
     <custom-toolbar></custom-toolbar>
 
     <v-row no-gutters>
-      <loading></loading>
       <boosters-list detailsNamespace="singleArticleDetails"></boosters-list>
       <custom-titles titlesNamespace="singleArticleTitles"></custom-titles>
       <assessment-history namespace="singleArticleAssessments"></assessment-history>
@@ -34,7 +33,6 @@ import assessmentsContainer from '@/components/AssessmentsContainer'
 import boostersList from '@/components/BoostersList'
 import customTitles from '@/components/CustomTitles'
 import assessmentHistory from '@/components/AssessmentHistory'
-import Loading from '@/components/Loading'
 import assessmentHelpers from '@/mixins/assessmentHelpers'
 
 import postServices from '@/services/postServices'
@@ -48,8 +46,7 @@ export default {
     'assessments-container': assessmentsContainer,
     'boosters-list': boostersList,
     'custom-titles': customTitles,
-    'assessment-history': assessmentHistory,
-    'loading': Loading
+    'assessment-history': assessmentHistory
   },
   props: ['postid'],
   data () {
@@ -73,8 +70,6 @@ export default {
     this.getArticle();
  },
  methods: {
-   /*this function is for the path /posts/:postid which directs to the same
-   component as home*/
    getArticle: function() {
      postServices.getBoostByPostId({postId: this.postid})
      .then((res) => {

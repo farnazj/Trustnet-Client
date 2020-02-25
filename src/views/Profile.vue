@@ -167,7 +167,7 @@ export default {
   },
   computed: {
     uploadUrl: function() {
-      return consts.baseURL + '/profile-pictures/';
+      return consts.BASE_URL + '/profile-pictures/';
     },
     adorablePhoto: function() {
       return 'https://api.adorable.io/avatars/249/' + this.profileOwner.userName + '.png';
@@ -219,7 +219,7 @@ export default {
             if (this.profileOwner.photoUrl.includes('http'))
               this.profileOwner.photoUrl =  this.profileOwner.photoUrl;
             else
-              this.profileOwner.photoUrl = consts.baseURL + '/' + this.profileOwner.photoUrl;
+              this.profileOwner.photoUrl = consts.BASE_URL + '/' + this.profileOwner.photoUrl;
           }
 
         }

@@ -30,7 +30,7 @@ export default {
   },
   computed: {
     getInitials: function() {
-      
+
       if (Object.entries(this.user).length) {
         if (!this.user.systemMade)
           return (this.user.firstName.charAt(0) + this.user.lastName.charAt(0)).toUpperCase();
@@ -51,7 +51,7 @@ export default {
       if (this.user.photoUrl.includes('http'))
         return this.user.photoUrl;
       else
-        return consts.baseURL + '/' + this.user.photoUrl;
+        return consts.BASE_URL + '/' + this.user.photoUrl;
     }
   }
 
