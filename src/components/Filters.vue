@@ -74,7 +74,7 @@
 
       <template v-for="(source, i) in sourceFilters">
 
-        <v-list-item v-if="source !== 'Selected Sources' || (sourceLists.length || followedOrTrusteds.length)" 
+        <v-list-item v-if="source !== 'Selected Sources' || (sourceLists.length || followedOrTrusteds.length)"
           @click="filter(source, 'sources')" :key="i"
           :class="{highlighted:source == selectedFilters['sources']}">
           <v-list-item-content>
@@ -242,7 +242,7 @@
         }
         else {
           if (isSource)
-            this.$router.push({ name: 'profile', params: { username: source.userName } });
+            this.$router.push({ name: 'profile', params: { username: entity.userName } });
         }
 
       },
