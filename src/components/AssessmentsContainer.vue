@@ -3,23 +3,22 @@
   <v-fade-transition v-if="visible">
     <v-row class="pt-12" id="assessment_container" no-gutters>
       <v-col cols="12">
-        <v-card>
+        <v-card outlined>
 
           <v-row align-center fill-height no-gutters>
-            <v-col cols="1">
-              <v-row justify="start" no-gutters>
-                <v-icon @click="hideContainer">clear</v-icon>
-              </v-row>
-            </v-col>
 
-            <v-col cols="11">
+            <v-icon @click="hideContainer" class="clear-sign">clear</v-icon>
+
+            <v-col cols="12">
               <v-row justify="center" no-gutters>
                 <p class="pb-0 mb-0 subheading font-weight-medium">Accurate?</p>
               </v-row>
             </v-col>
           </v-row>
 
-          <v-row v-if="sortedAssessments.questioned.length != 0" row wrap class="pa-1" no-gutters>
+          <v-divider v-if="sortedAssessments.questioned.length"></v-divider>
+
+          <v-row v-if="sortedAssessments.questioned.length" row wrap class="pa-1" no-gutters>
             <v-col cols="12">
               <v-card-title>
                <div>
@@ -45,11 +44,11 @@
 
         </v-card>
 
-        <v-row no-gutters class="border-top">
+        <v-row no-gutters>
           <template v-for="(key,index) in ['confirmed', 'refuted']" >
             <v-col :key="index" :xs6="isDebated" :xs12="!isDebated" v-if="sortedAssessments[key].length != 0">
 
-              <v-card class="assessment-col">
+              <v-card class="assessment-col" outlined>
 
                 <v-card-title>
                  <div>
@@ -182,8 +181,8 @@ export default {
   border-right: 1px solid #B0BEC5;
 }
 
-.border-top {
-  border-top: 1px solid #B0BEC5;
+.clear-sign {
+  position: absolute;
 }
 
 </style>

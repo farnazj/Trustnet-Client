@@ -10,7 +10,9 @@
       </v-col> -->
       <v-col cols="11">
 
-        <v-card @click="revealArticleDetails(post)" class="pa-1 pb-2" :flat="shownAssessmentPostId != post.id">
+        <v-card @click="revealArticleDetails(post)" class="pa-1 pb-2"
+        :tile="shownAssessmentPostId == null || shownAssessmentPostId != post.id"
+        :raised="shownAssessmentPostId == post.id">
           <v-row no-gutters >
 
             <v-col cols="3">

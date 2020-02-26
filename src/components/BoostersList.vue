@@ -17,8 +17,8 @@
 
        <v-divider></v-divider>
 
-       <v-card-text>
-         <template v-for="boostObj in boosters">
+       <v-card-text class="pa-1">
+         <template v-for="(boostObj, index) in boosters">
            <v-row :key="boostObj.id" no-gutters align="center" class="py-2">
              <v-col cols="2">
                <custom-avatar :user="boostObj.booster" :clickEnabled="true"></custom-avatar>
@@ -33,7 +33,7 @@
                <span v-else> {{sourceDisplayName(boostObj.Targets[0])}}</span>
              </v-col>
            </v-row>
-           <v-divider></v-divider>
+           <v-divider v-if="index != boosters.length - 1"></v-divider>
          </template>
        </v-card-text>
 

@@ -86,7 +86,7 @@
           </v-tab>
         </v-tabs>
 
-        <v-tabs-items v-model="tabs" class="parent-height light-grey-background">
+        <v-tabs-items v-model="tabs" class="parent-height">
           <v-tab-item>
             <v-container fluid class="px-0">
               <v-row no-gutters>

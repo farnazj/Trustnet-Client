@@ -19,7 +19,7 @@
 
        <v-card-text>
 
-         <v-row justify="start" align="center" class="pb-2 pt-1">
+         <v-row justify="start" align="center" class="pt-1">
            <custom-avatar :user="historyOwner" :clickEnabled="true" class="mr-2">
            </custom-avatar>
             <span>{{sourceDisplayName(historyOwner)}}</span>
@@ -27,9 +27,9 @@
 
          <template v-for="assessment in assessmentHistory">
            <v-row :key="assessment.id" align="center" class="py-1">
-            <v-col cols="12">
+            <v-col cols="12" class="pa-1">
               <p class="font-italic font-weight-light mb-0">{{validityMapping(assessment.postCredibility)}}</p>
-              <p v-if="assessment.body">
+              <p class="mb-1" v-if="assessment.body">
                 {{assessment.body}}
               </p>
               <span class="caption grey--text text--darken-2">{{timeElapsed(assessment.createdAt)}}</span>

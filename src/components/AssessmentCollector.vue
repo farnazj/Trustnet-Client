@@ -65,7 +65,14 @@ export default {
       ]
     }
   },
+  created() {
+    this.mapCredProperties();
+  },
   methods: {
+    mapCredProperties: function() {
+      this.assessmentText = this.assessmentBody;
+      this.credibility = this.credibilitySelectMapping(this.postCredibility);
+    } ,
     credibilitySelectMapping: function(credValue) {
 
       if (credValue < 0)
@@ -78,12 +85,10 @@ export default {
   },
   watch: {
     assessmentId: function() {
-      this.assessmentText = this.assessmentBody;
-      this.credibility = this.credibilitySelectMapping(this.postCredibility);
+      this.mapCredProperties();
     },
     postCredibility: function() {
-      this.assessmentText = this.assessmentBody;
-      this.credibility = this.credibilitySelectMapping(this.postCredibility);
+      this.mapCredProperties();
     },
     crediblity: function(val) {
       console.log('new cred val is ', val)

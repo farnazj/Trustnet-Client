@@ -14,14 +14,14 @@
 
       <template v-slot:activator>
         <v-list-item-content>
-          <v-list-item-title class="white-color">View Status</v-list-item-title>
+          <v-list-item-title >View Status</v-list-item-title>
         </v-list-item-content>
       </template>
 
       <v-list-group no-action sub-group value="true">
         <template v-slot:activator>
           <v-list-item-content @click="filter('All', 'seenStatus')">
-            <v-list-item-title class="white-color">All</v-list-item-title>
+            <v-list-item-title >All</v-list-item-title>
           </v-list-item-content>
         </template>
 
@@ -40,7 +40,7 @@
     <v-list-group prepend-icon="gavel" value="true">
       <template v-slot:activator>
         <v-list-item-content>
-          <v-list-item-title class="white-color">Validity</v-list-item-title>
+          <v-list-item-title>Validity</v-list-item-title>
         </v-list-item-content>
       </template>
 
@@ -48,7 +48,7 @@
         <template v-slot:activator>
 
           <v-list-item-content slot="activator" @click="filter('All', 'validity')">
-            <v-list-item-title class="white-color">All</v-list-item-title>
+            <v-list-item-title>All</v-list-item-title>
           </v-list-item-content>
         </template>
 
@@ -68,7 +68,7 @@
     <v-list-group prepend-icon="account_circle" value="true" no-action>
       <template v-slot:activator>
         <v-list-item-content>
-          <v-list-item-title class="white-color">Sources</v-list-item-title>
+          <v-list-item-title>Sources</v-list-item-title>
         </v-list-item-content>
       </template>
 
@@ -114,6 +114,7 @@
 
     <v-list subheader v-if="followedOrTrusteds.length">
       <v-subheader>Followed or Trusted Sources</v-subheader>
+
       <v-list-item v-for="source in followedOrTrusteds"
           :key="source.id" @click="selectSource(source, true)"
           :class="{highlighted: sourceSelectionMode && selectedSources.includes(source.userName)}">
@@ -376,7 +377,7 @@
 }
 
 .white-color {
-  color: white;
+  -color: inherit;
 }
 
 </style>
