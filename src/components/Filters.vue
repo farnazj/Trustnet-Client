@@ -123,7 +123,7 @@
             <v-checkbox v-model="selectedSourcesCheckMark[source.userName]"></v-checkbox>
           </v-list-item-action>
 
-        <v-list-item-avatar>
+        <v-list-item-avatar class="custom-list-avatar">
           <custom-avatar :user="source" :clickEnabled="false" :size="36"></custom-avatar>
         </v-list-item-avatar>
 
@@ -376,8 +376,8 @@
   min-width: inherit;
 }
 
-.white-color {
-  -color: inherit;
+.custom-list-avatar {
+  overflow: initial;
 }
 
 </style>

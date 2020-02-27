@@ -83,7 +83,8 @@ div.vicp-preview-item.vicp-preview-item-circle {
 }
 
 .v-badge__badge {
-  padding: 0 !important;
+  -padding: 0 !important;
+  box-sizing: border-box !important;
 }
 
 .article-inner-img {

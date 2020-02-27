@@ -2,10 +2,10 @@
 
   <span v-on="clickEnabled ? { click: goToPage } : {}" class="[clickEnabled ? cursor-pointer : ''] reset-font">
     <v-badge v-if="isTrusted === true"
-      overlap color="blue lighten-3" bottom>
-      <template slot="badge" >
+      overlap color="blue lighten-3 custom-badge" bottom content="T">
+      <!-- <template v-slot:badge >
         <span class="reset-line-height">T</span>
-      </template>
+      </template> -->
       <inner-avatar :user="user" :size="size"></inner-avatar>
     </v-badge>
 
@@ -63,7 +63,7 @@ export default {
 .reset-font {
   font-size: initial;
 }
-.reset-line-height {
+.custom-badge {
   line-height: initial;
 }
 </style>

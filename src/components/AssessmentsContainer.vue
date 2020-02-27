@@ -39,7 +39,7 @@
               class="blue--text text--darken-3 body-2 cursor-pointer">
               Show More Assessments</span>
             <v-spacer></v-spacer>
-            <span class="grey--text text--darken-3 pr-1"> {{getAssessmentStats('questioned')}} </span>
+            <span class="caption grey--text text--darken-3 pr-1"> {{getAssessmentStats('questioned')}} </span>
           </v-row>
 
         </v-card>
@@ -68,7 +68,7 @@
                     class="blue--text text--darken-3 body-2 cursor-pointer">
                     Show More Assessments</span>
                   <v-spacer></v-spacer>
-                  <span class="grey--text text--darken-3 pr-1"> {{getAssessmentStats(key)}} </span>
+                  <span class="caption grey--text text--darken-3 pr-1"> {{getAssessmentStats(key)}} </span>
                 </v-row>
 
              </v-card>
