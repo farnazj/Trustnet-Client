@@ -39,7 +39,7 @@
         <v-list flat dense min-width="100%">
           <v-list-item-group v-model="selectedItem" color="primary">
             <v-list-item v-for="(source, i) in listSources" :key="i" >
-              <v-list-item-avatar>
+              <v-list-item-avatar class="custom-list-avatar">
                 <custom-avatar :user="source" :clickEnabled="false" :size="36"></custom-avatar>
               </v-list-item-avatar>
 
@@ -236,5 +236,8 @@ export default {
 .right-placed {
   position: absolute;
   right: 0px;
+}
+.custom-list-avatar {
+  overflow: initial;
 }
 </style>
