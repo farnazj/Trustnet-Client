@@ -2,7 +2,14 @@
 
   <div :class="['c100', valuePercentage, valueColor , {transitive: isTransitive}]">
       <span>
-        <custom-avatar :user="user" :clickEnabled="true"></custom-avatar>
+        <v-tooltip bottom open-delay="500">
+          <template v-slot:activator="{ on }">
+            <span v-on="on">
+              <custom-avatar :user="user" :clickEnabled="true"></custom-avatar>
+            </span>
+          </template>
+          <span>{{sourceDisplayName(user)}}</span>
+        </v-tooltip>
       </span>
 
       <div class="slice">
@@ -15,6 +22,7 @@
 
 <script>
 import customAvatar from '@/components/CustomAvatar'
+import sourceHelpers from '@/mixins/sourceHelpers'
 
 export default {
   components: {
@@ -50,7 +58,8 @@ export default {
       let percentage = Math.abs(Math.round(this.credibilityValue * 100));
       return 'p' + percentage;
     }
-  }
+  },
+  mixins: [sourceHelpers]
 
 }
 </script>

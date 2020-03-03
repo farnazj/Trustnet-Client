@@ -122,3 +122,7 @@ div.vicp-preview-item.vicp-preview-item-circle {
 .no-break-word {
   word-break: initial !important;
 }
+
+.custom-list-avatar {
+  overflow: initial !important;
+}

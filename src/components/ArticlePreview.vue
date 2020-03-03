@@ -60,9 +60,33 @@
                   <v-row wrap v-for="(item, key, index) in sortedAssessments" :key="index" no-gutters>
                     <v-col cols="12" :class="item.length ? 'mb-2' : 'mb-0' " >
                       <v-row align="center" wrap no-gutters>
-                        <v-icon class="mr-3" v-if="key == 'confirmed' && item.length">fas fa-check</v-icon>
-                        <v-icon class="mr-4" v-else-if="key == 'refuted' && item.length">fas fa-times</v-icon>
-                        <v-icon class="mr-4" v-else-if="key == 'questioned' && item.length">fas fa-question</v-icon>
+
+                        <v-tooltip bottom bottom open-delay="600" v-if="key == 'confirmed' && item.length">
+                          <template v-slot:activator="{ on }">
+                            <span v-on="on">
+                              <v-icon class="mr-3">fas fa-check</v-icon>
+                            </span>
+                          </template>
+                          <span>Verified by</span>
+                        </v-tooltip>
+
+                        <v-tooltip bottom bottom open-delay="600" v-else-if="key == 'refuted' && item.length">
+                          <template v-slot:activator="{ on }">
+                            <span v-on="on">
+                              <v-icon class="mr-4">fas fa-times</v-icon>
+                            </span>
+                          </template>
+                          <span>Refuted by</span>
+                        </v-tooltip>
+
+                        <v-tooltip bottom bottom open-delay="600" v-else-if="key == 'questioned' && item.length">
+                          <template v-slot:activator="{ on }">
+                            <span v-on="on">
+                              <v-icon class="mr-4">fas fa-question</v-icon>
+                            </span>
+                          </template>
+                          <span>Questioned by</span>
+                        </v-tooltip>
 
                         <assessor v-for="assessment in item.slice(0,3)" :key="assessment.lastVersion.id"
                           :user="assessment.assessor" :isTransitive="assessment.lastVersion.isTransitive"

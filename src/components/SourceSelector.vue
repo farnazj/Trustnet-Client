@@ -28,7 +28,7 @@
 
       <template v-else>
 
-        <v-list-item-avatar v-if="data.item.value.type === 'Source'">
+        <v-list-item-avatar v-if="data.item.value.type === 'Source'" class="custom-list-avatar">
           <custom-avatar :user="data.item.value.SourceObj" :clickEnabled="false"
           :size="36"></custom-avatar>
         </v-list-item-avatar>
