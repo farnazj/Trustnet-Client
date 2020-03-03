@@ -2,10 +2,6 @@
   <v-container fluid>
     <v-row no-gutters justify="center">
       <v-col cols="12">
-        <p>
-          Add an RSS feed to the system so that you and other users can hear
-          about its latest content.
-        </p>
 
         <v-alert v-model="alert" :type="type">
           {{alertMessage}}
@@ -100,6 +96,7 @@ export default {
           this.type = 'info';
           this.alertMessage = response.data.message;
           this.alert = true;
+          this.$emit('success-response', response.data.source);
         })
         .catch(err => {
           this.alertMessage = err.response.data.message;

@@ -79,9 +79,11 @@ export default {
         name: 'Home', icon: 'home'
       }, {
         name: 'Profile', icon: 'person_outline'
-      }, {
-        name: 'Settings', icon: 'settings'
-      }, {
+      },
+      // {
+      //   name: 'Settings', icon: 'settings'
+      // },
+      {
         name: 'About', icon: 'help'
       }, {
         name: 'Logout', icon: 'power_settings_new'
