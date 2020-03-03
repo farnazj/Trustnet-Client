@@ -61,8 +61,11 @@ export default {
       let authUsername = this.user.userName;
 
       if (authUsername == this.username) {
-        this.sourceFollowers = this.followers;
-        this.initiateSearch();
+        this.fetchFollowers()
+        .then(res => {
+          this.sourceFollowers = this.followers;
+          this.initiateSearch();
+        })
       }
       else {
         relationServices.getFollowers({ username: this.username })
