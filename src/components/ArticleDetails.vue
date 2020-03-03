@@ -366,12 +366,10 @@ export default {
       }
     },
     prepopulateUserAssessment: function() {
-      console.log('inja mikhad prepopulate kone')
 
       this.getAuthUserPostAssessment()
       .then(() => {
 
-        console.log(JSON.stringify(this.assessment), 'assessment obj')
         if (Object.entries(this.assessment).length != 0) {
             this.disableBoost = false;
             this.assessmentBody = this.assessment.body;

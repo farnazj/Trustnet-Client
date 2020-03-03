@@ -5,7 +5,7 @@ export default {
     return {
       search: '',
       sourceResults: [],
-      limit: 12,
+      limit: 16,
       offset: 0,
       loadDisabled: false
     }

@@ -51,15 +51,20 @@ export default {
   methods: {
     querySources: function() {
       return sourceServices.getSources(
-        { limit: this.limit, offset: this.offset },
-        { searchterm: this.search }
+        {
+          limit: this.limit,
+          offset: this.offset
+        },
+        {
+          searchterm: this.search,
+          followconstraint: 'not followed'
+        }
       )
     },
     setupSourcestoFollow: function() {
       let authUserId = this.$store.getters['auth/user'].id;
       this.sourcesToFollow = this.sourceResults.filter(source => (!this.followedIds.includes(source.id)
         && source.id != authUserId));
-
     }
   },
   computed: {
