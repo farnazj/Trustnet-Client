@@ -177,7 +177,7 @@ $background-grey= #d2dbe0;
 		left: 0;
 		top: 0;
 		width: 5em;
-		line-height: 5em;
+		line-height: 4.75em;
 		font-size: 0.2em;
 		color: $primary-color-span;
 		display: block;
