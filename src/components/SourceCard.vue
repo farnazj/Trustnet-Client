@@ -5,14 +5,30 @@
       <v-container fill-height pa-2>
         <v-row fill-height no-gutters>
 
-          <v-col cols="9" align="end" >
-            <v-row align="end" no-gutters>
-              <custom-avatar :user="source" :clickEnabled="true" class="mr-3"></custom-avatar>
-              <span class="body-2" v-text="source.userName"></span>
+          <v-col cols="9" >
+            <v-row align="end" no-gutters >
+              <v-col cols="3">
+                <custom-avatar :user="source" :clickEnabled="true" class="mr-3"></custom-avatar>
+              </v-col>
+              <v-col cols="9">
+                <span class="body-2 name-container">
+                  <v-tooltip bottom open-delay="500">
+                    <template v-slot:activator="{ on }">
+                      <span v-on="on">{{source.userName}}</span>
+                    </template>
+                    <span>{{source.userName}}</span>
+                  </v-tooltip>
+                </span>
+              </v-col>
             </v-row>
 
-            <v-row no-gutters class="body-2 mt-2">
-              {{sourceDisplayName(source)}}
+            <v-row no-gutters class="body-2 mt-2 name-container">
+              <v-tooltip bottom bottom open-delay="500">
+                <template v-slot:activator="{ on }">
+                  <span v-on="on">{{sourceDisplayName(source)}}</span>
+                </template>
+                <span>{{sourceDisplayName(source)}}</span>
+              </v-tooltip>
             </v-row>
           </v-col>
 
@@ -148,6 +164,13 @@ export default {
 
 .custom-btn-text {
   font-size: 0.8rem !important;
+}
+
+.name-container {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 </style>
