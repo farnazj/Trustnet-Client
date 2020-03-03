@@ -15,7 +15,7 @@
     <article-details detailsNamespace="profileArticleDetails"
      filtersNamespace="profileArticles"> </article-details>
 
-     <v-row no-gutters class="pt-12 flex-fixed-height-child">
+     <v-row no-gutters class="pt-9 flex-fixed-height-child">
       <v-card width="100%" color="secondary">
         <v-container fluid>
 

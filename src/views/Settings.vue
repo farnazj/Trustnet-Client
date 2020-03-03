@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid class="px-0 pt-12">
+  <v-container fluid class="px-0 pt-9">
     <custom-toolbar></custom-toolbar>
 
     <v-row no-gutters :class="['pt-3', {'frozen': !$vuetify.breakpoint.smAndDown}]">

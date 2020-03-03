@@ -1,5 +1,5 @@
 <template>
-    <v-app-bar fixed color="lime lighten-1">
+    <v-app-bar dense fixed color="lime lighten-1">
 
       <v-toolbar-title @click="goToPage('Home')" class="headline text-uppercase cursor-pointer">
         <span class="font-weight-light">Trustnet</span>
@@ -7,9 +7,19 @@
 
       <v-spacer></v-spacer>
 
-      <v-toolbar-items v-if="isLoggedIn" class="center-aligned">
+      <template v-if="isLoggedIn" class="center-aligned">
 
         <content-booster class="mr-2"></content-booster>
+
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+              <v-btn icon v-on="on" class="mr-2" @click="clickHandler('Sources')"
+              color="grey darken-2">
+                <v-icon>fas fa-users</v-icon>
+              </v-btn>
+          </template>
+          <span>Sources</span>
+        </v-tooltip>
 
         <v-divider vertical inset class="mr-2"></v-divider>
 
@@ -41,11 +51,11 @@
 
         </v-menu>
 
-      </v-toolbar-items>
+      </template>
 
-      <v-toolbar-items v-else>
+      <template v-else>
          <v-btn @click="goToPage('About')" text>About</v-btn>
-      </v-toolbar-items>
+      </template>
 
     </v-app-bar>
 </template>
@@ -69,8 +79,6 @@ export default {
         name: 'Home', icon: 'home'
       }, {
         name: 'Profile', icon: 'person_outline'
-      }, {
-        name: 'Sources', icon: 'account_circle'
       }, {
         name: 'Settings', icon: 'settings'
       }, {

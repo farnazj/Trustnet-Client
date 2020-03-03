@@ -2,7 +2,7 @@
   <v-container fluid class="pt-12 px-5">
     <custom-toolbar></custom-toolbar>
 
-    <v-row no-gutters class="pt-10">
+    <v-row no-gutters class="pt-12">
       <h5 class="headline">About {{siteName}}</h5>
     </v-row>
 

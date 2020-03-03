@@ -356,6 +356,7 @@
   overflow-x: scroll;
   max-width: 17%;
   text-overflow: ellipsis;
+  border-radius: 0px;
 }
 @media all and (max-width: 960px) {
   .article-filters {
