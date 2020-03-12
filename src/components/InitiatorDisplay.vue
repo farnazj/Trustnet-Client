@@ -1,11 +1,13 @@
 <template>
   <v-row wrap align="center" no-gutters>
 
-    <div v-if="Object.entries(initiator).length != 0" class="mr-2 pb-2">
-      <span class="mr-2 caption">By</span>
+    <div v-if="Object.entries(initiator).length != 0" class="mr-2 pb-2 caption">
+      <span class="mr-1">By</span>
       <custom-avatar :user="initiator" :clickEnabled="true"></custom-avatar>
+      <v-divider v-if="author" vertical class="mx-2 initiator-divider" ></v-divider>
+      <span v-if="author" class="mr-3">{{author}}</span>
+      <span :class="{'ml-1':!author}"> {{timeElapsed(postDate)}} </span>
     </div>
-    <span class="caption"> {{timeElapsed(postDate)}} </span>
 
   </v-row>
 
@@ -26,6 +28,9 @@ export default {
     },
     postDate: {
       required: true
+    },
+    author: {
+      required: false
     }
   },
   data () {
@@ -58,3 +63,12 @@ export default {
   mixins: [timeHelpers]
 }
 </script>
+
+<style scoped>
+
+.initiator-divider {
+  display: inline;
+  color: #263238;
+  height: 100%;
+}
+</style>
