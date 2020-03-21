@@ -205,6 +205,8 @@
            </v-col>
          </v-row>
 
+         <tags-container class="mb-1" v-if="article.Tags" :tags="article.Tags" :compact=false></tags-container>
+
          <v-divider></v-divider>
 
          <v-row no-gutters class="mt-2" justify="center">
@@ -228,6 +230,7 @@ import initiatorDisplay from '@/components/InitiatorDisplay'
 import assessmentCollector from '@/components/AssessmentCollector'
 import sourceSelector from '@/components/SourceSelector'
 import deleteConfirmationDialog from '@/components/DeleteConfirmationDialog'
+import tagsContainer from '@/components/TagsContainer'
 
 import postServices from '@/services/postServices'
 import consts from '@/services/constants'
@@ -238,7 +241,8 @@ export default {
    'initiator-display': initiatorDisplay,
    'assessment-collector': assessmentCollector,
    'source-selector': sourceSelector,
-   'delete-dialog': deleteConfirmationDialog
+   'delete-dialog': deleteConfirmationDialog,
+   'tags-container': tagsContainer
   },
   props: {
     detailsNamespace: {

@@ -10,7 +10,7 @@
       </v-col> -->
       <v-col cols="11">
 
-        <v-card @click="revealArticleDetails(post)" class="pa-1 pb-2"
+        <v-card @click="revealArticleDetails(post)" class="pa-1 pb-1"
         :tile="shownAssessmentPostId == null || shownAssessmentPostId != post.id"
         :raised="shownAssessmentPostId == post.id">
           <v-row no-gutters >
@@ -47,7 +47,7 @@
                          </template>
                          <span>alternative titles</span>
                        </v-tooltip>
-                     <p class="mt-2 grey--text text--darken-3 body-2">{{post.description}}</p>
+                     <p class="mt-2 grey--text text--darken-3 body-2" v-html="post.description"></p>
                    </div>
                 </v-col>
               </v-row>
@@ -119,6 +119,8 @@
             </v-col>
           </v-row>
 
+          <tags-container class="mt-1" v-if="post.Tags" :tags="post.Tags" :compact=true></tags-container>
+
         </v-card>
       </v-col>
 
@@ -140,6 +142,7 @@
 <script>
   import assessor from '@/components/Assessor'
   import initiatorDisplay from '@/components/InitiatorDisplay'
+  import tagsContainer from '@/components/TagsContainer'
   import titleHelpers from '@/mixins/titleHelpers'
   import assessmentHelpers from '@/mixins/assessmentHelpers'
   import sourceServices from '@/services/sourceServices'
@@ -150,7 +153,8 @@
   export default {
     components: {
      'initiator-display': initiatorDisplay,
-     'assessor': assessor
+     'assessor': assessor,
+     'tags-container': tagsContainer
     },
     props: {
       detailsNamespace: {
