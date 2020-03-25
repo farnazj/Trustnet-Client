@@ -2,8 +2,13 @@
   <v-row>
     <v-col cols="12">
 
+      <tags-container class="mt-1" v-if="filteredTags" :tags="filteredTags"
+        :filtersNamespace="filtersNamespace" :closable=true :compact=false>
+      </tags-container>
+
       <v-row v-for="article in articles" :key="article.id">
         <article-preview :post="article" :detailsNamespace="detailsNamespace"
+        :filtersNamespace="filtersNamespace"
           :assessmentsNamespace="assessmentsNamespace" :titlesNamespace="titlesNamespace">
         </article-preview>
       </v-row>
@@ -37,12 +42,14 @@
 
 <script>
 import ArticlePreview from '@/components/ArticlePreview'
+import tagsContainer from '@/components/TagsContainer'
 import infiniteScroll from '@/mixins/infiniteScroll'
 import { mapState, mapActions } from 'vuex';
 
 export default {
   components: {
     'article-preview': ArticlePreview,
+    'tags-container': tagsContainer
   },
   props: {
     detailsNamespace: {
@@ -82,11 +89,18 @@ export default {
     articlesFetched: function() {
       return this.state.articlesFetched;
     },
+    filteredTags: function() {
+      return this.state.filteredTags;
+    },
     ...mapState({
        state (state) {
          return state[this.filtersNamespace];
+       },
+       filters (state, getters) {
+         return getters[this.filtersNamespace + '/filters']
        }
     })
+
   },
   methods: {
 
@@ -114,7 +128,11 @@ export default {
   watch: {
     username: function() {
       this.refreshArticles();
+    },
+    filters: function(newVal) {
+      this.endOfResults = false;
     }
+
   },
   mixins : [infiniteScroll]
 

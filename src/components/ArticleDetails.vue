@@ -205,7 +205,8 @@
            </v-col>
          </v-row>
 
-         <tags-container class="mb-1" v-if="article.Tags" :tags="article.Tags" :compact=false></tags-container>
+         <tags-container class="mb-1" v-if="article.Tags" :tags="article.Tags"
+          :filtersNamespace="filtersNamespace" :compact=false></tags-container>
 
          <v-divider></v-divider>
 

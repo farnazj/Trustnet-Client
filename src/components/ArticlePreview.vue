@@ -119,7 +119,8 @@
             </v-col>
           </v-row>
 
-          <tags-container class="mt-1" v-if="post.Tags" :tags="post.Tags" :compact=true></tags-container>
+          <tags-container class="mt-1" v-if="post.Tags" :tags="post.Tags"
+          :filtersNamespace="filtersNamespace" :compact=true></tags-container>
 
         </v-card>
       </v-col>
@@ -158,6 +159,10 @@
     },
     props: {
       detailsNamespace: {
+        type: String,
+        required: true
+      },
+      filtersNamespace: {
         type: String,
         required: true
       },

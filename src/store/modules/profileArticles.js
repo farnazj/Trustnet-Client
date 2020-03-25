@@ -6,8 +6,16 @@ export default {
   state: {
     username: '',
     articles: [],
+    filteredTags: [],
     offset: 0,
     limit: 10,
+  },
+  getters: {
+    filters: (state) => {
+      return {
+        filteredTags: state.filteredTags
+      }
+    }
   },
   mutations: {
 
@@ -35,6 +43,16 @@ export default {
     remove_boost: (state, postId) => {
       let index = state.articles.findIndex(article => article.id == postId);
       state.articles.splice(index, 1);
+    },
+
+    add_or_remove_tag_in_filters: (state, payload) => {
+      if (payload.add)
+        state.filteredTags.push(payload.tag);
+      else {
+        let index = state.filteredTags.findIndex(tag => tag.id == payload.tag.id);
+        state.filteredTags.splice(index, 1);
+      }
+
     }
   },
   actions: {
@@ -49,6 +67,7 @@ export default {
 
         postServices.getActivity({
           username: context.state.username,
+          tags: context.state.filteredTags.map(el => el.id),
           offset: context.state.offset,
           limit: context.state.limit
         }, context.state.username)
@@ -84,7 +103,7 @@ export default {
       context.dispatch('loader/setLoading', true, { root: true });
       context.commit('refresh_articles');
       return new Promise((resolve, reject) => {
-        
+
         context.dispatch('getMoreBoosts')
         .then(() => {
           resolve();
@@ -119,6 +138,21 @@ export default {
 
     removeArticle: (context, payload) => {
       context.commit('remove_boost', payload);
+    },
+
+    addOrRemoveTagInFilters: (context, payload) => {
+      context.commit('add_or_remove_tag_in_filters', payload);
+      return new Promise((resolve, reject) => {
+
+        context.dispatch('refreshArticles')
+        .then(() => {
+          resolve();
+        })
+        .catch(err => {
+          reject(err);
+        })
+      })
+
     }
   }
 }

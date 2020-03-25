@@ -10,10 +10,25 @@ export default {
     seenFilter: 'not seen',
     filteredUsernames: [],
     filteredLists: [],
+    filteredTags: [],
     articles: [],
     offset: 0,
     limit: 10,
     articlesFetched: false
+  },
+  getters: {
+
+    filters: (state) => {
+      return {
+        validityFilter: state.validityFilter,
+        sourceFilter: state.sourceFilter,
+        seenFilter: state.seenFilter,
+        filteredUsernames: state.filteredUsernames,
+        filteredList: state.filteredLists,
+        filteredTags: state.filteredTags
+      }
+    }
+
   },
   mutations: {
     append_articles: (state, posts) => {
@@ -62,6 +77,16 @@ export default {
       let articleCopy = Object.assign({}, state.articles[index]);
       articleCopy.PostCustomTitles = payload.titles;
       Vue.set(state.articles, index, articleCopy);
+    },
+
+    add_or_remove_tag_in_filters: (state, payload) => {
+      if (payload.add)
+        state.filteredTags.push(payload.tag);
+      else {
+        let index = state.filteredTags.findIndex(tag => tag.id == payload.tag.id);
+        state.filteredTags.splice(index, 1);
+      }
+
     }
 
   },
@@ -80,7 +105,8 @@ export default {
             validity: context.state.validityFilter,
             seenstatus: context.state.seenFilter,
             usernames: context.state.filteredUsernames.join(consts.STRINGIFIED_ARR_SEP),
-            lists: context.state.filteredLists.join(consts.STRINGIFIED_ARR_SEP)
+            lists: context.state.filteredLists.join(consts.STRINGIFIED_ARR_SEP),
+            tags: context.state.filteredTags.map(el => el.id).join(consts.STRINGIFIED_ARR_SEP)
           })
         .then(response => {
           resolve(response.data);
@@ -139,7 +165,6 @@ export default {
       context.commit('change_filter_value', payload);
 
       context.dispatch('getArticles')
-
       .then(posts => {
         context.commit('append_articles', posts);
        })
@@ -161,7 +186,8 @@ export default {
             source: context.state.sourceFilter,
             validity: context.state.validityFilter,
             usernames: context.state.filteredUsernames.join(consts.STRINGIFIED_ARR_SEP),
-            lists: context.state.filteredLists.join(consts.STRINGIFIED_ARR_SEP)
+            lists: context.state.filteredLists.join(consts.STRINGIFIED_ARR_SEP),
+            tags: context.state.filteredTags.map(el => el.id).join(consts.STRINGIFIED_ARR_SEP)
           })
           .then(response => {
             context.commit('update_boost', response.data);
@@ -182,6 +208,21 @@ export default {
     */
     updateTitles: (context, payload) => {
       context.commit('update_titles', payload)
+    },
+
+    addOrRemoveTagInFilters: (context, payload) => {
+      context.commit('add_or_remove_tag_in_filters', payload);
+      return new Promise((resolve, reject) => {
+
+        context.dispatch('refreshArticles')
+        .then(() => {
+          resolve();
+        })
+        .catch(err => {
+          reject(err);
+        })
+      })
+
     }
 
   }
