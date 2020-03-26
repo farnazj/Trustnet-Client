@@ -39,10 +39,11 @@ export default {
     return Api().get('/posts/' + params.postId,
     { withCredentials: true })
   },
-  getActivity(params) {
+  getActivity(params, headers) {
     return Api().get('/activity/' + params.username + '?limit=' + params.limit +
      '&offset=' + params.offset, {
-      withCredentials: true
+      withCredentials: true,
+      headers: headers
     })
   },
   getActivityByPostId(params) {

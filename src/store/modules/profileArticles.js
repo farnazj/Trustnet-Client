@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import postServices from '@/services/postServices'
+import consts from '@/services/constants'
 
 export default {
   namespaced: true,
@@ -65,12 +66,15 @@ export default {
 
       return new Promise((resolve, reject) => {
 
+        let headers = context.state.filteredTags.length ?
+        { tags: context.state.filteredTags.map(el => el.id).join(consts.STRINGIFIED_ARR_SEP) } :
+        {};
+
         postServices.getActivity({
           username: context.state.username,
-          tags: context.state.filteredTags.map(el => el.id),
           offset: context.state.offset,
           limit: context.state.limit
-        }, context.state.username)
+        }, headers)
         .then(response => {
           resolve(response.data);
         }).catch(error => {
