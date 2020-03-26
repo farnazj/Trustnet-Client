@@ -24,7 +24,7 @@
 
               <v-row class="py-2" no-gutters>
                 <v-col cols="12">
-                  <initiator-display :userId="post.SourceId" :postDate="post.updatedAt">
+                  <initiator-display :userId="post.SourceId" :postDate="post.publishedDate">
                   </initiator-display>
                 </v-col>
               </v-row>
