@@ -8,6 +8,7 @@ export default {
     validityFilter: 'all',
     sourceFilter: 'followed',
     seenFilter: 'not seen',
+    exploreFilter: false,
     filteredUsernames: [],
     filteredLists: [],
     filteredTags: [],
@@ -23,6 +24,7 @@ export default {
         validityFilter: state.validityFilter,
         sourceFilter: state.sourceFilter,
         seenFilter: state.seenFilter,
+        exploreFilter: state.exploreFilter,
         filteredUsernames: state.filteredUsernames,
         filteredList: state.filteredLists,
         filteredTags: state.filteredTags
@@ -44,14 +46,19 @@ export default {
     },
 
     change_filter_value: (state, filters) => {
+
       state.validityFilter = filters.filters.validity ?
-        consts.VALIDITY_REQ_MAPPING[filters.filters.validity] : 'All';
+        consts.VALIDITY_REQ_MAPPING[filters.filters.validity.toLowerCase()] : 'all';
 
       state.sourceFilter = filters.filters.sources ?
-        consts.CRED_SOURCES_REQ_MAPPING[filters.filters.sources] : 'All';
+        consts.CRED_SOURCES_REQ_MAPPING[filters.filters.sources.split(' ')
+        .map(el => el.toLowerCase()).join(' ')] : 'followed';
 
       state.seenFilter = filters.filters.seenStatus ?
-      consts.SEEN_STATUS_REQ_MAPPING[filters.filters.seenStatus] : 'All';
+        consts.SEEN_STATUS_REQ_MAPPING[filters.filters.seenStatus.split(' ')
+        .map(el => el.toLowerCase()).join(' ')] : 'all';
+
+      state.exploreFilter = filters.filters.explore ? filters.filters.explore : false;
 
       state.filteredUsernames = filters.filteredUsernames;
       state.filteredLists = filters.filteredLists;
@@ -104,6 +111,7 @@ export default {
             source: context.state.sourceFilter,
             validity: context.state.validityFilter,
             seenstatus: context.state.seenFilter,
+            explore: context.state.exploreFilter,
             usernames: context.state.filteredUsernames.join(consts.STRINGIFIED_ARR_SEP),
             lists: context.state.filteredLists.join(consts.STRINGIFIED_ARR_SEP),
             tags: context.state.filteredTags.map(el => el.id).join(consts.STRINGIFIED_ARR_SEP)
@@ -185,6 +193,7 @@ export default {
           {
             source: context.state.sourceFilter,
             validity: context.state.validityFilter,
+            explore: context.state.exploreFilter,
             usernames: context.state.filteredUsernames.join(consts.STRINGIFIED_ARR_SEP),
             lists: context.state.filteredLists.join(consts.STRINGIFIED_ARR_SEP),
             tags: context.state.filteredTags.map(el => el.id).join(consts.STRINGIFIED_ARR_SEP)

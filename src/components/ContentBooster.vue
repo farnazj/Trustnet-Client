@@ -146,7 +146,7 @@
 import sourceSelector from '@/components/SourceSelector'
 import assessmentCollector from '@/components/AssessmentCollector'
 import postServices from '@/services/postServices'
-import { mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   components: {
@@ -190,6 +190,11 @@ export default {
       importMessage: 'Something went wrong. Check that the URL is correct and try again later.'
     }
   },
+  computed: {
+    ...mapGetters('articleFilters', [
+      'filters'
+    ])
+  },
   methods: {
 
     getSelectedUsernamesAndLists: function() {
@@ -224,8 +229,10 @@ export default {
             this.applyFilter({
               'filters': {
                 'validity': 'All',
-                'sources': 'Followed',
-                'seenStatus':'Not Seen'
+                'sources': ['followed', 'anyone'].includes(this.filters.sourceFilter) ?
+                this.filters.sourceFilter : 'followed',
+                'seenStatus': 'Not Seen',
+                'explore': this.filters.exploreFilter
               },
               'filteredUsernames': [],
               'filteredLists': []
@@ -259,8 +266,10 @@ export default {
             this.applyFilter({
               'filters': {
                 'validity': 'All',
-                'sources': 'Followed',
-                'seenStatus':'Not Seen'
+                'sources': ['followed', 'anyone'].includes(this.filters.sourceFilter) ?
+                  this.filters.sources : 'followed',
+                'seenStatus':'Not Seen',
+                'explore': this.filters.exploreFilter
               },
               'filteredUsernames': [],
               'filteredLists': []

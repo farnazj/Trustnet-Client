@@ -10,6 +10,28 @@
       </v-list-item-subtitle>
     </v-list-item>
 
+    <v-divider></v-divider>
+
+    <v-list-item>
+      <v-list-item-action>
+        <v-switch dense :color="selectedFilters.explore ? 'blue lighten-1' : ''"
+         v-model="selectedFilters.explore" @change="filter(true, 'explore')"
+       ></v-switch>
+     </v-list-item-action>
+     <v-tooltip right>
+       <template v-slot:activator="{ on }">
+
+         <v-list-item-subtitle v-on="on" open-delay="700" nudge-width="200"
+         v-html="`Explore mode ${selectedFilters.explore ? 'on' : 'off'}`" >
+         </v-list-item-subtitle>
+       </template>
+       <span>By turning the explore mode on, you'll see posts from any source, not
+       just those you follow.</span>
+     </v-tooltip>
+    </v-list-item>
+
+    <v-divider></v-divider>
+
     <v-list-group prepend-icon="remove_red_eye" value="true">
 
       <template v-slot:activator>
@@ -68,7 +90,7 @@
     <v-list-group prepend-icon="account_circle" value="true" no-action>
       <template v-slot:activator>
         <v-list-item-content>
-          <v-list-item-title>Sources</v-list-item-title>
+          <v-list-item-title>Assessor sources</v-list-item-title>
         </v-list-item-content>
       </template>
 
@@ -157,9 +179,10 @@
     data: () => {
       return {
         validityFilters: [ 'Confirmed', 'Refuted', 'Debated', 'Questioned'],
-        sourceFilters: ['Followed', 'Me', 'Trusted', 'Selected Sources'],
+        sourceFilters: ['Anyone', 'Followed', 'Me', 'Trusted', 'Selected Sources'],
         seenStatusFilters: ['Not Seen', 'Seen'],
-        selectedFilters: {'validity': undefined, 'sources': 'Followed', 'seenStatus':'Not Seen' },
+        selectedFilters: {'validity': undefined, 'sources': 'Followed',
+          'seenStatus':'Not Seen', 'explore': false },
         selectedSources: [],
         selectedLists: [],
         sourceSelectionMode: false,
@@ -177,30 +200,26 @@
         this.fetchLists();
     },
     computed: {
-      ...mapState('articleFilters', [
-          'validityFilter',
-          'sourceFilter',
-          'seenFilter',
-          'filteredUsernames',
-          'filteredLists'
+      ...mapGetters('articleFilters', [
+        'filters'
       ]),
       ...mapState('sourceLists', [
         'sourceLists'
       ]),
       ...mapGetters('relatedSources', [
        'followedOrTrusteds'
-      ])
-
+     ])
     },
     methods: {
-      filter: function(name, type) {
+
+      filter: function(value, type) {
 
         let prevValue = this.selectedFilters[type];
 
-        if (name == 'All')
+        if (value == 'All') //validity
           this.selectedFilters[type] = undefined;
-        else
-          this.selectedFilters[type] = name;
+        else if (type != 'explore')
+          this.selectedFilters[type] = value;
 
         if (this.selectedFilters['sources'] == 'Selected Sources')
           this.sourceSelectionMode = true;
@@ -214,10 +233,13 @@
 
           if (prevValue == 'Selected Sources')
             this.resetSourceCheckbox();
+
+          if (type == 'explore' && this.selectedFilters['explore'] == true)
+            this.selectedFilters['sources'] = 'Anyone';
         }
 
-        if (this.selectedFilters[type] != prevValue) {
-          if (name != 'Selected Sources' || this.selectedSources.length ||
+        if (this.selectedFilters[type] != prevValue || type == 'explore') {
+          if (value != 'Selected Sources' || this.selectedSources.length ||
           this.selectedLists.length)
             this.filterBoosts();
         }
@@ -258,14 +280,16 @@
       */
       presetFilters: function() {
 
-        this.selectedFilters['validity'] = this.validityFilter.split(' ').map((s) =>
+        this.selectedFilters['validity'] = this.filters.validityFilter.split(' ').map((s) =>
           s.charAt(0).toUpperCase() + s.substring(1)).join(' ');
 
-        this.selectedFilters['seenStatus'] = this.seenFilter.split(' ').map((s) =>
+        this.selectedFilters['seenStatus'] = this.filters.seenFilter.split(' ').map((s) =>
           s.charAt(0).toUpperCase() + s.substring(1)).join(' ');
 
-        if (this.sourceFilter != consts.CRED_SOURCES_REQ_MAPPING['Selected Sources']) {
-          this.selectedFilters['sources'] = this.sourceFilter.split(' ').map((s) =>
+        this.selectedFilters['explore'] = this.filters.exploreFilter;
+
+        if (this.filters.sourceFilter != consts.CRED_SOURCES_REQ_MAPPING['selected sources']) {
+          this.selectedFilters['sources'] = this.filters.sourceFilter.split(' ').map((s) =>
             s.charAt(0).toUpperCase() + s.substring(1)).join(' ');
 
           this.sourceSelectionMode = false;
@@ -289,7 +313,7 @@
             let selectedEntityList = isSource ? this.selectedSources : this.selectedLists;
             let checkMarkEntity = isSource ? this.selectedSourcesCheckMark : this.selectedListsCheckMark;
 
-            let prevSelectedEntities = isSource ? this.filteredUsernames : this.filteredLists;
+            let prevSelectedEntities = isSource ? this.filters.filteredUsernames : this.filters.filteredLists;
             let maintainedEntities = isSource ? this.followedOrTrusteds.map(el => el.userName) :
               this.sourceLists.map(el => el.id);
 
@@ -334,13 +358,7 @@
       ])
     },
     watch: {
-      seenFilter: function(val) {
-        this.presetFilters();
-      },
-      validityFilter: function(val) {
-        this.presetFilters();
-      },
-      sourceFilter: function(val) {
+      filters: function(val) {
         this.presetFilters();
       }
     },
