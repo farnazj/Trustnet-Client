@@ -75,19 +75,19 @@
       <v-col cols="12">
         <v-tabs centered background-color="blue darken-3" height=50 v-model="tabs"
           slider-color="amber lighten-1" dark>
-          <v-tab>
+          <v-tab href="#history">
             <v-icon class="mr-1">history</v-icon>
             Activity History
           </v-tab>
 
-          <v-tab>
+          <v-tab href="#followers">
             <v-icon class="mr-1">people</v-icon>
             Followers
           </v-tab>
         </v-tabs>
 
         <v-tabs-items v-model="tabs" class="parent-height">
-          <v-tab-item>
+          <v-tab-item value="history">
             <v-container fluid class="px-0">
               <v-row no-gutters>
                 <loading></loading>
@@ -97,7 +97,7 @@
 
                 <v-col cols="7" class="ml-2">
                   <article-holder detailsNamespace="profileArticleDetails" filtersNamespace="profileArticles"
-                  assessmentsNamespace="profileAssessments" titlesNamespace="profileTitles"></article-holder>
+                  assessmentsNamespace="profileAssessments" titlesNamespace="profileTitles" :loadLocked="tabs != 'history'"></article-holder>
                 </v-col>
 
                 <assessments-container namespace="profileAssessments" class="assessments-container">
@@ -107,7 +107,7 @@
             </v-container>
           </v-tab-item>
 
-          <v-tab-item>
+          <v-tab-item value="followers">
             <followers-container :username="username"></followers-container>
           </v-tab-item>
 
@@ -156,7 +156,8 @@ export default {
       profileOwner: {},
       tabs: null,
       showUploadForm: false,
-      showUploader: false
+      showUploader: false,
+
     }
   },
   created() {

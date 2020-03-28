@@ -67,6 +67,9 @@ export default {
     titlesNamespace: {
       type: String,
       required: true
+    },
+    loadLocked: {
+      type: Boolean
     }
   },
   data: () => {
@@ -131,6 +134,12 @@ export default {
     },
     filters: function(newVal) {
       this.endOfResults = false;
+    },
+    loadLocked: function(val) {
+      if (val)
+        this.scrollDisabled = true;
+      else
+        this.scrollDisabled = false;
     }
 
   },
