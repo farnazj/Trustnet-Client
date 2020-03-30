@@ -3,7 +3,7 @@
     <custom-toolbar></custom-toolbar>
 
     <v-row class="pt-5 full-height" justify="center" align="center" no-gutters fill-height>
-      <v-col cols="6" md="4">
+      <v-col xs="10" sm="8" md="6" lg="4">
         <v-alert v-model="alert" type="error">
           {{alertMessage}}
         </v-alert>

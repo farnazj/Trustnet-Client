@@ -26,7 +26,7 @@ export default {
         seenFilter: state.seenFilter,
         exploreFilter: state.exploreFilter,
         filteredUsernames: state.filteredUsernames,
-        filteredList: state.filteredLists,
+        filteredLists: state.filteredLists,
         filteredTags: state.filteredTags
       }
     }

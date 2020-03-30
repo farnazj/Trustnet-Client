@@ -4,7 +4,7 @@
     <custom-toolbar></custom-toolbar>
 
     <v-row justify="center" align="center" fill-height class="pt-5 full-height">
-      <v-col cols="6" lg="4" align-self="center">
+      <v-col xs="10" sm="8" md="6" lg="4" align-self="center">
         <v-alert v-model="alert" :type="type">
           {{alertMessage}}
         </v-alert>

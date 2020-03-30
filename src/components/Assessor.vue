@@ -151,7 +151,7 @@ $background-grey= #d2dbe0;
 	}
 
 	position: relative;
-	font-size: 45px;
+	font-size: 38px;
 	width: 1em;
 	height: 1em;
 	border-radius: 50%;

@@ -3,7 +3,7 @@
   <v-row v-if="tags" :class="{'one-liner': compact}" no-gutters>
     <v-col cols="12">
       <v-chip v-for="tag in tags" :key="tag.id" :close="closable" @click:close="removeTagFromFilters(tag)"
-      class="mr-2 mt-1 chip-custom" label @click.stop="addTagToFilters(tag)"
+      class="mr-2 mt-1 chip-custom" label @click.stop="addTagToFilters(tag)" small
         :color="isTagChosen(tag) ? 'lime darken-1' : 'lime lighten-4'">
          {{tag.text}}
       </v-chip>

@@ -1,5 +1,5 @@
 <template>
-  <v-container v-observe-visibility="!postSeen && {
+  <v-container class="pa-2" v-observe-visibility="!postSeen && {
     callback: visibilityChanged,
     throttle: 300
   }">
@@ -10,7 +10,7 @@
       </v-col> -->
       <v-col cols="11">
 
-        <v-card @click="revealArticleDetails(post)" class="pa-1 pb-1"
+        <v-card @click="revealArticleDetails(post)" class="pa-1 "
         :tile="shownAssessmentPostId == null || shownAssessmentPostId != post.id"
         :raised="shownAssessmentPostId == post.id">
           <v-row no-gutters >
@@ -22,7 +22,7 @@
                 </v-col>
               </v-row>
 
-              <v-row class="py-2" no-gutters>
+              <v-row class="mt-1" no-gutters>
                 <v-col cols="12">
                   <initiator-display :userId="post.SourceId" :postDate="post.publishedDate">
                   </initiator-display>
@@ -30,7 +30,7 @@
               </v-row>
             </v-col>
 
-            <v-col cols="5">
+            <v-col cols="6">
               <v-row no-gutters>
                 <v-col cols="12">
                    <div class="px-2">
@@ -47,13 +47,13 @@
                          </template>
                          <span>alternative titles</span>
                        </v-tooltip>
-                     <p class="mt-2 grey--text text--darken-3 body-2" v-html="post.description"></p>
+                     <p class="mt-1 mb-0 grey--text text--darken-3 body-2" v-html="post.description"></p>
                    </div>
                 </v-col>
               </v-row>
             </v-col>
 
-            <v-col cols="4">
+            <v-col cols="3">
               <v-row justify="space-around" fill-height wrap no-gutters>
 
                 <v-col cols="12" >
@@ -64,7 +64,7 @@
                         <v-tooltip bottom bottom open-delay="600" v-if="key == 'confirmed' && item.length">
                           <template v-slot:activator="{ on }">
                             <span v-on="on">
-                              <v-icon class="mr-3">fas fa-check</v-icon>
+                              <v-icon small class="mr-3">fas fa-check</v-icon>
                             </span>
                           </template>
                           <span>Verified by</span>
@@ -73,7 +73,7 @@
                         <v-tooltip bottom bottom open-delay="600" v-else-if="key == 'refuted' && item.length">
                           <template v-slot:activator="{ on }">
                             <span v-on="on">
-                              <v-icon class="mr-4">fas fa-times</v-icon>
+                              <v-icon small class="mr-4">fas fa-times</v-icon>
                             </span>
                           </template>
                           <span>Refuted by</span>
@@ -82,7 +82,7 @@
                         <v-tooltip bottom bottom open-delay="600" v-else-if="key == 'questioned' && item.length">
                           <template v-slot:activator="{ on }">
                             <span v-on="on">
-                              <v-icon class="mr-4">fas fa-question</v-icon>
+                              <v-icon small class="mr-4">fas fa-question</v-icon>
                             </span>
                           </template>
                           <span>Questioned by</span>
@@ -105,21 +105,15 @@
 
           </v-row>
 
-          <v-row v-if="uniqueBoosters.length" class="pt-1" no-gutters wrap>
+          <v-row v-if="uniqueBoosters.length" no-gutters wrap>
             <v-col cols="12" >
-               <v-icon >fas fa-share</v-icon>
-              <!--<span class="mr-3"> Shared by</span>
-
-               <custom-avatar v-for="boostObj in uniqueBoosters.slice(0,10)" :key="boostObj.id"
-               :user="boostObj.booster" :clickEnabled="true" class="mr-2">
-               </custom-avatar> -->
-
+               <v-icon small>fas fa-share</v-icon>
               <span @click.stop="showBoosters" class="caption blue--text text--darken-3 cursor-pointer">
                 Show sharers info</span>
             </v-col>
           </v-row>
 
-          <tags-container class="mt-1" v-if="post.Tags" :tags="post.Tags"
+          <tags-container v-if="post.Tags" :tags="post.Tags"
           :filtersNamespace="filtersNamespace" :compact=true></tags-container>
 
         </v-card>

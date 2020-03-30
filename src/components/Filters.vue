@@ -145,8 +145,8 @@
             <v-checkbox v-model="selectedSourcesCheckMark[source.userName]"></v-checkbox>
           </v-list-item-action>
 
-        <v-list-item-avatar class="custom-list-avatar">
-          <custom-avatar :user="source" :clickEnabled="false" :size="36"></custom-avatar>
+        <v-list-item-avatar class="custom-list-avatar mr-1">
+          <custom-avatar :user="source" :clickEnabled="false" :size="32"></custom-avatar>
         </v-list-item-avatar>
 
         <v-list-item-content>
@@ -312,8 +312,8 @@
 
             let selectedEntityList = isSource ? this.selectedSources : this.selectedLists;
             let checkMarkEntity = isSource ? this.selectedSourcesCheckMark : this.selectedListsCheckMark;
-
             let prevSelectedEntities = isSource ? this.filters.filteredUsernames : this.filters.filteredLists;
+
             let maintainedEntities = isSource ? this.followedOrTrusteds.map(el => el.userName) :
               this.sourceLists.map(el => el.id);
 
