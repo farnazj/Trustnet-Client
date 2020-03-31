@@ -101,8 +101,8 @@
               </template>
               <template v-slot:body>
                 <p>
-                  You can click on your avatar at the righthand side of the toolbar
-                  to go to the <v-icon>account_circle</v-icon> Sources page.
+                  You can click on <v-icon>fas fa-users</v-icon> at the
+                  righthand side of the toolbar to go to the Sources page.
                   There, you can discover other sources that you might want to follow or
                   trust, make customized lists, and add sources to those lists.
                 </p>
@@ -118,10 +118,15 @@
               </template>
               <template v-slot:body>
                 <p>
-                  On your homepage, at the lefthand side, you have access to 3
+                  On your homepage, at the lefthand side, you have access to 4
                   types of filters to tune your newsfeed:
                   </br>
                   <ul>
+                    <li>
+                      <span class="font-weight-medium">Explore mode:</span> when turned on,
+                      displays articles shared or posted by anyone in the system,
+                       not just those you follow.
+                    </li>
                     <li>
                       <span class="font-weight-medium">Seen Status:</span> articles on
                       your news feed that you have already scrolled past, or those that
@@ -136,8 +141,8 @@
                     </li>
 
                     <li>
-                      <span class="font-weight-medium">Sources:</span> Sources whose
-                      assessment syou want to be considered in filtering. These could
+                      <span class="font-weight-medium">Assessor sources:</span> Sources whose
+                      assessments you want to be considered in filtering. These could
                       be those you follow, yourself, those you trust, or even specific
                       sources or lists of sources.
                     </li>
@@ -150,8 +155,22 @@
                   been confirmed by your trusted sources, you can select <v-icon>remove_red_eye</v-icon>
                   Seen Status <v-icon>arrow_right_alt</v-icon> Not Seen, <v-icon>gavel</v-icon>
                   Validity <v-icon>arrow_right_alt</v-icon> Confirmed, and
-                  <v-icon>account_circle</v-icon> Sources <v-icon>arrow_right_alt</v-icon> Trusted.
+                  <v-icon>account_circle</v-icon> Assessor sources <v-icon>arrow_right_alt</v-icon> Trusted.
                 </p>
+
+                <p>
+                  In addition, you can click on any number of tags that are displayed on
+                  posts to only select the posts that have those tags. Tag filtering also works
+                  in conjuction with the filters provided in the filter panel on the left side.
+                </p>
+
+                <p>
+                  Unless you are in <span class="font-italic">Explore mode</span>, on your feed,
+                  <span class="font-weight-bold"> you only see articles from those you follow</span>.
+                  The filters on the filter panel are not for who posted or shared the posts, but rather
+                  who assessed them and what their assessment was.
+                </p>
+
               </template>
             </about-card>
 

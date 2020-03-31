@@ -4,7 +4,7 @@
     <v-row no-gutters>
       <v-col cols="12">
         <v-select :items="validityStatus" v-model="credibility"
-          item-text="label" item-value="value"
+          item-text="label" item-value="value" dense
           label="Article Validity" outline required
           :rules="validityRules.selectRules">
 

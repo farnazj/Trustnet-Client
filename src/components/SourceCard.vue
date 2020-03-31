@@ -8,7 +8,7 @@
           <v-col cols="9" >
             <v-row align="end" no-gutters >
               <v-col cols="3">
-                <custom-avatar :user="source" :clickEnabled="true" class="mr-3"></custom-avatar>
+                <custom-avatar :user="source" :clickEnabled="true" :size="34" class="mr-3"></custom-avatar>
               </v-col>
               <v-col cols="9">
                 <span class="body-2 name-container">

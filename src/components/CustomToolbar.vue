@@ -32,11 +32,11 @@
               :user="user" :clickEnabled="false" v-on:click.native="click" ></custom-avatar>
           </template>
           <v-card>
-            <v-list>
+            <v-list dense>
               <template v-for="item in settingItems">
                 <v-list-item :key="item.name" @click="clickHandler(item.name)">
 
-                  <v-list-item-action v-if="item.icon">
+                  <v-list-item-action class="my-1" v-if="item.icon">
                     <v-icon>{{ item.icon }}</v-icon>
                   </v-list-item-action>
 

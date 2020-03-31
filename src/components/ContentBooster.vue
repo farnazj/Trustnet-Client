@@ -12,7 +12,7 @@
         </v-btn>
       </template>
 
-        <v-tabs left background-color="blue darken-2" dark height=50
+        <v-tabs left background-color="blue darken-2" dark height=34
           slider-color="lime lighten-4" v-model="tabs">
           <v-tab >
             <v-icon class="mr-1">create</v-icon>

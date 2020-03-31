@@ -109,7 +109,7 @@
 
     <v-divider></v-divider>
 
-    <v-list subheader v-if="sourceLists.length">
+    <v-list dense subheader v-if="sourceLists.length">
       <v-subheader>Source Lists</v-subheader>
 
       <v-list-item v-for="list in sourceLists"
@@ -134,7 +134,7 @@
 
     </v-list>
 
-    <v-list subheader v-if="followedOrTrusteds.length">
+    <v-list dense subheader v-if="followedOrTrusteds.length">
       <v-subheader>Followed or Trusted Sources</v-subheader>
 
       <v-list-item v-for="source in followedOrTrusteds"

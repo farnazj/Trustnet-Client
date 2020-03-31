@@ -16,7 +16,7 @@
      filtersNamespace="profileArticles"> </article-details>
 
      <v-row no-gutters class="pt-9 flex-fixed-height-child">
-      <v-card width="100%" color="secondary">
+      <v-card width="100%" color="secondary" class="profile-background">
         <v-container fluid>
 
           <v-row align="end" no-gutters >
@@ -73,7 +73,7 @@
     <v-row no-gutters class="flex-child">
 
       <v-col cols="12">
-        <v-tabs centered background-color="blue darken-3" height=50 v-model="tabs"
+        <v-tabs centered background-color="blue darken-3" height=36 v-model="tabs"
           slider-color="amber lighten-1" dark>
           <v-tab href="#history">
             <v-icon class="mr-1">history</v-icon>
@@ -301,6 +301,10 @@ export default {
 .flex-child {
   flex-grow: 2;
   flex-basis: auto;
+}
+
+.profile-background {
+  border-radius: 0px !important;
 }
 
 </style>
