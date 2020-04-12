@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import postServices from '@/services/postServices'
-import consts from '@/services/constants'
 
 export default {
   namespaced: true,
@@ -67,7 +66,7 @@ export default {
       return new Promise((resolve, reject) => {
 
         let headers = context.state.filteredTags.length ?
-        { tags: context.state.filteredTags.map(el => el.id).join(consts.STRINGIFIED_ARR_SEP) } :
+        { tags: JSON.stringify(context.state.filteredTags.map(el => el.id)) } :
         {};
 
         postServices.getActivity({

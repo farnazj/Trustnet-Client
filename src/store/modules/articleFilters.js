@@ -112,9 +112,9 @@ export default {
             validity: context.state.validityFilter,
             seenstatus: context.state.seenFilter,
             explore: context.state.exploreFilter,
-            usernames: context.state.filteredUsernames.join(consts.STRINGIFIED_ARR_SEP),
-            lists: context.state.filteredLists.join(consts.STRINGIFIED_ARR_SEP),
-            tags: context.state.filteredTags.map(el => el.id).join(consts.STRINGIFIED_ARR_SEP)
+            usernames: JSON.stringify(context.state.filteredUsernames),
+            lists: JSON.stringify(context.state.filteredLists),
+            tags: JSON.stringify(context.state.filteredTags.map(el => el.id))
           })
         .then(response => {
           resolve(response.data);
@@ -194,9 +194,9 @@ export default {
             source: context.state.sourceFilter,
             validity: context.state.validityFilter,
             explore: context.state.exploreFilter,
-            usernames: context.state.filteredUsernames.join(consts.STRINGIFIED_ARR_SEP),
-            lists: context.state.filteredLists.join(consts.STRINGIFIED_ARR_SEP),
-            tags: context.state.filteredTags.map(el => el.id).join(consts.STRINGIFIED_ARR_SEP)
+            usernames: JSON.stringify(context.state.filteredUsernames),
+            lists: JSON.stringify(context.state.filteredLists),
+            tags: JSON.stringify(context.state.filteredTags.map(el => el.id))
           })
           .then(response => {
             context.commit('update_boost', response.data);

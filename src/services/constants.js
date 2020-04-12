@@ -14,8 +14,6 @@ const VALIDITY_REQ_MAPPING = { all: 'all', confirmed: 'confirmed', refuted: 'ref
 const SEEN_STATUS_REQ_MAPPING = { 'seen': 'seen', 'not seen': 'not seen' };
 const VALIDITY_CODES = {'CONFIRMED': 1, 'REFUTED': -1, 'QUESTIONED': 0};
 
-const STRINGIFIED_ARR_SEP = '^,';
-
 export default {
   BASE_URL,
   FB_COMMENTS_BASE_URL,
@@ -24,6 +22,5 @@ export default {
   CRED_SOURCES_REQ_MAPPING,
   VALIDITY_REQ_MAPPING,
   SEEN_STATUS_REQ_MAPPING,
-  VALIDITY_CODES,
-  STRINGIFIED_ARR_SEP
+  VALIDITY_CODES
 }
