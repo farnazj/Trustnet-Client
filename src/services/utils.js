@@ -48,11 +48,27 @@ function compare2Sources(aId, bId) {
 
 
 function compareAssessments(a, b) {
-
   if (!a.lastVersion.isTransitive && b.lastVersion.isTransitive)
     return -1;
   else if (a.lastVersion.isTransitive && !b.lastVersion.isTransitive)
     return 1;
+  //anonymous requests for assessment do not have a SourceId
+  else if (a.assessor.SourceId && !b.assessor.SourceId)
+    return -1;
+  else if (!a.assessor.SourceId && b.assessor.SourceId)
+    return 1;
+  else if (!a.assessor.SourceId && !b.assessor.SourceId) {
+    for (let date of ['createdAt', 'updatedAt']) {
+      let aDate = new Date(a.lastVersion[date]);
+      let bDate = new Date(b.lastVersion[date]);
+      if (aDate < bDate)
+        return -1;
+      else if (aDate > bDate)
+        return 1;
+    }
+
+    return a.lastVersion.id - b.lastVersion.id;
+  }
   else {
     let compareVal = compare2Sources(a.assessor.SourceId, b.assessor.SourceId);
     if (compareVal != 0)
@@ -114,11 +130,9 @@ function compareTitles(a, b) {
     return 1;
 
   let compareVal = compare2Sources(a.author.id, b.author.id);
-  console.log('compareVal', compareVal)
   if (compareVal != 0)
     return compareVal;
   else {
-    console.log('in date')
     let aDate = new Date(a.lastVersion.updatedAt);
     let bDate = new Date(b.lastVersion.updatedAt);
     if (aDate < bDate)

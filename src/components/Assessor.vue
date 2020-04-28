@@ -1,15 +1,19 @@
 <template>
 
   <div :class="['c100', valuePercentage, valueColor , {transitive: isTransitive}]">
-      <span>
+      <span v-if="isUserNonEmpty">
         <v-tooltip bottom open-delay="500">
           <template v-slot:activator="{ on }">
             <span v-on="on">
-              <custom-avatar :user="user" :clickEnabled="true"></custom-avatar>
+              <custom-avatar :user="user" :clickEnabled="true">
+              </custom-avatar>
             </span>
           </template>
-          <span>{{sourceDisplayName(user)}}</span>
+          <span v-if>{{sourceDisplayName(user)}}</span>
         </v-tooltip>
+      </span>
+      <span v-else>
+        <v-icon small>fas fa-question</v-icon>
       </span>
 
       <div class="slice">
@@ -46,6 +50,9 @@ export default {
     }
   },
   computed: {
+    isUserNonEmpty: function() {
+      return Object.keys(this.user).length > 0;
+    },
     valueColor: function() {
       if (this.credibilityValue < 0)
         return 'red lighten-2';

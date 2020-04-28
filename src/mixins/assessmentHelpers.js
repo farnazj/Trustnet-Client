@@ -39,18 +39,27 @@ export default {
       let assessmentsBySource = {};
       this.post.PostAssessments.forEach(postAssessment => {
 
-        if (!(postAssessment.SourceId in assessmentsBySource)) {
-          let assessmentsObj = {};
-          assessmentsObj['history'] = [];
-          assessmentsBySource[postAssessment.SourceId] = assessmentsObj;
-        }
-
-        if (postAssessment.version == 1) {
-          assessmentsBySource[postAssessment.SourceId]['lastVersion'] = postAssessment;
+        if (postAssessment.SourceId === null ) {
+          if (postAssessment.version == 1) {
+            let assessmentsObj = { lastVersion: postAssessment, assessor: {} };
+            let credValue = this.validityMapping(assessmentsObj.lastVersion.postCredibility);
+            this.assessments[credValue].push(assessmentsObj);
+          }
         }
         else {
-          assessmentsBySource[postAssessment.SourceId]['history'].push(postAssessment);
+          if (!(postAssessment.SourceId in assessmentsBySource)) {
+            let assessmentsObj = {};
+            assessmentsObj['history'] = [];
+            assessmentsBySource[postAssessment.SourceId] = assessmentsObj;
+          }
+
+          if (postAssessment.version == 1)
+            assessmentsBySource[postAssessment.SourceId]['lastVersion'] = postAssessment;
+          else
+            assessmentsBySource[postAssessment.SourceId]['history'].push(postAssessment);
+
         }
+
      })
 
      let sourcePromises = [];

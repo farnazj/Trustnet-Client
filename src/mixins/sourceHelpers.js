@@ -8,6 +8,9 @@ export default {
   methods: {
     sourceDisplayName: function(source) {
         return source.systemMade ? source.userName : source.firstName + ' ' + source.lastName;
+    },
+    sourceIsNonEmpty: function(source) {
+        return Object.keys(this.user).length > 0;
     }
   },
   computed: {
