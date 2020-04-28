@@ -1,8 +1,8 @@
 <template>
 
-  <v-autocomplete v-model="targets" :items="listsAndFollowers" dense
-  filled chips color="blue-grey lighten-2" label="Select target audience" :filter="filterFollowersLists"
-  item-text="text" item-value="value" multiple no-data-text="No lists or followers found">
+  <v-autocomplete v-model="targets" :items="populationList" dense
+  filled chips color="blue-grey lighten-2" :label="audienceLabel" :filter="filterFollowersLists"
+  item-text="text" item-value="value" multiple :no-data-text="textWhenNoData">
 
     <template slot="selection" slot-scope="data" >
       <v-chip
@@ -42,7 +42,7 @@
     <template v-if="!targets.length" slot="append">
       <template>
         <v-list-item-content>
-          <v-list-item-title>default is everyone</v-list-item-title>
+          <v-list-item-subtitle>default is all</v-list-item-subtitle>
         </v-list-item-content>
       </template>
     </template>
@@ -61,7 +61,9 @@ export default {
     'custom-avatar': customAvatar
   },
   props: {
-
+    population: {
+      type: String
+    }
   },
   data () {
     return {
@@ -71,27 +73,50 @@ export default {
   created() {
     if (!this.followers.length)
       this.fetchFollowers();
+    if (!this.trustedSources)
+      this.fetchTrusteds();
   },
   computed: {
-    listsAndFollowers: function() {
+    populationList: function() {
 
       let data = [];
 
-      if (this.sourceLists.length) {
-        data.push({ header: 'Lists' });
-        data.push(...this.convertToTextVal(this.sourceLists));
-      }
+      if (this.population ==  'followers') {
+        if (this.sourceLists.length) {
+          data.push({ header: 'Lists' });
+          data.push(...this.convertToTextVal(this.sourceLists));
+        }
 
-      if (this.followers.length) {
-        data.push({ divider: true });
-        data.push({ header: 'Followers' });
-        data.push(...this.convertToTextVal(this.followers));
+        if (this.followers.length) {
+          data.push({ divider: true });
+          data.push({ header: 'Followers' });
+          data.push(...this.convertToTextVal(this.followers));
+        }
+      }
+      else if (this.population == 'trusteds') {
+        if (this.trustedSources.length) {
+          data.push({ header: 'Trusted Sources' });
+          data.push(...this.convertToTextVal(this.trustedSources));
+        }
       }
 
       return data;
     },
+    textWhenNoData: function() {
+      if (this.population == 'followers')
+        return 'No lists or followers found';
+      else if (this.population == 'trusteds')
+        return 'You have not marked any source as trustworthy';
+    },
+    audienceLabel: function() {
+      if (this.population == 'followers')
+        return 'Select target audience';
+      else if (this.population == 'trusteds')
+        return 'Trusted sources you would like answers from';
+    },
     ...mapState('relatedSources', [
-     'followers'
+     'followers',
+     'trustedSources'
    ]),
    ...mapState('sourceLists', [
      'sourceLists'
@@ -132,7 +157,8 @@ export default {
         return item.text.toLocaleLowerCase().indexOf(queryText.toLocaleLowerCase()) > -1;
     },
     ...mapActions('relatedSources', [
-      'fetchFollowers'
+      'fetchFollowers',
+      'fetchTrusteds'
     ])
   },
   mixins : [sourceHelpers]

@@ -52,7 +52,7 @@
                   <v-col cols="12">
                     <!-- <span>Select your target audience or leave this empty to
                       include everyone</span> -->
-                    <source-selector ref="initiateTargets" class="mt-2">
+                    <source-selector ref="initiateTargets" class ="mt-2" population="followers">
                     </source-selector>
 
                   </v-col>
@@ -110,7 +110,7 @@
 
                   <v-row no-gutters class="mt-2">
                     <v-col cols="12">
-                      <source-selector ref="importTargets" >
+                      <source-selector ref="importTargets" population="followers">
                       </source-selector>
                     </v-col>
                   </v-row>
@@ -147,6 +147,7 @@ import sourceSelector from '@/components/SourceSelector'
 import assessmentCollector from '@/components/AssessmentCollector'
 import postServices from '@/services/postServices'
 import { mapGetters, mapActions } from 'vuex'
+import consts from '@/services/constants'
 
 export default {
   components: {
@@ -204,7 +205,7 @@ export default {
       let usernames = this.$refs.initiateTargets.targets.filter(el =>
         el.type === 'Source').map(el => el.identifier);
 
-      return { usernames: usernames, lists: lists };
+      return { username, lists, arbiters };
     },
     createPost: function() {
 
@@ -247,6 +248,7 @@ export default {
       if (this.$refs.importArticleForm.validate()) {
 
         let targets = this.getSelectedUsernamesAndLists();
+
         let params = {
           postUrl: this.articleLink,
           postCredibility: this.$refs.assessmentColl.credibility - 2,
@@ -254,6 +256,11 @@ export default {
           target_usernames: targets.usernames,
           target_lists: targets.lists
         };
+
+        if (params.postCredibility == consts.VALIDITY_CODES.QUESTIONED) {
+          let arbiters = this.$refs.assessmentColl.$refs.arbiters.targets;
+          params.arbiters = arbiters;
+        }
 
         postServices.importArticle(params)
         .then(response => {

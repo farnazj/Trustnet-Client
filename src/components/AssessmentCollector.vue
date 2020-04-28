@@ -25,8 +25,15 @@
     <v-row no-gutters class="pt-3">
       <v-col cols="12">
         <v-textarea v-model="assessmentText" :rules="credibility - 2 != 0 ? validityRules.bodyRules : []"
-          label="Provide your reasoning">
+          :label="textAreaLabel">
         </v-textarea>
+      </v-col>
+    </v-row>
+
+    <v-row no-gutters v-if="credibility == 2">
+      <v-col cols="12">
+        <source-selector ref="arbiters" class ="mt-2" population="trusteds">
+        </source-selector>
       </v-col>
     </v-row>
 
@@ -34,9 +41,13 @@
 </template>
 
 <script>
+import sourceSelector from '@/components/SourceSelector'
 import consts from '@/services/constants'
 
 export default {
+  components: {
+    'source-selector': sourceSelector
+  },
   props: ['validityRules',
     'postCredibility',
     'assessmentBody',
@@ -67,6 +78,14 @@ export default {
   },
   created() {
     this.mapCredProperties();
+  },
+  computed: {
+    textAreaLabel: function() {
+      if (this.credibility == this.credibilitySelectMapping(consts.VALIDITY_CODES.QUESTIONED))
+        return 'Elaborate on your question';
+      else
+        return 'Provide your reasoning';
+    }
   },
   methods: {
     mapCredProperties: function() {

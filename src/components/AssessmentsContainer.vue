@@ -109,7 +109,6 @@ export default {
       for (const [key, value] of Object.entries(this.assessments))
         sortedAssessments[key] = this.assessments[key].slice().sort(utils.compareAssessments);
 
-      console.log(JSON.stringify(sortedAssessments))
       return sortedAssessments;
     },
     isDebated: function () {

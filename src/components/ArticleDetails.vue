@@ -70,7 +70,7 @@
                    <v-col cols="12">
                      <!-- <span>Select your target audience or leave this empty to
                        include everyone</span> -->
-                     <source-selector ref="boostTargets" class="mt-2">
+                     <source-selector ref="boostTargets" class="mt-2" population="followers">
                      </source-selector>
                    </v-col>
                  </v-row>
@@ -354,6 +354,11 @@ export default {
         let reqBody = {
           postCredibility: this.$refs.assessmentColl.credibility - 2,
           body: this.$refs.assessmentColl.assessmentText
+        }
+
+        if (reqBody.postCredibility == consts.VALIDITY_CODES.QUESTIONED) {
+          let arbiters = this.$refs.assessmentColl.$refs.arbiters.targets;
+          reqBody.arbiters = arbiters;
         }
 
         this.postAuthUserAssessment(reqBody)
