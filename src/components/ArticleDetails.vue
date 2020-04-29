@@ -70,7 +70,7 @@
                    <v-col cols="12">
                      <!-- <span>Select your target audience or leave this empty to
                        include everyone</span> -->
-                     <source-selector ref="boostTargets" class="mt-2" population="followers">
+                     <source-selector ref="boostTargets" class="mt-2" population="downstream">
                      </source-selector>
                    </v-col>
                  </v-row>

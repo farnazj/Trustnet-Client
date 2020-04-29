@@ -42,7 +42,8 @@
     <template v-if="!targets.length" slot="append">
       <template>
         <v-list-item-content>
-          <v-list-item-subtitle>default is all</v-list-item-subtitle>
+          <v-list-item-subtitle v-html="`${ population == 'downstream' ? 'default is all' :
+           'default is all trusted sources'}`" ></v-list-item-subtitle>
         </v-list-item-content>
       </template>
     </template>
