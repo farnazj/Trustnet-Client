@@ -57,7 +57,7 @@
                 </v-btn>
 
                 <v-btn :small="$vuetify.breakpoint.xsOnly" depressed @click="changeFollowStatus()"
-                :color="isFollowed ? 'grey lighten-1' : 'primary' " class="ma-1">
+                :color="isFollowed ? 'grey lighten-1' : 'blue lighten-1' " class="ma-1">
                   <span v-if="!isFollowed">Follow</span>
                   <span v-else>Unfollow</span>
                 </v-btn>

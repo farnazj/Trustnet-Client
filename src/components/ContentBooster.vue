@@ -52,7 +52,7 @@
                   <v-col cols="12">
                     <!-- <span>Select your target audience or leave this empty to
                       include everyone</span> -->
-                    <source-selector ref="initiateTargets" class ="mt-2" population="followers">
+                    <source-selector ref="initiateTargets" class ="mt-2" population="downstream">
                     </source-selector>
 
                   </v-col>
@@ -110,7 +110,7 @@
 
                   <v-row no-gutters class="mt-2">
                     <v-col cols="12">
-                      <source-selector ref="importTargets" population="followers">
+                      <source-selector ref="importTargets" population="downstream">
                       </source-selector>
                     </v-col>
                   </v-row>
@@ -205,7 +205,7 @@ export default {
       let usernames = this.$refs.initiateTargets.targets.filter(el =>
         el.type === 'Source').map(el => el.identifier);
 
-      return { username, lists, arbiters };
+      return { usernames, lists };
     },
     createPost: function() {
 
@@ -259,7 +259,8 @@ export default {
 
         if (params.postCredibility == consts.VALIDITY_CODES.QUESTIONED) {
           let arbiters = this.$refs.assessmentColl.$refs.arbiters.targets;
-          params.arbiters = arbiters;
+          params.arbiters = arbiters.map(el => el.identifier);
+          params.sourceIsAnonymous = this.$refs.assessmentColl.anonymous;
         }
 
         postServices.importArticle(params)

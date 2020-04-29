@@ -32,7 +32,17 @@
 
     <v-row no-gutters v-if="credibility == 2">
       <v-col cols="12">
-        <source-selector ref="arbiters" class ="mt-2" population="trusteds">
+       <v-tooltip bottom max-width="600" open-delay="700">
+         <template v-slot:activator="{ on }">
+           <v-switch v-on="on" dense :color="anonymous ? 'blue lighten-1' : ''"
+            v-model="anonymous" :label="anonymousSwitchLabel"
+          ></v-switch>
+         </template>
+         <span> Your question will be surfaced to the sources you follow or trust even though they may not follow
+           or trust you. Choose if you want your name to be visible with your question.
+           Note that those who follow or trust you will see your name along with your question regardless.</span>
+       </v-tooltip>
+        <source-selector ref="arbiters" class ="mt-2" population="upstream">
         </source-selector>
       </v-col>
     </v-row>
@@ -56,6 +66,7 @@ export default {
   data () {
     return {
       credibility: null,
+      anonymous: true,
       assessmentText: null,
       validityStatus: [
         {
@@ -85,6 +96,12 @@ export default {
         return 'Elaborate on your question';
       else
         return 'Provide your reasoning';
+    },
+    anonymousSwitchLabel: function() {
+      if (this.anonymous)
+        return 'Pose question anonymously';
+      else
+        return 'Reveal my name'
     }
   },
   methods: {
@@ -104,13 +121,13 @@ export default {
   },
   watch: {
     assessmentId: function() {
+      this.anonymous = true;
       this.mapCredProperties();
     },
     postCredibility: function() {
       this.mapCredProperties();
     },
-    crediblity: function(val) {
-      console.log('new cred val is ', val)
+    credibility: function(val) {
     }
   }
 

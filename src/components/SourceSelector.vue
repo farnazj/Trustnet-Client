@@ -75,13 +75,15 @@ export default {
       this.fetchFollowers();
     if (!this.trustedSources)
       this.fetchTrusteds();
+    if (!this.followedSources)
+      this.fetchFollows();
   },
   computed: {
     populationList: function() {
 
       let data = [];
 
-      if (this.population ==  'followers') {
+      if (this.population ==  'downstream') {
         if (this.sourceLists.length) {
           data.push({ header: 'Lists' });
           data.push(...this.convertToTextVal(this.sourceLists));
@@ -93,30 +95,36 @@ export default {
           data.push(...this.convertToTextVal(this.followers));
         }
       }
-      else if (this.population == 'trusteds') {
+      else if (this.population == 'upstream') {
         if (this.trustedSources.length) {
           data.push({ header: 'Trusted Sources' });
           data.push(...this.convertToTextVal(this.trustedSources));
+        }
+        if (this.followedSources.length) {
+          data.push({ divider: true });
+          data.push({ header: 'Followed Sources' });
+          data.push(...this.convertToTextVal(this.followedSources));
         }
       }
 
       return data;
     },
     textWhenNoData: function() {
-      if (this.population == 'followers')
+      if (this.population == 'downstream')
         return 'No lists or followers found';
-      else if (this.population == 'trusteds')
-        return 'You have not marked any source as trustworthy';
+      else if (this.population == 'upstream')
+        return 'You do not follow or trust any source';
     },
     audienceLabel: function() {
-      if (this.population == 'followers')
+      if (this.population == 'downstream')
         return 'Select target audience';
-      else if (this.population == 'trusteds')
-        return 'Trusted sources you would like answers from';
+      else if (this.population == 'upstream')
+        return 'Sources you would like answers from';
     },
     ...mapState('relatedSources', [
      'followers',
-     'trustedSources'
+     'trustedSources',
+     'followedSources'
    ]),
    ...mapState('sourceLists', [
      'sourceLists'
@@ -158,7 +166,8 @@ export default {
     },
     ...mapActions('relatedSources', [
       'fetchFollowers',
-      'fetchTrusteds'
+      'fetchTrusteds',
+      'fetchFollows'
     ])
   },
   mixins : [sourceHelpers]

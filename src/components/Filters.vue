@@ -18,10 +18,10 @@
          v-model="selectedFilters.explore" @change="filter(true, 'explore')"
        ></v-switch>
      </v-list-item-action>
-     <v-tooltip right>
+     <v-tooltip right open-delay="700" nudge-width="200">
        <template v-slot:activator="{ on }">
 
-         <v-list-item-subtitle v-on="on" open-delay="700" nudge-width="200"
+         <v-list-item-subtitle v-on="on"
          v-html="`Explore mode ${selectedFilters.explore ? 'on' : 'off'}`" >
          </v-list-item-subtitle>
        </template>
