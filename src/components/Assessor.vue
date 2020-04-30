@@ -13,7 +13,7 @@
         </v-tooltip>
       </span>
       <span v-else>
-        <v-icon small>fas fa-question</v-icon>
+        <v-icon small>fas fa-user</v-icon>
       </span>
 
       <div class="slice">
