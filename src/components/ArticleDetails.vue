@@ -315,7 +315,7 @@ export default {
       return this.state.assessment;
     },
     articleLink: function() {
-      return consts.BASE_URL + '/posts/' + this.article.id;
+      return consts.SERVED_CLIENT_URL + '/posts/' + this.article.id;
     },
     emailLink: function() {
       return 'mailto:?subject=' + encodeURI('On ' + consts.SITE_NAME + '.com: ' +

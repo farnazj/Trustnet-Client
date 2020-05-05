@@ -1,5 +1,6 @@
 //const BASE_URL = `http://localhost:3000`;
 const BASE_URL = `http://developer.trustnet.csail.mit.edu`
+const SERVED_CLIENT_URL = `http://developer.trustnet.csail.mit.edu`;
 const FB_COMMENTS_BASE_URL= `http://trustnet.csail.mit.edu/test`;
 const FB_APP_ID = `1910706082368253`;
 
@@ -16,6 +17,7 @@ const VALIDITY_CODES = {'CONFIRMED': 1, 'REFUTED': -1, 'QUESTIONED': 0};
 
 export default {
   BASE_URL,
+  SERVED_CLIENT_URL,
   FB_COMMENTS_BASE_URL,
   FB_APP_ID,
   SITE_NAME,
