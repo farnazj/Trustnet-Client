@@ -42,7 +42,7 @@
     <template v-if="!targets.length" slot="append">
       <template>
         <v-list-item-content>
-          <v-list-item-subtitle v-html="`${ population == 'downstream' ? 'default is all' :
+          <v-list-item-subtitle class="prompt-text" v-html="`${ population == 'downstream' ? 'default is all' :
            'default is all trusted sources'}`" ></v-list-item-subtitle>
         </v-list-item-content>
       </template>
@@ -174,3 +174,10 @@ export default {
   mixins : [sourceHelpers]
 }
 </script>
+
+<style scoped>
+.prompt-text {
+  font-size: 0.7em !important;
+  margin-top: 10%;
+}
+</style>

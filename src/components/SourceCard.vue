@@ -23,7 +23,7 @@
             </v-row>
 
             <v-row no-gutters class="body-2 mt-2 name-container">
-              <v-tooltip bottom bottom open-delay="500">
+              <v-tooltip bottom open-delay="500">
                 <template v-slot:activator="{ on }">
                   <span v-on="on">{{sourceDisplayName(source)}}</span>
                 </template>
