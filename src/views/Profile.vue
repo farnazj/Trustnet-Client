@@ -23,7 +23,7 @@
 
             <v-col sm="2" cols="4">
               <v-row no-gutters justify="center">
-                <v-hover>
+                <v-hover v-if="Object.keys(profileOwner).length">
                   <v-img :src="profileOwner.photoUrl ? profileOwner.photoUrl : adorablePhoto"
                   class="profile-img" slot-scope="{ hover }" aspect-ratio="1" width="10" contain>
                     <v-expand-transition>
@@ -171,7 +171,8 @@ export default {
       return consts.BASE_URL + '/profile-pictures/';
     },
     adorablePhoto: function() {
-      return 'https://api.adorable.io/avatars/249/' + this.profileOwner.userName + '.png';
+      //return 'https://api.adorable.io/avatars/249/' + this.profileOwner.userName + '.png';
+      return `https://avatars.dicebear.com/api/gridy/${utils.hashCode(this.profileOwner.userName)}.svg?mood[]=happy`;
     },
     notUser: function() {
 
@@ -217,9 +218,7 @@ export default {
 
           this.profileOwner = user.data;
           if (this.profileOwner.photoUrl) {
-            if (this.profileOwner.photoUrl.includes('http'))
-              this.profileOwner.photoUrl =  this.profileOwner.photoUrl;
-            else
+            if (!this.profileOwner.photoUrl.includes('http'))
               this.profileOwner.photoUrl = consts.BASE_URL + '/' + this.profileOwner.photoUrl;
           }
 
