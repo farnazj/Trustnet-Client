@@ -28,7 +28,8 @@
                <v-card>
                  <v-container fluid>
                    <assessment-collector ref="assessmentColl" :validityRules="assessmentValidityRules"
-                     :postCredibility="postCredibility" :assessmentBody="assessmentBody" :assessmentId="assessment.id">
+                     :postCredibility="postCredibility" :assessmentBody="assessmentBody" :assessmentId="assessment.id"
+                     :rerenderKey="rerenderKey">
                    </assessment-collector>
                  </v-container>
 
@@ -279,7 +280,8 @@ export default {
       showDeleteDialog: false,
       showInfoSnackbar: false,
       editSubmitInfo: '',
-      emails: null
+      emails: null,
+      rerenderKey: null
     }
   },
   created() {
@@ -382,9 +384,18 @@ export default {
       .then(() => {
 
         if (Object.entries(this.assessment).length != 0) {
+
             this.disableBoost = false;
-            this.assessmentBody = this.assessment.body;
-            this.postCredibility = parseFloat(this.assessment.postCredibility);
+            let assessmentBody = this.assessment.body;
+            let postCredibility = parseFloat(this.assessment.postCredibility);
+            if (assessmentBody == this.assessmentBody && postCredibility == this.postCredibility) {
+              this.rerenderKey = Math.random();
+            }
+            else {
+              this.assessmentBody = assessmentBody;
+              this.postCredibility = postCredibility;
+            }
+            
           }
           else {
             this.disableBoost = true;
@@ -487,6 +498,12 @@ export default {
         return dispatch(this.filtersNamespace + '/removeArticle', payload)
       }
     })
+  }, 
+  watch: {
+    assessmentMenu: function(newVal) {
+      if (newVal)
+        this.prepopulateUserAssessment();
+    }
   }
 }
 </script>

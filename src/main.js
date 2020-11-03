@@ -16,9 +16,9 @@ import consts from './services/constants'
 Vue.config.productionTip = false
 Vue.prototype.$http = axios;
 
-Vue.use(Vuetify, {
-  iconfont: 'mdi',
-})
+// Vue.use(Vuetify, {
+//   iconfont: 'mdi',
+// })
 Vue.use(VueObserveVisibility);
 
 new Vue({

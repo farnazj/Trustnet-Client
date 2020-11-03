@@ -61,7 +61,8 @@ export default {
   props: ['validityRules',
     'postCredibility',
     'assessmentBody',
-    'assessmentId'
+    'assessmentId',
+    'rerenderKey'
   ],
   data () {
     return {
@@ -88,6 +89,7 @@ export default {
     }
   },
   created() {
+    console.log('in created')
     this.mapCredProperties();
   },
   computed: {
@@ -124,10 +126,11 @@ export default {
       this.anonymous = true;
       this.mapCredProperties();
     },
-    postCredibility: function() {
+    postCredibility: function(val) {
       this.mapCredProperties();
     },
-    credibility: function(val) {
+    rerenderKey: function(val) {
+      this.mapCredProperties();
     }
   }
 

@@ -21,6 +21,9 @@
           <span>Sources</span>
         </v-tooltip>
 
+
+        <notification-panel></notification-panel>
+
         <v-divider vertical inset class="mr-2"></v-divider>
 
         <v-menu v-model="settingsMenu"
@@ -63,13 +66,15 @@
 <script>
 import customAvatar from '@/components/CustomAvatar'
 import contentBooster from '@/components/ContentBooster'
+import notificationPanel from '@/components/NotificationPanel'
 import sourceServices from '@/services/sourceServices'
 import { mapState, mapGetters } from 'vuex'
 
 export default {
   components: {
    'custom-avatar': customAvatar,
-   'content-booster': contentBooster
+   'content-booster': contentBooster,
+   'notification-panel': notificationPanel
   },
   data () {
     return {
