@@ -11,7 +11,20 @@
            <v-icon large @click="articleDetailsVisible = false">clear</v-icon>
          </v-col>
 
-         <v-col cols="4" class="right-align">
+         <v-col cols="5" class="right-align">
+
+            <v-tooltip bottom v-model="showLinkToolTip">
+              <template v-slot:activator="{}">
+                
+                  <v-btn text icon color="blue darken-1" class="mr-4" v-clipboard="() => articleLink"
+                     v-clipboard:success="linkCopied">
+                    <v-icon small>fas fa-link</v-icon>
+                  </v-btn>
+              
+              </template>
+              <span>Article link copied to clipboard</span>
+            </v-tooltip>
+           
 
            <v-menu v-model="assessmentMenu"
              :close-on-content-click="false"
@@ -281,7 +294,8 @@ export default {
       showInfoSnackbar: false,
       editSubmitInfo: '',
       emails: null,
-      rerenderKey: null
+      rerenderKey: null,
+      showLinkToolTip: false
     }
   },
   created() {
@@ -334,21 +348,6 @@ export default {
        }
      })
 
-  },
-  watch: {
-    article: function(val) {
-
-      this.editMode = false;
-      this.edit.body = val.body;
-      this.edit.title = val.title;
-
-      this.prepopulateUserAssessment();
-    },
-    facebookCommentsURL: function() {
-      setTimeout(function() {
-        window.FB.XFBML.parse();
-      }, 100)
-    }
   },
   methods: {
     postAssessment: function() {
@@ -476,6 +475,12 @@ export default {
         this.showInfoSnackbar = true;
       })
     },
+    linkCopied: function() {
+      this.showLinkToolTip = true;
+      window.setTimeout(() => {
+        this.showLinkToolTip = false;
+      }, 1000);
+    },
     ...mapActions({
       setDrawerVisibility (dispatch, payload) {
         return dispatch(this.detailsNamespace + '/setDrawerVisibility', payload)
@@ -503,6 +508,19 @@ export default {
     assessmentMenu: function(newVal) {
       if (newVal)
         this.prepopulateUserAssessment();
+    },
+    article: function(val) {
+
+      this.editMode = false;
+      this.edit.body = val.body;
+      this.edit.title = val.title;
+
+      this.prepopulateUserAssessment();
+    },
+    facebookCommentsURL: function() {
+      setTimeout(function() {
+        window.FB.XFBML.parse();
+      }, 100)
     }
   }
 }

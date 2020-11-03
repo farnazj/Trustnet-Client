@@ -12,6 +12,7 @@
     "axios": "^0.21.0",
     "epic-spinners": "^1.1.0",
     "moment": "^2.29.1",
+    "v-clipboard": "^2.2.3",
     "vue": "^2.6.12",
     "vue-image-crop-upload": "^2.5.0",
     "vue-observe-visibility": "^0.4.6",

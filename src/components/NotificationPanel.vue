@@ -27,7 +27,7 @@
                     </v-list-item-content>
                 </v-list-item>
 
-                <v-divider v-if="index < notifications.length - 1"></v-divider>
+                <v-divider :key="index" v-if="index < notifications.length - 1"></v-divider>
                  
               </template>
               <v-list-item v-if="!notifications.length" class="px-2">

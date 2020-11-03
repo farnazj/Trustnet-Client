@@ -3,8 +3,6 @@ import '@fortawesome/fontawesome-free/css/all.css'
 import '@mdi/font/css/materialdesignicons.css'
 import './assets/css/main.css'
 import Vue from 'vue'
-import Vuetify from 'vuetify/lib'
-import './plugins/vuetify'
 import App from './App.vue'
 import router from './router'
 import store from './store/store'
@@ -12,7 +10,8 @@ import axios from 'axios'
 import VueObserveVisibility from 'vue-observe-visibility'
 import vuetify from './plugins/vuetify';
 import consts from './services/constants'
-
+import Clipboard from 'v-clipboard'
+ 
 Vue.config.productionTip = false
 Vue.prototype.$http = axios;
 
@@ -20,6 +19,7 @@ Vue.prototype.$http = axios;
 //   iconfont: 'mdi',
 // })
 Vue.use(VueObserveVisibility);
+Vue.use(Clipboard);
 
 new Vue({
   router,
