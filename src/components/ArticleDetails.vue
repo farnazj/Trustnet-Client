@@ -5,7 +5,7 @@
 
      <v-card class="full-parent-height">
 
-       <v-row class="pa-2" full-height align="center" no-gutters>
+       <v-row class="pa-1" full-height align="center" no-gutters>
 
          <v-col>
            <v-icon large @click="articleDetailsVisible = false">clear</v-icon>
@@ -31,7 +31,7 @@
              nudge-width="350" offset-y left attach>
 
              <template v-slot:activator="{ on }">
-                <v-btn text icon color="blue darken-1" v-on="on"
+                <v-btn text icon  color="blue darken-1" v-on="on"
                  class="mr-4">
                   <v-icon >gavel</v-icon>
                 </v-btn>
