@@ -9,6 +9,7 @@ import articleDetails from './modules/articleDetails'
 import profileArticles from './modules/profileArticles'
 import loader from './modules/loader'
 import sourceLists from './modules/sourceLists'
+import userStats from './modules/userStats'
 
 Vue.use(Vuex)
 
@@ -31,7 +32,8 @@ let store = new Vuex.Store({
     relatedSources,
     profileArticles,
     loader,
-    sourceLists
+    sourceLists,
+    userStats
   }
 })
 
