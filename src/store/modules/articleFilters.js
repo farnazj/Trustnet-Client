@@ -14,7 +14,7 @@ export default {
     filteredTags: [],
     articles: [],
     offset: 0,
-    limit: 10,
+    limit: 15,
     articlesFetched: false
   },
   getters: {

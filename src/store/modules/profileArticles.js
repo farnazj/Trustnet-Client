@@ -8,7 +8,7 @@ export default {
     articles: [],
     filteredTags: [],
     offset: 0,
-    limit: 10,
+    limit: 15,
   },
   getters: {
     filters: (state) => {
