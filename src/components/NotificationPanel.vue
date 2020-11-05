@@ -109,7 +109,6 @@ export default {
                 if (resp.data.notifications.length) {
                     this.notifications.push(...resp.data.notifications);
                     this.notSeenCount = resp.data.notSeenCount;
-                    console.log('not seen count', this.notSeenCount)
                     this.offset += resp.data.notifications.length;
 
                     if (notifsAreSeen)
