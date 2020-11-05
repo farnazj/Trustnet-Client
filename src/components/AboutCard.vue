@@ -51,7 +51,8 @@ export default {
       typeColorMapping: {
         'general': 'indigo lighten-4',
         'sources': 'blue lighten-4',
-        'home': 'orange lighten-4'
+        'home': 'orange lighten-4',
+        'posts': 'pink lighten-4'
       }
     }
   }
@@ -60,7 +61,7 @@ export default {
 
 <style scoped>
 .categorizer {
-  border-radius: 0 30% 30% 0;
+  border-radius: 20% 0 0 20%;
 }
 
 .card-container {

@@ -106,6 +106,12 @@
                   There, you can discover other sources that you might want to follow or
                   trust, make customized lists, and add sources to those lists.
                 </p>
+
+                <p>
+                  The blue cards display sources that have one or more RSS feeds. {{siteName}} fetches 
+                  their posts periodically. You can add such sources to the system by going to the <span class="font-italic">Add Feeds</span> tab.
+                  The light lime cards are sources that are managed by individual users.
+                </p>
               </template>
             </about-card>
 
@@ -120,8 +126,8 @@
                 <p>
                   On your homepage, at the lefthand side, you have access to 4
                   types of filters to tune your newsfeed:
-                  </br>
-                  <ul>
+                  
+                  <ul class="mt-1">
                     <li>
                       <span class="font-weight-medium">Explore mode:</span> when turned on,
                       displays articles shared or posted by anyone in the system,
@@ -169,6 +175,32 @@
                   <span class="font-weight-bold"> you only see articles from those you follow</span>.
                   The filters on the filter panel are not for who posted or shared the posts, but rather
                   who assessed them and what their assessment was.
+                </p>
+
+              </template>
+            </about-card>
+
+
+             <about-card categoryType="posts">
+              <template v-slot:category>
+                <v-icon>note_add</v-icon> Posts
+              </template>
+              <template v-slot:title>
+                How do I post?
+              </template>
+              <template v-slot:body>
+                <p>
+                  To write a post, you can click on the <v-icon>note_add</v-icon> icon on the app bar and write your
+                  post in the <span class="font-italic">Create</span> tab. The post by default will be shared with anyone
+                  who follows you. However, you can share it with only a specific set of sources by selecting a target audience.
+                  A post that is created by you is automatically given an <span class="font-italic">accurate</span> assessment
+                  by you. To change that assessment, once you have added the post, you can open the post and change the assessment
+                  by clicking on the gavel icon, much like changing your assessment on any other post. You can also edit or delete
+                  your post by opening it and clicking on the <v-icon>build</v-icon> icon.
+                </p>
+
+                <p>
+                  To import a post or an article from another website, you can go to the <span class="font-italic">Import</span> tab in the same menu.
                 </p>
 
               </template>
