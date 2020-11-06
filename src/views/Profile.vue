@@ -43,7 +43,12 @@
               <v-card-title>
                 <div>
                   <div class="headline grey--text text--lighten-4" v-if="!profileOwner.systemMade">{{profileOwner.firstName}} {{profileOwner.lastName}}</div>
-                  <div class="subheading grey--text text--lighten-2">({{profileOwner.userName}})</div>
+                   <div class="headline grey--text text--lighten-4" v-else>{{profileOwner.firstName}} {{profileOwner.userName}}</div>
+
+                  <div class="subheading grey--text text--lighten-2" v-if="!profileOwner.systemMade">({{profileOwner.userName}})</div>
+                  <div class="caption grey--text text--lighten-2 mt-2" v-if="profileOwner.systemMade && !profileOwner.SourceFeeds.length">There is currently no RSS feed associated with this source. The posts on this page have been individually imported.
+                    You can add this source's feed to {{siteName}} by going to the Sources page <v-icon small color="grey grey--lighten-2">arrow_right_alt</v-icon> Add Feeds.
+                  </div>
                 </div>
               </v-card-title>
             </v-col>
@@ -186,6 +191,9 @@ export default {
     },
     isTrusted: function() {
       return utils.isTrusted(this.profileOwner);
+    },
+    siteName: function() {
+      return consts.SITE_NAME;
     },
     ...mapGetters('auth', [
       'user'
