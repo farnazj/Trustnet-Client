@@ -1,8 +1,8 @@
 <template>
 
-  <v-avatar color="blue darken-1" :size="getSize">
+  <v-avatar color="blue-grey darken-3" :size="getSize">
     <v-img v-if="user.photoUrl" contain :src="extendedPhotoUrl"> </v-img>
-    <span v-else class="white--text"> {{getInitials}}</span>
+    <span v-else class="blue-grey--text text--lighten-5"> {{getInitials}}</span>
     <!-- <span v-else class="white--text"> {{getCroppedUserName}} </span> -->
   </v-avatar>
 
@@ -40,6 +40,8 @@ export default {
           return inits.join('');
         }
       }
+      else
+        return '';
     },
     getCroppedUserName: function() {
       return this.user.userName.substring(0,3);
