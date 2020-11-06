@@ -21,13 +21,13 @@
             <v-list dense class="py-0">
               <template v-for="(notification, index) in notifications">
 
-                <v-list-item :key="index" @click="prepareRedirect(notification)" :class="['px-2', notification.clicked ? 'clicked-notif' : 'not-clicked-notif']">
+                <v-list-item :key="`item-${index}`" @click="prepareRedirect(notification)" :class="['px-2', notification.clicked ? 'clicked-notif' : 'not-clicked-notif']">
                     <v-list-item-content>
                         <v-list-item-subtitle v-html="notification.text" class="caption notif-text"> </v-list-item-subtitle>
                     </v-list-item-content>
                 </v-list-item>
 
-                <v-divider :key="index" v-if="index < notifications.length - 1"></v-divider>
+                <v-divider :key="`divider-${index}`" v-if="index < notifications.length - 1"></v-divider>
                  
               </template>
               <v-list-item v-if="!notifications.length" class="px-2">
