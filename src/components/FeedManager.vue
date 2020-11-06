@@ -17,13 +17,13 @@
                 </v-text-field>
               </v-row>
 
-              <v-row no-gutters>
+              <!-- <v-row no-gutters>
                 <v-col cols="12" d-flex>
                   <v-select :items="frequencySelects" label="How frequently does the feed publish new content?"
                     outlined v-model="frequency" item-text="label" item-value="value" required
                     :rules="formRules.frequencyRules"></v-select>
                 </v-col>
-              </v-row>
+              </v-row> -->
 
               <v-row justify-center>
                 <v-card-actions >
@@ -51,33 +51,33 @@ export default {
       type: 'info',
       alert: false,
       alertMessage: '',
-      frequency: null,
+      //frequency: null,
       feed: null,
-      frequencySelects: [
-        {
-          label: 'A few times per hour',
-          value: 1,
-        },
-        {
-          label: 'A few times per day',
-          value: 2,
-        },
-        {
-          label: 'A few times per week',
-          value: 3,
-        },
-        {
-          label: 'Less frequently than above',
-          value: 4,
-        }
-      ],
+      // frequencySelects: [
+      //   {
+      //     label: 'A few times per hour',
+      //     value: 1,
+      //   },
+      //   {
+      //     label: 'A few times per day',
+      //     value: 2,
+      //   },
+      //   {
+      //     label: 'A few times per week',
+      //     value: 3,
+      //   },
+      //   {
+      //     label: 'Less frequently than above',
+      //     value: 4,
+      //   }
+      // ],
       formRules: {
         feedURLRules: [
           v => !!v || 'Feed URL is required'
-        ],
-        frequencyRules: [
-          v => !!v || 'Select a frequency'
         ]
+        // frequencyRules: [
+        //   v => !!v || 'Select a frequency'
+        // ]
       }
     }
   },
@@ -85,8 +85,8 @@ export default {
     submit: function() {
       if (this.$refs.feedMenu.validate()) {
         let reqBody = {
-          rssfeed: this.feed,
-          frequency: this.frequency
+          rssfeed: this.feed
+          //frequency: this.frequency
         }
 
         this.$emit('loading-on');

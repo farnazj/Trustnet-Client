@@ -267,8 +267,9 @@ export default {
     ])
   },
   watch: {
-    username: function() {
+    username: function(val) {
       this.hideContainer();
+      this.setUsername(val);
       this.getUser();
     }
   }

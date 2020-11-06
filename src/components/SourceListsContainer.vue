@@ -24,17 +24,20 @@
     <v-row no-gutters>
       <v-container fluid>
         <v-row >
-          <v-col sm="4" lg="3" xlg="2">
+          <v-col sm="4" lg="3" xl="2">
             <v-card outlined @click="showAddListDialog = true"
             class="cursor-pointer dashed-border">
               <v-row no-gutters align="center" justify="center" class="create-new-list">
                 <v-icon large>add</v-icon>
                 Create new list
               </v-row>
+                <v-row no-gutters align="center" justify="center" class="caption pa-2">
+                  You can add sources to and remove them from each list by clicking on the ... on a source card.
+              </v-row>
             </v-card>
           </v-col>
 
-          <v-col v-for="list in sourceLists" :key="list.id" sm="4" lg="3" xlg="2" cols="6">
+          <v-col v-for="list in sourceLists" :key="list.id" sm="4" lg="3" xl="2" cols="6">
             <source-list-card :list="list" :isPreview=true
             @delete="confirmListRemoval"
             @showList="showFullList" @errorOccured="showError"

@@ -46,7 +46,7 @@
       </v-container>
 
       <v-card-actions class="pb-1 px-0">
-        <v-row v-if="user && source.id == user.id" no-gutters class="pr-1 pb-2 grey--text text--darken-3 caption" >
+        <v-row v-if="user && source.id == user.id" no-gutters class="px-2 pb-2 grey--text text--darken-3 caption" >
           This is you
         </v-row>
 

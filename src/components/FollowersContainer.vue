@@ -15,7 +15,7 @@
       <v-container fluid grid-list-xs>
         <v-row wrap>
           <v-col v-for="source in sourceResults"
-            :key="source.id" sm="4" lg="3" xlg="2" cols="6">
+            :key="source.id" sm="4" lg="3" xl="2" cols="6">
             <source-card :source="source" :user="user"></source-card>
           </v-col>
         </v-row>
@@ -33,7 +33,6 @@
 </template>
 
 <script>
-import customAvatar from '@/components/CustomAvatar'
 import sourceServices from '@/services/sourceServices'
 import sourceCard from '@/components/SourceCard'
 import loadMore from '@/mixins/loadMore'
@@ -43,7 +42,6 @@ import { mapState, mapGetters, mapActions } from 'vuex'
 
 export default {
   components: {
-   'custom-avatar': customAvatar,
    'source-card': sourceCard
   },
   props: ['username'],
