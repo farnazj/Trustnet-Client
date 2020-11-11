@@ -1,8 +1,8 @@
 <template>
 
-    <v-card :color="source.systemMade ? 'blue lighten-4' : 'lime lighten-3'" class="ma-1">
+    <v-card :color="source.systemMade ? 'blue lighten-4' : 'lime lighten-3'" class="ma-1" >
 
-      <v-container fill-height pa-2>
+      <v-container fill-height pa-2 class="source-info-wrapper">
         <v-row fill-height no-gutters>
 
           <v-col cols="9" >
@@ -22,7 +22,7 @@
               </v-col>
             </v-row>
 
-            <v-row no-gutters class="body-2 mt-2 name-container">
+            <v-row no-gutters class="body-2 mt-2 name-container" v-if="!source.systemMade">
               <v-tooltip bottom open-delay="500">
                 <template v-slot:activator="{ on }">
                   <span v-on="on">{{sourceDisplayName(source)}}</span>
@@ -171,6 +171,11 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.source-info-wrapper {
+  height: 70px;
+  align-items: flex-start;
 }
 
 </style>
