@@ -7,6 +7,7 @@
 
 <script>
 import userStats from '@/components/UserStats'
+import utils from '@/services/utils'
 import { mapActions } from 'vuex'
 
 export default {
@@ -19,10 +20,10 @@ export default {
     }
   },
   created() {
-      if (this.$store.getters['auth/isLoggedIn']) {
-        this.planWhenToShow();
-      } 
-    
+    if (this.$store.getters['auth/isLoggedIn']) {
+      let statsDelay = utils.getRandomInt(240, 360) * 1000;
+      this.planWhenToShow(statsDelay);
+    }
   },
   methods: {
     logout: function () {

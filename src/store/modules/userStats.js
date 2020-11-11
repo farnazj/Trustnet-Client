@@ -7,7 +7,8 @@ export default {
         return {
             statsSheetVisible: false,
             recentShareCount: null,
-            recentAssessmentCount: null
+            recentAssessmentCount: null,
+            shareGoalPerDay: 2
         }
   },
   mutations: {
@@ -63,20 +64,27 @@ export default {
                 resolve();
             })
         },
-        planWhenToShow: (context) => {
-            let statsDelay = utils.getRandomInt(240, 360) * 1000;
+        planWhenToShow: (context, payload) => {
 
             return new Promise((resolve, reject) => {
-                context.dispatch('populateStats')
-                .then(() => {
-                    window.setTimeout(() => {
-                        context.dispatch('setStatsSheetVisibility', true)
-                    }, statsDelay)
-                    resolve();
-                })
-                .catch(err => {
-                    reject(err);
-                })
+           
+                window.setTimeout(() => {
+                    context.dispatch('populateStats')
+                    .then(() => {
+                        //console.log('populated', context.state.recentShareCount )
+                        if (context.state.recentShareCount < context.state.shareGoalPerDay)
+                            context.dispatch('setStatsSheetVisibility', true);
+                        
+                        let nextDelay = utils.getRandomInt(2 * 60 * 60, 3 * 60 * 60) * 1000;
+                        //let nextDelay = utils.getRandomInt(1, 3) * 60 * 1000;
+                        context.dispatch('planWhenToShow', nextDelay);
+                    })
+                    .catch(err => {
+                        reject(err);
+                    })
+                }, payload)
+
+                resolve();
             })
             
         }
