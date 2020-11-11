@@ -300,6 +300,7 @@ export default {
   },
   created() {
     this.prepopulateUserAssessment();
+    this.parseFacebookCommentsURL();
   },
   computed: {
     articleDetailsVisible: {
@@ -481,6 +482,11 @@ export default {
         this.showLinkToolTip = false;
       }, 1000);
     },
+    parseFacebookCommentsURL: function() {
+      setTimeout(function() {
+        window.FB.XFBML.parse();
+      }, 100)
+    },
     ...mapActions({
       setDrawerVisibility (dispatch, payload) {
         return dispatch(this.detailsNamespace + '/setDrawerVisibility', payload)
@@ -516,12 +522,9 @@ export default {
       this.edit.title = val.title;
 
       this.prepopulateUserAssessment();
-    },
-    facebookCommentsURL: function() {
-      setTimeout(function() {
-        window.FB.XFBML.parse();
-      }, 100)
+      this.parseFacebookCommentsURL();
     }
+   
   }
 }
 </script>

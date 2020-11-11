@@ -28,7 +28,8 @@
 
              <template v-for="assessment in getAssessmentsSlice('questioned')" >
                <inner-assessment :assessmentObj="assessment" :namespace="namespace"
-                :key="assessment.lastVersion.id"></inner-assessment>
+                :key="assessment.lastVersion.id" assessmentType="question"></inner-assessment>
+                
              </template>
 
             </v-col>
@@ -45,7 +46,7 @@
         </v-card>
 
         <v-row no-gutters>
-          <template v-for="(key,index) in ['confirmed', 'refuted']" >
+          <template v-for="(key, index) in ['confirmed', 'refuted']" >
             <v-col :key="index" :xs6="isDebated" :xs12="!isDebated" v-if="sortedAssessments[key].length != 0">
 
               <v-card class="assessment-col" outlined>
@@ -60,7 +61,7 @@
 
                 <template v-for="assessment in getAssessmentsSlice(key)" >
                   <inner-assessment :assessmentObj="assessment" :namespace="namespace"
-                  :key="assessment.lastVersion.id"></inner-assessment>
+                  :key="assessment.lastVersion.id" :assessmentType="key"></inner-assessment>
                 </template>
 
                 <v-row no-gutters class="pa-1">

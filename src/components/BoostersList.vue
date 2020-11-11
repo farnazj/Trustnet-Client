@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="visible" max-width="550" scrollable>
+  <v-dialog v-model="visible" max-width="600" scrollable>
      <v-card max-height="50vh">
 
        <v-row align="center" class="pa-1" no-gutters>
@@ -19,21 +19,25 @@
 
        <v-card-text class="pa-1">
          <template v-for="(boostObj, index) in boosters">
-           <v-row :key="boostObj.id" no-gutters align="center" class="py-2">
+           <v-row :key="`item-${boostObj.id}`" no-gutters align="center" class="py-2">
              <v-col cols="2">
                <custom-avatar :user="boostObj.booster" :clickEnabled="true"></custom-avatar>
              </v-col>
-             <v-col cols="5" class="body-2">
+             <v-col cols="4" class="body-2">
                {{sourceDisplayName(boostObj.booster)}}
              </v-col>
-             <v-col cols="5" class="grey--text text--darken-2">
+             <v-col cols="4" class="grey--text text--darken-2">
                <span> Shared with &#32;</span>
                <span v-if="!boostObj.Targets.length">everyone</span>
                <span v-else-if="boostObj.Targets[0].userName == user.userName">you</span>
                <span v-else> {{sourceDisplayName(boostObj.Targets[0])}}</span>
              </v-col>
+
+             <v-col cols="2">
+               <span class="caption">{{timeElapsed(createdAt)}}</span>
+             </v-col>
            </v-row>
-           <v-divider v-if="index != boosters.length - 1"></v-divider>
+           <v-divider :key="`divider-${boostObj.id}`" v-if="index != boosters.length - 1"></v-divider>
          </template>
        </v-card-text>
 
@@ -45,6 +49,7 @@
 <script>
 import customAvatar from '@/components/CustomAvatar'
 import sourceHelpers from '@/mixins/sourceHelpers'
+import timeHelpers from '@/mixins/timeHelpers'
 import { mapState, mapGetters, mapActions } from 'vuex'
 
 export default {
@@ -92,7 +97,7 @@ export default {
       }
     })
   },
-  mixins: [sourceHelpers]
+  mixins: [sourceHelpers, timeHelpers]
 
 }
 </script>

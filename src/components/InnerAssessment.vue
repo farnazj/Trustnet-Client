@@ -5,6 +5,10 @@
       <assessor :user="assessmentObj.assessor" :clickEnabled="true" :isTransitive="assessmentObj.lastVersion.isTransitive"
         :credibilityValue="assessmentObj.lastVersion.postCredibility" class="mb-1">
       </assessor>
+      
+      <span v-if="assessmentType == 'question' && assessmentObj.lastVersion.sourceIsAnonymous" 
+        class="ml-2 mr-1 caption grey--text text--darken-3"> Asked anonymously</span>
+
       <!-- <span v-if="assessmentObj.lastVersion.postCredibility != 0" class="ml-2 mr-1 caption grey--text text--darken-1"> {{confidence}}</span> -->
       <span v-if="assessmentObj.lastVersion.isTransitive" class="ml-2 mr-1 caption grey--text text--darken-1 "> Adopted through their network</span>
       <span class="ml-2 caption grey--text text--darken-3"> {{timeElapsed(assessmentObj.lastVersion.createdAt)}} </span>
@@ -51,6 +55,9 @@ export default {
     assessmentObj: {
       type: Object,
       required: true
+    },
+    assessmentType: {
+      type: String
     }
   },
   data () {
