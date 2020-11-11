@@ -89,7 +89,6 @@ export default {
     }
   },
   created() {
-    console.log('in created')
     this.mapCredProperties();
   },
   computed: {

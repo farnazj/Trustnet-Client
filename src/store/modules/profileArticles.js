@@ -75,8 +75,10 @@ export default {
           limit: context.state.limit
         }, headers)
         .then(response => {
+          console.log('inja', response.data)
           resolve(response.data);
         }).catch(error => {
+          console.log('what is going on?', error)
           reject(error)
         })
       })
