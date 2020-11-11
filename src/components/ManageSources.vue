@@ -48,12 +48,14 @@ export default {
     }
   },
   created() {
-    if (!this.followedSources.length)
-      this.fetchFollows();
-    if (!this.trustedSources.length)
-      this.fetchTrusteds();
+    let proms = [];
 
-    this.initiateSearch();
+    if (!this.followedSources.length)
+      proms.push(this.fetchFollows());
+    if (!this.trustedSources.length)
+      proms.push(this.fetchTrusteds());
+
+    Promise.all(proms).then( () => this.initiateSearch());
 
     if (!this.sourceLists.length)
       this.fetchLists();
