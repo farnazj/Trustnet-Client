@@ -22,6 +22,7 @@ export default {
   created() {
     if (this.$store.getters['auth/isLoggedIn']) {
       let statsDelay = utils.getRandomInt(240, 360) * 1000;
+      //let statsDelay = utils.getRandomInt(24, 36) * 1000;
       this.planWhenToShow(statsDelay);
     }
   },

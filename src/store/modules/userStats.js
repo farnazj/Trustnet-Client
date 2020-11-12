@@ -14,9 +14,9 @@ export default {
   mutations: {
 
     populate_stats: (state, payload) => {
-        if (payload.shareCount)
+        if (payload.shareCount !== null)
             state.recentShareCount = payload.shareCount;
-        if (payload.assessmentCount)
+        if (payload.assessmentCount !== null)
             state.recentAssessmentCount = payload.assessmentCount;
     },
     set_sheet_visibility: (state, visiblity) => {
@@ -71,7 +71,7 @@ export default {
                 window.setTimeout(() => {
                     context.dispatch('populateStats')
                     .then(() => {
-                        //console.log('populated', context.state.recentShareCount )
+                        
                         if (context.state.recentShareCount < context.state.shareGoalPerDay)
                             context.dispatch('setStatsSheetVisibility', true);
                         
