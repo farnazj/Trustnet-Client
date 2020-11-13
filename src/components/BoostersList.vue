@@ -34,7 +34,7 @@
              </v-col>
 
              <v-col cols="2">
-               <span class="caption">{{timeElapsed(createdAt)}}</span>
+               <span class="caption">{{timeElapsed(boostObj.createdAt)}}</span>
              </v-col>
            </v-row>
            <v-divider :key="`divider-${boostObj.id}`" v-if="index != boosters.length - 1"></v-divider>
