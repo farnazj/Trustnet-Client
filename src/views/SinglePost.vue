@@ -55,52 +55,58 @@ export default {
       post: null
     }
   },
+  created() {
+    if (this.postid)
+      this.getArticle();
+    this.fetchFollows();
+    this.fetchTrusteds();
+  },
   computed: {
     ...mapState('homeAssessments', [
      'visible'
    ])
- },
- beforeRouteLeave (to, from, next) {
-   this.hideContainer();
-   this.setBoostersVisibility(false);
-   this.setTitlesVisibility(false);
-   next();
- },
- created() {
-   if (this.postid)
-    this.getArticle();
- },
- methods: {
-   getArticle: function() {
-     postServices.getBoostByPostId({postId: this.postid})
-     .then((res) => {
-       //this.showArticleDrawer(res.data);
-       this.post = res.data;
-       Promise.all(this.restructureAssessments())
-       .then(() => {
-         this.showAssessments({
-           assessments: this.assessments,
-           postIdOfAssessments: this.postid
-         });
-       })
+  },
+  beforeRouteLeave (to, from, next) {
+    this.hideContainer();
+    this.setBoostersVisibility(false);
+    this.setTitlesVisibility(false);
+    next();
+  },
+  methods: {
+    getArticle: function() {
+      postServices.getBoostByPostId({postId: this.postid})
+      .then((res) => {
+        //this.showArticleDrawer(res.data);
+        this.post = res.data;
+        Promise.all(this.restructureAssessments())
+        .then(() => {
+          this.showAssessments({
+            assessments: this.assessments,
+            postIdOfAssessments: this.postid
+          });
+        })
 
-     })
-   },
-   hideAssessments: function() {
-     this.hideContainer();
-   },
-   ...mapActions('singleArticleAssessments', [
-     'hideContainer',
-     'showAssessments'
-   ]),
-   ...mapActions('singleArticleDetails', [
-     'showArticleDrawer',
-     'setBoostersVisibility'
-   ]),
-   ...mapActions('singleArticleTitles', [
-     'setTitlesVisibility'
-   ])
- },
- mixins: [assessmentHelpers]
+      })
+    },
+    hideAssessments: function() {
+      this.hideContainer();
+    },
+    ...mapActions('singleArticleAssessments', [
+      'hideContainer',
+      'showAssessments'
+    ]),
+    ...mapActions('singleArticleDetails', [
+      'showArticleDrawer',
+      'setBoostersVisibility'
+    ]),
+    ...mapActions('singleArticleTitles', [
+      'setTitlesVisibility'
+    ]),
+    ...mapActions('relatedSources', [
+    'fetchFollows',
+    'fetchTrusteds'
+    ])
+  },
+  mixins: [assessmentHelpers]
 }
 </script>
