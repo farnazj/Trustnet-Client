@@ -61,7 +61,7 @@
                     <v-col cols="12" :class="item.length ? 'mb-2' : 'mb-0' " >
                       <v-row align="center" wrap no-gutters>
 
-                        <v-tooltip bottom bottom open-delay="600" v-if="key == 'confirmed' && item.length">
+                        <v-tooltip bottom open-delay="600" v-if="key == 'confirmed' && item.length">
                           <template v-slot:activator="{ on }">
                             <span v-on="on">
                               <v-icon small class="mr-3">fas fa-check</v-icon>
@@ -70,7 +70,7 @@
                           <span>Verified by</span>
                         </v-tooltip>
 
-                        <v-tooltip bottom bottom open-delay="600" v-else-if="key == 'refuted' && item.length">
+                        <v-tooltip bottom open-delay="600" v-else-if="key == 'refuted' && item.length">
                           <template v-slot:activator="{ on }">
                             <span v-on="on">
                               <v-icon small class="mr-4">fas fa-times</v-icon>
@@ -79,7 +79,7 @@
                           <span>Refuted by</span>
                         </v-tooltip>
 
-                        <v-tooltip bottom bottom open-delay="600" v-else-if="key == 'questioned' && item.length">
+                        <v-tooltip bottom open-delay="600" v-else-if="key == 'questioned' && item.length">
                           <template v-slot:activator="{ on }">
                             <span v-on="on">
                               <v-icon small class="mr-4">fas fa-question</v-icon>
