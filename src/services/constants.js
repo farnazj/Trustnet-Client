@@ -1,5 +1,5 @@
-const BASE_URL = `http://localhost:3000`;
-//const BASE_URL = `http://developer.trustnet.csail.mit.edu`
+//const BASE_URL = `http://localhost:3000`;
+const BASE_URL = `http://developer.trustnet.csail.mit.edu`
 const SERVED_CLIENT_URL = `http://trustnet.csail.mit.edu`;
 const FB_COMMENTS_BASE_URL= `http://trustnet.csail.mit.edu/test`;
 const FB_APP_ID = `1910706082368253`;
