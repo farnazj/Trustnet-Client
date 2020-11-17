@@ -1,3 +1,7 @@
+<!--
+ @fileoverview A component that is used when assessments are requested (e.g., in the ArticleDetails and 
+ ContentBooster components)
+-->
 <template>
   <v-container class="pa-0">
 
@@ -69,6 +73,11 @@ export default {
       credibility: null,
       anonymous: true,
       assessmentText: null,
+      /*
+      consts.VALIDITY_CODES.QUESTIONED has a value of 0 and therefore would be interpreted as false by
+      the select component. To counteract this, the validity values (-1, 0, 1) are mapped to (1, 2, 3).
+      The parent component that uses the AssessmentCollector needs to subtract 2 from the selected value.
+      */
       validityStatus: [
         {
           label: 'This article is accurate',

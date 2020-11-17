@@ -1,3 +1,8 @@
+<!--
+ @fileoverview A component that is used in ArticlePreview and ArticleDetails to show the initiator source of a 
+ post, its author (in the case of a news publishing entity with several authors), and the publish date of the post
+-->
+
 <template>
   <v-row wrap align="center" no-gutters>
 

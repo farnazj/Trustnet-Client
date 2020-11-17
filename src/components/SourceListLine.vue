@@ -1,3 +1,9 @@
+<!--
+ @fileoverview A component that holds a source list name and a checkbox. When the ... on a source card
+ is clicked, a container is opened that contains as many SourceListLines as there are source lists.
+ Checking or unchecking the checkbox next to the name of a source list indicates if the user wants to
+ assign the source to certain source lists or remove the source from the lists.
+-->
 <template>
 
   <v-list-item dense @click="">

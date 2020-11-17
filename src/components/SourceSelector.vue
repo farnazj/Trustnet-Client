@@ -1,3 +1,8 @@
+<!--
+ @fileoverview A component that is used when choosing who to share posts with (mode downstream = user's followers
+ or source lists), or when choosing who to ask about a post's validity (mode upstream = sources that the user 
+ trusts or follows).
+-->
 <template>
 
   <v-autocomplete v-model="targets" :items="populationList" dense
@@ -68,6 +73,11 @@ export default {
   },
   data () {
     return {
+      /*
+      the selected sources will be in this variable and the parent component needs to access this variable
+      using refs. I have opted for the parent reaching into the child's state rather than the child emitting
+      events here because it is not clear when the user is done making changes to their target list.
+      */
       targets: []
     }
   },

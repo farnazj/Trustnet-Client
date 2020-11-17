@@ -1,3 +1,8 @@
+<!--
+ @fileoverview A component for the source cards in the various views of the app (e.g., Discover Sources).
+ The cards have some basic info on the source as well as if the authenticated user follows or trusts the source
+ and buttons for doing so.
+-->
 <template>
 
     <v-card :color="source.systemMade ? 'blue lighten-4' : 'lime lighten-3'" class="ma-1" >
