@@ -6,7 +6,7 @@
 -->
 <template>
 
-  <v-list-item dense @click="">
+  <v-list-item dense >
     <v-list-item-content>
       <v-list-item-title>{{ list.name }}</v-list-item-title>
     </v-list-item-content>

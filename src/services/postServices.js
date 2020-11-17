@@ -20,9 +20,14 @@ export default {
     reqBody, { withCredentials: true })
   },
   getBoostByPostId(params, headers) {
-    return Api().get('/boosts/' + params.postId, {
+    return Api().get('/boosts/posts/' + params.postId, {
       withCredentials: true,
       headers: headers
+    })
+  },
+  deleteBoostByBoostId(params) {
+    return Api().delete('/boosts/' + params.boostId, {
+      withCredentials: true
     })
   },
   editPost(params, reqBody) {
