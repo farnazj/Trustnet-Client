@@ -1,3 +1,7 @@
+<!--
+ @fileoverview The component containing the different source list cards, the full source list dialog,
+ and the create new list tile.
+-->
 <template>
   <v-container fluid>
     <v-snackbar v-model="showInfoSnackbar" top>

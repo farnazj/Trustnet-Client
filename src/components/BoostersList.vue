@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="visible" max-width="600" scrollable>
+  <v-dialog v-model="visible" max-width="700" scrollable>
      <v-card max-height="50vh">
 
        <v-row align="center" class="pa-1" no-gutters>
@@ -23,7 +23,7 @@
              <v-col cols="2">
                <custom-avatar :user="boostObj.booster" :clickEnabled="true"></custom-avatar>
              </v-col>
-             <v-col cols="4" class="body-2">
+             <v-col cols="3" class="body-2">
                {{sourceDisplayName(boostObj.booster)}}
              </v-col>
              <v-col cols="4" class="grey--text text--darken-2">
@@ -36,6 +36,15 @@
              <v-col cols="2">
                <span class="caption">{{timeElapsed(boostObj.createdAt)}}</span>
              </v-col>
+            
+            <v-col cols="1" v-if="user.id == boostObj.booster.id">
+               <v-card-actions>
+                <v-btn x-small outlined color="red lighten-1" @click.stop="deleteBoost(boostObj)">
+                  <v-icon class="xs-icon-font">delete</v-icon>
+                </v-btn>
+              </v-card-actions>
+            </v-col>
+
            </v-row>
            <v-divider :key="`divider-${boostObj.id}`" v-if="index != boosters.length - 1"></v-divider>
          </template>
@@ -50,6 +59,7 @@
 import customAvatar from '@/components/CustomAvatar'
 import sourceHelpers from '@/mixins/sourceHelpers'
 import timeHelpers from '@/mixins/timeHelpers'
+import postServices from '@/services/postServices'
 import { mapState, mapGetters, mapActions } from 'vuex'
 
 export default {
@@ -58,6 +68,10 @@ export default {
   },
   props: {
     detailsNamespace: {
+      type: String,
+      required: true
+    },
+    filtersNamespace: {
       type: String,
       required: true
     }
@@ -91,9 +105,22 @@ export default {
     hideBoosters: function() {
       this.setBoostersVisibility(false);
     },
+    deleteBoost: function(boostObj) {
+      console.log(boostObj)
+      postServices.deleteBoostByBoostId({ boostId: boostObj.id })
+      .then(() => {
+        console.log('delete shod')
+        this.updateStateArticle({ postId: boostObj.PostId })
+        .then(() => {
+        })
+      })
+    },
     ...mapActions({
       setBoostersVisibility (dispatch, payload) {
         return dispatch(this.detailsNamespace + '/setBoostersVisibility', payload)
+      },
+      updateStateArticle (dispatch, payload) {
+        return dispatch(this.filtersNamespace + '/updateStateArticle', payload)
       }
     })
   },

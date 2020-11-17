@@ -29,7 +29,7 @@
 
     <v-row no-gutters>
       <loading></loading>
-      <boosters-list detailsNamespace="homeArticleDetails"></boosters-list>
+      <boosters-list detailsNamespace="homeArticleDetails" filtersNamespace="articleFilters"></boosters-list>
       <custom-titles titlesNamespace="homeTitles"></custom-titles>
       <assessment-history namespace="homeAssessments"></assessment-history>
 

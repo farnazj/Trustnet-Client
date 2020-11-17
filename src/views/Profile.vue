@@ -96,7 +96,7 @@
             <v-container fluid class="px-0">
               <v-row no-gutters>
                 <loading></loading>
-                <boosters-list detailsNamespace="profileArticleDetails"></boosters-list>
+                <boosters-list detailsNamespace="profileArticleDetails" filtersNamespace="profileArticles"></boosters-list>
                 <custom-titles titlesNamespace="profileTitles"></custom-titles>
                 <assessment-history namespace="profileAssessments"></assessment-history>
 

@@ -1,3 +1,6 @@
+<!--
+ @fileoverview A component that is used for creating a post or imorting an article from another website
+-->
 <template>
 
   <div class="text-xs-center">

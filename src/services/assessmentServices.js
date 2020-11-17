@@ -1,3 +1,8 @@
+/**
+ * @fileoverview wraps API calls to the /assessments or /assessment routes
+ * about its dependencies.
+ */
+
 import Api from './api'
 
 export default {

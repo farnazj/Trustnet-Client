@@ -3,7 +3,7 @@
     <custom-toolbar></custom-toolbar>
 
     <v-row no-gutters>
-      <boosters-list detailsNamespace="singleArticleDetails"></boosters-list>
+      <boosters-list detailsNamespace="singleArticleDetails" filtersNamespace="articleFilters"></boosters-list>
       <custom-titles titlesNamespace="singleArticleTitles"></custom-titles>
       <assessment-history namespace="singleArticleAssessments"></assessment-history>
 

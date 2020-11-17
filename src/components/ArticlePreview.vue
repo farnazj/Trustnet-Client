@@ -219,18 +219,21 @@
       fetchAssociations: function() {
 
         this.boostObjects = [];
+
+        let boostProms = [];
         this.post.PostBoosts.forEach(postBoost => {
-          sourceServices.getSourceById(postBoost.SourceId)
+          boostProms.push(sourceServices.getSourceById(postBoost.SourceId)
           .then(response => {
             let boostObj = Object.assign({}, postBoost);
             boostObj.booster = response.data;
             this.boostObjects.push(boostObj);
-          })
+          }))
         });
         this.boostObjects.sort(utils.compareBoosters);
 
         this.restructureAssessments();
 
+        return Promise.all(boostProms);
       },
       fetchSeenStatus: function() {
 
@@ -287,7 +290,15 @@
     },
     watch: {
       post: function(val) {
-        this.fetchAssociations();
+
+        /*
+        For when the user deletes theri boost in BoostersList
+        */
+        this.fetchAssociations()
+        .then(() => {
+          this.populateBoosters(this.sortedBoosts);
+        })
+
         this.arrangeTitles()
         .then( res => {
           if (this.customTitlesVisible) {

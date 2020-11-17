@@ -1,3 +1,7 @@
+<!--
+ @fileoverview A component for the cards in sources/source lists each one containing a list(grouping) of sources.
+ This component is also used as the dialog that opens when one of the source list cards is clicked.
+-->
 <template>
 
   <v-fade-transition>

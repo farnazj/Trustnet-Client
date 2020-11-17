@@ -1,3 +1,15 @@
+<!--
+ @fileoverview A component that is used in the Home and the Profile views and contains the 
+ article snippets (Article Previews). This component also holds the TagsContainer, which 
+ contains the filtered tags (appearing at the top of the feed).
+ This component gets the articles that it passes to Article Previews from a Vuex store module.
+ This module is passed as a prop (the filtersNamespace) from the ArticleHolder's parent view to it.
+ Because the parent view could be either Profile or Home and can have its separate state of articles, the
+ parent has to inform this component which module the component needs to access. Similarly, which
+ ArticleDetails, assessments, and titles modules this component should send as a prop to its children
+ components need to be given to this component by the parent view (given as props detailsNamespace,
+ assessmentNamespace, titlesNamespace).
+-->
 <template>
   <v-row>
     <v-col cols="12">
@@ -18,19 +30,21 @@
           <p>
             <span class="subheading font-weight-light" >
               Looks like we don't have any posts to show you. Maybe you aren't following enough sources?<br/><br/>
-              You can follow sources by clicking on your avatar at the
-              right side of the top toolbar, and going to the
+              You can follow sources by going to the
             </span>
-            <v-icon small>account_circle</v-icon>
+            <v-icon small>fas fa-users</v-icon>
             <span class="subheading font-weight-bold"> Sources</span>
             <span>
-              <span class="subheading font-weight-light"> page.</span>
+              <span class="subheading font-weight-light"> page</span>
+            </span>
+            <span class="subheading font-weight-light" >
+              which you can find on the toolbar.
             </span>
           </p>
           <p class="subheading font-weight-light">
             You can also visit the <v-icon small>help</v-icon>
-            <span class="subheading font-weight-bold"> About</span> page to learn
-            more about Trustnet.
+            <span class="subheading font-weight-bold"> About</span> page which you can find by clicking on your 
+            avatar at the top rightside of the toolbar to learn more about {{siteName}}.
           </p>
 
         </v-col>
@@ -44,6 +58,7 @@
 import ArticlePreview from '@/components/ArticlePreview'
 import tagsContainer from '@/components/TagsContainer'
 import infiniteScroll from '@/mixins/infiniteScroll'
+import consts from '@/services/constants'
 import { mapState, mapActions } from 'vuex';
 
 export default {
@@ -94,6 +109,9 @@ export default {
     },
     filteredTags: function() {
       return this.state.filteredTags;
+    },
+    siteName: function() {
+      return consts.SITE_NAME;
     },
     ...mapState({
        state (state) {

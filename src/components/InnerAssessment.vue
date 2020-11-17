@@ -1,3 +1,6 @@
+<!--
+ @fileoverview The component containing each assessment in the AssessmentContainer
+-->
 <template>
   <div class="pa-1">
 
