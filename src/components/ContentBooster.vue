@@ -94,43 +94,50 @@
           </v-tab-item>
 
           <v-tab-item>
-            <v-form ref="importArticleForm" lazy-validation>
-              <v-card>
-                <v-container fluid>
+           
+            <validation-observer ref="importArticleObserver" v-slot="{ invalid }">
+            <!-- <v-form ref="importArticleForm" lazy-validation> -->
+              <v-form>
+                <v-card>
+                  <v-container fluid>
 
-                  <v-row no-gutters class="mb-3">
-                    <v-col cols="12">
-                      <v-textarea v-model="articleLink"
-                        label="Import an article by pasting its URL" required
-                        :rules="importArticleFormRules.urlRules">
-                      </v-textarea>
-                    </v-col>
-                  </v-row>
+                    <v-row no-gutters class="mb-3">
+                      <v-col cols="12">
+                          <validation-provider rules="articleUrl" v-slot="{ errors }" >
 
-                  <assessment-collector ref="assessmentColl" :validityRules="importArticleFormRules.validityRules"
-                    :postCredibility="postCredibility" :assessmentBody="assessmentBody" class="mb-2">
-                  </assessment-collector>
+                            <v-textarea v-model="articleLink"
+                              label="Import an article by pasting its URL" >
+                            </v-textarea>
+                          <span class="caption red--text red--darken-3">{{ errors[0] }}</span>
+                          </validation-provider>
+                      </v-col>
+                    </v-row>
 
-                  <v-row no-gutters class="mt-2">
-                    <v-col cols="12">
-                      <source-selector ref="importTargets" population="downstream">
-                      </source-selector>
-                    </v-col>
-                  </v-row>
+                    <assessment-collector ref="assessmentColl" :postCredibility="postCredibility" 
+                      :assessmentBody="assessmentBody" class="mb-2">
+                    </assessment-collector>
 
-                </v-container>
+                    <v-row no-gutters class="mt-2">
+                      <v-col cols="12">
+                        <source-selector ref="importTargets" population="downstream">
+                        </source-selector>
+                      </v-col>
+                    </v-row>
 
-                <v-card-actions>
-                  <v-spacer></v-spacer>
+                  </v-container>
 
-                  <v-btn text @click="cancel">Cancel</v-btn>
-                  <v-btn color="primary" text @click="importArticle">
-                    <v-icon class="pr-1" >fas fa-share</v-icon> Share
-                  </v-btn>
-                </v-card-actions>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
 
-              </v-card>
+                    <v-btn text @click="cancel">Cancel</v-btn>
+                    <v-btn color="primary" text @click="importArticle" :disabled="invalid">
+                      <v-icon class="pr-1" >fas fa-share</v-icon> Share
+                    </v-btn>
+                  </v-card-actions>
+
+                </v-card>
             </v-form>
+            </validation-observer>
 
           </v-tab-item>
         </v-tabs-items>
@@ -151,11 +158,14 @@ import assessmentCollector from '@/components/AssessmentCollector'
 import postServices from '@/services/postServices'
 import { mapGetters, mapActions } from 'vuex'
 import consts from '@/services/constants'
+import { ValidationObserver, ValidationProvider } from 'vee-validate'
 
 export default {
   components: {
     'source-selector': sourceSelector,
-    'assessment-collector': assessmentCollector
+    'assessment-collector': assessmentCollector,
+    ValidationObserver,
+    ValidationProvider
   },
   data () {
     return {
@@ -178,15 +188,7 @@ export default {
       importArticleFormRules: {
         urlRules: [
           v => !!v || 'URL is required'
-        ],
-        validityRules: {
-          selectRules: [
-            v => !!v || 'Assess the accuracy of the article'
-          ],
-          bodyRules: [
-            v => !!v || 'You should add your reasoning'
-          ]
-        }
+        ]
       },
       alert: false,
       alertMessage: '',
@@ -248,7 +250,8 @@ export default {
 
     },
     importArticle: function() {
-      if (this.$refs.importArticleForm.validate()) {
+      //if (this.$refs.importArticleForm.validate()) {
+      if (this.$refs.importArticleObserver.validate()) {
 
         let targets = this.getSelectedUsernamesAndLists();
 
@@ -298,7 +301,7 @@ export default {
     },
     cancel: function() {
 
-      for (let form of ['createPostForm', 'importArticleForm']) {
+      for (let reference of ['createPostForm', 'importArticleObserver']) {
         if (typeof this.$refs[form] !== 'undefined')
           this.$refs[form].reset();
       }
