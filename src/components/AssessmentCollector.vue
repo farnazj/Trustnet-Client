@@ -7,30 +7,39 @@
 
     <v-row no-gutters>
       <v-col cols="12">
-        <v-select :items="validityStatus" v-model="credibility"
-          item-text="label" item-value="value" dense
-          label="Article Validity" outline required
-          :rules="validityRules.selectRules">
+        <validation-provider rules="required" v-slot="{ errors }" vid="selectValue">
+          <v-select :items="validityStatus" v-model="credibility"
+            item-text="label" item-value="value" dense
+            label="Article Validity" outline
+            >
 
-          <template slot="item" slot-scope="data" >
-            <div v-html="data.item.label" :class="data.item.color">
-            </div>
-          </template>
+            <template slot="item" slot-scope="data" >
+              <div v-html="data.item.label" :class="data.item.color">
+              </div>
+            </template>
 
-          <template slot="selection" slot-scope="data" >
-            <div v-html="data.item.label" :class="data.item.color">
-            </div>
-          </template>
+            <template slot="selection" slot-scope="data" >
+              <div v-html="data.item.label" :class="data.item.color">
+              </div>
+            </template>
 
-        </v-select>
+          </v-select>
+          <span class="caption red--text red--darken-3">{{ errors[0] }}</span>
+        </validation-provider>
       </v-col>
     </v-row>
 
     <v-row no-gutters class="pt-3">
       <v-col cols="12">
-        <v-textarea v-model="assessmentText" :rules="credibility - 2 != 0 ? validityRules.bodyRules : []"
-          :label="textAreaLabel">
-        </v-textarea>
+        <!-- <v-textarea v-model="assessmentText" :rules="credibility - 2 != 0 ? validityRules.bodyRules : []"
+          :label="textAreaLabel"> -->
+          <validation-provider :rules="{ reasoningRule: { selectValue: '@selectValue', username: user.userName } }" v-slot="{ errors }">
+              <v-textarea v-model="assessmentText"
+              :label="textAreaLabel">
+            </v-textarea>
+          <span class="caption red--text red--darken-3">{{ errors[0] }}</span>
+        </validation-provider>
+
       </v-col>
     </v-row>
 
@@ -57,12 +66,15 @@
 <script>
 import sourceSelector from '@/components/SourceSelector'
 import consts from '@/services/constants'
+import { ValidationProvider } from 'vee-validate';
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
-    'source-selector': sourceSelector
+    'source-selector': sourceSelector,
+    ValidationProvider
   },
-  props: ['validityRules',
+  props: [
     'postCredibility',
     'assessmentBody',
     'assessmentId',
@@ -94,7 +106,15 @@ export default {
           value: consts.VALIDITY_CODES.QUESTIONED + 2,
           color: 'amber--text text--darken-3'
         }
-      ]
+      ],
+      validityRules: {
+          selectRules: [
+            v => !!v || 'Assess the accuracy of the article'
+          ],
+          bodyRules: [
+            v => !!v || 'You should add your reasoning'
+          ]
+        }
     }
   },
   created() {
@@ -112,7 +132,10 @@ export default {
         return 'Pose question anonymously';
       else
         return 'Reveal my name'
-    }
+    },
+    ...mapGetters('auth', [
+      'user'
+    ])
   },
   methods: {
     mapCredProperties: function() {

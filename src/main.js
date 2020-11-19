@@ -7,6 +7,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store/store'
 import axios from 'axios'
+import './validation'
 import VueObserveVisibility from 'vue-observe-visibility'
 import vuetify from './plugins/vuetify';
 import consts from './services/constants'

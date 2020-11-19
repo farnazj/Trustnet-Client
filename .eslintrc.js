@@ -12,7 +12,9 @@ module.exports = {
     'no-console': 'off',
     'no-debugger': 'off',
     'no-unused-vars': 'off',
-    'no-unused-components': 'off'
+    'no-unused-components': 'off',
+    'no-undef': 'off',
+    'vue/no-unused-vars': 'off'
   },
   parserOptions: {
     parser: 'babel-eslint'

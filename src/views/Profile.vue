@@ -161,8 +161,7 @@ export default {
       profileOwner: {},
       tabs: null,
       showUploadForm: false,
-      showUploader: false,
-
+      showUploader: false
     }
   },
   created() {

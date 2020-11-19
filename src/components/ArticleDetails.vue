@@ -37,25 +37,28 @@
                 </v-btn>
               </template>
 
-             <v-form ref="assessmentMenu" lazy-validation>
-               <v-card>
-                 <v-container fluid>
-                   <assessment-collector ref="assessmentColl" :validityRules="assessmentValidityRules"
-                     :postCredibility="postCredibility" :assessmentBody="assessmentBody" :assessmentId="assessment.id"
-                     :rerenderKey="rerenderKey">
-                   </assessment-collector>
-                 </v-container>
+            <validation-observer ref="assessmentObserver" v-slot="{ invalid }">
+              <!-- <v-form ref="assessmentMenu" lazy-validation> -->
+                <v-form ref="assessmentMenu">
+                <v-card>
+                  <v-container fluid>
+                    <assessment-collector ref="assessmentColl"
+                      :postCredibility="postCredibility" :assessmentBody="assessmentBody" :assessmentId="assessment.id"
+                      :rerenderKey="rerenderKey">
+                    </assessment-collector>
+                  </v-container>
 
-                <v-card-actions>
-                  <v-spacer></v-spacer>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
 
-                  <v-btn text @click="cancelMenu('assessmentMenu')">Cancel</v-btn>
-                  <v-btn color="primary" text @click="postAssessment">
-                    <v-icon class="pr-1" >gavel</v-icon> Assess
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-form>
+                    <v-btn text @click="cancelMenu('assessmentMenu')">Cancel</v-btn>
+                    <v-btn color="primary" text @click="postAssessment" :disabled="invalid">
+                      <v-icon class="pr-1" >gavel</v-icon> Assess
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-form>
+            </validation-observer>
 
             <v-alert v-model="assessmentAlert" type="error" dismissible>
               Something went wrong. Try again later.
@@ -250,6 +253,7 @@ import tagsContainer from '@/components/TagsContainer'
 import postServices from '@/services/postServices'
 import consts from '@/services/constants'
 import { mapState, mapGetters, mapActions } from 'vuex'
+import { ValidationObserver} from 'vee-validate'
 
 export default {
   components: {
@@ -257,7 +261,9 @@ export default {
    'assessment-collector': assessmentCollector,
    'source-selector': sourceSelector,
    'delete-dialog': deleteConfirmationDialog,
-   'tags-container': tagsContainer
+   'tags-container': tagsContainer,
+    ValidationObserver
+
   },
   props: {
     detailsNamespace: {
@@ -277,14 +283,6 @@ export default {
       boostMenu: false,
       postCredibility: null,
       assessmentBody: '',
-      assessmentValidityRules: {
-        selectRules: [
-          v => !!v || 'Assess the accuracy of the article'
-        ],
-        bodyRules: [
-          v => !!v || 'You should add your reasoning'
-        ]
-      },
       assessmentAlert: false,
       boostAlert: false,
       fab: false,
@@ -308,7 +306,7 @@ export default {
         return this.drawerVisible;
       },
       set: function(newValue) {
-        for (let menu of ['assessmentMenu', 'boostMenu']) {
+        for (let menu of ['assessmentObserver', 'boostMenu']) {
           if (this.$refs[menu])
             this.$refs[menu].reset();
         }
@@ -352,7 +350,10 @@ export default {
   },
   methods: {
     postAssessment: function() {
-      if (this.$refs.assessmentMenu.validate()) {
+
+      // if (this.$refs.assessmentMenu.validate()) {
+      if (this.$refs.assessmentObserver.validate()) {
+        
         let reqBody = {
           postCredibility: this.$refs.assessmentColl.credibility - 2,
           body: this.$refs.assessmentColl.assessmentText
@@ -367,6 +368,8 @@ export default {
         this.postAuthUserAssessment(reqBody)
         .then(() => {
           this.assessmentMenu = false;
+          this.postCredibility = null;
+          this.assessmentBody = '';
           this.disableBoost = false;
           this.updateStateArticle({postId: this.article.id});
           this.$emit('assessmentUpdate');
@@ -401,8 +404,11 @@ export default {
             this.disableBoost = true;
             this.assessmentBody = '';
             this.postCredibility = null;
-            if (this.$refs.assessmentMenu)
-              this.$refs.assessmentMenu.resetValidation();
+            // if (this.$refs.assessmentMenu)
+            //   this.$refs.assessmentMenu.resetValidation();
+
+            if (this.$refs.assessmentObserver)
+              this.$refs.assessmentObserver.reset();
           }
       });
     },
@@ -440,7 +446,11 @@ export default {
     },
     cancelMenu: function(menu) {
       //this.$refs[menu].resetValidation();
-      this.$refs[menu].reset();
+      if (menu == 'assessmentMenu')
+        this.$refs['assessmentObserver'].reset();
+      else
+        this.$refs[menu].reset();
+        
       this[menu] = false;
     },
     saveEdits: function() {
@@ -511,7 +521,7 @@ export default {
     })
   }, 
   watch: {
-    assessmentMenu: function(newVal) {
+    assessmentObserver: function(newVal) {
       if (newVal)
         this.prepopulateUserAssessment();
     },
