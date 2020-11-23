@@ -51,14 +51,14 @@
        <v-divider v-if="titles.length"></v-divider>
 
        <template v-for="(titleObj, index) in titles">
-         <v-row no-gutters align="center" class="py-1">
+         <v-row no-gutters align="center" class="py-1" :key="`meta-info-${index}`">
            <custom-avatar :user="titleObj.author" :clickEnabled="true"></custom-avatar>
            <span class="ml-2 caption grey--text text--darken-3"> {{timeElapsed(titleObj.lastVersion.createdAt)}} </span>
            <span v-if="titleObj.history.length" class="ml-2 caption grey--text text--darken-1 cursor-pointer"
             @click.stop="showHistory(titleObj)">Edited</span>
           </v-row>
 
-          <v-row no-gutters>
+          <v-row no-gutters :key="`title-text-${index}`">
             <v-col cols="12">
               <v-form ref="editTitleForm" lazy-validation>
                 <div v-if="titleObj.author.id == user.id && edit.on && edit.setId == titleObj.lastVersion.setId">
@@ -73,7 +73,7 @@
             </v-col>
           </v-row>
 
-          <v-row no-gutters class="py-1">
+          <v-row no-gutters class="py-1" :key="`title-actions-${index}`">
             <v-col cols="1">
               <v-icon @click="changeEndorsement(titleObj, index, false)"
               v-if="titleObj.userEndorsed" color="primary" class="xs-icon-font cursor-pointer">
@@ -132,7 +132,7 @@
             </v-col>
           </v-row>
 
-          <v-divider></v-divider>
+          <v-divider :key="`title-divider-${index}`"></v-divider>
 
         </template>
 
@@ -328,8 +328,8 @@ export default {
       setHistoryVisiblity (dispatch, payload) {
         return dispatch(this.titlesNamespace + '/setHistoryVisibility', payload)
       },
-      fetchPostTitles (dispatch, payload) {
-        return dispatch(this.titlesNamespace + '/fetchPostTitles', payload)
+      fetchPostTitles (dispatch) {
+        return dispatch(this.titlesNamespace + '/fetchPostTitles', { namespace: this.titlesNamespace })
       }
 
     })
