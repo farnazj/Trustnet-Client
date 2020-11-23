@@ -44,7 +44,16 @@ export default {
 
       return new Promise((resolve, reject) => {
 
-        postServices.getCustomTitlesOfPost({ postId: context.state.postId })
+        let customTitleReqHeaders = {};
+
+        if (payload.namespace == 'profileTitles') {
+          let activityUserName = context.rootState['profileArticles/username'];
+          customTitleReqHeaders = {
+            activityusername: activityUserName
+          };
+        }
+
+        postServices.getCustomTitlesOfPost({ postId: context.state.postId }, customTitleReqHeaders)
         .then(response => {
           context.dispatch('articleFilters/updateTitles', {
             postId: context.state.postId,

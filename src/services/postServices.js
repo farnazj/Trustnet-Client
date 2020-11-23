@@ -68,10 +68,11 @@ export default {
         withCredentials: true
       })
   },
-  getCustomTitlesOfPost(params) {
+  getCustomTitlesOfPost(params, headers) {
     return Api().get('/posts/' + params.postId + '/custom-titles',
     {
-      withCredentials: true
+      withCredentials: true,
+      headers: headers
     })
   },
   postCustomTitle(params, reqBody) {
@@ -102,10 +103,11 @@ export default {
       withCredentials: true
     })
   },
-  getTitleEndorsers(params) {
+  getTitleEndorsers(params, headers) {
     return Api().get('/posts/' + params.setId + '/custom-title-endorsers',
     {
-      withCredentials: true
+      withCredentials: true,
+      headers: headers
     })
   }
 
