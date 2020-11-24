@@ -6,7 +6,7 @@ export default {
   namespaced: true,
   state: {
     validityFilter: 'all',
-    sourceFilter: 'followed',
+    sourceFilters: ['followed'],
     seenFilter: 'not seen',
     exploreFilter: false,
     filteredUsernames: [],
@@ -22,7 +22,7 @@ export default {
     filters: (state) => {
       return {
         validityFilter: state.validityFilter,
-        sourceFilter: state.sourceFilter,
+        sourceFilters: state.sourceFilters,
         seenFilter: state.seenFilter,
         exploreFilter: state.exploreFilter,
         filteredUsernames: state.filteredUsernames,
@@ -50,9 +50,7 @@ export default {
       state.validityFilter = filters.filters.validity ?
         consts.VALIDITY_REQ_MAPPING[filters.filters.validity.toLowerCase()] : 'all';
 
-      state.sourceFilter = filters.filters.sources ?
-        consts.CRED_SOURCES_REQ_MAPPING[filters.filters.sources.split(' ')
-        .map(el => el.toLowerCase()).join(' ')] : 'followed';
+      state.sourceFilters = filters.filters.sources ? filters.filters.sources : ['followed'];
 
       state.seenFilter = filters.filters.seenStatus ?
         consts.SEEN_STATUS_REQ_MAPPING[filters.filters.seenStatus.split(' ')
@@ -108,7 +106,7 @@ export default {
             limit: context.state.limit
           },
           {
-            source: context.state.sourceFilter,
+            sources: JSON.stringify(context.state.sourceFilters),
             validity: context.state.validityFilter,
             seenstatus: context.state.seenFilter,
             explore: context.state.exploreFilter,
@@ -191,7 +189,7 @@ export default {
 
         postServices.getBoostByPostId(payload,
           {
-            source: context.state.sourceFilter,
+            sources: JSON.stringify(context.state.sourceFilters),
             validity: context.state.validityFilter,
             explore: context.state.exploreFilter,
             usernames: JSON.stringify(context.state.filteredUsernames),

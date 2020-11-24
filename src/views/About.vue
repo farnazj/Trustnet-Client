@@ -147,7 +147,7 @@
                     </li>
 
                     <li>
-                      <span class="font-weight-medium">Assessor sources:</span> Sources whose
+                      <span class="font-weight-medium">Assessors:</span> Sources whose
                       assessments you want to be considered in filtering. These could
                       be those you follow, yourself, those you trust, or even specific
                       sources or lists of sources.
@@ -161,7 +161,7 @@
                   been confirmed by your trusted sources, you can select <v-icon>remove_red_eye</v-icon>
                   Seen Status <v-icon>arrow_right_alt</v-icon> Not Seen, <v-icon>gavel</v-icon>
                   Validity <v-icon>arrow_right_alt</v-icon> Confirmed, and
-                  <v-icon>account_circle</v-icon> Assessor sources <v-icon>arrow_right_alt</v-icon> Trusted.
+                  <v-icon>account_circle</v-icon> Assessors <v-icon>arrow_right_alt</v-icon> Trusted.
                 </p>
 
                 <p>

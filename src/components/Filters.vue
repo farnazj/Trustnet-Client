@@ -74,11 +74,11 @@
           </v-list-item-content>
         </template>
 
-        <v-list-item v-for="(validity, i) in validityFilters"
-          :key="i" @click="filter(validity, 'validity')"
-          :class="{highlighted:validity == selectedFilters['validity']}">
+        <v-list-item v-for="(validityObj, i) in validityFilters"
+          :key="i" @click="filter(validityObj.serverName, 'validity')"
+          :class="{highlighted:validityObj.serverName == selectedFilters['validity']}">
           <v-list-item-content>
-            <v-list-item-title v-text="validity"></v-list-item-title>
+            <v-list-item-title v-text="validityObj.displayedName"></v-list-item-title>
           </v-list-item-content>
 
         </v-list-item>
@@ -90,17 +90,22 @@
     <v-list-group prepend-icon="account_circle" value="true" no-action>
       <template v-slot:activator>
         <v-list-item-content>
-          <v-list-item-title>Assessor sources</v-list-item-title>
+          <v-list-item-title>Assessors</v-list-item-title>
         </v-list-item-content>
       </template>
 
-      <template v-for="(source, i) in sourceFilters">
+      <template v-for="(sourceObj, i) in sourceFilters">
 
-        <v-list-item v-if="source !== 'Selected Sources' || (sourceLists.length || followedOrTrusteds.length)"
-          @click="filter(source, 'sources')" :key="i"
-          :class="{highlighted:source == selectedFilters['sources']}">
+        <v-list-item v-if="sourceObj.displayedName !== 'Selected Sources' || (sourceLists.length || followedOrTrusteds.length)"
+          @click="filter(sourceObj.serverName, 'sources')" :key="i"
+          :class="{highlighted:selectedFilters['sources'].includes(sourceObj.serverName)}">
+
+          <v-list-item-action class="pa-0 source-checkbox">
+            <v-checkbox v-model="selectedAssessorsCheckMark[sourceObj.serverName]"></v-checkbox>
+          </v-list-item-action>
+
           <v-list-item-content>
-            <v-list-item-title> {{source}} </v-list-item-title>
+            <v-list-item-title> {{sourceObj.displayedName}} </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
 
@@ -178,11 +183,40 @@
     },
     data: () => {
       return {
-        validityFilters: [ 'Confirmed', 'Refuted', 'Debated', 'Questioned'],
-        sourceFilters: ['Anyone', 'Followed', 'Me', 'Trusted', 'Selected Sources'],
+        validityFilters: [
+          {
+            serverName: 'confirmed',
+            displayedName: 'Confirmed'
+          }, {
+            serverName: 'refuted',
+            displayedName: 'Refuted'
+          }, {
+            serverName: 'debated',
+            displayedName: 'Split Opinion'
+          }, {
+            serverName: 'questioned',
+            displayedName: 'Questioned'
+          }
+        ],
+        sourceFilters: [
+           {
+            serverName: 'followed',
+            displayedName: 'Followed'
+          }, {
+            serverName: 'me',
+            displayedName: 'Me'
+          }, {
+            serverName: 'trusted',
+            displayedName: 'Trusted'
+          }, {
+            serverName: 'specified',
+            displayedName: 'Selected Sources'
+          }
+        ],
         seenStatusFilters: ['Not Seen', 'Seen'],
-        selectedFilters: {'validity': undefined, 'sources': 'Followed',
+        selectedFilters: {'validity': undefined, 'sources': ['Followed'],
           'seenStatus':'Not Seen', 'explore': false },
+        selectedAssessorsCheckMark: {}, 
         selectedSources: [],
         selectedLists: [],
         sourceSelectionMode: false,
@@ -214,16 +248,33 @@
 
       filter: function(value, type) {
 
-        let prevValue = this.selectedFilters[type];
+        let prevValue = Array.isArray(this.selectedFilters[type]) ? 
+          this.selectedFilters[type].slice(0) : this.selectedFilters[type];
 
         if (value == 'All') //validity
           this.selectedFilters[type] = undefined;
-        else if (type != 'explore')
-          this.selectedFilters[type] = value;
+        else if (type != 'explore') {
+          if (type == 'sources') {
 
-        if (this.selectedFilters['sources'] == 'Selected Sources')
+            if (this.selectedFilters[type].includes(value)) {
+              this.selectedFilters[type].splice(this.selectedFilters[type].indexOf(value), 1);
+            }
+            else {
+              this.selectedFilters[type].push(value);
+            }
+
+            this.selectedAssessorsCheckMark[value] = !this.selectedAssessorsCheckMark[value]; //toggle assessor checkmark
+          }
+          else {
+            this.selectedFilters[type] = value;
+          }
+        }
+
+
+        if (this.selectedFilters['sources'].includes('Selected Sources'))
           this.sourceSelectionMode = true;
-        else {
+        else if (prevValue.includes('Selected Sources')) {
+          
           this.sourceSelectionMode = false;
 
           this.selectedSources = [];
@@ -231,17 +282,27 @@
           this.selectedSourcesCheckMark = [];
           this.selectedListsCheckMark = [];
 
-          if (prevValue == 'Selected Sources')
+          if (prevValue.includes('Selected Sources'))
             this.resetSourceCheckbox();
 
           if (type == 'explore' && this.selectedFilters['explore'] == true)
-            this.selectedFilters['sources'] = 'Anyone';
+            this.selectedFilters['sources'] = ['Followed', 'Trusted', 'Me'];
         }
 
-        if (this.selectedFilters[type] != prevValue || type == 'explore') {
-          if (value != 'Selected Sources' || this.selectedSources.length ||
-          this.selectedLists.length)
-            this.filterBoosts();
+        /*
+        filter if the new value is not the same as the old value or if the new array (for assessors) has a length that's
+        different from before or if the explore mode has been manipulated (has been switched on or off)
+        if the type of filter that's been manipulated is assessors -> selected sources, filter only if there are some
+        changes to the selected sources and lists or if the selected sources has been unchecked
+        */
+        if (this.selectedFilters[type] != prevValue || 
+            (Array.isArray(this.selectedFilters[type]) && this.selectedFilters[type].length != prevValue.length) || 
+            type == 'explore') {
+
+          if (value != 'Selected Sources' || ( value == 'Selected Sources' && (this.selectedSources.length ||
+            this.selectedLists.length || this.selectedFilters[type].length < prevValue.length ))) {
+             this.filterBoosts();
+            }
         }
 
       },
@@ -288,10 +349,17 @@
 
         this.selectedFilters['explore'] = this.filters.exploreFilter;
 
-        if (this.filters.sourceFilter != consts.CRED_SOURCES_REQ_MAPPING['selected sources']) {
-          this.selectedFilters['sources'] = this.filters.sourceFilter.split(' ').map((s) =>
-            s.charAt(0).toUpperCase() + s.substring(1)).join(' ');
+        this.selectedFilters['sources'] = this.filters.sourceFilters;
 
+        //aligning the checkboxes of assessors with whether they are selected
+        for (let assessor of this.sourceFilters.map(el => el.serverName)) {
+          if (this.selectedFilters['sources'].includes(assessor))
+            this.selectedAssessorsCheckMark[assessor] = true;
+          else
+            this.selectedAssessorsCheckMark[assessor] = false;
+        }
+
+        if (!this.filters.sourceFilters.includes('specified')) {
           this.sourceSelectionMode = false;
           this.selectedSources = [];
           this.selectedLists = [];
@@ -299,7 +367,6 @@
           this.selectedListsCheckMark = [];
         }
         else {
-          this.selectedFilters['sources'] = 'Selected Sources';
           this.sourceSelectionMode = true;
 
           /*
@@ -393,6 +460,7 @@
 }
 .source-checkbox {
   min-width: inherit;
+  margin-right: 0.5em !important;
 }
 
 .custom-list-avatar {
