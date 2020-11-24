@@ -30,7 +30,11 @@
                <span> Shared with &#32;</span>
                <span v-if="!boostObj.Targets.length">everyone</span>
                <span v-else-if="boostObj.Targets[0].userName == user.userName">you</span>
-               <span v-else> {{sourceDisplayName(boostObj.Targets[0])}}</span>
+               <span v-else>
+                  <span v-for="(target, index) in boostObj.Targets" :key="`target-${target.id}`">
+                    {{sourceDisplayName(target)}}<span v-if="index < boostObj.Targets.length - 1">,</span>
+                  </span> 
+                 </span>
              </v-col>
 
              <v-col cols="2">
