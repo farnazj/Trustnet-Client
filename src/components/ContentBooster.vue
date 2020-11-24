@@ -235,8 +235,8 @@ export default {
             this.applyFilter({
               'filters': {
                 'validity': 'All',
-                'sources': ['followed', 'anyone'].includes(this.filters.sourceFilter) ?
-                this.filters.sourceFilter : 'followed',
+                'sources': this.filters.sourceFilters.includes('followed') ?
+                  this.filters.sourceFilters : this.filters.sourceFilters.concat('followed'),
                 'seenStatus': 'Not Seen',
                 'explore': this.filters.exploreFilter
               },
@@ -280,8 +280,8 @@ export default {
             this.applyFilter({
               'filters': {
                 'validity': 'All',
-                'sources': ['followed', 'anyone'].includes(this.filters.sourceFilter) ?
-                  this.filters.sources : 'followed',
+                'sources': this.filters.sourceFilters.includes('followed') ?
+                  this.filters.sourceFilters : this.filters.sourceFilters.concat('followed'),
                 'seenStatus':'Not Seen',
                 'explore': this.filters.exploreFilter
               },
