@@ -341,8 +341,7 @@
       */
       presetFilters: function() {
 
-        this.selectedFilters['validity'] = this.filters.validityFilter.split(' ').map((s) =>
-          s.charAt(0).toUpperCase() + s.substring(1)).join(' ');
+        this.selectedFilters['validity'] = this.filters.validityFilter;//.split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' ');
 
         this.selectedFilters['seenStatus'] = this.filters.seenFilter.split(' ').map((s) =>
           s.charAt(0).toUpperCase() + s.substring(1)).join(' ');
