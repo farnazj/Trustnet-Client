@@ -273,7 +273,7 @@
 
         if (this.selectedFilters['sources'].includes('Selected Sources'))
           this.sourceSelectionMode = true;
-        else if (prevValue.includes('Selected Sources')) {
+        else if (Array.isArray(prevValue) && prevValue.includes('Selected Sources')) {
           
           this.sourceSelectionMode = false;
 
