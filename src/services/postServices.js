@@ -92,7 +92,7 @@ export default {
     { withCredentials: true })
   },
   hasUserEndorsedTitle(params) {
-    return Api().get('/posts/' + params.setId + '/custom-title-endorsement',
+    return Api().get('/posts/custom-title-endorsement/' + params.setId,
     {
       withCredentials: true
     })
