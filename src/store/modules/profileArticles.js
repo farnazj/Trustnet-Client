@@ -27,7 +27,7 @@ export default {
       let articleIds = state.articles.map(article => article.id);
       let filteredPosts = posts.filter(post => !articleIds.includes(post.id) );
       state.articles.push(...filteredPosts);
-      state.offset += posts.length;
+      state.offset += filteredPosts.length;
     },
 
     refresh_articles: (state) => {
