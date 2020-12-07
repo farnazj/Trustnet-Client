@@ -25,7 +25,8 @@
         </article-preview>
       </v-row>
 
-      <v-row v-if="!loading && !articles.length" justify-center fill-height class="pt-5">
+      <v-row v-if="!loading && !articles.length && filtersNamespace != 'profileArticles'" 
+        justify-center fill-height class="pt-5">
         <v-col cols="8">
           <p>
             <span class="subheading font-weight-light" >
