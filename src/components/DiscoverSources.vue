@@ -2,7 +2,7 @@
   <v-row no-gutters>
     <v-col cols="12">
       <v-row class="pa-4">
-        <v-col cols="6">
+        <v-col :cols="$vuetify.breakpoint.smAndDown ? 12 : 6">
           <v-text-field
             v-model="search" append-icon="search" label="Search sources you do not follow yet"
             single-line hide-details></v-text-field>

@@ -9,7 +9,7 @@
               </custom-avatar>
             </span>
           </template>
-          <span v-if>{{sourceDisplayName(user)}}</span>
+          <span>{{sourceDisplayName(user)}}</span>
         </v-tooltip>
       </span>
       <span v-else>

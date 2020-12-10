@@ -20,7 +20,7 @@
           </v-row>
         </v-col>
 
-        <v-col cols="1" class="right-placed">
+        <v-col :cols="$vuetify.breakpoint.smOnly ? 2 : 1" class="right-placed">
 
           <v-tooltip bottom :open-on-hover="true" open-delay="500">
             <template v-slot:activator="{ on }">
