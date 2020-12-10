@@ -3,7 +3,7 @@
   <v-row class="parent-height" >
     <v-col cols="12">
     <v-row class="pa-4" >
-      <v-col cols="6">
+      <v-col :cols="$vuetify.breakpoint.smAndDown ? 12 : 6">
         <v-text-field
           v-model="search" append-icon="search" label="Search sources you trust or follow"
           single-line hide-details></v-text-field>

@@ -16,8 +16,10 @@ extend('reasoningRule', {
     validate(value, args) {
         if (args.username == 'Trending' || args.selectValue - 2 == 0 )
             return true;
-        else
-            return ['', null, undefined].indexOf(value) === -1;
+        else {
+          let processedVal = value.trim();
+          return ['', null, undefined].indexOf(processedVal) === -1;
+        }
       },
       computesRequired: true,
       params: ['selectValue', 'username'],

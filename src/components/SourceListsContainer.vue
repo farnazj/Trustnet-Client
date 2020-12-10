@@ -28,7 +28,7 @@
     <v-row no-gutters>
       <v-container fluid>
         <v-row >
-          <v-col sm="4" lg="3" xl="2">
+          <v-col sm="6" md="4" lg="3" xl="2" cols="12">
             <v-card outlined @click="showAddListDialog = true"
             class="cursor-pointer dashed-border">
               <v-row no-gutters align="center" justify="center" class="create-new-list">
@@ -41,7 +41,7 @@
             </v-card>
           </v-col>
 
-          <v-col v-for="list in sourceLists" :key="list.id" sm="4" lg="3" xl="2" cols="6">
+          <v-col v-for="list in sourceLists" :key="list.id" sm="6" md="4" lg="3" xl="2" cols="12">
             <source-list-card :list="list" :isPreview=true
             @delete="confirmListRemoval"
             @showList="showFullList" @errorOccured="showError"

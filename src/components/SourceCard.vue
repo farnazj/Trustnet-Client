@@ -8,20 +8,20 @@
     <v-card :color="source.systemMade ? 'blue lighten-4' : 'lime lighten-3'" class="ma-1" >
 
       <v-container fill-height pa-2 class="source-info-wrapper">
-        <v-row fill-height no-gutters>
+        <v-row fill-height no-gutters class="limited-width">
 
-          <v-col cols="9" >
+          <v-col :cols="$vuetify.breakpoint.smAndDown ? 12 : 9" >
             <v-row align="end" no-gutters >
               <v-col cols="3">
-                <custom-avatar :user="source" :clickEnabled="true" :size="34" class="mr-3"></custom-avatar>
+                <custom-avatar :user="source" :clickEnabled="true" :size="34"></custom-avatar>
               </v-col>
               <v-col cols="9">
-                <span class="body-2 name-container">
+                <span :class="[$vuetify.breakpoint.xsOnly ? 'ml-2' : 'ml-0', 'body-2', 'name-container']">
                   <v-tooltip bottom open-delay="500">
                     <template v-slot:activator="{ on }">
                       <span v-on="on">{{source.userName}}</span>
                     </template>
-                    <span>{{source.userName}}</span>
+                    <span> {{source.userName}}</span>
                   </v-tooltip>
                 </span>
               </v-col>
@@ -37,7 +37,7 @@
             </v-row>
           </v-col>
 
-          <v-col>
+          <v-col cols="3" v-if="!$vuetify.breakpoint.smAndDown">
             <v-row no-gutters justify="end" class="mb-0">
               <span class="caption trusted-text" v-if="isTrusted"> Trusted &#x2713;</span>
             </v-row>
@@ -57,14 +57,14 @@
 
         <v-row v-else no-gutters align="end">
 
-          <v-btn small text :color="isTrusted ? 'grey darken-2' : 'light-green darken-3' "
-            @click.stop="changeTrustStatus(source)" class="custom-btn-text">
+          <v-btn x-small text :color="isTrusted ? 'grey darken-2' : 'light-green darken-3' "
+            @click.stop="changeTrustStatus(source)" :class="$vuetify.breakpoint.smAndDown ? 'custom-btn-text-sm' :'custom-btn-text' ">
             <span v-if="isTrusted"> Untrust</span>
             <span v-else> Trust</span>
           </v-btn>
 
-          <v-btn small text :color="isFollowed ? 'grey darken-2' : 'primary' "
-            @click.stop="changeFollowStatus(source)" class="custom-btn-text ">
+          <v-btn x-small text :color="isFollowed ? 'grey darken-2' : 'primary' "
+            @click.stop="changeFollowStatus(source)" :class="$vuetify.breakpoint.smAndDown ? 'custom-btn-text-sm' :'custom-btn-text' ">
             <span v-if="isFollowed"> Unfollow</span>
             <span v-else> Follow</span>
           </v-btn>
@@ -170,6 +170,9 @@ export default {
 .custom-btn-text {
   font-size: 0.8rem !important;
 }
+.custom-btn-text-sm {
+  font-size: 0.7rem !important;
+}
 
 .name-container {
   display: block;
@@ -181,6 +184,14 @@ export default {
 .source-info-wrapper {
   height: 70px;
   align-items: flex-start;
+}
+
+.limited-width {
+  width: 100%;
+}
+
+.username {
+  display: inline-block;
 }
 
 </style>

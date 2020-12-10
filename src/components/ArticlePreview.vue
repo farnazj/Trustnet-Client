@@ -15,9 +15,9 @@
         :raised="shownAssessmentPostId == post.id">
           <v-row no-gutters >
 
-            <v-col cols="3">
-              <v-row no-gutters>
-                <v-col cols="12">
+            <!-- <v-col :cols="$vuetify.breakpoint.smAndDown ? 12 : 3">
+              <v-row no-gutters justify="center">
+                <v-col :cols="$vuetify.breakpoint.smAndDown ? 6 : 12" >
                   <v-img v-if="post.image" :src="post.image" contain class="rounded"> </v-img>
                 </v-col>
               </v-row>
@@ -29,12 +29,27 @@
                 </v-col>
               </v-row>
             </v-col>
+             -->
 
-            <v-col cols="6">
+            <v-col :cols="$vuetify.breakpoint.smAndDown ? 12 : 3">
+              <v-row>
+                <v-col :cols="$vuetify.breakpoint.smAndDown ? 6 : 12" >
+                  <v-img v-if="post.image" :src="post.image" contain class="rounded"> </v-img>
+                </v-col>
+
+                <v-col :cols="$vuetify.breakpoint.smAndDown ? 6 : 12">
+                  <initiator-display :userId="post.SourceId" :postDate="post.publishedDate">
+                  </initiator-display>
+                </v-col>
+                </v-row>
+            </v-col>
+
+            <v-col :cols="$vuetify.breakpoint.smAndDown ? 9 : 6">
               <v-row no-gutters>
                 <v-col cols="12">
                    <div class="px-2">
-                     <p :class="['mr-1', 'cursor-pointer', 'title', 'title-custom', { strikethrough: displayedAlternativeTitle}]"
+                     <p :class="['mr-1', 'cursor-pointer', $vuetify.breakpoint.smAndDown ? 'title-custom-small': 'title-custom',
+                      { strikethrough: displayedAlternativeTitle, 'title': $vuetify.breakpoint.smAndDown }]"
                      >{{post.title}}</p>
                      <span v-if="displayedAlternativeTitle" class="mx-1 font-italic font-weight-light cursor-pointer title title-custom"
                      >{{displayedAlternativeTitle}}</span>
@@ -47,13 +62,14 @@
                          </template>
                          <span>alternative titles</span>
                        </v-tooltip>
-                     <p class="mt-1 mb-0 grey--text text--darken-3 body-2" v-html="post.description"></p>
+                     <p :class="['mt-1', 'mb-0', 'grey--text', 'text--darken-3', 'body-2', {'caption': $vuetify.breakpoint.smAndDown}]" 
+                     v-html="post.description"></p>
                    </div>
                 </v-col>
               </v-row>
             </v-col>
 
-            <v-col cols="3">
+            <v-col :cols="$vuetify.breakpoint.smAndDown ? 3 : 3">
               <v-row justify="space-around" fill-height wrap no-gutters>
 
                 <v-col cols="12" >
@@ -88,12 +104,12 @@
                           <span>Questioned by</span>
                         </v-tooltip>
 
-                        <assessor v-for="assessment in item.slice(0,3)" :key="assessment.lastVersion.id"
+                        <assessor v-for="assessment in item.slice(0, assessmentsOnCardCount)" :key="assessment.lastVersion.id"
                           :user="assessment.assessor" :isTransitive="assessment.lastVersion.isTransitive"
                           :credibilityValue="assessment.lastVersion.postCredibility" class="mr-2 mb-2">
                         </assessor>
 
-                        <span v-if="item.length > 3" >...</span>
+                        <span v-if="item.length > assessmentsOnCardCount" >...</span>
 
                       </v-row>
                     </v-col>
@@ -119,12 +135,11 @@
         </v-card>
       </v-col>
 
-      <v-col>
-        <v-card flat @click.stop="revealAssessments" height="80px" color="lime lighten-3"
-          class="assessment-hinter cursor-pointer">
-          <v-row align="center" no-gutters class="parent-height" >
-
-            <v-icon medium>arrow_right</v-icon>
+      <v-col :offset="$vuetify.breakpoint.smAndDown ? 10 : 0" cols="1">
+        <v-card flat @click.stop="revealAssessments" :height="$vuetify.breakpoint.smAndDown ? '17px' : '80px'" color="lime lighten-3"
+          :class="[$vuetify.breakpoint.smAndDown ? 'assessment-hinter-vertical' : 'assessment-hinter-horizontal', 'cursor-pointer']">
+          <v-row align="center" justify="center" no-gutters class="parent-height" >
+            <v-icon :small="$vuetify.breakpoint.smAndDown" medium>arrow_right</v-icon>
           </v-row>
         </v-card>
       </v-col>
@@ -180,6 +195,14 @@
       }
     },
     computed: {
+      assessmentsOnCardCount: function() {
+        if (this.$vuetify.breakpoint.smAndDown)
+          return 1;
+        else if (this.$vuetify.breakpoint.mdAndDown)
+          return 2;
+        else 
+          return 3;
+      },
       sortedBoosts: function() {
         return this.boostObjects.slice().sort(utils.compareBoosters);
       },
@@ -319,9 +342,14 @@
   border-radius: 2%;
 }
 
-.assessment-hinter {
+.assessment-hinter-horizontal {
   border-radius: 0 30% 30% 0;
   max-width: 22px;
+}
+
+.assessment-hinter-vertical {
+  border-radius: 0 0 30% 30%;
+  /* max-width: 35px; */
 }
 
 .title-custom {
@@ -330,9 +358,15 @@
   display: inline !important;
 }
 
+.title-custom-small {
+  line-height: 1em;
+  font-size: 1em !important;
+  display: inline !important;
+}
+/* 
 .assessment-handle {
   max-width: 22px;
-}
+} */
 
 .strikethrough {
   text-decoration: line-through

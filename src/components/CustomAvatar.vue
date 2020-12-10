@@ -6,10 +6,10 @@
       <!-- <template v-slot:badge >
         <span class="reset-line-height">T</span>
       </template> -->
-      <inner-avatar :user="user" :size="size ? size : 30"></inner-avatar>
+      <inner-avatar :user="user" :size="size ? size : avatarSize"></inner-avatar>
     </v-badge>
 
-    <inner-avatar v-else :user="user" :size="size ? size : 30">
+    <inner-avatar v-else :user="user" :size="size ? size : avatarSize">
     </inner-avatar>
   </span>
 
@@ -42,6 +42,9 @@ export default {
     }
   },
   computed: {
+    avatarSize: function() {
+      return 30;
+    },
     isTrusted: function() {
       return utils.isTrusted(this.user);
     },

@@ -167,15 +167,16 @@ export default {
 #assessment_container {
   right: 0px;
   width: 34%;
-  max-height: 96vh;
-  min-height: 96vh;
+  max-height: 95vh;
+  min-height: 95vh;
   overflow-y: auto;
+  bottom: 0px;
 }
 
 .assessment-col {
   overflow-y: scroll;
-  min-height: 90vh;
   max-height: 90vh;
+  min-height: 90vh;
 }
 
 .assessment-col:first-child {
