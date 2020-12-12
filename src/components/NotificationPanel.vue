@@ -3,7 +3,7 @@
 
     <v-menu v-model="notifMenu"
           :close-on-content-click="false" max-height="50vh"
-          :nudge-width="120" offset-y left attach>
+          :max-width="notifMenuWidth" offset-y left attach>
 
           <template v-slot:activator="{ on }">
                 <v-btn text icon v-on="on" >
@@ -76,6 +76,14 @@ export default {
     },
     created() {
        this.loadMore(false);
+    },
+    computed: {
+        notifMenuWidth: function() {
+            if (this.$vuetify.breakpoint.xsOnly)
+                return '80vw';
+            else
+                return '500';
+        }
     },
     methods: {
         updateSeen: function() {
