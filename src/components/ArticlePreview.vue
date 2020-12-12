@@ -50,7 +50,7 @@
                    <div class="px-2">
                      <p :class="['mr-1', 'cursor-pointer', $vuetify.breakpoint.smAndDown ? 'title-custom-small': 'title-custom',
                       { strikethrough: displayedAlternativeTitle, 'title': $vuetify.breakpoint.smAndDown }]"
-                     >{{post.title}}</p>
+                     v-html="post.title"></p>
                      <span v-if="displayedAlternativeTitle" class="mx-1 font-italic font-weight-light cursor-pointer title title-custom"
                      >{{displayedAlternativeTitle}}</span>
 
