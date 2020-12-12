@@ -6,8 +6,11 @@
   <div class="text-xs-center">
       <v-menu v-model="menu"
         :close-on-content-click="false"
-        :nudge-width="350"
-        offset-y left attach
+        :max-width="contentBoosterWidth"
+        :min-width="contentBoosterWidth"
+        offset-y :left="!$vuetify.breakpoint.xsOnly" 
+        :nudge-left="$vuetify.breakpoint.xsOnly ? 130 : 0" 
+        attach  max-height="85vh"
       >
       <template v-slot:activator="{ on }">
         <v-btn text icon v-on="on" color="light-green darken-3">
@@ -31,7 +34,7 @@
         <v-tabs-items v-model="tabs">
           <v-tab-item>
             <v-form ref="createPostForm" lazy-validation>
-              <v-card>
+              <v-card class="content-booster-menu">
                 <v-container fluid>
 
                   <v-row no-gutters class="my-3">
@@ -199,7 +202,17 @@ export default {
   computed: {
     ...mapGetters('articleFilters', [
       'filters'
-    ])
+    ]),
+    contentBoosterWidth: function() {
+      if (this.$vuetify.breakpoint.xsOnly)
+        return '86vw';
+      else if (this.$vuetify.breakpoint.smOnly)
+        return '50vw';
+      else if (this.$vuetify.breakpoint.mdOnly)
+        return '40vw';
+      else
+        return '25vw';
+    }
   },
   methods: {
 
@@ -316,5 +329,9 @@ export default {
 </script>
 
 <style scoped>
+
+.content-booster-menu {
+  overflow-y: auto;
+}
 
 </style>

@@ -56,8 +56,8 @@ export default {
     valueColor: function() {
       if (this.credibilityValue < 0)
         return 'red lighten-2';
-      // else if (this.credibilityValue == 0)
-      //   return 'orange darken-1';
+    //   else if (this.credibilityValue == 0)
+    //     return 'gray lighten-1';
       else if (this.credibilityValue > 0)
         return 'green darken-1';
     },

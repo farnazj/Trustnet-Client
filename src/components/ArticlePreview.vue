@@ -33,7 +33,7 @@
 
             <v-col :cols="$vuetify.breakpoint.smAndDown ? 12 : 3">
               <v-row>
-                <v-col :cols="$vuetify.breakpoint.smAndDown ? 6 : 12" >
+                <v-col :cols="$vuetify.breakpoint.smAndDown ? 6  : 12" class="py-2">
                   <v-img v-if="post.image" :src="post.image" contain class="rounded"> </v-img>
                 </v-col>
 
@@ -44,7 +44,7 @@
                 </v-row>
             </v-col>
 
-            <v-col :cols="$vuetify.breakpoint.smAndDown ? 9 : 6">
+            <v-col :cols="$vuetify.breakpoint.smAndDown ? 12 : 6">
               <v-row no-gutters>
                 <v-col cols="12">
                    <div class="px-2">
@@ -56,66 +56,36 @@
 
                        <v-tooltip bottom>
                          <template v-slot:activator="{ on }">
-                           <v-btn v-on="on" @click.stop="showTitles" class="ml-1" small icon color="lime lighten-1">
+                           <v-btn v-on="on" @click.stop="showTitles" :class="$vuetify.breakpoint.smAndDown ? 'ml-0' : 'ml-1'" small icon color="lime lighten-1">
                              <v-icon class="xs-icon-font">fas fa-info</v-icon>
                            </v-btn>
                          </template>
                          <span>alternative titles</span>
                        </v-tooltip>
-                     <p :class="['mt-1', 'mb-0', 'grey--text', 'text--darken-3', 'body-2', {'caption': $vuetify.breakpoint.smAndDown}]" 
+                     <p v-if="!$vuetify.breakpoint.xsOnly" :class="['mt-1', 'mb-0', 'grey--text', 'text--darken-3', 'body-2', {'caption': $vuetify.breakpoint.smAndDown}]" 
                      v-html="post.description"></p>
                    </div>
                 </v-col>
               </v-row>
             </v-col>
 
-            <v-col :cols="$vuetify.breakpoint.smAndDown ? 3 : 3">
+            <v-col :cols="$vuetify.breakpoint.smAndDown ? 12 : 3">
               <v-row justify="space-around" fill-height wrap no-gutters>
 
-                <v-col cols="12" >
+                <v-col cols="12" v-if="!$vuetify.breakpoint.smAndDown">
                   <v-row wrap v-for="(item, key, index) in sortedAssessments" :key="index" no-gutters>
-                    <v-col cols="12" :class="item.length ? 'mb-2' : 'mb-0' " >
-                      <v-row align="center" wrap no-gutters>
-
-                        <v-tooltip bottom open-delay="600" v-if="key == 'confirmed' && item.length">
-                          <template v-slot:activator="{ on }">
-                            <span v-on="on">
-                              <v-icon small class="mr-3">fas fa-check</v-icon>
-                            </span>
-                          </template>
-                          <span>Verified by</span>
-                        </v-tooltip>
-
-                        <v-tooltip bottom open-delay="600" v-else-if="key == 'refuted' && item.length">
-                          <template v-slot:activator="{ on }">
-                            <span v-on="on">
-                              <v-icon small class="mr-4">fas fa-times</v-icon>
-                            </span>
-                          </template>
-                          <span>Refuted by</span>
-                        </v-tooltip>
-
-                        <v-tooltip bottom open-delay="600" v-else-if="key == 'questioned' && item.length">
-                          <template v-slot:activator="{ on }">
-                            <span v-on="on">
-                              <v-icon small class="mr-4">fas fa-question</v-icon>
-                            </span>
-                          </template>
-                          <span>Questioned by</span>
-                        </v-tooltip>
-
-                        <assessor v-for="assessment in item.slice(0, assessmentsOnCardCount)" :key="assessment.lastVersion.id"
-                          :user="assessment.assessor" :isTransitive="assessment.lastVersion.isTransitive"
-                          :credibilityValue="assessment.lastVersion.postCredibility" class="mr-2 mb-2">
-                        </assessor>
-
-                        <span v-if="item.length > assessmentsOnCardCount" >...</span>
-
-                      </v-row>
-                    </v-col>
+                    <preview-assessments :assessmentType="key" :assessmentsInCategory="item">
+                    </preview-assessments>
                   </v-row>
                 </v-col>
 
+                <v-col cols="12" v-else>
+                  <span v-for="(item, key, index) in sortedAssessments" :key="index">
+                    <preview-assessments :assessmentType="key" :assessmentsInCategory="item">
+                    </preview-assessments>
+                  </span>
+                </v-col>
+                
               </v-row>
             </v-col>
 
@@ -135,7 +105,7 @@
         </v-card>
       </v-col>
 
-      <v-col :offset="$vuetify.breakpoint.smAndDown ? 10 : 0" cols="1">
+      <v-col :offset="$vuetify.breakpoint.smAndDown ? 8 : 0" :cols="$vuetify.breakpoint.smAndDown ? 3 : 1">
         <v-card flat @click.stop="revealAssessments" :height="$vuetify.breakpoint.smAndDown ? '17px' : '80px'" color="lime lighten-3"
           :class="[$vuetify.breakpoint.smAndDown ? 'assessment-hinter-vertical' : 'assessment-hinter-horizontal', 'cursor-pointer']">
           <v-row align="center" justify="center" no-gutters class="parent-height" >
@@ -150,9 +120,9 @@
 </template>
 
 <script>
-  import assessor from '@/components/Assessor'
   import initiatorDisplay from '@/components/InitiatorDisplay'
   import tagsContainer from '@/components/TagsContainer'
+  import previewAssessments from '@/components/PreviewAssessments'
   import titleHelpers from '@/mixins/titleHelpers'
   import assessmentHelpers from '@/mixins/assessmentHelpers'
   import sourceServices from '@/services/sourceServices'
@@ -163,8 +133,8 @@
   export default {
     components: {
      'initiator-display': initiatorDisplay,
-     'assessor': assessor,
-     'tags-container': tagsContainer
+     'tags-container': tagsContainer,
+     'preview-assessments': previewAssessments
     },
     props: {
       detailsNamespace: {
@@ -195,14 +165,7 @@
       }
     },
     computed: {
-      assessmentsOnCardCount: function() {
-        if (this.$vuetify.breakpoint.smAndDown)
-          return 1;
-        else if (this.$vuetify.breakpoint.mdAndDown)
-          return 2;
-        else 
-          return 3;
-      },
+
       sortedBoosts: function() {
         return this.boostObjects.slice().sort(utils.compareBoosters);
       },
