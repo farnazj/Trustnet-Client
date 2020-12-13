@@ -79,7 +79,7 @@
 
       <v-col cols="12">
         <v-tabs centered background-color="blue darken-3" height=36 v-model="tabs"
-          slider-color="amber lighten-1" dark>
+          slider-color="amber lighten-1" dark class="profile-tabs">
           <v-tab href="#history">
             <v-icon class="mr-1">history</v-icon>
             Activity History
@@ -312,6 +312,10 @@ export default {
 
 .profile-background {
   border-radius: 0px !important;
+}
+
+.profile-tabs~.v-window {
+  overflow: initial;
 }
 
 </style>
