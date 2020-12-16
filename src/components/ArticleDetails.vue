@@ -11,7 +11,7 @@
            <v-icon large @click="articleDetailsVisible = false">clear</v-icon>
          </v-col>
 
-         <v-col cols="5" class="right-align">
+         <v-col cols="7" class="right-align">
 
             <v-tooltip bottom v-model="showLinkToolTip">
               <template v-slot:activator="{}">
