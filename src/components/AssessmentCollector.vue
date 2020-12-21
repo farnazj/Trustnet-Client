@@ -48,13 +48,14 @@
        <v-tooltip bottom max-width="600" open-delay="700">
          <template v-slot:activator="{ on }">
            <v-switch v-on="on" dense :color="anonymous ? 'blue lighten-1' : ''"
-            v-model="anonymous" :label="anonymousSwitchLabel"
+            v-model="anonymous" label="Pose question anonymously"
           ></v-switch>
          </template>
          <span> Your question will be surfaced to the sources you follow or trust even though they may not follow
            or trust you. Choose if you want your name to be visible with your question.
            Note that those who follow or trust you will see your name along with your question regardless.</span>
        </v-tooltip>
+       <v-row no-gutters class="caption grey--text text--darken-2">{{anonymousSwitchLabel}}</v-row>
         <source-selector ref="arbiters" class ="mt-2" population="upstream">
         </source-selector>
       </v-col>
@@ -129,9 +130,9 @@ export default {
     },
     anonymousSwitchLabel: function() {
       if (this.anonymous)
-        return 'Pose question anonymously';
+        return 'Your name will be hidden from others.';
       else
-        return 'Reveal my name'
+        return 'Your name will be revealed.'
     },
     ...mapGetters('auth', [
       'user'
