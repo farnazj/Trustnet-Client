@@ -22,17 +22,20 @@
 
     <v-row v-if="assessmentObj.lastVersion.body" no-gutters class="pa-1 pb-2 body-2 assessment-text">
       <v-col cols="12">
-        <p v-if="!showFullText && bodyWordCount > 25" class="ma-0">{{truncatedText}}
+        <v-row v-if="!showFullText && bodyWordCount > 25" class="ma-0">
+          <p v-html="truncatedText" class="assessment-text-inner mb-0"></p>
           <span class="blue--text text--darken-3 cursor-pointer" @click="showFullText = true">
             show more
           </span>
-        </p>
-        <p v-else class="ma-0">{{assessmentObj.lastVersion.body}}
-          <span v-if="bodyWordCount > 25" class="blue--text text--darken-3 cursor-pointer"
+        </v-row>
+        <v-row v-else class="ma-0" >
+          <p v-html="assessmentObj.lastVersion.body" class="assessment-text-inner mb-0">
+          </p>
+            <span v-if="bodyWordCount > 25" class="blue--text text--darken-3 cursor-pointer"
              @click="showFullText = false">
             show less
           </span>
-        </p>
+        </v-row>
       </v-col>
     </v-row>
 
@@ -109,6 +112,11 @@ export default {
 }
 .center-align {
   vertical-align: middle;
+}
+
+.assessment-text-inner {
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 
 </style>
