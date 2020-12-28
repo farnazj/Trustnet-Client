@@ -1,7 +1,7 @@
 <template>
   <v-container class="pa-2" v-observe-visibility="!postSeen && {
     callback: visibilityChanged,
-    throttle: 300
+    throttle: 3000
   }">
     <v-row align="center" no-gutters>
       <!-- <v-col cols="1>
