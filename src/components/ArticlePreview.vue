@@ -12,7 +12,7 @@
 
         <v-card @click="revealArticleDetails(post)" class="pa-1 "
         :tile="shownAssessmentPostId == null || shownAssessmentPostId != post.id"
-        :raised="shownAssessmentPostId == post.id">
+        :elevation="shownAssessmentPostId == post.id ? 24 : 4">
           <v-row no-gutters >
 
             <!-- <v-col :cols="$vuetify.breakpoint.smAndDown ? 12 : 3">
@@ -107,7 +107,9 @@
 
       <v-col :offset="$vuetify.breakpoint.smAndDown ? 8 : 0" :cols="$vuetify.breakpoint.smAndDown ? 3 : 1">
         <v-card flat @click.stop="revealAssessments" :height="$vuetify.breakpoint.smAndDown ? '17px' : '80px'" color="lime lighten-3"
-          :class="[$vuetify.breakpoint.smAndDown ? 'assessment-hinter-vertical' : 'assessment-hinter-horizontal', 'cursor-pointer']">
+          :class="[$vuetify.breakpoint.smAndDown ? 'assessment-hinter-vertical' : 'assessment-hinter-horizontal', 'cursor-pointer']"
+          :elevation="shownAssessmentPostId == post.id ? 24 : 4"
+          >
           <v-row align="center" justify="center" no-gutters class="parent-height" >
             <v-icon :small="$vuetify.breakpoint.smAndDown" medium>arrow_right</v-icon>
           </v-row>
