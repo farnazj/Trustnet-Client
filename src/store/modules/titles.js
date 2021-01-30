@@ -46,8 +46,9 @@ export default {
 
         let customTitleReqHeaders = {};
 
-        if (payload.namespace == 'profileTitles') {
-          let activityUserName = context.rootState['profileArticles/username'];
+        if (payload.titlesNamespace == 'profileTitles') {
+          let activityUserName = context.rootState['profileArticles'].username;
+          
           customTitleReqHeaders = {
             activityusername: activityUserName
           };
@@ -55,7 +56,7 @@ export default {
 
         postServices.getCustomTitlesOfPost({ postId: context.state.postId }, customTitleReqHeaders)
         .then(response => {
-          context.dispatch('articleFilters/updateTitles', {
+          context.dispatch(`${payload.filtersNamespace}/updateTitles`, {
             postId: context.state.postId,
             titles: response.data
           }, { root: true });

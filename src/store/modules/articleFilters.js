@@ -210,6 +210,24 @@ export default {
       context.commit('remove_boost', payload);
     },
 
+    getSingleArticle: (context, payload) => {
+      context.dispatch('loader/setLoading', true, { root: true });
+
+      context.commit('refresh_articles');
+      
+      return new Promise((resolve, reject) => {
+        postServices.getBoostByPostId({ postId: payload.postId })
+        .then((res) => {
+          context.commit('set_fetch_status', false);
+          context.commit('append_articles', [res.data]);
+          resolve();
+        })
+        .catch(error => {
+          reject(error);
+        })
+      })
+    },
+
     /*
     Called from fetchPostTitles in titles module
     */

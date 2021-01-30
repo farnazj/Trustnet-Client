@@ -27,9 +27,9 @@ let store = new Vuex.Store({
   },
   modules: {
     auth,
-    articleFilters,
+    articleFilters, //articles on the homepage
     relatedSources,
-    profileArticles,
+    profileArticles, //articles on a profile
     loader,
     sourceLists
   }

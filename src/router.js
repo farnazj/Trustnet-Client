@@ -118,7 +118,8 @@ router.beforeEach((to, from, next) => {
       window.scrollTo(0, 0);
       return;
     }
-    next('/login');
+    else
+      next('/login');
   } else {
     next();
   }

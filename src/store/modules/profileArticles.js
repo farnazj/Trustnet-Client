@@ -45,6 +45,14 @@ export default {
       state.articles.splice(index, 1);
     },
 
+    update_titles: (state, payload) => {
+      let index = state.articles.findIndex(article => article.id == payload.postId);
+
+      let articleCopy = Object.assign({}, state.articles[index]);
+      articleCopy.PostCustomTitles = payload.titles;
+      Vue.set(state.articles, index, articleCopy);
+    },
+
     add_or_remove_tag_in_filters: (state, payload) => {
       if (payload.add)
         state.filteredTags.push(payload.tag);
@@ -142,6 +150,13 @@ export default {
 
     removeArticle: (context, payload) => {
       context.commit('remove_boost', payload);
+    },
+
+    /*
+    Called from fetchPostTitles in titles module
+    */
+    updateTitles: (context, payload) => {
+      context.commit('update_titles', payload)
     },
 
     addOrRemoveTagInFilters: (context, payload) => {

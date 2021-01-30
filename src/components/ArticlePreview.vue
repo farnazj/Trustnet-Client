@@ -240,13 +240,21 @@
       },
       arrangeTitles: function() {
 
-        this.setPostId(this.post.id);
+        return new Promise((resolve, reject) => {
 
-        return this.arrangeCustomTitles(this.post.PostCustomTitles) //in titleHelpers mixin
-        .then(res => {
-          if (this.sortedTitles.length) {
-            this.displayedAlternativeTitle = this.sortedTitles[0]['lastVersion'].text;
-          }
+          this.setPostId(this.post.id);
+
+          return this.arrangeCustomTitles(this.post.PostCustomTitles) //in titleHelpers mixin
+          .then(res => {
+            if (this.sortedTitles.length) {
+              this.displayedAlternativeTitle = this.sortedTitles[0]['lastVersion'].text;
+            }
+            else {
+              this.displayedAlternativeTitle = null;
+            }
+
+            resolve();
+          })
         })
       },
       showTitles: function() {
@@ -278,6 +286,7 @@
     },
     watch: {
       post: function(val) {
+        console.log('val of post changed', val)
 
         /*
         For when the user deletes theri boost in BoostersList
@@ -289,6 +298,9 @@
 
         this.arrangeTitles()
         .then( res => {
+          console.log('arranged titles again')
+          console.log(this.post.PostCustomTitles)
+          console.log(this.sortedTitles)
           if (this.customTitlesVisible) {
             this.populateTitles(this.sortedTitles);
           }

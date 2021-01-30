@@ -97,7 +97,7 @@
               <v-row no-gutters>
                 <loading></loading>
                 <boosters-list detailsNamespace="profileArticleDetails" filtersNamespace="profileArticles"></boosters-list>
-                <custom-titles titlesNamespace="profileTitles"></custom-titles>
+                <custom-titles titlesNamespace="profileTitles" filtersNamespace="profileArticles"></custom-titles>
                 <assessment-history namespace="profileAssessments"></assessment-history>
 
                 <v-col cols="7" class="ml-2">

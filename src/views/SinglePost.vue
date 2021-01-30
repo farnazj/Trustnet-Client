@@ -4,7 +4,7 @@
 
     <v-row no-gutters>
       <boosters-list detailsNamespace="singleArticleDetails" filtersNamespace="articleFilters"></boosters-list>
-      <custom-titles titlesNamespace="singleArticleTitles"></custom-titles>
+      <custom-titles titlesNamespace="singleArticleTitles" filtersNamespace="articleFilters"></custom-titles>
       <assessment-history namespace="singleArticleAssessments"></assessment-history>
 
       <v-col class="pt-12" md="7" cols="8" :offset="$vuetify.breakpoint.smAndDown ? 0 : 1" >
@@ -64,7 +64,10 @@ export default {
   computed: {
     ...mapState('homeAssessments', [
      'visible'
-   ])
+    ]),
+    ...mapState('articleFilters', [
+      'articles'
+    ])
   },
   beforeRouteLeave (to, from, next) {
     this.hideContainer();
@@ -74,10 +77,11 @@ export default {
   },
   methods: {
     getArticle: function() {
-      postServices.getBoostByPostId({postId: this.postid})
-      .then((res) => {
+      this.getSingleArticle({ postId: this.postid })
+      // postServices.getBoostByPostId({postId: this.postid})
+      .then( () => {
         //this.showArticleDrawer(res.data);
-        this.post = res.data;
+        this.post = this.articles[0];
         Promise.all(this.restructureAssessments())
         .then(() => {
           this.showAssessments({
@@ -105,7 +109,15 @@ export default {
     ...mapActions('relatedSources', [
     'fetchFollows',
     'fetchTrusteds'
+    ]),
+    ...mapActions('articleFilters', [
+      'getSingleArticle'
     ])
+  },
+  watch: {
+    articles: function(newVal) {
+      this.post = newVal[0];
+    }
   },
   mixins: [assessmentHelpers]
 }

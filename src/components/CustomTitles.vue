@@ -151,7 +151,6 @@ import customAvatar from '@/components/CustomAvatar'
 import deleteConfirmationDialog from '@/components/DeleteConfirmationDialog'
 import titleHistory from '@/components/TitleHistory'
 
-import sourceHelpers from '@/mixins/sourceHelpers'
 import timeHelpers from '@/mixins/timeHelpers'
 import titleHelpers from '@/mixins/titleHelpers'
 import postServices from '@/services/postServices'
@@ -165,6 +164,10 @@ export default {
   },
   props: {
     titlesNamespace: {
+      type: String,
+      required: true
+    },
+    filtersNamespace: {
       type: String,
       required: true
     }
@@ -329,7 +332,10 @@ export default {
         return dispatch(this.titlesNamespace + '/setHistoryVisibility', payload)
       },
       fetchPostTitles (dispatch) {
-        return dispatch(this.titlesNamespace + '/fetchPostTitles', { namespace: this.titlesNamespace })
+        return dispatch(this.titlesNamespace + '/fetchPostTitles', { 
+          titlesNamespace: this.titlesNamespace,
+          filtersNamespace: this.filtersNamespace
+          })
       }
 
     })
