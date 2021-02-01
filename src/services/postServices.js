@@ -92,19 +92,19 @@ export default {
     { withCredentials: true })
   },
   hasUserEndorsedTitle(params) {
-    return Api().get('/posts/custom-title-endorsement/' + params.setId,
+    return Api().get('/custom-title-endorsement/user/' + params.setId,
     {
       withCredentials: true
     })
   },
   setEndorsementStatus(params, reqBody) {
-    return Api().post('/posts/custom-title-endorsement/' + params.setId,
+    return Api().post('/custom-title-endorsement/user/' + params.setId,
     reqBody, {
       withCredentials: true
     })
   },
   getTitleEndorsers(params, headers) {
-    return Api().get('/posts/custom-title-endorsement/' + params.setId,
+    return Api().get('/custom-title-endorsement/' + params.setId,
     {
       withCredentials: true,
       headers: headers
