@@ -58,7 +58,7 @@ export default {
         .then(response => {
           context.dispatch(`${payload.filtersNamespace}/updateTitles`, {
             postId: context.state.postId,
-            titles: response.data
+            standaloneTitle: response.data
           }, { root: true });
           resolve();
         })

@@ -219,6 +219,7 @@ export default {
 
         postServices.postCustomTitle({ postId: this.postId }, { text: this.newTitle })
         .then(res => {
+          console.log(res, 'inja')
           this.newTitle = '';
           this.$refs.newTitleForm.resetValidation();
           this.fetchPostTitles();

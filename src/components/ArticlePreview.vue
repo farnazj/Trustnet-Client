@@ -243,8 +243,9 @@
         return new Promise((resolve, reject) => {
 
           this.setPostId(this.post.id);
+          let customTitles = this.post.StandaloneTitle ? this.post.StandaloneTitle.StandaloneCustomTitles : [];
 
-          return this.arrangeCustomTitles(this.post.PostCustomTitles) //in titleHelpers mixin
+          return this.arrangeCustomTitles(customTitles) //in titleHelpers mixin
           .then(res => {
             if (this.sortedTitles.length) {
               this.displayedAlternativeTitle = this.sortedTitles[0]['lastVersion'].text;
@@ -298,9 +299,6 @@
 
         this.arrangeTitles()
         .then( res => {
-          console.log('arranged titles again')
-          console.log(this.post.PostCustomTitles)
-          console.log(this.sortedTitles)
           if (this.customTitlesVisible) {
             this.populateTitles(this.sortedTitles);
           }

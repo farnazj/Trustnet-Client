@@ -80,7 +80,7 @@ export default {
       let index = state.articles.findIndex(article => article.id == payload.postId);
 
       let articleCopy = Object.assign({}, state.articles[index]);
-      articleCopy.PostCustomTitles = payload.titles;
+      articleCopy.StandaloneTitle = payload.standaloneTitle;
       Vue.set(state.articles, index, articleCopy);
     },
 
