@@ -153,7 +153,7 @@ import titleHistory from '@/components/TitleHistory'
 
 import timeHelpers from '@/mixins/timeHelpers'
 import titleHelpers from '@/mixins/titleHelpers'
-import postServices from '@/services/postServices'
+import titleServices from '@/services/titleServices'
 import { mapState, mapGetters, mapActions } from 'vuex'
 
 export default {
@@ -198,6 +198,14 @@ export default {
     }
   },
   computed: {
+    associatedStandaloneTitle: function() {
+
+        if (this.titleId) {
+          return this.titles.find(title => title.id == this.standaloneTitleId);
+        }
+        else
+          return null;
+    },
     titleDialogVisible: {
 
       get: function() {
@@ -217,12 +225,30 @@ export default {
 
       if (this.$refs.newTitleForm.validate()) {
 
-        postServices.postCustomTitle({ postId: this.postId }, { text: this.newTitle })
-        .then(res => {
-          console.log(res, 'inja')
+        titleServices.postCustomTitle({ postId: this.postId,
+        customTitleText: this.newTitle,
+        appRequest: true })
+        .then(res => {         
+          /*
+          If the user's submitted custom title is the first every custom title submitted
+          for the post, the post does not have an associated standaloneTitle with each and
+          therefore the value of titleId in the titles module in the store is null.
+          After submitting the custom title, the server returns the standaloneCustomTitle
+          in the data field in its response and this component sets the titleId in the store's
+          state to be the id in the data returned from the server.
+          */
+          if (!this.standaloneTitleId) {
+            this.setTitleId(res.data.data.id)
+            .then(() => {
+              this.fetchPostTitles();
+            })
+          }
+          else {
+           this.fetchPostTitles();
+          }
+
           this.newTitle = '';
           this.$refs.newTitleForm.resetValidation();
-          this.fetchPostTitles();
         })
         .catch(err => {
           console.log(err)
@@ -232,14 +258,14 @@ export default {
       }
     },
     changeEndorsement: function(titleObj, arrIndex, endorsementVal) {
-      postServices.setEndorsementStatus({
+      titleServices.setEndorsementStatus({
         setId: titleObj.lastVersion.setId
       },
       {
         endorse_status: endorsementVal
       })
       .then(res => {
-        postServices.hasUserEndorsedTitle({ setId: titleObj.lastVersion.setId })
+        titleServices.hasUserEndorsedTitle({ setId: titleObj.lastVersion.setId })
         .then(res => {
           titleObj['userEndorsed'] = res.data;
           this.fetchPostTitles();
@@ -264,8 +290,8 @@ export default {
         this.resetEdits();
       }
 
-      postServices.deleteCustomTitle({
-        postId: this.postId,
+      titleServices.deleteCustomTitle({
+        standaloneTitleId: this.standaloneTitleId,
         setId: this.delete.selectedTitle.lastVersion.setId
       })
       .then(res => {
@@ -290,8 +316,8 @@ export default {
 
       if (this.$refs.editTitleForm[index].validate()) {
 
-        postServices.editCustomTitle({
-          postId: this.postId,
+        titleServices.editCustomTitle({
+          standaloneTitleId: this.standaloneTitleId,
           setId: this.edit.setId
         }, { text: this.edit.text })
         .then(res => {

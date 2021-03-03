@@ -99,7 +99,7 @@ export default {
     articles: function() {
       return this.state.articles;
     },
-    username: function() {
+   username : function() {
       return this.state.username;
     },
     offset: function() {

@@ -1,5 +1,5 @@
 import utils from '@/services/utils'
-import postServices from '@/services/postServices'
+import titleServices from '@/services/titleServices'
 import sourceServices from '@/services/sourceServices'
 import { mapState, mapActions } from 'vuex'
 
@@ -24,6 +24,9 @@ export default {
     },
     postId: function() {
       return this.state.postId;
+    },
+    standaloneTitleId: function() {
+      return this.state.standaloneTitleId;
     },
     customTitlesVisible: function() {
       return this.state.customTitlesVisible;
@@ -62,7 +65,7 @@ export default {
         for (const [setId, titleObj] of Object.entries(titlesBySetId)) {
           let titlesetProms = [
             sourceServices.getSourceById(titleObj['lastVersion'].SourceId),
-            postServices.hasUserEndorsedTitle({ setId: setId })
+            titleServices.hasUserEndorsedTitle({ setId: setId })
           ];
 
           allProms.push(Promise.all(titlesetProms)
@@ -80,8 +83,11 @@ export default {
     },
 
     ...mapActions({
-      setPostId(dispatch, payload) {
-        return dispatch(this.titlesNamespace + '/setPostId', payload)
+      setPostTitleId(dispatch, payload) {
+        return dispatch(this.titlesNamespace + '/setPostTitleId', payload)
+      },
+      setTitleId(dispatch, payload) {
+        return dispatch(this.titlesNamespace + '/setTitleId', payload)
       },
       populateTitles(dispatch, payload) {
         return dispatch(this.titlesNamespace + '/populateTitles', payload)

@@ -67,48 +67,6 @@ export default {
       {
         withCredentials: true
       })
-  },
-  getCustomTitlesOfPost(params, headers) {
-    return Api().get('/posts/' + params.postId + '/custom-titles',
-    {
-      withCredentials: true,
-      headers: headers
-    })
-  },
-  postCustomTitle(params, reqBody) {
-    return Api().post('/posts/' + params.postId + '/custom-titles',
-      reqBody, {
-        withCredentials: true
-      })
-  },
-  editCustomTitle(params, reqBody) {
-    return Api().post('/posts/' + params.postId + '/custom-titles/' + params.setId,
-      reqBody, {
-        withCredentials: true
-      })
-  },
-  deleteCustomTitle(params) {
-    return Api().delete('/posts/' + params.postId + '/custom-titles/' + params.setId,
-    { withCredentials: true })
-  },
-  hasUserEndorsedTitle(params) {
-    return Api().get('/custom-title-endorsement/user/' + params.setId,
-    {
-      withCredentials: true
-    })
-  },
-  setEndorsementStatus(params, reqBody) {
-    return Api().post('/custom-title-endorsement/user/' + params.setId,
-    reqBody, {
-      withCredentials: true
-    })
-  },
-  getTitleEndorsers(params, headers) {
-    return Api().get('/custom-title-endorsement/' + params.setId,
-    {
-      withCredentials: true,
-      headers: headers
-    })
   }
 
 }

@@ -1,20 +1,26 @@
-import postServices from '@/services/postServices'
+import titleServices from '@/services/titleServices'
 
 export default {
   namespaced: true,
   state() {
     return {
       customTitlesVisible: false,
-      titles: [],
+      titles: [], //sorted customTitles
       postId: null,
+      standaloneTitleId: null,
       historyVisiblity: false,
       titleHistory: [],
       historyOwner: {}
     }
   },
   mutations: {
-    set_post_id: (state, id) => {
-      state.postId = id;
+    set_post_title_id: (state, payload) => {
+      state.postId = payload.postId;
+      state.standaloneTitleId = payload.standaloneTitleId;
+    },
+
+    set_title_id: (state, payload) => {
+      state.standaloneTitleId = payload;
     },
 
     set_titles_visibility: (state, visibility) => {
@@ -36,8 +42,12 @@ export default {
     }
   },
   actions: {
-    setPostId: (context, payload) => {
-      context.commit('set_post_id', payload);
+    setPostTitleId: (context, payload) => {
+      context.commit('set_post_title_id', payload);
+    },
+
+    setTitleId: (context, payload) => {
+      context.commit('set_title_id', payload);
     },
 
     fetchPostTitles: (context, payload) => {
@@ -54,7 +64,8 @@ export default {
           };
         }
 
-        postServices.getCustomTitlesOfPost({ postId: context.state.postId }, customTitleReqHeaders)
+        titleServices.getCustomTitlesOfstandaloneTitle({ 
+          standaloneTitleId: context.state.standaloneTitleId }, customTitleReqHeaders)
         .then(response => {
           context.dispatch(`${payload.filtersNamespace}/updateTitles`, {
             postId: context.state.postId,

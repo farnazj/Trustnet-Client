@@ -242,7 +242,7 @@
 
         return new Promise((resolve, reject) => {
 
-          this.setPostId(this.post.id);
+          this.setPostTitleId({ postId: this.post.id, standaloneTitleId: this.post.StandaloneTitle ? this.post.StandaloneTitle.id : null });
           let customTitles = this.post.StandaloneTitle ? this.post.StandaloneTitle.StandaloneCustomTitles : [];
 
           return this.arrangeCustomTitles(customTitles) //in titleHelpers mixin
@@ -260,7 +260,7 @@
       },
       showTitles: function() {
 
-        this.setPostId(this.post.id);
+        this.setPostTitleId({ postId: this.post.id, standaloneTitleId: this.post.StandaloneTitle ? this.post.StandaloneTitle.id : null });
         this.populateTitles(this.titleObjects);
         this.setTitlesVisibility(true);
       },
@@ -287,8 +287,6 @@
     },
     watch: {
       post: function(val) {
-        console.log('val of post changed', val)
-
         /*
         For when the user deletes theri boost in BoostersList
         */
