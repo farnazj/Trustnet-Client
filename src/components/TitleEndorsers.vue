@@ -74,16 +74,19 @@ export default {
     },
     endorserUsers: function() {
       let endorsers = this.titles.find(
-        customTitle => customTitle.lastVersion.setId === this.titleEndorsersState.selectedCustomTitleSetId
+        customTitle => customTitle.lastVersion.setId === this.selectedCustomTitleSetId
       ).sortedEndorsers;
 
       return endorsers;
     },
     titleEndorsersState: function() {
-        return this.state.titleEndorsersState;
+      return this.state.titleEndorsersState;
     },
     titles: function() {
-        return this.state.titles;
+      return this.state.titles;
+    },
+    selectedCustomTitleSetId: function() {
+      return this.state.selectedCustomTitleSetId;
     },
     ...mapState({
       state (state) {

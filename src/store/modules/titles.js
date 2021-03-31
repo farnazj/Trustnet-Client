@@ -8,19 +8,15 @@ export default {
       titles: [], //sorted customTitles
       postId: null,
       standaloneTitleId: null,
-      historyVisiblity: false,
-      titleHistory: [],
-      historyOwner: {},
+      selectedCustomTitleSetId: null, //used for both endorsers and title history
       titleEndorsersState: {
         endorsersVisibility: false,
-        selectedStandaloneTitleId: null,
-        selectedCustomTitleSetId: null
       },
-      // titleHistoryState: {
-      //   historyVisibility: false,
-      //   titleHistory: [],
-      //   historyOwner: {}
-      // }
+      titleHistoryState: {
+        historyVisibility: false,
+        titleHistory: [],
+        historyOwner: {}
+      }
     }
   },
   mutations: {
@@ -42,13 +38,13 @@ export default {
     },
 
     set_history_visibility: (state, visiblity) => {
-      state.historyVisiblity = visiblity;
+      state.titleHistoryState.historyVisibility = visiblity;
     },
 
     populate_title_history: (state, payload) => {
 
-      state.titleHistory= payload.history;
-      state.historyOwner = payload.author;
+      state.titleHistoryState.titleHistory= payload.history;
+      state.titleHistoryState.historyOwner = payload.author;
     },
 
     set_endorsers_visibility: (state, payload) => {
@@ -57,12 +53,8 @@ export default {
       state.titleEndorsersState = Object.assign({}, newObj);
     },
 
-    set_endorsers_title_id: (state, payload) => {
-        let newObj = state.titleEndorsersState;
-        newObj.selectedStandaloneTitleId = payload.selectedStandaloneTitleId;
-        newObj.selectedCustomTitleSetId = payload.selectedCustomTitleSetId;
-
-        state.titleEndorsersState = Object.assign({}, newObj);
+    set_custom_title_set_id: (state, payload) => {
+      state.selectedCustomTitleSetId = payload.selectedCustomTitleSetId;
     },
   },
   actions: {
@@ -91,7 +83,6 @@ export default {
         titleServices.getCustomTitlesOfstandaloneTitle({ 
           standaloneTitleId: context.state.standaloneTitleId }, customTitleReqHeaders)
         .then(response => {
-          console.log('response is', response)
           context.dispatch(`${payload.filtersNamespace}/updateTitles`, {
             postId: context.state.postId,
             standaloneTitle: response.data
@@ -121,8 +112,8 @@ export default {
       context.commit('set_endorsers_visibility', payload);
     },
 
-    setEndorsersTitleIds: (context, payload) => {
-        context.commit('set_endorsers_title_id', payload);
+    setCustomTitleSetId: (context, payload) => {
+      context.commit('set_custom_title_set_id', payload);
     }
 
   }

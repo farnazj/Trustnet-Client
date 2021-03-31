@@ -38,7 +38,7 @@
               </span>
             </v-col>
           </v-row>
-          <v-divider></v-divider>
+          <v-divider :key="`divider-${assessment.id}`"></v-divider>
 
          </template>
       </v-card-text>
@@ -71,7 +71,7 @@ export default {
   computed: {
     visible: {
       get: function() {
-        return this.state.historyVisiblity;
+        return this.state.historyVisibility;
       },
       set: function(newValue) {
         this.setHistoryVisibility(newValue);

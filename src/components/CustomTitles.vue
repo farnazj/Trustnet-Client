@@ -51,100 +51,102 @@
        <v-divider v-if="titles.length"></v-divider>
 
        <template v-for="(titleObj, index) in titles">
-         <v-row no-gutters align="center" class="py-1" :key="`meta-info-${index}`">
-           <custom-avatar :user="titleObj.author" :clickEnabled="true"></custom-avatar>
-           <span class="ml-2 caption grey--text text--darken-3"> {{timeElapsed(titleObj.lastVersion.createdAt)}} </span>
-           <span v-if="titleObj.history.length" class="ml-2 caption grey--text text--darken-1 cursor-pointer"
-            @click.stop="showHistory(titleObj)">Edited</span>
-          </v-row>
+         <v-container :class="{ 'highlighted-row': (selectedCustomTitleSetId === titleObj.lastVersion.setId) && 
+            (titleHistoryState.historyVisibility || titleEndorsersState.endorsersVisibility), 'pa-0': true}" :key="`title-info-${index}`">
+          <v-row no-gutters align="center" class="py-1" >
+            <custom-avatar :user="titleObj.author" :clickEnabled="true"></custom-avatar>
+            <span class="ml-2 caption grey--text text--darken-3"> {{timeElapsed(titleObj.lastVersion.createdAt)}} </span>
+            <span v-if="titleObj.history.length" class="ml-2 caption grey--text text--darken-1 interactable"
+              @click.stop="showHistory(titleObj)">Edited</span>
+            </v-row>
 
-          <v-row no-gutters :key="`title-text-${index}`">
-            <v-col cols="12">
-              <v-form ref="editTitleForm" lazy-validation>
-                <div v-if="titleObj.author.id == user.id && edit.on && edit.setId == titleObj.lastVersion.setId">
-                  <v-text-field v-model="edit.text" background-color="blue lighten-5"
-                  required :rules="formsRules.titleEditRules">
-                  </v-text-field>
+            <v-row no-gutters>
+              <v-col cols="12">
+                <v-form ref="editTitleForm" lazy-validation>
+                  <div v-if="titleObj.author.id == user.id && edit.on && edit.setId == titleObj.lastVersion.setId">
+                    <v-text-field v-model="edit.text" background-color="blue lighten-5"
+                    required :rules="formsRules.titleEditRules">
+                    </v-text-field>
+                  </div>
+                <div v-else>
+                  <p class="grey--text text--darken-3 mb-1">{{titleObj.lastVersion.text}}</p>
                 </div>
-              <div v-else>
-                <p class="grey--text text--darken-3 mb-1">{{titleObj.lastVersion.text}}</p>
-              </div>
-              </v-form>
-            </v-col>
-          </v-row>
+                </v-form>
+              </v-col>
+            </v-row>
 
-          <v-row no-gutters class="py-1" :key="`title-actions-${index}`">
-            <v-col cols="1">
-              <v-icon @click="changeEndorsement(titleObj, index, false)"
-              v-if="titleObj.userEndorsed" color="primary" class="xs-icon-font cursor-pointer">
-                fas fa-thumbs-up
-              </v-icon>
-              <v-icon @click="changeEndorsement(titleObj, index, true)" v-else
-              color="primary" class="xs-icon-font cursor-pointer">
-                far fa-thumbs-up
-              </v-icon>
-            </v-col>
+            <v-row no-gutters class="py-1">
+              <v-col cols="1">
+                <v-icon @click="changeEndorsement(titleObj, index, false)"
+                v-if="titleObj.userEndorsed" color="primary" class="xs-icon-font cursor-pointer">
+                  fas fa-thumbs-up
+                </v-icon>
+                <v-icon @click="changeEndorsement(titleObj, index, true)" v-else
+                color="primary" class="xs-icon-font cursor-pointer">
+                  far fa-thumbs-up
+                </v-icon>
+              </v-col>
 
-            <v-col cols="5">
-                <v-row no-gutters v-if="titleObj.sortedEndorsers.length" @click.stop="showEndorsers(titleObj)" class="interactable">
-                    <template v-for="(endorser, endorserIndex) in titleObj.sortedEndorsers.slice(0, endorsersOnCard)">
-                        <custom-avatar :user="endorser" :size="25" :clickEnabled="false" :key="`endorser-${endorserIndex}`"
-                        class="mr-2"></custom-avatar>
+              <v-col cols="5">
+                  <v-row no-gutters v-if="titleObj.sortedEndorsers.length" @click.stop="showEndorsers(titleObj)" class="interactable">
+                      <template v-for="(endorser, endorserIndex) in titleObj.sortedEndorsers.slice(0, endorsersOnCard)">
+                          <custom-avatar :user="endorser" :size="25" :clickEnabled="false" :key="`endorser-${endorserIndex}`"
+                          class="mr-2"></custom-avatar>
+                      </template>
+                      <span v-if="titleObj.sortedEndorsers.length > endorsersOnCard" 
+                          :class="{'mr-2': $vuetify.breakpoint.smAndDown}" >...</span>
+                  </v-row>
+              </v-col>
+
+              <v-col cols="6" v-if="titleObj.author.id == user.id">
+
+                <v-row justify="end" no-gutters>
+                  <v-tooltip bottom :open-on-hover="true" open-delay="500">
+                    <template v-slot:activator="{ on }">
+                      <v-btn v-show="!edit.on || edit.setId != titleObj.lastVersion.setId" x-small outlined
+                        @click="startEdit(titleObj)" v-on="on" color="green lighten-1" class="mr-2">
+                        <v-icon class="xs-icon-font">edit</v-icon>
+                      </v-btn>
                     </template>
-                    <span v-if="titleObj.sortedEndorsers.length > endorsersOnCard" 
-                        :class="{'mr-2': $vuetify.breakpoint.smAndDown}" >...</span>
+                    <span>Edit</span>
+                  </v-tooltip>
+
+                  <v-tooltip bottom :open-on-hover="true" open-delay="500">
+                    <template v-slot:activator="{ on }">
+                      <v-btn v-show="edit.on && edit.setId == titleObj.lastVersion.setId" x-small outlined
+                        @click="resetEdits" v-on="on" color="red lighten-1" class="mr-1">
+                        <v-icon class="xs-icon-font">cancel</v-icon>
+                      </v-btn>
+                    </template>
+                    <span>Cancel edit</span>
+                  </v-tooltip>
+
+                  <v-tooltip bottom :open-on-hover="true" open-delay="500">
+                    <template v-slot:activator="{ on }">
+                      <v-btn v-show="edit.on && edit.setId == titleObj.lastVersion.setId" x-small outlined
+                        @click="saveEdits" v-on="on" color="green lighten-1" class="mr-3">
+                        <v-icon class="xs-icon-font">check</v-icon>
+                      </v-btn>
+                    </template>
+                    <span>Save edit</span>
+                  </v-tooltip>
+
+                  <v-tooltip bottom :open-on-hover="true" open-delay="500">
+                    <template v-slot:activator="{ on }">
+                      <v-btn x-small outlined @click="startDelete(titleObj)" v-on="on"
+                        color="red lighten-1">
+                        <v-icon class="xs-icon-font">delete</v-icon>
+                      </v-btn>
+                    </template>
+                    <span>Delete</span>
+                  </v-tooltip>
+
                 </v-row>
-            </v-col>
+              </v-col>
+            </v-row>
 
-            <v-col cols="6" v-if="titleObj.author.id == user.id">
-
-              <v-row justify="end" no-gutters>
-                <v-tooltip bottom :open-on-hover="true" open-delay="500">
-                  <template v-slot:activator="{ on }">
-                    <v-btn v-show="!edit.on || edit.setId != titleObj.lastVersion.setId" x-small outlined
-                      @click="startEdit(titleObj)" v-on="on" color="green lighten-1" class="mr-2">
-                      <v-icon class="xs-icon-font">edit</v-icon>
-                    </v-btn>
-                  </template>
-                  <span>Edit</span>
-                </v-tooltip>
-
-                <v-tooltip bottom :open-on-hover="true" open-delay="500">
-                  <template v-slot:activator="{ on }">
-                    <v-btn v-show="edit.on && edit.setId == titleObj.lastVersion.setId" x-small outlined
-                      @click="resetEdits" v-on="on" color="red lighten-1" class="mr-1">
-                      <v-icon class="xs-icon-font">cancel</v-icon>
-                    </v-btn>
-                  </template>
-                  <span>Cancel edit</span>
-                </v-tooltip>
-
-                <v-tooltip bottom :open-on-hover="true" open-delay="500">
-                  <template v-slot:activator="{ on }">
-                    <v-btn v-show="edit.on && edit.setId == titleObj.lastVersion.setId" x-small outlined
-                      @click="saveEdits" v-on="on" color="green lighten-1" class="mr-3">
-                      <v-icon class="xs-icon-font">check</v-icon>
-                    </v-btn>
-                  </template>
-                  <span>Save edit</span>
-                </v-tooltip>
-
-                <v-tooltip bottom :open-on-hover="true" open-delay="500">
-                  <template v-slot:activator="{ on }">
-                    <v-btn x-small outlined @click="startDelete(titleObj)" v-on="on"
-                      color="red lighten-1">
-                      <v-icon class="xs-icon-font">delete</v-icon>
-                    </v-btn>
-                  </template>
-                  <span>Delete</span>
-                </v-tooltip>
-
-              </v-row>
-            </v-col>
-          </v-row>
-
-          <v-divider :key="`title-divider-${index}`"></v-divider>
-
+            <v-divider></v-divider>
+          </v-container>
         </template>
 
       </v-card-text>
@@ -174,7 +176,7 @@ export default {
    'custom-avatar': customAvatar,
    'delete-dialog': deleteConfirmationDialog,
    'title-history': titleHistory,
-    'title-endorsers': titleEndorsers
+  'title-endorsers': titleEndorsers
   },
   props: {
     titlesNamespace: {
@@ -214,11 +216,11 @@ export default {
   computed: {
     associatedStandaloneTitle: function() {
 
-        if (this.titleId) {
-          return this.titles.find(title => title.id == this.standaloneTitleId);
-        }
-        else
-          return null;
+      if (this.titleId) {
+        return this.titles.find(title => title.id == this.standaloneTitleId);
+      }
+      else
+        return null;
     },
     titleDialogVisible: {
 
@@ -226,7 +228,7 @@ export default {
         return this.state.customTitlesVisible;
       },
       set: function(newValue) {
-        this.setHistoryVisiblity(false);
+        this.sethistoryVisibility(false);
         this.setEndorsersVisibility(false);
         this.setTitlesVisibility(newValue);
       }
@@ -239,6 +241,20 @@ export default {
       else 
           return 3;
     },
+    selectedCustomTitleSetId: function() {
+      return this.state.selectedCustomTitleSetId;
+    },
+    titleHistoryState: function() {
+      return this.state.titleHistoryState;
+    },
+    titleEndorsersState: function() {
+      return this.state.titleEndorsersState;
+    },
+    ...mapState({
+      state (state) {
+       return state[this.titlesNamespace];
+      }
+    }),
     ...mapGetters('auth', [
       'user'
     ])
@@ -364,21 +380,24 @@ export default {
     },
     showHistory: function(titleObj) {
       this.setEndorsersVisibility(false);
+      this.setCustomTitleSetId({
+        selectedCustomTitleSetId: titleObj.lastVersion.setId
+      });
+      
       this.populateTitleHistory(titleObj);
-      this.setHistoryVisiblity(true);
+      this.sethistoryVisibility(true);
     },
     showEndorsers: function(titleObj) {
 
-      this.setHistoryVisiblity(false);
-      this.setEndorsersTitleIds({
-          selectedStandaloneTitleId: titleObj.lastVersion.StandaloneTitleId,
-          selectedCustomTitleSetId: titleObj.lastVersion.setId
-      })
+      this.sethistoryVisibility(false);
+      this.setCustomTitleSetId({
+        selectedCustomTitleSetId: titleObj.lastVersion.setId
+      });
       
       this.setEndorsersVisibility(true);
     },
     hideTitles: function() {
-      this.setHistoryVisiblity(false);
+      this.sethistoryVisibility(false);
       this.setTitlesVisibility(false);
     },
     ...mapActions({
@@ -388,7 +407,7 @@ export default {
       populateTitleHistory (dispatch, payload) {
         return dispatch(this.titlesNamespace + '/populateTitleHistory', payload)
       },
-      setHistoryVisiblity (dispatch, payload) {
+      sethistoryVisibility (dispatch, payload) {
         return dispatch(this.titlesNamespace + '/setHistoryVisibility', payload)
       },
       fetchPostTitles (dispatch) {
@@ -400,8 +419,8 @@ export default {
       setEndorsersVisibility (dispatch, payload) {
         return dispatch(this.titlesNamespace + '/setEndorsersVisibility', payload)
       },
-      setEndorsersTitleIds (dispatch, payload) {
-        return dispatch(this.titlesNamespace + '/setEndorsersTitleIds', payload)
+      setCustomTitleSetId (dispatch, payload) {
+        return dispatch(this.titlesNamespace + '/setCustomTitleSetId', payload)
       }
 
     })
@@ -414,5 +433,9 @@ export default {
 .custom-titles-container-card {
     overflow: auto;
     /* max-height: min(100%, 50vh); */
+}
+
+.highlighted-row {
+  background-color: #F9FBE7;
 }
 </style>

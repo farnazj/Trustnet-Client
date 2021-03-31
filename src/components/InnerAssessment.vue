@@ -89,13 +89,13 @@ export default {
         history: [this.assessmentObj.lastVersion].concat(this.assessmentObj.history),
         assessor: this.assessmentObj.assessor
       });
-      this.setHistoryVisiblity(true);
+      this.sethistoryVisibility(true);
     },
     ...mapActions({
       populateHistory (dispatch, payload) {
         return dispatch(this.namespace + '/populateAssessmentHistory', payload)
       },
-      setHistoryVisiblity (dispatch, payload) {
+      sethistoryVisibility (dispatch, payload) {
         return dispatch(this.namespace + '/setHistoryVisibility', payload)
       }
     })

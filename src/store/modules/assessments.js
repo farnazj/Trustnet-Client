@@ -5,7 +5,7 @@ export default {
       visible: false,
       assessments: {},
       postIdOfAssessments: null,
-      historyVisiblity: false,
+      historyVisibility: false,
       assessmentHistory: [],
       historyOwner: {}
     }
@@ -26,7 +26,7 @@ export default {
     },
 
     set_history_visibility: (state, visiblity) => {
-      state.historyVisiblity  = visiblity;
+      state.historyVisibility  = visiblity;
     },
 
     populate_assessment_history: (state, payload) => {

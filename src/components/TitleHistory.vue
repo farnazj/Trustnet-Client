@@ -20,12 +20,12 @@
 
         <v-card-text>
           <v-row no-gutters justify="start" align="center">
-            <custom-avatar :user="historyOwner" :clickEnabled="true" class="mr-2">
+            <custom-avatar :user="titleHistoryState.historyOwner" :clickEnabled="true" class="mr-2">
             </custom-avatar>
-             <span>{{sourceDisplayName(historyOwner)}}</span>
+             <span>{{sourceDisplayName(titleHistoryState.historyOwner)}}</span>
           </v-row>
 
-          <template v-for="titleObj in titleHistory">
+          <template v-for="titleObj in titleHistoryState.titleHistory">
             <v-row no-gutters :key="titleObj.id" align="center" class="py-1">
              <v-col cols="12">
                <p class="grey--text text--darken-3 mb-1">
@@ -74,17 +74,14 @@ export default {
   computed: {
     visible: {
       get: function() {
-        return this.state.historyVisiblity;
+        return this.titleHistoryState.historyVisibility;
       },
       set: function(newValue) {
         this.setHistoryVisibility(newValue);
       }
     },
-    historyOwner: function() {
-      return this.state.historyOwner;
-    },
-    titleHistory: function() {
-      return this.state.titleHistory;
+    titleHistoryState: function() {
+      return this.state.titleHistoryState;
     },
     ...mapState({
       state (state) {
