@@ -115,6 +115,7 @@ export default {
             tags: JSON.stringify(context.state.filteredTags.map(el => el.id))
           })
         .then(response => {
+          console.log(response.data)
           resolve(response.data);
         }).catch(error => {
           reject(error)

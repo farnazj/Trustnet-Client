@@ -31,7 +31,7 @@
           :nudge-width="120" offset-y left attach>
 
           <template v-slot:activator="{ on: { click } }">
-            <custom-avatar v-if="Object.entries(user).length" :size=40 class="mr-1"
+            <custom-avatar v-if="Object.entries(user).length" :size=40 class="mr-1 interactable"
               :user="user" :clickEnabled="false" v-on:click.native="click" ></custom-avatar>
           </template>
           <v-card>

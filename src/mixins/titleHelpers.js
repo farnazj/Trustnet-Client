@@ -72,6 +72,7 @@ export default {
           .then(resp => {
             titlesBySetId[setId]['author'] = resp[0].data;
             titlesBySetId[setId]['userEndorsed'] = resp[1].data;
+            titlesBySetId[setId].sortedEndorsers = titlesBySetId[setId].lastVersion.Endorsers.slice().sort(utils.compareSources);
             this.titleObjects.push(titlesBySetId[setId]);
           }))
 

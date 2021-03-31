@@ -1,7 +1,7 @@
 <template>
 
 <v-slide-x-reverse-transition v-if="visible">
-  <v-card max-width="270">
+  <v-card max-width="270" max-height='50vh' class="drawer-card">
     <v-row no-gutters >
       <v-col class="drawer-opener" cols="1">
         <v-row no-gutters justify="end" align="center" class="fill-height">
@@ -37,7 +37,7 @@
                </span>
              </v-col>
            </v-row>
-           <v-divider></v-divider>
+           <v-divider :key="`divider-${titleObj.id}`"></v-divider>
 
           </template>
 

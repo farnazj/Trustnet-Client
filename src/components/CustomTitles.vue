@@ -14,7 +14,7 @@
 
     <v-slide-x-reverse-transition>
 
-     <v-card max-height="50vh" class="pa-1" >
+     <v-card  class="pa-1 custom-titles-container-card" max-width="100%" max-height="50vh">
        <v-row no-gutters align="center">
          <v-col cols="11">
            <v-row no-gutters justify="start">
@@ -85,7 +85,18 @@
               </v-icon>
             </v-col>
 
-            <v-col cols="11" v-if="titleObj.author.id == user.id">
+            <v-col cols="5">
+                <v-row no-gutters v-if="titleObj.sortedEndorsers.length" @click.stop="showEndorsers(titleObj)" class="interactable">
+                    <template v-for="(endorser, endorserIndex) in titleObj.sortedEndorsers.slice(0, endorsersOnCard)">
+                        <custom-avatar :user="endorser" :size="25" :clickEnabled="false" :key="`endorser-${endorserIndex}`"
+                        class="mr-2"></custom-avatar>
+                    </template>
+                    <span v-if="titleObj.sortedEndorsers.length > endorsersOnCard" 
+                        :class="{'mr-2': $vuetify.breakpoint.smAndDown}" >...</span>
+                </v-row>
+            </v-col>
+
+            <v-col cols="6" v-if="titleObj.author.id == user.id">
 
               <v-row justify="end" no-gutters>
                 <v-tooltip bottom :open-on-hover="true" open-delay="500">
@@ -140,7 +151,8 @@
      </v-card>
      </v-slide-x-reverse-transition>
 
-     <title-history :namespace="titlesNamespace"></title-history>
+      <title-history :namespace="titlesNamespace"></title-history>
+      <title-endorsers :namespace="titlesNamespace"></title-endorsers>
 
   </v-dialog>
 
@@ -150,6 +162,7 @@
 import customAvatar from '@/components/CustomAvatar'
 import deleteConfirmationDialog from '@/components/DeleteConfirmationDialog'
 import titleHistory from '@/components/TitleHistory'
+import titleEndorsers from '@/components/TitleEndorsers'
 
 import timeHelpers from '@/mixins/timeHelpers'
 import titleHelpers from '@/mixins/titleHelpers'
@@ -160,7 +173,8 @@ export default {
   components: {
    'custom-avatar': customAvatar,
    'delete-dialog': deleteConfirmationDialog,
-   'title-history': titleHistory
+   'title-history': titleHistory,
+    'title-endorsers': titleEndorsers
   },
   props: {
     titlesNamespace: {
@@ -213,8 +227,17 @@ export default {
       },
       set: function(newValue) {
         this.setHistoryVisiblity(false);
+        this.setEndorsersVisibility(false);
         this.setTitlesVisibility(newValue);
       }
+    },
+    endorsersOnCard: function() {
+      if (this.$vuetify.breakpoint.smAndDown)
+          return 1;
+      else if (this.$vuetify.breakpoint.mdAndDown)
+          return 2;
+      else 
+          return 3;
     },
     ...mapGetters('auth', [
       'user'
@@ -340,9 +363,19 @@ export default {
       this.edit.text = '';
     },
     showHistory: function(titleObj) {
-
+      this.setEndorsersVisibility(false);
       this.populateTitleHistory(titleObj);
       this.setHistoryVisiblity(true);
+    },
+    showEndorsers: function(titleObj) {
+
+      this.setHistoryVisiblity(false);
+      this.setEndorsersTitleIds({
+          selectedStandaloneTitleId: titleObj.lastVersion.StandaloneTitleId,
+          selectedCustomTitleSetId: titleObj.lastVersion.setId
+      })
+      
+      this.setEndorsersVisibility(true);
     },
     hideTitles: function() {
       this.setHistoryVisiblity(false);
@@ -363,6 +396,12 @@ export default {
           titlesNamespace: this.titlesNamespace,
           filtersNamespace: this.filtersNamespace
           })
+      },
+      setEndorsersVisibility (dispatch, payload) {
+        return dispatch(this.titlesNamespace + '/setEndorsersVisibility', payload)
+      },
+      setEndorsersTitleIds (dispatch, payload) {
+        return dispatch(this.titlesNamespace + '/setEndorsersTitleIds', payload)
       }
 
     })
@@ -370,3 +409,10 @@ export default {
   mixins: [timeHelpers, titleHelpers]
 }
 </script>
+
+<style scoped>
+.custom-titles-container-card {
+    overflow: auto;
+    /* max-height: min(100%, 50vh); */
+}
+</style>

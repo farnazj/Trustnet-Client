@@ -30,7 +30,7 @@
         <v-row >
           <v-col sm="6" md="4" lg="3" xl="2" cols="12">
             <v-card outlined @click="showAddListDialog = true"
-            class="cursor-pointer dashed-border">
+            class="interactable dashed-border">
               <v-row no-gutters align="center" justify="center" class="create-new-list">
                 <v-icon large>add</v-icon>
                 Create new list

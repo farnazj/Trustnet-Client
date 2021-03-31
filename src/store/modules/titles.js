@@ -10,7 +10,17 @@ export default {
       standaloneTitleId: null,
       historyVisiblity: false,
       titleHistory: [],
-      historyOwner: {}
+      historyOwner: {},
+      titleEndorsersState: {
+        endorsersVisibility: false,
+        selectedStandaloneTitleId: null,
+        selectedCustomTitleSetId: null
+      },
+      // titleHistoryState: {
+      //   historyVisibility: false,
+      //   titleHistory: [],
+      //   historyOwner: {}
+      // }
     }
   },
   mutations: {
@@ -39,7 +49,21 @@ export default {
 
       state.titleHistory= payload.history;
       state.historyOwner = payload.author;
-    }
+    },
+
+    set_endorsers_visibility: (state, payload) => {
+      let newObj = state.titleEndorsersState;
+      newObj.endorsersVisibility = payload;
+      state.titleEndorsersState = Object.assign({}, newObj);
+    },
+
+    set_endorsers_title_id: (state, payload) => {
+        let newObj = state.titleEndorsersState;
+        newObj.selectedStandaloneTitleId = payload.selectedStandaloneTitleId;
+        newObj.selectedCustomTitleSetId = payload.selectedCustomTitleSetId;
+
+        state.titleEndorsersState = Object.assign({}, newObj);
+    },
   },
   actions: {
     setPostTitleId: (context, payload) => {
@@ -67,6 +91,7 @@ export default {
         titleServices.getCustomTitlesOfstandaloneTitle({ 
           standaloneTitleId: context.state.standaloneTitleId }, customTitleReqHeaders)
         .then(response => {
+          console.log('response is', response)
           context.dispatch(`${payload.filtersNamespace}/updateTitles`, {
             postId: context.state.postId,
             standaloneTitle: response.data
@@ -90,6 +115,14 @@ export default {
 
     populateTitleHistory: (context, payload) => {
       context.commit('populate_title_history', payload);
+    },
+
+    setEndorsersVisibility: (context, payload) => {
+      context.commit('set_endorsers_visibility', payload);
+    },
+
+    setEndorsersTitleIds: (context, payload) => {
+        context.commit('set_endorsers_title_id', payload);
     }
 
   }
