@@ -37,7 +37,7 @@
 
           <v-row v-if="sortedAssessments.questioned.length != 0" row class="pa-1" no-gutters>
             <span v-if="assessmentsRemaining('questioned')" @click="revealMore('questioned')"
-              class="blue--text text--darken-3 body-2 cursor-pointer">
+              class="blue--text text--darken-3 body-2 interactable">
               Show More Assessments</span>
             <v-spacer></v-spacer>
             <span class="caption grey--text text--darken-3 pr-1"> {{getAssessmentStats('questioned')}} </span>
@@ -66,7 +66,7 @@
 
                 <v-row no-gutters class="pa-1">
                   <span v-if="assessmentsRemaining(key)" @click="revealMore(key)"
-                    class="blue--text text--darken-3 body-2 cursor-pointer">
+                    class="blue--text text--darken-3 body-2 interactable">
                     Show More Assessments</span>
                   <v-spacer></v-spacer>
                   <span class="caption grey--text text--darken-3 pr-1"> {{getAssessmentStats(key)}} </span>

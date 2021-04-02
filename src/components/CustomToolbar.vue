@@ -1,7 +1,7 @@
 <template>
     <v-app-bar dense fixed color="lime lighten-1">
 
-      <v-toolbar-title @click="goToPage('Home')" class="headline text-uppercase cursor-pointer">
+      <v-toolbar-title @click="goToPage('Home')" class="headline text-uppercase interactable">
         <span class="font-weight-light">Trustnet</span>
       </v-toolbar-title>
 

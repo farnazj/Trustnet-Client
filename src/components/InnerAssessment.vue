@@ -16,7 +16,7 @@
       <span v-if="assessmentObj.lastVersion.isTransitive" class="ml-2 mr-1 caption grey--text text--darken-1 "> Adopted through their network</span>
       <span class="ml-2 caption grey--text text--darken-3"> {{timeElapsed(assessmentObj.lastVersion.createdAt)}} </span>
       <span v-if="assessmentObj.history && assessmentObj.history.length"
-      class="ml-2 caption grey--text text--darken-1 cursor-pointer" @click.stop="showHistory">
+      class="ml-2 caption grey--text text--darken-1 interactable" @click.stop="showHistory">
         Edited</span>
     </v-row>
 
@@ -24,14 +24,14 @@
       <v-col cols="12">
         <v-row v-if="!showFullText && bodyWordCount > 25" class="ma-0">
           <p v-html="truncatedText" class="assessment-text-inner mb-0"></p>
-          <span class="blue--text text--darken-3 cursor-pointer" @click="showFullText = true">
+          <span class="blue--text text--darken-3 interactable" @click="showFullText = true">
             show more
           </span>
         </v-row>
         <v-row v-else class="ma-0" >
           <p v-html="assessmentObj.lastVersion.body" class="assessment-text-inner mb-0">
           </p>
-            <span v-if="bodyWordCount > 25" class="blue--text text--darken-3 cursor-pointer"
+            <span v-if="bodyWordCount > 25" class="blue--text text--darken-3 interactable"
              @click="showFullText = false">
             show less
           </span>

@@ -78,11 +78,11 @@
             <v-row no-gutters class="py-1">
               <v-col cols="1">
                 <v-icon @click="changeEndorsement(titleObj, index, false)"
-                v-if="titleObj.userEndorsed" color="primary" class="xs-icon-font cursor-pointer">
+                v-if="titleObj.userEndorsed" color="primary" class="xs-icon-font interactable">
                   fas fa-thumbs-up
                 </v-icon>
                 <v-icon @click="changeEndorsement(titleObj, index, true)" v-else
-                color="primary" class="xs-icon-font cursor-pointer">
+                color="primary" class="xs-icon-font interactable">
                   far fa-thumbs-up
                 </v-icon>
               </v-col>

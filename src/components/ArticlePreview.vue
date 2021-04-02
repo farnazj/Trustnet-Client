@@ -48,7 +48,7 @@
               <v-row no-gutters>
                 <v-col cols="12">
                    <div class="px-2">
-                     <p :class="['mr-1', 'cursor-pointer', $vuetify.breakpoint.smAndDown ? 'title-custom-small': 'title-custom',
+                     <p :class="['mr-1', 'interactable', $vuetify.breakpoint.smAndDown ? 'title-custom-small': 'title-custom',
                       { strikethrough: displayedAlternativeTitle, 'title': $vuetify.breakpoint.smAndDown }]"
                      v-html="post.title"></p>
                      <span v-if="displayedAlternativeTitle" class="mx-1 font-italic font-weight-light interactable title title-custom"
@@ -94,7 +94,7 @@
           <v-row v-if="uniqueBoosters.length" no-gutters wrap>
             <v-col cols="12" >
                <v-icon small>fas fa-share</v-icon>
-              <span @click.stop="showBoosters" class="caption blue--text text--darken-3 cursor-pointer">
+              <span @click.stop="showBoosters" class="caption blue--text text--darken-3 interactable">
                 Show sharers info</span>
             </v-col>
           </v-row>
@@ -107,7 +107,7 @@
 
       <v-col :offset="$vuetify.breakpoint.smAndDown ? 8 : 0" :cols="$vuetify.breakpoint.smAndDown ? 3 : 1">
         <v-card flat @click.stop="revealAssessments" :height="$vuetify.breakpoint.smAndDown ? '17px' : '80px'" color="lime lighten-3"
-          :class="[$vuetify.breakpoint.smAndDown ? 'assessment-hinter-vertical' : 'assessment-hinter-horizontal', 'cursor-pointer']"
+          :class="[$vuetify.breakpoint.smAndDown ? 'assessment-hinter-vertical' : 'assessment-hinter-horizontal', 'interactable']"
           :elevation="shownAssessmentPostId == post.id ? 24 : 4"
           >
           <v-row align="center" justify="center" no-gutters class="parent-height" >
