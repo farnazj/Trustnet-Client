@@ -78,6 +78,7 @@ export default {
           context.dispatch('relatedSources/fetchFollows',{}, { root: true });
           context.dispatch('relatedSources/fetchTrusteds',{}, { root: true });
           context.dispatch('relatedSources/fetchFollowers',{}, { root: true });
+          context.dispatch('preferences/getUserPreferences', {}, { root: true });
 
           resolve(resp);
         })

@@ -31,9 +31,9 @@
             </v-col>
              -->
 
-            <v-col :cols="$vuetify.breakpoint.smAndDown ? 12 : 3">
+            <v-col :cols="$vuetify.breakpoint.smAndDown ? 12 : (defaultView ? 3 : 2)">
               <v-row>
-                <v-col :cols="$vuetify.breakpoint.smAndDown ? 6  : 12" class="py-2">
+                <v-col v-if="defaultView" :cols="$vuetify.breakpoint.smAndDown ? 6  : 12" class="py-1">
                   <v-img v-if="post.image" :src="post.image" contain class="rounded"> </v-img>
                 </v-col>
 
@@ -44,7 +44,7 @@
                 </v-row>
             </v-col>
 
-            <v-col :cols="$vuetify.breakpoint.smAndDown ? 12 : 6">
+            <v-col :cols="$vuetify.breakpoint.smAndDown ? 12 : (defaultView ? 6: 7)">
               <v-row no-gutters>
                 <v-col cols="12">
                    <div class="px-2">
@@ -62,7 +62,7 @@
                          </template>
                          <span>alternative titles</span>
                        </v-tooltip>
-                     <p v-if="!$vuetify.breakpoint.xsOnly" :class="['mt-1', 'mb-0', 'grey--text', 'text--darken-3', 'body-2', {'caption': $vuetify.breakpoint.smAndDown}]" 
+                     <p v-if="!$vuetify.breakpoint.xsOnly && defaultView" :class="['mt-1', 'mb-0', 'grey--text', 'text--darken-3', 'body-2', {'caption': $vuetify.breakpoint.smAndDown}]" 
                      v-html="post.description"></p>
                    </div>
                 </v-col>
@@ -182,7 +182,13 @@
          assessmentState (state) {
            return state[this.assessmentsNamespace];
          }
-      })
+      }),
+      defaultView: function() {
+        return typeof this.preferences.articlePreviewTheme === 'undefined' || preferences.articlePreviewTheme === 'default';
+      },
+      ...mapState('preferences', [
+        'preferences'
+      ])
 
     },
     methods: {

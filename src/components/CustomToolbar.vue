@@ -85,9 +85,9 @@ export default {
       }, {
         name: 'Profile', icon: 'person_outline'
       },
-      // {
-      //   name: 'Settings', icon: 'settings'
-      // },
+      {
+        name: 'Settings', icon: 'settings'
+      },
       {
         name: 'About', icon: 'help'
       }, {

@@ -7,6 +7,7 @@ import auth from './modules/auth'
 import relatedSources from './modules/relatedSources'
 import articleDetails from './modules/articleDetails'
 import profileArticles from './modules/profileArticles'
+import preferences from './modules/preferences'
 import loader from './modules/loader'
 import sourceLists from './modules/sourceLists'
 
@@ -31,7 +32,8 @@ let store = new Vuex.Store({
     relatedSources,
     profileArticles, //articles on a profile
     loader,
-    sourceLists
+    sourceLists,
+    preferences
   }
 })
 
