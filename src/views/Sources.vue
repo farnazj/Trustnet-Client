@@ -42,16 +42,14 @@
           </v-tab-item>
 
           <v-tab-item value="addFeeds">
-            <v-container fluid class="pa-2">
-              <v-row no-gutters>
-                <p>
-                  Add an RSS feed to the system so that you and other users can hear
-                  about its latest content.
-                </p>
-              </v-row>
+            <v-container fluid class="pa-2 pt-6">
 
               <v-row no-gutters justify="center" class="mb-3">
                 <v-col sm="12" md="6" lg="4">
+                       <p>
+                    Add an RSS feed to the system so that you and other users can hear
+                    about its latest content.
+                  </p>
                   <feed-manager @loading-on="setLoading(true)" @loading-off="setLoading(false)"
                     @success-response="showFeed">
                   </feed-manager>
@@ -82,7 +80,7 @@ import sourceListsContainer from '@/components/SourceListsContainer'
 import DiscoverSources from '@/components/DiscoverSources'
 import FeedManager from '@/components/FeedManager'
 import sourceCard from '@/components/SourceCard'
-import Loading from '@/components/Loading'
+// import Loading from '@/components/Loading'
 
 import { mapGetters, mapActions } from 'vuex';
 
@@ -93,7 +91,7 @@ export default {
     'source-lists-container': sourceListsContainer,
     'discover-sources': DiscoverSources,
     'feed-manager': FeedManager,
-    'loading': Loading,
+    // 'loading': Loading,
     'source-card': sourceCard
   },
   data () {

@@ -126,3 +126,7 @@ div.vicp-preview-item.vicp-preview-item-circle {
 .custom-list-avatar {
   overflow: initial !important;
 }
+
+.v-radio > .v-label {
+  max-width: 100%;
+}

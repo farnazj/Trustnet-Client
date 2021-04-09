@@ -56,8 +56,8 @@
 
                        <v-tooltip bottom>
                          <template v-slot:activator="{ on }">
-                           <v-btn v-on="on" @click.stop="showTitles" :class="$vuetify.breakpoint.smAndDown ? 'ml-0' : 'ml-1'" small icon color="lime lighten-1">
-                             <v-icon class="xs-icon-font">fas fa-info</v-icon>
+                           <v-btn v-on="on" @click.stop="showTitles" class='ml-0' small icon color="lime lighten-1">
+                             <v-icon class="xs-icon-font">edit</v-icon>
                            </v-btn>
                          </template>
                          <span>alternative titles</span>
@@ -184,10 +184,11 @@
          }
       }),
       defaultView: function() {
-        return typeof this.preferences.articlePreviewTheme === 'undefined' || preferences.articlePreviewTheme === 'default';
+        //return false;
+        return typeof this.userPreferences.articlePreviewTheme === 'undefined' || this.userPreferences.articlePreviewTheme === 'default';
       },
       ...mapState('preferences', [
-        'preferences'
+        'userPreferences'
       ])
 
     },
