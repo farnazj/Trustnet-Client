@@ -12,7 +12,11 @@ export default {
 
         if (!this.scrollDisabled && !this.endOfResults && bottomOfWindow) {
           console.log('bottom of window')
-          this.extend();
+          this.scrollDisabled = true;
+          this.extend()
+          .then(() => {
+            this.scrollDisabled = false;
+          })
         }
 
       };

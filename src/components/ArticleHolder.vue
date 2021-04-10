@@ -132,7 +132,7 @@ export default {
     extend: function() {
 
       let preOffset = this.offset;
-      this.getMoreBoosts()
+      return this.getMoreBoosts()
       .then(() => {
         let postOffset = this.offset;
         if (preOffset == postOffset)
