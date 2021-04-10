@@ -14,7 +14,7 @@
             Cancel
           </v-btn>
 
-          <v-btn color="green darken-1" text @click="confirm">
+          <v-btn color="light-blue darken-3" text @click="confirm">
             Add List
           </v-btn>
 

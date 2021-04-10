@@ -63,7 +63,7 @@
             <span v-else> Trust</span>
           </v-btn>
 
-          <v-btn x-small text :color="isFollowed ? 'grey darken-2' : 'primary' "
+          <v-btn x-small text :color="isFollowed ? 'grey darken-2' : 'light-blue darken-4' "
             @click.stop="changeFollowStatus(source)" :class="$vuetify.breakpoint.smAndDown ? 'custom-btn-text-sm' :'custom-btn-text' ">
             <span v-if="isFollowed"> Unfollow</span>
             <span v-else> Follow</span>
