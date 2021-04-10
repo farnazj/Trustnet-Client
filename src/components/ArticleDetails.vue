@@ -492,11 +492,11 @@ export default {
         this.showLinkToolTip = false;
       }, 1000);
     },
-    parseFacebookCommentsURL: function() {
-      setTimeout(function() {
-        window.FB.XFBML.parse();
-      }, 100)
-    },
+    // parseFacebookCommentsURL: function() {
+    //   setTimeout(function() {
+    //     window.FB.XFBML.parse();
+    //   }, 100)
+    // },
     ...mapActions({
       setDrawerVisibility (dispatch, payload) {
         return dispatch(this.detailsNamespace + '/setDrawerVisibility', payload)
@@ -532,7 +532,7 @@ export default {
       this.edit.title = val.title;
 
       this.prepopulateUserAssessment();
-      this.parseFacebookCommentsURL();
+      // this.parseFacebookCommentsURL();
     }
    
   }
