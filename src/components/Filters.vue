@@ -1,6 +1,6 @@
 <template>
 
-  <v-list class="pt-4 article-filters scrollable" expand dark dense>
+  <v-list class="pt-4 article-filters scrollable sth" expand dark dense >
     <v-list-item>
       <v-list-item-action>
           <v-icon>filter_list</v-icon>
@@ -32,7 +32,7 @@
 
     <v-divider></v-divider>
 
-    <v-list-group prepend-icon="remove_red_eye" value="true">
+    <v-list-group prepend-icon="remove_red_eye" value="true" class="sth">
 
       <template v-slot:activator>
         <v-list-item-content>
@@ -49,7 +49,7 @@
 
         <v-list-item v-for="(status, i) in seenStatusFilters"
           :key="i" @click="filter(status, 'seenStatus')"
-          :class="{highlighted:status == selectedFilters['seenStatus']}">
+          :class="{highlighted:status == selectedFilters['seenStatus']}" :light="status == selectedFilters['seenStatus']">
           <v-list-item-content>
             <v-list-item-title v-text="status"></v-list-item-title>
           </v-list-item-content>
@@ -59,7 +59,7 @@
     </v-list-group>
     <v-divider></v-divider>
 
-    <v-list-group prepend-icon="gavel" value="true">
+    <v-list-group prepend-icon="gavel" value="true" class="sth">
       <template v-slot:activator>
         <v-list-item-content>
           <v-list-item-title>Validity</v-list-item-title>
@@ -76,7 +76,8 @@
 
         <v-list-item v-for="(validityObj, i) in validityFilters"
           :key="i" @click="filter(validityObj.serverName, 'validity')"
-          :class="{highlighted:validityObj.serverName == selectedFilters['validity']}">
+          :class="{highlighted:validityObj.serverName == selectedFilters['validity']}"
+          :light="validityObj.serverName == selectedFilters['validity']">
           <v-list-item-content>
             <v-list-item-title v-text="validityObj.displayedName"></v-list-item-title>
           </v-list-item-content>
@@ -98,7 +99,8 @@
 
         <v-list-item v-if="sourceObj.displayedName !== 'Selected Sources' || (sourceLists.length || followedOrTrusteds.length)"
           @click="filter(sourceObj.serverName, 'sources')" :key="i"
-          :class="{highlighted:selectedFilters['sources'].includes(sourceObj.serverName)}">
+          :class="{highlighted:selectedFilters['sources'].includes(sourceObj.serverName)}" 
+          :light="selectedFilters['sources'].includes(sourceObj.serverName)">
 
           <v-list-item-action class="pa-0 source-checkbox">
             <v-checkbox v-model="selectedAssessorsCheckMark[sourceObj.serverName]"></v-checkbox>
@@ -119,7 +121,8 @@
 
       <v-list-item v-for="list in sourceLists"
           :key="list.id" @click="selectSource(list, false)"
-          :class="{highlighted: sourceSelectionMode && selectedLists.includes(list.id)}">
+          :class="{highlighted: sourceSelectionMode && selectedLists.includes(list.id)}"
+          :light="sourceSelectionMode && selectedLists.includes(list.id)">
 
         <v-list-item-action v-if="sourceSelectionMode" class="pa-0 source-checkbox">
           <v-checkbox v-model="selectedListsCheckMark[list.id]"></v-checkbox>
@@ -144,7 +147,8 @@
 
       <v-list-item v-for="source in followedOrTrusteds"
           :key="source.id" @click="selectSource(source, true)"
-          :class="{highlighted: sourceSelectionMode && selectedSources.includes(source.userName)}">
+          :class="{highlighted: sourceSelectionMode && selectedSources.includes(source.userName)}"
+          :light="sourceSelectionMode && selectedSources.includes(source.userName)">
 
           <v-list-item-action v-if="sourceSelectionMode" class="pa-0 source-checkbox">
             <v-checkbox v-model="selectedSourcesCheckMark[source.userName]"></v-checkbox>
@@ -447,12 +451,16 @@
     min-width: 100%;
   }
 }
+.sth {
+  color: salmon !important;
+  caret-color: salmon !important;
+}
 
 .bold {
   font-size: 120%;
 }
 .highlighted {
-  background-color: #64B5F6;
+  background-color:#E6EE9C;
 }
 .scrollable {
   overflow-y: auto;

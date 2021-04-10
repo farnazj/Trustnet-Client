@@ -2,7 +2,7 @@
 
   <span v-on="clickEnabled ? { click: goToPage } : {}" :class="[clickEnabled ? 'interactable' : '', 'reset-font']">
     <v-badge v-if="isTrusted === true"
-      overlap color="blue lighten-3 custom-badge" bottom content="T">
+      overlap color="" bottom icon="shield">
       <!-- <template v-slot:badge >
         <span class="reset-line-height">T</span>
       </template> -->
