@@ -298,7 +298,7 @@ export default {
   },
   created() {
     this.prepopulateUserAssessment();
-    this.parseFacebookCommentsURL();
+    // this.parseFacebookCommentsURL();
   },
   computed: {
     articleDetailsVisible: {
