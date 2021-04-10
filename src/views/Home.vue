@@ -104,40 +104,46 @@ export default {
     ...mapState('homeAssessments', [
      'visible'
    ])
- },
- beforeRouteLeave (to, from, next) {
-   this.hideContainer();
-   this.setBoostersVisibility(false);
-   this.setTitlesVisibility(false);
-   next();
- },
- created() {
-   if (this.postid)
-    this.showArticleDetails();
- },
- methods: {
-   /*this function is for the path /test/:postid which directs to the same
-   component as home*/
-   showArticleDetails: function() {
-     postServices.getPost({postId: this.postid})
-     .then((res) => {
-       this.showArticleDrawer(res.data);
-     })
-   },
-   hideAssessments: function() {
-     this.hideContainer();
-   },
-   ...mapActions('homeAssessments', [
-     'hideContainer'
-   ]),
-   ...mapActions('homeArticleDetails', [
-     'showArticleDrawer',
-     'setBoostersVisibility'
-   ]),
-   ...mapActions('homeTitles', [
-     'setTitlesVisibility'
-   ])
- }
+  },
+  beforeRouteLeave (to, from, next) {
+    this.hideContainer();
+    this.setBoostersVisibility(false);
+    this.setTitlesVisibility(false);
+    next();
+  },
+  created() {
+    if (this.postid)
+      this.showArticleDetails();
+      
+    if (!Object.keys(this.getUserPreferences).length)
+      this.getUserPreferences();
+  },
+  methods: {
+    /*this function is for the path /test/:postid which directs to the same
+    component as home*/
+      showArticleDetails: function() {
+        postServices.getPost({postId: this.postid})
+        .then((res) => {
+          this.showArticleDrawer(res.data);
+        })
+      },
+      hideAssessments: function() {
+        this.hideContainer();
+      },
+      ...mapActions('homeAssessments', [
+        'hideContainer'
+      ]),
+      ...mapActions('homeArticleDetails', [
+        'showArticleDrawer',
+        'setBoostersVisibility'
+      ]),
+      ...mapActions('homeTitles', [
+        'setTitlesVisibility'
+      ]),
+      ...mapActions('preferences', [
+        'getUserPreferences'
+      ])
+  }
 }
 </script>
 

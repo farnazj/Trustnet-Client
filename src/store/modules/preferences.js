@@ -13,6 +13,7 @@ export default {
   mutations: {
     set_preferences: (state, payload) => {
         // state.userPreferences = Object.assign({}, JSON.parse(payload));
+        console.log('got payload', payload)
         state.userPreferences = Object.assign({}, payload);
     }
   },

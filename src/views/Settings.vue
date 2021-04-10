@@ -85,9 +85,13 @@ export default {
       }]
     }
   },
+  created: function() {
+    this.getUserPreferences();
+  },
   computed: {
     selectedTheme: {
       get: function() {
+        console.log(this.userPreferences)
         if (typeof this.userPreferences.articlePreviewTheme === 'undefined' || this.userPreferences.articlePreviewTheme === 'default')
           return 'Default';
         else
@@ -107,6 +111,7 @@ export default {
     // },
     ...mapActions('preferences', [
       'setUserPreferences',
+      'getUserPreferences'
     ])
   }
 

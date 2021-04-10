@@ -137,7 +137,7 @@ import photoUpload from 'vue-image-crop-upload'
 import sourceServices from '@/services/sourceServices'
 import consts from '@/services/constants'
 import utils from '@/services/utils'
-import { mapGetters, mapActions } from 'vuex'
+import { mapState, mapGetters, mapActions } from 'vuex'
 
 
 export default {
@@ -166,6 +166,8 @@ export default {
     this.fetchFollows();
     this.fetchTrusteds()
     this.getUser();
+    if (!Object.keys(this.getUserPreferences).length)
+      this.getUserPreferences();
   },
   computed: {
     uploadUrl: function() {
@@ -197,8 +199,10 @@ export default {
     ...mapGetters('relatedSources', [
       'trustedIds',
       'followedIds'
+    ]),
+    ...mapState('preferences', [
+      'userPreferences'
     ])
-
   },
   beforeRouteUpdate (to, from, next) {
     this.getUser();
@@ -268,6 +272,9 @@ export default {
     ]),
     ...mapActions('profileAssessments', [
       'hideContainer'
+    ]),
+    ...mapActions('preferences', [
+      'getUserPreferences'
     ])
   },
   watch: {
