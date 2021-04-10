@@ -28,7 +28,6 @@
     </v-row>
 
     <v-row no-gutters>
-      <loading></loading>
       <boosters-list detailsNamespace="homeArticleDetails" filtersNamespace="articleFilters"></boosters-list>
       <custom-titles titlesNamespace="homeTitles" filtersNamespace="articleFilters"></custom-titles>
       <assessment-history namespace="homeAssessments"></assessment-history>
@@ -72,7 +71,6 @@ import boostersList from '@/components/BoostersList'
 import customTitles from '@/components/CustomTitles'
 import assessmentHistory from '@/components/AssessmentHistory'
 import Filters from '@/components/Filters'
-import Loading from '@/components/Loading'
 
 import postServices from '@/services/postServices'
 import { mapState, mapActions } from 'vuex'
@@ -87,7 +85,6 @@ export default {
     'custom-titles': customTitles,
     'assessment-history': assessmentHistory,
     'filters': Filters,
-    'loading': Loading
   },
   props: ['postid'],
   data () {

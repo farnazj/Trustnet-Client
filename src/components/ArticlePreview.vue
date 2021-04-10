@@ -184,7 +184,6 @@
          }
       }),
       defaultView: function() {
-        //return false;
         return typeof this.userPreferences.articlePreviewTheme === 'undefined' || this.userPreferences.articlePreviewTheme === 'default';
       },
       ...mapState('preferences', [

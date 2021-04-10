@@ -95,7 +95,6 @@
           <v-tab-item value="history">
             <v-container fluid class="px-0">
               <v-row no-gutters>
-                <loading></loading>
                 <boosters-list detailsNamespace="profileArticleDetails" filtersNamespace="profileArticles"></boosters-list>
                 <custom-titles titlesNamespace="profileTitles" filtersNamespace="profileArticles"></custom-titles>
                 <assessment-history namespace="profileAssessments"></assessment-history>
@@ -133,7 +132,6 @@ import followersContainer from '@/components/FollowersContainer'
 import boostersList from '@/components/BoostersList'
 import customTitles from '@/components/CustomTitles'
 import assessmentHistory from '@/components/AssessmentHistory'
-import loading from '@/components/Loading'
 import photoUpload from 'vue-image-crop-upload'
 
 import sourceServices from '@/services/sourceServices'
@@ -152,7 +150,6 @@ export default {
     'custom-titles': customTitles,
     'assessment-history': assessmentHistory,
     'followers-container': followersContainer,
-    'loading': loading,
     'photo-upload': photoUpload
   },
   props: ['username'],

@@ -24,6 +24,8 @@
           :assessmentsNamespace="assessmentsNamespace" :titlesNamespace="titlesNamespace">
         </article-preview>
       </v-row>
+      
+      <article-loading></article-loading>
 
       <v-row v-if="!loading && !articles.length && filtersNamespace == 'articleFilters'" 
         justify-center fill-height class="pt-5">
@@ -58,6 +60,8 @@
 <script>
 import ArticlePreview from '@/components/ArticlePreview'
 import tagsContainer from '@/components/TagsContainer'
+import articleLoading from '@/components/ArticleLoading'
+
 import infiniteScroll from '@/mixins/infiniteScroll'
 import consts from '@/services/constants'
 import { mapState, mapActions } from 'vuex';
@@ -65,7 +69,8 @@ import { mapState, mapActions } from 'vuex';
 export default {
   components: {
     'article-preview': ArticlePreview,
-    'tags-container': tagsContainer
+    'tags-container': tagsContainer,
+    'article-loading': articleLoading
   },
   props: {
     detailsNamespace: {

@@ -35,14 +35,14 @@
 
 <script>
 import customToolbar from '@/components/CustomToolbar'
-import Loading from '@/components/Loading'
+import generalLoading from '@/components/GeneralLoading'
 import authServices from '@/services/authServices'
-import {mapActions} from 'vuex'
+import { mapActions } from 'vuex'
 
 export default {
   components: {
     'custom-toolbar': customToolbar,
-    'loading': Loading
+    'loading': generalLoading
   },
   props: ['token'],
   data(){
