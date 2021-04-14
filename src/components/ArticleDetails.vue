@@ -361,7 +361,8 @@ export default {
 
         if (reqBody.postCredibility == consts.VALIDITY_CODES.QUESTIONED) {
           let arbiters = this.$refs.assessmentColl.$refs.arbiters.targets;
-          reqBody.arbiters = arbiters.map(el => el.identifier);
+          reqBody.sourceArbiters = arbiters.map(el => el.identifier);
+          reqBody.emailArbiters = this.$refs.assessmentColl.emails;
           reqBody.sourceIsAnonymous = this.$refs.assessmentColl.anonymous;
         }
 

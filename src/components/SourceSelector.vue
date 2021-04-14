@@ -6,7 +6,7 @@
 <template>
 
   <v-autocomplete v-model="targets" :items="populationList" dense
-  filled chips color="blue-grey lighten-2" :label="audienceLabel" :filter="filterFollowersLists"
+  filled small-chips color="blue-grey lighten-2" :label="audienceLabel" :filter="filterFollowersLists"
   item-text="text" item-value="value" multiple :no-data-text="textWhenNoData">
 
     <template slot="selection" slot-scope="data" >
@@ -17,9 +17,9 @@
 
         <template>
           <v-avatar left v-if="data.item.value.type === 'Source'">
-            <custom-avatar :user="data.item.value.SourceObj" :clickEnabled="false"></custom-avatar>
+            <custom-avatar :user="data.item.value.SourceObj" :clickEnabled="false" :size="25"></custom-avatar>
           </v-avatar>
-          {{ data.item.text }}
+          <span class="caption">{{ data.item.text }}</span>
         </template>
 
       </v-chip>
@@ -33,9 +33,9 @@
 
       <template v-else>
 
-        <v-list-item-avatar v-if="data.item.value.type === 'Source'" class="custom-list-avatar">
+        <v-list-item-avatar v-if="data.item.value.type === 'Source'" class="custom-list-avatar my-1">
           <custom-avatar :user="data.item.value.SourceObj" :clickEnabled="false"
-          :size="36"></custom-avatar>
+          :size="30"></custom-avatar>
         </v-list-item-avatar>
         <v-list-item-content>
           <v-list-item-title v-html="data.item.text"></v-list-item-title>

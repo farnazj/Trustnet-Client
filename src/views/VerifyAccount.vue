@@ -62,7 +62,7 @@ export default {
     },
     verify: function() {
       this.setLoading(true);
-      authServices.verifyAccount({token: this.token})
+      authServices.verifyAccount({ token: this.token })
       .then(response => {
         this.type = 'info';
         this.alertMessage = response.data.message;

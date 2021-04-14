@@ -59,6 +59,21 @@
         <source-selector ref="arbiters" class ="mt-2" population="upstream">
         </source-selector>
       </v-col>
+
+      <v-col cols=12>
+        <v-combobox v-model="emails" small-chips dense :hide-no-data="true"
+         label="Ask sources not on Trustnet by email" multiple 
+        >
+          <template v-slot:selection="{ attrs, item, select, selected }">
+            <v-chip v-bind="attrs"
+              :input-value="selected" close @click="select"
+              @click:close="removeEmail(item)"
+            >
+            {{ item }}
+            </v-chip>
+          </template>
+        </v-combobox>
+      </v-col>
     </v-row>
 
   </v-container>
@@ -115,7 +130,8 @@ export default {
           bodyRules: [
             v => !!v || 'You should add your reasoning'
           ]
-        }
+      },
+      emails: []
     }
   },
   created() {
@@ -142,7 +158,7 @@ export default {
     mapCredProperties: function() {
       this.assessmentText = this.assessmentBody;
       this.credibility = this.credibilitySelectMapping(this.postCredibility);
-    } ,
+    },
     credibilitySelectMapping: function(credValue) {
 
       if (credValue < 0)
@@ -151,6 +167,11 @@ export default {
         return consts.VALIDITY_CODES.CONFIRMED + 2;
       else if (credValue == 0)
         return consts.VALIDITY_CODES.QUESTIONED + 2;
+    },
+    removeEmail: function(item) {
+      const index = this.emails.indexOf(item);
+      if (index > -1)
+        this.emails.splice(index, 1);
     }
   },
   watch: {
