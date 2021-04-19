@@ -1,7 +1,7 @@
 <template>
   <v-row wrap v-show="articleDetailsVisible">
     <v-navigation-drawer v-model="articleDetailsVisible"
-      temporary right width="1000" fixed disable-route-watcher>
+      temporary right :width=" customWidth ? customWidth : 1000" fixed disable-route-watcher>
 
      <v-card class="full-parent-height">
 
@@ -42,7 +42,7 @@
                 <v-form ref="assessmentMenu">
                 <v-card>
                   <v-container fluid>
-                    <assessment-collector ref="assessmentColl"
+                    <assessment-collector ref="assessmentColl" :externalUser="externalUserToken ? true: false"
                       :postCredibility="postCredibility" :assessmentBody="assessmentBody" :assessmentId="assessment.id"
                       :rerenderKey="rerenderKey">
                     </assessment-collector>
@@ -273,6 +273,12 @@ export default {
     filtersNamespace: {
       type: String,
       required: true
+    },
+    customWidth: {
+      type: String
+    },
+    externalUserToken: {
+      type: String
     }
   },
   data: () => {
@@ -287,7 +293,7 @@ export default {
       boostAlert: false,
       fab: false,
       editMode: false,
-      edit: {body: '', title: ''},
+      edit: { body: '', title: '' },
       showDeleteDialog: false,
       showInfoSnackbar: false,
       editSubmitInfo: '',
@@ -297,8 +303,15 @@ export default {
     }
   },
   created() {
-    this.prepopulateUserAssessment();
     // this.parseFacebookCommentsURL();
+    if (this.externalUserToken) {
+      this.assessmentMenu = true;
+      this.disableBoost = true;
+    }
+    else {
+      this.prepopulateUserAssessment();
+    }
+      
   },
   computed: {
     articleDetailsVisible: {
@@ -351,7 +364,6 @@ export default {
   methods: {
     postAssessment: function() {
 
-      // if (this.$refs.assessmentMenu.validate()) {
       if (this.$refs.assessmentObserver.validate()) {
         
         let reqBody = {
@@ -366,18 +378,29 @@ export default {
           reqBody.sourceIsAnonymous = this.$refs.assessmentColl.anonymous;
         }
 
+        if (this.externalUserToken) {
+          reqBody.assessorToken = this.externalUserToken;
+        }
+
         this.postAuthUserAssessment(reqBody)
         .then(() => {
+
+          if (!this.externalUserToken) {
+            this.getAuthUserPostAssessment()
+            .then(() => {
+              this.postCredibility = null;
+              this.assessmentBody = '';
+              this.disableBoost = false;
+              this.updateStateArticle({ postId: this.article.id });
+              this.prepopulateUserAssessment();
+              this.$emit('assessmentUpdate');
+            })
+          }
           this.assessmentMenu = false;
-          this.postCredibility = null;
-          this.assessmentBody = '';
-          this.disableBoost = false;
-          this.updateStateArticle({postId: this.article.id});
-          this.$emit('assessmentUpdate');
-          this.prepopulateUserAssessment();
         })
         .catch(err => {
           this.assessmentAlert = true;
+          console.log(err)
         })
 
       }
@@ -405,8 +428,6 @@ export default {
             this.disableBoost = true;
             this.assessmentBody = '';
             this.postCredibility = null;
-            // if (this.$refs.assessmentMenu)
-            //   this.$refs.assessmentMenu.resetValidation();
 
             if (this.$refs.assessmentObserver)
               this.$refs.assessmentObserver.reset();
@@ -523,7 +544,8 @@ export default {
   }, 
   watch: {
     assessmentObserver: function(newVal) {
-      if (newVal)
+      console.log('tu watch', newVal, this.externalUserToken)
+      if (newVal && !this.externalUserToken)
         this.prepopulateUserAssessment();
     },
     article: function(val) {
@@ -532,7 +554,8 @@ export default {
       this.edit.body = val.body;
       this.edit.title = val.title;
 
-      this.prepopulateUserAssessment();
+      if (!this.externalUserToken)
+        this.prepopulateUserAssessment();
       // this.parseFacebookCommentsURL();
     }
    

@@ -11,6 +11,7 @@ import Settings from './views/Settings.vue'
 import Profile from './views/Profile.vue'
 import Invalid from './views/Invalid.vue'
 import SinglePost from './views/SinglePost.vue'
+import ExternalAssessmentCollector from './views/ExternalAssessmentCollector.vue'
 import store from './store/store'
 
 Vue.use(Router)
@@ -87,6 +88,12 @@ let router = new Router({
       name: 'verifyAccount',
       props: true,
       component: VerifyAccount
+    },
+    {
+      path: '/assessment-request/:postid/:token',
+      name: 'assessmentRequest',
+      props: true,
+      component: ExternalAssessmentCollector
     },
     {
       path: '/invalid',

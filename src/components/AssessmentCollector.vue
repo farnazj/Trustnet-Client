@@ -33,7 +33,8 @@
       <v-col cols="12">
         <!-- <v-textarea v-model="assessmentText" :rules="credibility - 2 != 0 ? validityRules.bodyRules : []"
           :label="textAreaLabel"> -->
-          <validation-provider :rules="{ reasoningRule: { selectValue: '@selectValue', username: user.userName } }" v-slot="{ errors }">
+          <validation-provider :rules="{ reasoningRule: { selectValue: '@selectValue', username: user ? user.userName : undefined } }"
+           v-slot="{ errors }">
               <v-textarea v-model="assessmentText"
               :label="textAreaLabel">
             </v-textarea>
@@ -56,7 +57,7 @@
            Note that those who follow or trust you will see your name along with your question regardless.</span>
        </v-tooltip>
        <v-row no-gutters class="caption grey--text text--darken-2">{{anonymousSwitchLabel}}</v-row>
-        <source-selector ref="arbiters" class ="mt-2" population="upstream">
+        <source-selector v-if="!externalUser" ref="arbiters" class ="mt-2" population="upstream">
         </source-selector>
       </v-col>
 
@@ -94,7 +95,8 @@ export default {
     'postCredibility',
     'assessmentBody',
     'assessmentId',
-    'rerenderKey'
+    'rerenderKey',
+    'externalUser'
   ],
   data () {
     return {

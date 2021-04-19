@@ -91,7 +91,6 @@ export default {
   computed: {
     selectedTheme: {
       get: function() {
-        console.log(this.userPreferences)
         if (typeof this.userPreferences.articlePreviewTheme === 'undefined' || this.userPreferences.articlePreviewTheme === 'default')
           return 'Default';
         else
