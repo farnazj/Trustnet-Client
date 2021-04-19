@@ -32,12 +32,18 @@ export default {
     getInitials: function() {
 
       if (Object.entries(this.user).length) {
-        if (!this.user.systemMade)
+        if (!this.user.systemMade) {
           return (this.user.firstName.charAt(0) + this.user.lastName.charAt(0)).toUpperCase();
+        }
         else {
-          let croppedArr = this.user.userName.replace('The', '').trim().split(' ');
-          let inits = croppedArr.map(el => el.charAt(0).toUpperCase());
-          return inits.join('');
+          if (this.user.email)
+            return this.user.email.charAt(0);
+          else {
+            let croppedArr = this.user.userName.replace('The', '').trim().split(' ');
+            let inits = croppedArr.map(el => el.charAt(0).toUpperCase());
+            return inits.join('');
+          }
+          
         }
       }
       else

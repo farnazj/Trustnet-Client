@@ -42,11 +42,13 @@
             <v-col sm="7" cols="5">
               <v-card-title>
                 <div>
-                  <div class="headline grey--text text--lighten-4" v-if="!profileOwner.systemMade">{{profileOwner.firstName}} {{profileOwner.lastName}}</div>
-                   <div class="headline grey--text text--lighten-4" v-else>{{profileOwner.firstName}} {{profileOwner.userName}}</div>
+                  <div class="headline grey--text text--lighten-4" v-if="!profileOwner.systemMade || !profileOwner.isVerified">
+                    {{sourceDisplayName(profileOwner)}}</div>
+                   <div class="headline grey--text text--lighten-4" v-else>{{profileOwner.userName}}</div>
 
                   <div class="subheading grey--text text--lighten-2" v-if="!profileOwner.systemMade">({{profileOwner.userName}})</div>
-                  <div class="caption grey--text text--lighten-2 mt-2" v-if="profileOwner.systemMade && !profileOwner.SourceFeeds.length">There is currently no RSS feed associated with this source. The posts on this page have been individually imported.
+                  <div class="caption grey--text text--lighten-2 mt-2" v-if="profileOwner.systemMade && !profileOwner.SourceFeeds.length && profileOwner.isVerified">
+                    There is currently no RSS feed associated with this source. The posts on this page have been individually imported.
                     You can add this source's feed to {{siteName}} by going to the Sources page <v-icon small color="grey grey--lighten-2">arrow_right_alt</v-icon> Add Feeds.
                   </div>
                 </div>
@@ -135,6 +137,7 @@ import assessmentHistory from '@/components/AssessmentHistory'
 import photoUpload from 'vue-image-crop-upload'
 
 import sourceServices from '@/services/sourceServices'
+import sourceHelpers from '@/mixins/sourceHelpers'
 import consts from '@/services/constants'
 import utils from '@/services/utils'
 import { mapState, mapGetters, mapActions } from 'vuex'
@@ -283,7 +286,8 @@ export default {
       this.setUsername(val);
       this.getUser();
     }
-  }
+  },
+  mixins: [sourceHelpers]
 
 }
 </script>

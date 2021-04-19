@@ -5,7 +5,7 @@
 -->
 <template>
 
-    <v-card :color="source.systemMade ? 'blue lighten-4' : 'lime lighten-3'" class="ma-1" >
+    <v-card :color="source.systemMade && source.isVerified ? 'blue lighten-4' : 'lime lighten-3'" class="ma-1" >
 
       <v-container fill-height pa-2 class="source-info-wrapper">
         <v-row fill-height no-gutters class="limited-width">
@@ -19,9 +19,9 @@
                 <span :class="[$vuetify.breakpoint.xsOnly ? 'ml-2' : 'ml-0', 'body-2', 'name-container']">
                   <v-tooltip bottom open-delay="500">
                     <template v-slot:activator="{ on }">
-                      <span v-on="on">{{source.userName}}</span>
+                      <span v-on="on">{{sourceShortName(source)}}</span>
                     </template>
-                    <span> {{source.userName}}</span>
+                    <span> {{sourceShortName(source)}}</span>
                   </v-tooltip>
                 </span>
               </v-col>

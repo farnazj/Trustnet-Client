@@ -82,10 +82,7 @@ export default {
       return new Promise((resolve, reject) => {
         assessmentServices.postAssessment(context.state.article.id, payload)
         .then(() => {
-          // context.dispatch('getAuthUserPostAssessment')
-          // .then(response => {
-            resolve();
-          // })
+          resolve();
         })
         .catch(err => {
           reject(err);
