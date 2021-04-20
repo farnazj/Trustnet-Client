@@ -58,11 +58,18 @@ export default {
   },
   methods: {
     goToLogin: function() {
-      this.$router.push({name: 'login'});
+      this.$router.push({ name: 'login' });
     },
     verify: function() {
       this.setLoading(true);
-      authServices.verifyAccount({ token: this.token })
+
+      let verifyCall;
+      if (this.$route.path.indexOf('/verify-new-account/') != -1)
+        verifyCall = authServices.verifyNewAccount;
+      else
+        verifyCall = authServices.verifyExistingAccount;
+
+      verifyCall({ token: this.token })
       .then(response => {
         this.type = 'info';
         this.alertMessage = response.data.message;

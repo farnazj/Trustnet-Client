@@ -84,7 +84,13 @@ let router = new Router({
       component: ResetPassword
     },
     {
-      path: '/verify-account/:token',
+      path: '/verify-new-account/:token',
+      name: 'verifyAccount',
+      props: true,
+      component: VerifyAccount
+    },
+    {
+      path: '/verify-existing-account/:token',
       name: 'verifyAccount',
       props: true,
       component: VerifyAccount

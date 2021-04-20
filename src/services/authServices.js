@@ -21,8 +21,11 @@ export default {
      return Api().post('/reset-password/' + params.token,
       reqBody)
    },
-   verifyAccount(params) {
-     return Api().post('/verify-account/' + params.token)
-   }
+   verifyNewAccount(params) {
+     return Api().post('/verify-new-account/' + params.token)
+   },
+   verifyExistingAccount(params) {
+    return Api().post('/verify-existing-account/' + params.token)
+  }
 
 }
