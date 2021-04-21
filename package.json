@@ -18,12 +18,12 @@
     "vue": "^2.6.12",
     "vue-image-crop-upload": "^2.5.0",
     "vue-observe-visibility": "^0.4.6",
-    "vue-router": "^3.4.8",
-    "vuetify": "^2.3.21",
-    "vuex": "^3.5.1"
+    "vue-router": "^3.5.1",
+    "vuetify": "^2.4.11",
+    "vuex": "^3.6.2"
   },
   "devDependencies": {
-    "@fortawesome/fontawesome-free": "^5.15.1",
+    "@fortawesome/fontawesome-free": "^5.15.3",
     "@mdi/font": "^5.8.55",
     "@vue/cli-plugin-babel": "^4.5.8",
     "@vue/cli-plugin-eslint": "^4.2.3",
