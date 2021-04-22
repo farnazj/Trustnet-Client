@@ -18,7 +18,7 @@
         :filtersNamespace="filtersNamespace" :closable=true :compact=false>
       </tags-container>
 
-      <v-row v-for="article in articles" :key="article.id">
+      <v-row v-for="article in articles" :key="article.id" no-gutters>
         <article-preview :post="article" :detailsNamespace="detailsNamespace"
         :filtersNamespace="filtersNamespace"
           :assessmentsNamespace="assessmentsNamespace" :titlesNamespace="titlesNamespace">

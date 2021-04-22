@@ -9,6 +9,7 @@ import store from './store/store'
 import axios from 'axios'
 import './validation'
 import VueObserveVisibility from 'vue-observe-visibility'
+import VueFriendlyIframe from 'vue-friendly-iframe';
 import vuetify from './plugins/vuetify';
 import consts from './services/constants'
 import Clipboard from 'v-clipboard'
@@ -21,6 +22,7 @@ Vue.prototype.$http = axios;
 // })
 Vue.use(VueObserveVisibility);
 Vue.use(Clipboard);
+Vue.use(VueFriendlyIframe);
 
 new Vue({
   router,

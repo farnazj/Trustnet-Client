@@ -16,6 +16,7 @@
     "v-clipboard": "^2.2.3",
     "vee-validate": "^3.4.5",
     "vue": "^2.6.12",
+    "vue-friendly-iframe": "^0.20.0",
     "vue-image-crop-upload": "^2.5.0",
     "vue-observe-visibility": "^0.4.6",
     "vue-router": "^3.5.1",

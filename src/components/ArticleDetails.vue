@@ -183,7 +183,7 @@
               :postDate="article.publishedDate" class="mb-3">
               </initiator-display>
 
-             <v-img v-if="article.image" :src="article.image" contain class="rounded">
+             <v-img v-if="article.image && !article.iframeIsAllowed" :src="article.image" contain class="rounded">
              </v-img>
            </v-col>
          </v-row>
@@ -192,12 +192,25 @@
            <v-col cols="10">
              <v-card-text class="body-text">
                <div v-if="!editMode">
-                 <p v-if="article.body" class="body-1" v-html="article.body">
+                  <!-- <iframe  class="body-1" 
+                    @load="loadIframe"
+                    :width="iframe.width"
+                    :height="iframe.height"
+                    :src="article.url">
+                  </iframe> -->
 
-                 </p>
-                 <p v-else-if="article.description" class="body-1">
-                   {{article.description}}
-                 </p>
+                  <vue-friendly-iframe v-if="article.iframeIsAllowed" v-show="iframeLoaded"
+                  ref="articleIframe" :src="article.url" @load="loadIframe" class="article-iframe"></vue-friendly-iframe>
+
+                  <template v-else>
+                   <p v-if="article.body" class="body-1" v-html="article.body">
+                    </p>
+                    <p v-else-if="article.description" class="body-1">
+                      {{article.description}}
+                    </p>
+                  </template>
+              
+            
                </div>
 
                <div v-else>
@@ -299,7 +312,8 @@ export default {
       editSubmitInfo: '',
       emails: null,
       rerenderKey: null,
-      showLinkToolTip: false
+      showLinkToolTip: false,
+      iframeLoaded: false
     }
   },
   created() {
@@ -362,6 +376,16 @@ export default {
 
   },
   methods: {
+    loadIframe: function() {
+      if (this.$refs.articleIframe) {
+
+        let document = this.$refs.articleIframe.$el.children[0].contentWindow.document;
+        this.$refs.articleIframe.$el.children[0].setAttribute('width', '100%')
+        this.$refs.articleIframe.$el.children[0].setAttribute('height', '1000px')
+        this.iframeLoaded = true;
+      }
+      
+    },
     postAssessment: function() {
 
       if (this.$refs.assessmentObserver.validate()) {
@@ -607,5 +631,10 @@ export default {
 .email-link {
   text-decoration: none;
 }
+/* 
+.article-iframe {
+  width: 100%;
+  max-height: 90vh;
+} */
 
 </style>

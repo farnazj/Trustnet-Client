@@ -32,7 +32,7 @@
              -->
 
             <v-col :cols="$vuetify.breakpoint.smAndDown ? 12 : (defaultView ? 3 : 2)">
-              <v-row>
+              <v-row no-gutters>
                 <v-col v-if="defaultView" :cols="$vuetify.breakpoint.smAndDown ? 6  : 12" class="py-1">
                   <v-img v-if="post.image" :src="post.image" contain class="rounded"> </v-img>
                 </v-col>
