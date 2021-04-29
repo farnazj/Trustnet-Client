@@ -294,7 +294,7 @@
     watch: {
       post: function(val) {
         /*
-        For when the user deletes theri boost in BoostersList
+        For when the user deletes their boost in BoostersList
         */
         this.fetchAssociations()
         .then(() => {

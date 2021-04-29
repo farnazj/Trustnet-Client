@@ -3,17 +3,28 @@
   <v-fade-transition v-if="visible">
     <v-row class="pt-12" id="assessment_container" no-gutters>
       <v-col cols="12">
-        <v-card outlined>
+        <v-card outlined tile>
 
           <v-row align-center fill-height no-gutters>
+            
+            <v-col cols="6">
+              <v-card outlined tile fill-height v-bind:color="assessmentsColor" @click="selectAssessments">
+                <v-row justify="center" no-gutters>
+                  <p class="pb-0 mb-0 subheading font-weight-medium">Accurate?</p>
+                </v-row>
+              </v-card>
+            </v-col>
+
+            <v-col cols="6">
+              <v-card outlined tile v-bind:color="discussionColor" @click="selectDiscussion">
+                <v-row justify="center" no-gutters>
+                  <p class="pb-0 mb-0 subheading font-weight-medium">Discussion</p>
+                </v-row>
+              </v-card>
+            </v-col>
 
             <v-icon @click="hideContainer" class="clear-sign">clear</v-icon>
 
-            <v-col cols="12">
-              <v-row justify="center" no-gutters>
-                <p class="pb-0 mb-0 subheading font-weight-medium">Accurate?</p>
-              </v-row>
-            </v-col>
           </v-row>
 
           <v-divider v-if="sortedAssessments.questioned.length"></v-divider>
@@ -99,9 +110,10 @@ export default {
       required: true
     }
   },
-  data () {
+  data() {
     return {
-      revealedSize: {}
+      revealedSize: {},
+      assessmentsSelected: true,
     }
   },
   computed: {
@@ -120,6 +132,12 @@ export default {
     },
     visible: function() {
       return this.state.visible;
+    },
+    assessmentsColor: function() {
+      return this.assessmentsSelected ? "lime lighten-3" : "white"
+    },
+    discussionColor: function() {
+      return !(this.assessmentsSelected) ? "lime lighten-3" : "white"
     },
     ...mapState({
        state (state) {
@@ -143,6 +161,12 @@ export default {
     },
     assessmentsRemaining: function(key) {
       return this.getAssessmentsSlice(key).length < this.sortedAssessments[key].length;
+    },
+    selectAssessments: function(key) {
+      this.assessmentsSelected = true;
+    },
+    selectDiscussion: function(key) {
+      this.assessmentsSelected = false;
     },
     ...mapActions({
       hideContainer (dispatch, payload) {
