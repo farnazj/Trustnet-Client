@@ -395,7 +395,7 @@ export default {
           body: this.$refs.assessmentColl.assessmentText
         }
 
-        if (reqBody.postCredibility == consts.VALIDITY_CODES.QUESTIONED) {
+        if (reqBody.postCredibility == consts.ACCURACY_CODES.QUESTIONED) {
           let arbiters = this.$refs.assessmentColl.$refs.arbiters.targets;
           reqBody.sourceArbiters = arbiters.map(el => el.identifier);
           reqBody.emailArbiters = this.$refs.assessmentColl.emails;

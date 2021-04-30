@@ -8,9 +8,9 @@
     <v-row no-gutters>
       <v-col cols="12">
         <validation-provider rules="required" v-slot="{ errors }" vid="selectValue">
-          <v-select :items="validityStatus" v-model="credibility"
+          <v-select :items="accuracyStatus" v-model="credibility"
             item-text="label" item-value="value" dense
-            label="Article Validity" outline
+            label="Article Accuracy" outline
             >
 
             <template slot="item" slot-scope="data" >
@@ -31,7 +31,7 @@
 
     <v-row no-gutters class="pt-3">
       <v-col cols="12">
-        <!-- <v-textarea v-model="assessmentText" :rules="credibility - 2 != 0 ? validityRules.bodyRules : []"
+        <!-- <v-textarea v-model="assessmentText" :rules="credibility - 2 != 0 ? accuracyRules.bodyRules : []"
           :label="textAreaLabel"> -->
           <validation-provider :rules="{ reasoningRule: { selectValue: '@selectValue', username: user ? user.userName : undefined } }"
            v-slot="{ errors }">
@@ -104,28 +104,28 @@ export default {
       anonymous: true,
       assessmentText: null,
       /*
-      consts.VALIDITY_CODES.QUESTIONED has a value of 0 and therefore would be interpreted as false by
-      the select component. To counteract this, the validity values (-1, 0, 1) are mapped to (1, 2, 3).
+      consts.ACCURACY_CODES.QUESTIONED has a value of 0 and therefore would be interpreted as false by
+      the select component. To counteract this, the accuracy values (-1, 0, 1) are mapped to (1, 2, 3).
       The parent component that uses the AssessmentCollector needs to subtract 2 from the selected value.
       */
-      validityStatus: [
+      accuracyStatus: [
         {
           label: 'This article is accurate',
-          value: consts.VALIDITY_CODES.CONFIRMED + 2,
+          value: consts.ACCURACY_CODES.CONFIRMED + 2,
           color: 'green--text text--darken-2'
         },
         {
           label: 'This article is inaccurate',
-          value: consts.VALIDITY_CODES.REFUTED + 2,
+          value: consts.ACCURACY_CODES.REFUTED + 2,
           color: 'red--text text--accent-3'
         },
         {
-          label: 'I want to know about the validity of this article',
-          value: consts.VALIDITY_CODES.QUESTIONED + 2,
+          label: 'I want to know about the accuracy of this article',
+          value: consts.ACCURACY_CODES.QUESTIONED + 2,
           color: 'amber--text text--darken-3'
         }
       ],
-      validityRules: {
+      accuracyRules: {
           selectRules: [
             v => !!v || 'Assess the accuracy of the article'
           ],
@@ -141,7 +141,7 @@ export default {
   },
   computed: {
     textAreaLabel: function() {
-      if (this.credibility == this.credibilitySelectMapping(consts.VALIDITY_CODES.QUESTIONED))
+      if (this.credibility == this.credibilitySelectMapping(consts.ACCURACY_CODES.QUESTIONED))
         return 'Elaborate on your question';
       else
         return 'Provide your reasoning';
@@ -164,11 +164,11 @@ export default {
     credibilitySelectMapping: function(credValue) {
 
       if (credValue < 0)
-        return consts.VALIDITY_CODES.REFUTED + 2;
+        return consts.ACCURACY_CODES.REFUTED + 2;
       else if (credValue > 0)
-        return consts.VALIDITY_CODES.CONFIRMED + 2;
+        return consts.ACCURACY_CODES.CONFIRMED + 2;
       else if (credValue == 0)
-        return consts.VALIDITY_CODES.QUESTIONED + 2;
+        return consts.ACCURACY_CODES.QUESTIONED + 2;
     },
     removeEmail: function(item) {
       const index = this.emails.indexOf(item);
