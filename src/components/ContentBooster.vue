@@ -247,7 +247,7 @@ export default {
             this.menu = false;
             this.applyFilter({
               'filters': {
-                'validity': 'All',
+                'accuracy': 'All',
                 'sources': this.filters.sourceFilters.includes('followed') ?
                   this.filters.sourceFilters : this.filters.sourceFilters.concat('followed'),
                 'seenStatus': 'Not Seen',
@@ -276,7 +276,7 @@ export default {
           target_lists: targets.lists
         };
 
-        if (params.postCredibility == consts.VALIDITY_CODES.QUESTIONED) {
+        if (params.postCredibility == consts.ACCURACY_CODES.QUESTIONED) {
           let arbiters = this.$refs.assessmentColl.$refs.arbiters.targets;
           params.arbiters = arbiters.map(el => el.identifier);
           params.sourceIsAnonymous = this.$refs.assessmentColl.anonymous;
@@ -292,7 +292,7 @@ export default {
             this.menu = false;
             this.applyFilter({
               'filters': {
-                'validity': 'All',
+                'accuracy': 'All',
                 'sources': this.filters.sourceFilters.includes('followed') ?
                   this.filters.sourceFilters : this.filters.sourceFilters.concat('followed'),
                 'seenStatus':'Not Seen',

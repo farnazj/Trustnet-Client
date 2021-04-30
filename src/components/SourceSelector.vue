@@ -1,6 +1,6 @@
 <!--
  @fileoverview A component that is used when choosing who to share posts with (mode downstream = user's followers
- or source lists), or when choosing who to ask about a post's validity (mode upstream = sources that the user 
+ or source lists), or when choosing who to ask about a post's accuracy (mode upstream = sources that the user 
  trusts or follows).
 -->
 <template>
