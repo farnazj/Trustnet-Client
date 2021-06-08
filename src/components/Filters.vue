@@ -442,10 +442,16 @@
 .article-filters {
   height: calc(100vh - 48px);
   overflow-x: scroll;
-  /* max-width: 28%; */
   text-overflow: ellipsis;
   border-radius: 0px;
+  max-width: 20vw;
 }
+@media all and (max-width: 1264px) {
+  .article-filters {
+    max-width: 25vw;
+  }
+}
+
 @media all and (max-width: 960px) {
   .article-filters {
     min-width: 100%;
