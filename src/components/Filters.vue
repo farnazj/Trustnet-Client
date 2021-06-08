@@ -442,7 +442,7 @@
 .article-filters {
   height: calc(100vh - 48px);
   overflow-x: scroll;
-  max-width: 17%;
+  /* max-width: 28%; */
   text-overflow: ellipsis;
   border-radius: 0px;
 }
@@ -450,10 +450,6 @@
   .article-filters {
     min-width: 100%;
   }
-}
-.sth {
-  color: salmon !important;
-  caret-color: salmon !important;
 }
 
 .bold {
