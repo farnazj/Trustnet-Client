@@ -103,7 +103,7 @@
 
                 <v-col cols="7" class="ml-2">
                   <article-holder detailsNamespace="profileArticleDetails" filtersNamespace="profileArticles"
-                  assessmentsNamespace="profileAssessments" titlesNamespace="profileTitles" :loadLocked="tabs != 'history'"></article-holder>
+                  assessmentsNamespace="profileAssessments" commentsNamespace="profileComments" titlesNamespace="profileTitles" :loadLocked="tabs != 'history'"></article-holder>
                 </v-col>
 
                 <assessments-container namespace="profileAssessments" class="assessments-container">

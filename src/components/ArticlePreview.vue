@@ -106,10 +106,14 @@
       </v-col>
 
       <v-col :offset="$vuetify.breakpoint.smAndDown ? 8 : 0" :cols="$vuetify.breakpoint.smAndDown ? 3 : 1">
-        <v-card flat @click.stop="revealAssessments" :height="$vuetify.breakpoint.smAndDown ? '17px' : '80px'" color="lime lighten-3"
+        <!-- <v-card flat @click.stop="revealAssessments" :height="$vuetify.breakpoint.smAndDown ? '17px' : '80px'" color="lime lighten-3"
           :class="[$vuetify.breakpoint.smAndDown ? 'assessment-hinter-vertical' : 'assessment-hinter-horizontal', 'interactable']"
           :elevation="shownAssessmentPostId == post.id ? 24 : 4"
-          >
+        > -->
+        <v-card flat @click.stop="() => {revealAssessments(); getComments()}" :height="$vuetify.breakpoint.smAndDown ? '17px' : '80px'" color="lime lighten-3"
+          :class="[$vuetify.breakpoint.smAndDown ? 'assessment-hinter-vertical' : 'assessment-hinter-horizontal', 'interactable']"
+          :elevation="shownAssessmentPostId == post.id ? 24 : 4"
+        >
           <v-row align="center" justify="center" no-gutters class="parent-height" >
             <v-icon :small="$vuetify.breakpoint.smAndDown" medium>arrow_right</v-icon>
           </v-row>
@@ -151,6 +155,10 @@
         type: String,
         required: true
       },
+      commentsNamespace: {
+        type: String,
+        required: true
+      },
       titlesNamespace: {
         type: String,
         required: true
@@ -181,7 +189,10 @@
       ...mapState({
          assessmentState (state) {
            return state[this.assessmentsNamespace];
-         }
+         },
+         commentState (state) {
+           return state[this.commentsNamespace];
+         },
       }),
       defaultView: function() {
         return typeof this.userPreferences.articlePreviewTheme === 'undefined' || this.userPreferences.articlePreviewTheme === 'default';
@@ -209,6 +220,13 @@
           assessments: this.assessments,
           postIdOfAssessments: this.post.id
         });
+      },
+      getComments: function() {
+        console.log('Comments before:');
+        console.log(this.commentState.comments);
+        this.getPostComments({
+          postIdOfComments: this.post.id
+        }).then(() => {console.log('Comments after:'); console.log(this.commentState.comments);})
       },
       fetchAssociations: function() {
 
@@ -282,6 +300,9 @@
         },
         showAssessments (dispatch, payload) {
           return dispatch(this.assessmentsNamespace + '/showAssessments', payload)
+        },
+        getPostComments (dispatch, payload) {
+          return dispatch(this.commentsNamespace + '/getPostComments', payload)
         }
       })
 

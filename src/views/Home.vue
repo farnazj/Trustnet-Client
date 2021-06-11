@@ -44,7 +44,7 @@
 
       <v-col md="7" cols="8" :offset="$vuetify.breakpoint.smAndDown ? 0 : 1" >
         <article-holder detailsNamespace="homeArticleDetails" filtersNamespace="articleFilters"
-          assessmentsNamespace="homeAssessments" titlesNamespace="homeTitles"
+          assessmentsNamespace="homeAssessments" commentsNamespace="homeComments" titlesNamespace="homeTitles"
           :class="{'pt-5': !$vuetify.breakpoint.smAndDown}">
        </article-holder>
       </v-col>

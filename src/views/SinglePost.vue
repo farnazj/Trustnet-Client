@@ -10,7 +10,7 @@
       <v-col class="pt-12" md="7" cols="8" :offset="$vuetify.breakpoint.smAndDown ? 0 : 1" >
         <article-preview v-if="post" :post="post" detailsNamespace="singleArticleDetails"
           filtersNamespace="articleFilters"
-          assessmentsNamespace="singleArticleAssessments" titlesNamespace="singleArticleTitles">
+          assessmentsNamespace="singleArticleAssessments" commentsNamespace="singleArticleComments" titlesNamespace="singleArticleTitles">
         </article-preview>
       </v-col>
 
