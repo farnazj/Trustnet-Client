@@ -222,11 +222,9 @@
         });
       },
       getComments: function() {
-        console.log('Comments before:');
-        console.log(this.commentState.comments);
         this.getPostComments({
           postIdOfComments: this.post.id
-        }).then(() => {console.log('Comments after:'); console.log(this.commentState.comments);})
+        })
       },
       fetchAssociations: function() {
 
