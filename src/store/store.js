@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import articleFilters from './modules/articleFilters'
 import assessments from './modules/assessments'
+import comments from './modules/comments'
 import titles from './modules/titles'
 import auth from './modules/auth'
 import relatedSources from './modules/relatedSources'
@@ -44,6 +45,10 @@ store.registerModule('singleArticleDetails', articleDetails);
 store.registerModule('homeAssessments', assessments);
 store.registerModule('profileAssessments', assessments);
 store.registerModule('singleArticleAssessments', assessments);
+
+store.registerModule('homeComments', comments);
+store.registerModule('profileComments', comments);
+store.registerModule('singleArticleComments', comments);
 
 store.registerModule('homeTitles', titles);
 store.registerModule('profileTitles', titles);

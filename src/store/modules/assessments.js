@@ -36,7 +36,6 @@ export default {
   },
   actions: {
     showAssessments: (context, payload) => {
-
       context.commit('populate_assessments', payload);
       context.commit('show_assessments');
     },
@@ -53,4 +52,5 @@ export default {
       context.commit('populate_assessment_history', payload);
     }
   }
+
 }
