@@ -15,8 +15,8 @@
       </v-col>
 
       <v-col>
-        <assessments-container namespace="singleArticleAssessments" class="frozen">
-        </assessments-container>
+        <engagement-container assessmentsNamespace="singleArticleAssessments" commentsNamespace="singleArticleComments" class="frozen">
+        </engagement-container>
       </v-col>
     </v-row>
 
@@ -30,7 +30,7 @@
 import customToolbar from '@/components/CustomToolbar'
 import ArticlePreview from '@/components/ArticlePreview'
 import articleDetails from '@/components/ArticleDetails'
-import assessmentsContainer from '@/components/AssessmentsContainer'
+import engagementContainer from '@/components/EngagementContainer'
 import boostersList from '@/components/BoostersList'
 import customTitles from '@/components/CustomTitles'
 import assessmentHistory from '@/components/AssessmentHistory'
@@ -44,7 +44,7 @@ export default {
     'custom-toolbar': customToolbar,
     'article-preview': ArticlePreview,
     'article-details': articleDetails,
-    'assessments-container': assessmentsContainer,
+    'engagement-container': engagementContainer,
     'boosters-list': boostersList,
     'custom-titles': customTitles,
     'assessment-history': assessmentHistory
