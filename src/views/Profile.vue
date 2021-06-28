@@ -169,7 +169,7 @@ export default {
     this.fetchFollows();
     this.fetchTrusteds()
     this.getUser();
-    if (!Object.keys(this.getUserPreferences).length)
+    if (!Object.keys(this.userPreferences).length)
       this.getUserPreferences();
   },
   computed: {

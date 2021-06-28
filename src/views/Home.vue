@@ -17,7 +17,7 @@
 
             <v-divider></v-divider>
             <v-card-actions>
-              <v-row justify="space-around">
+              <v-row justify="space-around" no-gutters>
                 <v-btn color="blue darken-1" text @click="fullScreenFilterVisible = false">Close</v-btn>
                 <v-btn color="blue darken-1" text @click="fullScreenFilterVisible = false">Done</v-btn>
               </v-row>
@@ -42,14 +42,14 @@
         </v-row>
       </div>
 
-      <v-col md="7" cols="8" :offset="$vuetify.breakpoint.smAndDown ? 0 : 1" >
+      <v-col md="7" cols="8" :offset="$vuetify.breakpoint.smAndDown ? 0 : (($vuetify.breakpoint.mdAndDown && !assessmentsVisible) ? 2 : 1)">
         <article-holder detailsNamespace="homeArticleDetails" filtersNamespace="articleFilters"
           assessmentsNamespace="homeAssessments" commentsNamespace="homeComments" titlesNamespace="homeTitles"
           :class="{'pt-5': !$vuetify.breakpoint.smAndDown}">
        </article-holder>
       </v-col>
 
-      <v-col>
+      <v-col v-if="assessmentsVisible">
         <assessments-container namespace="homeAssessments" class="frozen">
         </assessments-container>
       </v-col>
@@ -96,10 +96,13 @@ export default {
     filtersVisible: function() {
       if (this.$vuetify.breakpoint.smAndDown)
         return false;
-      return !this.visible;
+      return !this.assessmentsVisible;
     },
     filtersHidden: function() { //filter bar exists but is hidden because assessments is open
-      return !this.$vuetify.breakpoint.smAndDown && this.visible;
+      return !this.$vuetify.breakpoint.smAndDown && this.assessmentsVisible;
+    },
+    assessmentsVisible: function() {
+      return this.visible;
     },
     ...mapState('homeAssessments', [
      'visible'

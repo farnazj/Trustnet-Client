@@ -62,24 +62,24 @@
     <v-list-group prepend-icon="gavel" value="true" class="sth">
       <template v-slot:activator>
         <v-list-item-content>
-          <v-list-item-title>Validity</v-list-item-title>
+          <v-list-item-title>Accuracy</v-list-item-title>
         </v-list-item-content>
       </template>
 
       <v-list-group no-action sub-group value="true">
         <template v-slot:activator>
 
-          <v-list-item-content slot="activator" @click="filter('All', 'validity')">
+          <v-list-item-content slot="activator" @click="filter('All', 'accuracy')">
             <v-list-item-title>All</v-list-item-title>
           </v-list-item-content>
         </template>
 
-        <v-list-item v-for="(validityObj, i) in validityFilters"
-          :key="i" @click="filter(validityObj.serverName, 'validity')"
-          :class="{highlighted:validityObj.serverName == selectedFilters['validity']}"
-          :light="validityObj.serverName == selectedFilters['validity']">
+        <v-list-item v-for="(accuracyObj, i) in accuracyFilters"
+          :key="i" @click="filter(accuracyObj.serverName, 'accuracy')"
+          :class="{highlighted:accuracyObj.serverName == selectedFilters['accuracy']}"
+          :light="accuracyObj.serverName == selectedFilters['accuracy']">
           <v-list-item-content>
-            <v-list-item-title v-text="validityObj.displayedName"></v-list-item-title>
+            <v-list-item-title v-text="accuracyObj.displayedName"></v-list-item-title>
           </v-list-item-content>
 
         </v-list-item>
@@ -187,7 +187,7 @@
     },
     data: () => {
       return {
-        validityFilters: [
+        accuracyFilters: [
           {
             serverName: 'confirmed',
             displayedName: 'Confirmed'
@@ -218,7 +218,7 @@
           }
         ],
         seenStatusFilters: ['Not Seen', 'Seen'],
-        selectedFilters: {'validity': undefined, 'sources': ['Followed'],
+        selectedFilters: {'accuracy': undefined, 'sources': ['Followed'],
           'seenStatus':'Not Seen', 'explore': false },
         selectedAssessorsCheckMark: {}, 
         selectedSources: [],
@@ -255,7 +255,7 @@
         let prevValue = Array.isArray(this.selectedFilters[type]) ? 
           this.selectedFilters[type].slice(0) : this.selectedFilters[type];
 
-        if (value == 'All') //validity
+        if (value == 'All') //accuracy
           this.selectedFilters[type] = undefined;
         else if (type != 'explore') {
           if (type == 'sources') {
@@ -345,7 +345,7 @@
       */
       presetFilters: function() {
 
-        this.selectedFilters['validity'] = this.filters.validityFilter;//.split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' ');
+        this.selectedFilters['accuracy'] = this.filters.accuracyFilter;//.split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' ');
 
         this.selectedFilters['seenStatus'] = this.filters.seenFilter.split(' ').map((s) =>
           s.charAt(0).toUpperCase() + s.substring(1)).join(' ');
@@ -442,18 +442,20 @@
 .article-filters {
   height: calc(100vh - 48px);
   overflow-x: scroll;
-  max-width: 17%;
   text-overflow: ellipsis;
   border-radius: 0px;
+  max-width: 20vw;
 }
+@media all and (max-width: 1264px) {
+  .article-filters {
+    max-width: 25vw;
+  }
+}
+
 @media all and (max-width: 960px) {
   .article-filters {
     min-width: 100%;
   }
-}
-.sth {
-  color: salmon !important;
-  caret-color: salmon !important;
 }
 
 .bold {

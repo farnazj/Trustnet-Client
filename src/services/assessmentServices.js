@@ -11,10 +11,9 @@ export default {
       withCredentials: true
     })
   },
-  getAssessmentsForPost(postId, headers) {
+  getAssessmentsForPost(postId) {
     return Api().get('/posts/' + postId + '/assessments', {
-      withCredentials: true,
-      headers: headers
+      withCredentials: true
     })
   },
   postAssessment(postId, reqBody) {

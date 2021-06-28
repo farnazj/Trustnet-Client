@@ -13,6 +13,10 @@ function compareNames(a, b) {
   return sourceNames[0].localeCompare(sourceNames[1]);
 }
 
+/*
+compare two sources based on whether one or both are the auth user,
+and the trust and follow relationships of the sources with the auth user
+*/
 function compare2Sources(aId, bId) {
 
   if (aId == bId)
@@ -39,6 +43,10 @@ function compare2Sources(aId, bId) {
     else if (trustedIds.includes(aId))
       return -1;
     else if (trustedIds.includes(bId))
+      return 1;
+    else if (followedIds.includes(aId))
+      return -1;
+    else if (followedIds.includes(bId))
       return 1;
     else
       return 0;
@@ -136,9 +144,9 @@ function compareTitles(a, b) {
     let aDate = new Date(a.lastVersion.updatedAt);
     let bDate = new Date(b.lastVersion.updatedAt);
     if (aDate < bDate)
-      return -1;
-    else if (aDate > bDate)
       return 1;
+    else if (aDate > bDate)
+      return -1;
     else
       return compareNames(a.author, b.author);
   }

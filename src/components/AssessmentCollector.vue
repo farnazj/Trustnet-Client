@@ -8,18 +8,22 @@
     <v-row no-gutters>
       <v-col cols="12">
         <validation-provider rules="required" v-slot="{ errors }" vid="selectValue">
-          <v-select :items="validityStatus" v-model="credibility"
+          <v-select :items="accuracyStatus" v-model="credibility"
             item-text="label" item-value="value" dense
-            label="Article Validity" outline
-            >
+             outline>
+            <template v-slot:label>
+              <span class="subtitle-2">
+                Article accuracy
+              </span>
+            </template>
 
             <template slot="item" slot-scope="data" >
-              <div v-html="data.item.label" :class="data.item.color">
+              <div v-html="data.item.label" :class="[data.item.color, 'subtitle-2']">
               </div>
             </template>
 
             <template slot="selection" slot-scope="data" >
-              <div v-html="data.item.label" :class="data.item.color">
+              <div v-html="data.item.label" :class="[data.item.color, 'subtitle-2']">
               </div>
             </template>
 
@@ -31,12 +35,17 @@
 
     <v-row no-gutters class="pt-3">
       <v-col cols="12">
-        <!-- <v-textarea v-model="assessmentText" :rules="credibility - 2 != 0 ? validityRules.bodyRules : []"
+        <!-- <v-textarea v-model="assessmentText" :rules="credibility - 2 != 0 ? accuracyRules.bodyRules : []"
           :label="textAreaLabel"> -->
           <validation-provider :rules="{ reasoningRule: { selectValue: '@selectValue', username: user ? user.userName : undefined } }"
            v-slot="{ errors }">
-              <v-textarea v-model="assessmentText"
-              :label="textAreaLabel">
+              <v-textarea v-model="assessmentText" rows="3" auto-grow dense>
+                <template v-slot:label>
+                  <span class="subtitle-2">
+                    {{textAreaLabel}}
+                  </span>
+                </template>
+
             </v-textarea>
           <span class="caption red--text red--darken-3">{{ errors[0] }}</span>
         </validation-provider>
@@ -49,9 +58,15 @@
        <v-tooltip bottom max-width="600" open-delay="700">
          <template v-slot:activator="{ on }">
            <v-switch v-on="on" dense :color="anonymous ? 'blue lighten-1' : ''"
-            v-model="anonymous" label="Pose question anonymously"
-          ></v-switch>
+            v-model="anonymous">
+            <template v-slot:label>
+              <span class="subtitle-2">
+                Pose question anonymously
+              </span>
+            </template>
+          </v-switch>
          </template>
+
          <span> Your question will be surfaced to the sources you follow or trust even though they may not follow
            or trust you. Choose if you want your name to be visible with your question.
            Note that those who follow or trust you will see your name along with your question regardless.</span>
@@ -63,8 +78,14 @@
 
       <v-col cols=12>
         <v-combobox v-model="emails" small-chips dense :hide-no-data="true"
-         label="Ask sources not on Trustnet by email" multiple 
+          multiple 
         >
+          <template v-slot:label>
+            <span class="subtitle-2">
+            Ask sources not on Trustnet by email
+            </span>
+          </template>
+
           <template v-slot:selection="{ attrs, item, select, selected }">
             <v-chip v-bind="attrs"
               :input-value="selected" close @click="select"
@@ -104,28 +125,28 @@ export default {
       anonymous: true,
       assessmentText: null,
       /*
-      consts.VALIDITY_CODES.QUESTIONED has a value of 0 and therefore would be interpreted as false by
-      the select component. To counteract this, the validity values (-1, 0, 1) are mapped to (1, 2, 3).
+      consts.ACCURACY_CODES.QUESTIONED has a value of 0 and therefore would be interpreted as false by
+      the select component. To counteract this, the accuracy values (-1, 0, 1) are mapped to (1, 2, 3).
       The parent component that uses the AssessmentCollector needs to subtract 2 from the selected value.
       */
-      validityStatus: [
+      accuracyStatus: [
         {
           label: 'This article is accurate',
-          value: consts.VALIDITY_CODES.CONFIRMED + 2,
+          value: consts.ACCURACY_CODES.CONFIRMED + 2,
           color: 'green--text text--darken-2'
         },
         {
           label: 'This article is inaccurate',
-          value: consts.VALIDITY_CODES.REFUTED + 2,
+          value: consts.ACCURACY_CODES.REFUTED + 2,
           color: 'red--text text--accent-3'
         },
         {
-          label: 'I want to know about the validity of this article',
-          value: consts.VALIDITY_CODES.QUESTIONED + 2,
+          label: 'I want to know about the accuracy of this article',
+          value: consts.ACCURACY_CODES.QUESTIONED + 2,
           color: 'amber--text text--darken-3'
         }
       ],
-      validityRules: {
+      accuracyRules: {
           selectRules: [
             v => !!v || 'Assess the accuracy of the article'
           ],
@@ -141,7 +162,7 @@ export default {
   },
   computed: {
     textAreaLabel: function() {
-      if (this.credibility == this.credibilitySelectMapping(consts.VALIDITY_CODES.QUESTIONED))
+      if (this.credibility == this.credibilitySelectMapping(consts.ACCURACY_CODES.QUESTIONED))
         return 'Elaborate on your question';
       else
         return 'Provide your reasoning';
@@ -164,11 +185,11 @@ export default {
     credibilitySelectMapping: function(credValue) {
 
       if (credValue < 0)
-        return consts.VALIDITY_CODES.REFUTED + 2;
+        return consts.ACCURACY_CODES.REFUTED + 2;
       else if (credValue > 0)
-        return consts.VALIDITY_CODES.CONFIRMED + 2;
+        return consts.ACCURACY_CODES.CONFIRMED + 2;
       else if (credValue == 0)
-        return consts.VALIDITY_CODES.QUESTIONED + 2;
+        return consts.ACCURACY_CODES.QUESTIONED + 2;
     },
     removeEmail: function(item) {
       const index = this.emails.indexOf(item);

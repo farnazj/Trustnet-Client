@@ -5,7 +5,7 @@ import consts from '@/services/constants'
 export default {
   namespaced: true,
   state: {
-    validityFilter: 'all',
+    accuracyFilter: 'all',
     sourceFilters: ['followed'],
     seenFilter: 'not seen',
     exploreFilter: false,
@@ -21,7 +21,7 @@ export default {
 
     filters: (state) => {
       return {
-        validityFilter: state.validityFilter,
+        accuracyFilter: state.accuracyFilter,
         sourceFilters: state.sourceFilters,
         seenFilter: state.seenFilter,
         exploreFilter: state.exploreFilter,
@@ -47,8 +47,8 @@ export default {
 
     change_filter_value: (state, filters) => {
 
-      state.validityFilter = filters.filters.validity ?
-        consts.VALIDITY_REQ_MAPPING[filters.filters.validity.toLowerCase()] : 'all';
+      state.accuracyFilter = filters.filters.accuracy ?
+        consts.ACCURACY_REQ_MAPPING[filters.filters.accuracy.toLowerCase()] : 'all';
 
       state.sourceFilters = filters.filters.sources ? filters.filters.sources : ['followed'];
 
@@ -107,7 +107,7 @@ export default {
           },
           {
             sources: JSON.stringify(context.state.sourceFilters),
-            validity: context.state.validityFilter,
+            accuracy: context.state.accuracyFilter,
             seenstatus: context.state.seenFilter,
             explore: context.state.exploreFilter,
             usernames: JSON.stringify(context.state.filteredUsernames),
@@ -190,7 +190,7 @@ export default {
         postServices.getBoostByPostId(payload,
           {
             sources: JSON.stringify(context.state.sourceFilters),
-            validity: context.state.validityFilter,
+            accuracy: context.state.accuracyFilter,
             explore: context.state.exploreFilter,
             usernames: JSON.stringify(context.state.filteredUsernames),
             lists: JSON.stringify(context.state.filteredLists),

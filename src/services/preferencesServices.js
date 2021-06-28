@@ -1,13 +1,13 @@
 import Api from './api'
 
 export default {
-    getPreferences(params) {
-        return Api().get(`/preferences/${params.authUserId}`, {
+    getPreferences() {
+        return Api().get(`/preferences`, {
           withCredentials: true
         })
     },
-    setPreferences(params, reqBody) {
-        return Api().post(`/preferences/${params.authUserId}`,
+    setPreferences(reqBody) {
+        return Api().post(`/preferences`,
           reqBody, {
             withCredentials: true
         })

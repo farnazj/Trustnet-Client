@@ -2,7 +2,7 @@
   <v-container fluid class="pa-0 full-height" >
     <custom-toolbar></custom-toolbar>
 
-    <v-row class="pt-9 parent-height" >
+    <v-row class="pt-12 parent-height" >
       <v-col cols="12">
 
         <v-tabs centered dark background-color="grey darken-3" height=36

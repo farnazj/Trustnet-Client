@@ -1,14 +1,19 @@
 <!--
  @fileoverview A component that is used when choosing who to share posts with (mode downstream = user's followers
- or source lists), or when choosing who to ask about a post's validity (mode upstream = sources that the user 
+ or source lists), or when choosing who to ask about a post's accuracy (mode upstream = sources that the user 
  trusts or follows).
 -->
 <template>
 
   <v-autocomplete v-model="targets" :items="populationList" dense
-  filled small-chips color="blue-grey lighten-2" :label="audienceLabel" :filter="filterFollowersLists"
+  filled small-chips color="blue-grey lighten-2" :filter="filterFollowersLists"
   item-text="text" item-value="value" multiple :no-data-text="textWhenNoData">
 
+    <template v-slot:label>
+      <span class="subtitle-2">
+        {{audienceLabel}}
+      </span>
+    </template>
     <template slot="selection" slot-scope="data" >
       <v-chip
         :input-value="data.selected" close
