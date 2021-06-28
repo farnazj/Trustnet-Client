@@ -6,9 +6,14 @@
 <template>
 
   <v-autocomplete v-model="targets" :items="populationList" dense
-  filled small-chips color="blue-grey lighten-2" :label="audienceLabel" :filter="filterFollowersLists"
+  filled small-chips color="blue-grey lighten-2" :filter="filterFollowersLists"
   item-text="text" item-value="value" multiple :no-data-text="textWhenNoData">
 
+    <template v-slot:label>
+      <span class="subtitle-2">
+        {{audienceLabel}}
+      </span>
+    </template>
     <template slot="selection" slot-scope="data" >
       <v-chip
         :input-value="data.selected" close

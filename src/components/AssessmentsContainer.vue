@@ -1,7 +1,7 @@
 <template>
 
   <v-fade-transition v-if="visible">
-    <v-row class="pt-12" id="assessment_container" no-gutters>
+    <v-row :class="$vuetify.breakpoint.smAndDown ? 'pt-16' : 'pt-12'" id="assessment_container" no-gutters>
       <v-col cols="12">
         <v-card outlined>
 

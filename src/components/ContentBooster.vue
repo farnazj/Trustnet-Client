@@ -37,19 +37,28 @@
               <v-card class="content-booster-menu">
                 <v-container fluid>
 
-                  <v-row no-gutters class="my-3">
+                  <v-row no-gutters class="mt-2 mb-3">
                     <v-col cols="12">
                       <v-text-field v-model="title"
-                        label="Title for your post" required
-                        :rules="createPostFormRules.titleRules">
+                       required :rules="createPostFormRules.titleRules">
+                        <template v-slot:label>
+                          <span class="subtitle-2">
+                            Title for your post
+                          </span>
+                        </template>
                       </v-text-field>
                     </v-col>
                   </v-row>
 
                   <v-row no-gutters>
                     <v-col cols="12">
-                      <v-textarea v-model="body" label="Post body" rows=8
+                      <v-textarea v-model="body" rows=5 dense auto-grow
                       required :rules="createPostFormRules.bodyRules">
+                        <template v-slot:label>
+                          <span class="subtitle-2">
+                            Post body
+                          </span>
+                        </template>
                       </v-textarea>
                     </v-col>
                   </v-row>
@@ -86,9 +95,9 @@
               <v-card-actions>
                 <v-spacer></v-spacer>
 
-                <v-btn text @click="cancel">Cancel</v-btn>
-                <v-btn color="primary" text @click="createPost">
-                  <v-icon class="pr-1" >fas fa-share </v-icon> Share
+                <v-btn text @click="cancel" small>Cancel</v-btn>
+                <v-btn color="primary" text @click="createPost" small>
+                  <v-icon class="pr-1" small>fas fa-share </v-icon> Share
                 </v-btn>
               </v-card-actions>
             </v-card>
@@ -104,12 +113,16 @@
                 <v-card>
                   <v-container fluid>
 
-                    <v-row no-gutters class="mb-3">
+                    <v-row no-gutters class="mt-2 mb-3">
                       <v-col cols="12">
                           <validation-provider rules="articleUrl" v-slot="{ errors }" >
 
-                            <v-textarea v-model="articleLink"
-                              label="Import an article by pasting its URL" >
+                            <v-textarea v-model="articleLink" rows=3 dense auto-grow>
+                              <template v-slot:label>
+                                <span class="subtitle-2">
+                                  Import an article by pasting its URL
+                                </span>
+                              </template>
                             </v-textarea>
                           <span class="caption red--text red--darken-3">{{ errors[0] }}</span>
                           </validation-provider>
@@ -132,9 +145,9 @@
                   <v-card-actions>
                     <v-spacer></v-spacer>
 
-                    <v-btn text @click="cancel">Cancel</v-btn>
-                    <v-btn color="primary" text @click="importArticle" :disabled="invalid">
-                      <v-icon class="pr-1" >fas fa-share</v-icon> Share
+                    <v-btn text @click="cancel" small>Cancel</v-btn>
+                    <v-btn color="primary" text @click="importArticle" :disabled="invalid || tempDisabled" small>
+                      <v-icon class="pr-1" small>fas fa-share</v-icon> Share
                     </v-btn>
                   </v-card-actions>
 
@@ -196,7 +209,8 @@ export default {
       alert: false,
       alertMessage: '',
       createMessage: 'Something went wrong. Try again later.',
-      importMessage: 'Something went wrong. Check that the URL is correct and try again later.'
+      importMessage: 'Something went wrong. Check that the URL is correct and try again later.',
+      tempDisabled: false
     }
   },
   computed: {
@@ -282,6 +296,8 @@ export default {
           params.sourceIsAnonymous = this.$refs.assessmentColl.anonymous;
         }
 
+        this.tempDisabled = true;
+
         postServices.importArticle(params)
         .then(response => {
           if (response.status != 200) {
@@ -306,6 +322,9 @@ export default {
         .catch(err => {
           this.alertMessage = this.importMessage;
           this.alert = true;
+        })
+        .finally( () => {
+          this.tempDisabled = false;
         })
       }
       else {

@@ -10,16 +10,20 @@
         <validation-provider rules="required" v-slot="{ errors }" vid="selectValue">
           <v-select :items="accuracyStatus" v-model="credibility"
             item-text="label" item-value="value" dense
-            label="Article Accuracy" outline
-            >
+             outline>
+            <template v-slot:label>
+              <span class="subtitle-2">
+                Article accuracy
+              </span>
+            </template>
 
             <template slot="item" slot-scope="data" >
-              <div v-html="data.item.label" :class="data.item.color">
+              <div v-html="data.item.label" :class="[data.item.color, 'subtitle-2']">
               </div>
             </template>
 
             <template slot="selection" slot-scope="data" >
-              <div v-html="data.item.label" :class="data.item.color">
+              <div v-html="data.item.label" :class="[data.item.color, 'subtitle-2']">
               </div>
             </template>
 
@@ -35,8 +39,13 @@
           :label="textAreaLabel"> -->
           <validation-provider :rules="{ reasoningRule: { selectValue: '@selectValue', username: user ? user.userName : undefined } }"
            v-slot="{ errors }">
-              <v-textarea v-model="assessmentText"
-              :label="textAreaLabel">
+              <v-textarea v-model="assessmentText" rows="3" auto-grow dense>
+                <template v-slot:label>
+                  <span class="subtitle-2">
+                    {{textAreaLabel}}
+                  </span>
+                </template>
+
             </v-textarea>
           <span class="caption red--text red--darken-3">{{ errors[0] }}</span>
         </validation-provider>
@@ -49,9 +58,15 @@
        <v-tooltip bottom max-width="600" open-delay="700">
          <template v-slot:activator="{ on }">
            <v-switch v-on="on" dense :color="anonymous ? 'blue lighten-1' : ''"
-            v-model="anonymous" label="Pose question anonymously"
-          ></v-switch>
+            v-model="anonymous">
+            <template v-slot:label>
+              <span class="subtitle-2">
+                Pose question anonymously
+              </span>
+            </template>
+          </v-switch>
          </template>
+
          <span> Your question will be surfaced to the sources you follow or trust even though they may not follow
            or trust you. Choose if you want your name to be visible with your question.
            Note that those who follow or trust you will see your name along with your question regardless.</span>
@@ -63,8 +78,14 @@
 
       <v-col cols=12>
         <v-combobox v-model="emails" small-chips dense :hide-no-data="true"
-         label="Ask sources not on Trustnet by email" multiple 
+          multiple 
         >
+          <template v-slot:label>
+            <span class="subtitle-2">
+            Ask sources not on Trustnet by email
+            </span>
+          </template>
+
           <template v-slot:selection="{ attrs, item, select, selected }">
             <v-chip v-bind="attrs"
               :input-value="selected" close @click="select"
