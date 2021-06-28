@@ -42,7 +42,7 @@
         </v-row>
       </div>
 
-      <v-col md="7" cols="8" :offset="$vuetify.breakpoint.smAndDown ? 0 : 1">
+      <v-col md="7" cols="8" :offset="$vuetify.breakpoint.smAndDown ? 0 : (($vuetify.breakpoint.mdAndDown && !assessmentsVisible) ? 2 : 1)">
         <article-holder detailsNamespace="homeArticleDetails" filtersNamespace="articleFilters"
           assessmentsNamespace="homeAssessments" titlesNamespace="homeTitles"
           :class="{'pt-5': !$vuetify.breakpoint.smAndDown}">
