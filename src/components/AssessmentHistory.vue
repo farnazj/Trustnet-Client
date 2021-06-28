@@ -19,7 +19,7 @@
 
        <v-card-text>
 
-         <v-row justify="start" align="center" class="pt-1">
+         <v-row justify="start" align="center" class="pt-4">
            <custom-avatar :user="historyOwner" :clickEnabled="true" class="mr-2">
            </custom-avatar>
             <span>{{sourceDisplayName(historyOwner)}}</span>
@@ -38,7 +38,7 @@
               </span>
             </v-col>
           </v-row>
-          <v-divider :key="`divider-${assessment.id}`"></v-divider>
+          <v-divider :key="`divider-${assessment.id}`" class="my-2"></v-divider>
 
          </template>
       </v-card-text>

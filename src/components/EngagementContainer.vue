@@ -28,7 +28,7 @@
           </v-row>
 
           <assessments-pane v-if="assessmentsSelected" :namespace="assessmentsNamespace"></assessments-pane>
-          <discussion-pane v-else :namespace="commentsNamespace"></discussion-pane>
+          <discussion-pane v-else :assessmentsNamespace="assessmentsNamespace" :commentsNamespace="commentsNamespace"></discussion-pane>
 
         </v-card>
       </v-col>
@@ -111,7 +111,8 @@ export default {
   width: 34%;
   max-height: 95vh;
   min-height: 95vh;
-  overflow-y: auto;
+  /*overflow-y: auto;*/
+  overflow-y: hidden;
   bottom: 0px;
 }
 
