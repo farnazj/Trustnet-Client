@@ -19,8 +19,7 @@ export default {
   actions: {
     getUserPreferences: (context) => {
         return new Promise((resolve, reject) => {
-            let authUserId = context.rootGetters['auth/user'].id;
-            preferencesServices.getPreferences({ authUserId: authUserId })
+            preferencesServices.getPreferences()
             .then( response => {
                 context.commit('set_preferences', response.data);
                 resolve();
@@ -32,14 +31,11 @@ export default {
     },
     setUserPreferences: (context, payload) => {
         return new Promise((resolve, reject) => {
-            let authUserId = context.rootGetters['auth/user'].id;
             let newPreferences = Object.assign({}, context.state.userPreferences);
             for (const [key, value] of Object.entries(payload))
                 newPreferences[key] = value;
-
-            preferencesServices.setPreferences({ 
-                authUserId: authUserId 
-            }, { preferences: JSON.stringify(newPreferences)})
+            
+            preferencesServices.setPreferences({ preferences: JSON.stringify(newPreferences)})
             .then( () => {
                 context.dispatch('getUserPreferences')
                 .then(() => {

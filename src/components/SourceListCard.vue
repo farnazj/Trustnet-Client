@@ -79,7 +79,7 @@
         </v-list>
       </v-row>
 
-      <v-row justify="end">
+      <v-row justify="end" no-gutters>
         <v-card-actions>
           <v-btn small text color="red darken-1" @click.stop="deleteList"
           >Delete List</v-btn>

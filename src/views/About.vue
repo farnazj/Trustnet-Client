@@ -141,8 +141,8 @@
 
                     <li>
                       <span class="font-weight-medium">Validty:</span> articles
-                      that have been confirmed, refuted, or whose validity have
-                      been questioned by your sources. Or those on whose validity
+                      that have been confirmed, refuted, or whose accuracy have
+                      been questioned by your sources. Or those on whose accuracy
                       there is disagreement among your sources (debated articles).
                     </li>
 
@@ -160,7 +160,7 @@
                   example, to see the articles that you have not seen yet and that have
                   been confirmed by your trusted sources, you can select <v-icon>remove_red_eye</v-icon>
                   Seen Status <v-icon>arrow_right_alt</v-icon> Not Seen, <v-icon>gavel</v-icon>
-                  Validity <v-icon>arrow_right_alt</v-icon> Confirmed, and
+                  Accuracy <v-icon>arrow_right_alt</v-icon> Confirmed, and
                   <v-icon>account_circle</v-icon> Assessors <v-icon>arrow_right_alt</v-icon> Trusted.
                 </p>
 

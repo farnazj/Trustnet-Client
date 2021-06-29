@@ -28,7 +28,7 @@
          <template v-for="assessment in assessmentHistory">
            <v-row :key="assessment.id" align="center" class="py-1">
             <v-col cols="12" class="pa-1">
-              <p class="font-italic font-weight-light mb-0">{{validityMapping(assessment.postCredibility)}}</p>
+              <p class="font-italic font-weight-light mb-0">{{accuracyMapping(assessment.postCredibility)}}</p>
               <p class="mb-1" v-if="assessment.body">
                 {{assessment.body}}
               </p>
@@ -90,11 +90,11 @@ export default {
     })
   },
   methods: {
-    validityMapping: function(val){
+    accuracyMapping: function(val){
       if (val < 0)
         return 'This article is inaccurate.';
       else if (val == 0)
-        return 'I want to know about the validity of this article.';
+        return 'I want to know about the accuracy of this article.';
       else if (val > 0)
         return 'This article is accurate.'
     },

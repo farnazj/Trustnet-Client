@@ -51,9 +51,9 @@
                   <v-card-actions>
                     <v-spacer></v-spacer>
 
-                    <v-btn text @click="cancelMenu('assessmentMenu')">Cancel</v-btn>
-                    <v-btn color="primary" text @click="postAssessment" :disabled="invalid">
-                      <v-icon class="pr-1" >gavel</v-icon> Assess
+                    <v-btn text @click="cancelMenu('assessmentMenu')" small>Cancel</v-btn>
+                    <v-btn color="primary" text @click="postAssessment" :disabled="invalid" small>
+                      <v-icon class="pr-1" small>gavel</v-icon> Assess
                     </v-btn>
                   </v-card-actions>
                 </v-card>
@@ -100,9 +100,9 @@
 
                    <v-spacer></v-spacer>
 
-                   <v-btn text @click="cancelMenu('boostMenu')">Cancel</v-btn>
-                   <v-btn color="primary" text @click="boostArticle">
-                     <v-icon class="pr-1" >fas fa-share</v-icon> Share
+                   <v-btn text @click="cancelMenu('boostMenu')" small>Cancel</v-btn>
+                   <v-btn color="primary" text @click="boostArticle" small>
+                     <v-icon class="pr-1" small>fas fa-share</v-icon> Share
                    </v-btn>
                  </v-card-actions>
 
@@ -183,8 +183,8 @@
               :postDate="article.publishedDate" class="mb-3">
               </initiator-display>
 
-             <v-img v-if="article.image" :src="article.image" contain class="rounded">
-             </v-img>
+              <v-img v-if="article.image" :src="article.image" contain class="rounded">
+              </v-img>
            </v-col>
          </v-row>
 
@@ -371,7 +371,7 @@ export default {
           body: this.$refs.assessmentColl.assessmentText
         }
 
-        if (reqBody.postCredibility == consts.VALIDITY_CODES.QUESTIONED) {
+        if (reqBody.postCredibility == consts.ACCURACY_CODES.QUESTIONED) {
           let arbiters = this.$refs.assessmentColl.$refs.arbiters.targets;
           reqBody.sourceArbiters = arbiters.map(el => el.identifier);
           reqBody.emailArbiters = this.$refs.assessmentColl.emails;

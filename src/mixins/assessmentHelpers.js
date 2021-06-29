@@ -21,13 +21,13 @@ export default {
     }
   },
   methods: {
-    validityMapping: function(credibility) {
+    accuracyMapping: function(credibility) {
 
-      if (credibility < consts.VALIDITY_CODES.QUESTIONED)
+      if (credibility < consts.ACCURACY_CODES.QUESTIONED)
         return 'refuted';
-      else if (credibility == consts.VALIDITY_CODES.QUESTIONED)
+      else if (credibility == consts.ACCURACY_CODES.QUESTIONED)
         return 'questioned';
-      else if (credibility > consts.VALIDITY_CODES.QUESTIONED)
+      else if (credibility > consts.ACCURACY_CODES.QUESTIONED)
         return 'confirmed';
     },
 
@@ -42,7 +42,7 @@ export default {
         if (postAssessment.SourceId === null ) {
           if (postAssessment.version == 1) {
             let assessmentsObj = { lastVersion: postAssessment, assessor: {} };
-            let credValue = this.validityMapping(assessmentsObj.lastVersion.postCredibility);
+            let credValue = this.accuracyMapping(assessmentsObj.lastVersion.postCredibility);
             this.assessments[credValue].push(assessmentsObj);
           }
         }
@@ -65,7 +65,7 @@ export default {
      let sourcePromises = [];
 
      for (const [SourceId, assessmentsObj] of Object.entries(assessmentsBySource)) {
-        let credValue = this.validityMapping(assessmentsObj.lastVersion.postCredibility);
+        let credValue = this.accuracyMapping(assessmentsObj.lastVersion.postCredibility);
         sourcePromises.push(
           sourceServices.getSourceById(SourceId)
           .then(response => {

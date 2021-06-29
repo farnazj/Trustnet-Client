@@ -6,8 +6,8 @@
 -->
 <template>
 
-  <v-list-item dense >
-    <v-list-item-content>
+  <v-list-item dense class="px-2">
+    <v-list-item-content class="py-1">
       <v-list-item-title>{{ list.name }}</v-list-item-title>
     </v-list-item-content>
 
