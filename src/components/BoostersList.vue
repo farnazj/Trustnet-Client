@@ -10,7 +10,7 @@
          </v-col>
          <v-col cols="1">
            <v-row justify="end" no-gutters>
-             <v-icon @click="hideBoosters">clear</v-icon>
+             <v-icon @click="hideBoosters">{{icons.close}}</v-icon>
            </v-row>
          </v-col>
        </v-row>
@@ -65,6 +65,7 @@ import sourceHelpers from '@/mixins/sourceHelpers'
 import timeHelpers from '@/mixins/timeHelpers'
 import postServices from '@/services/postServices'
 import { mapState, mapGetters, mapActions } from 'vuex'
+import { mdiClose } from '@mdi/js';
 
 export default {
   components: {
@@ -82,6 +83,9 @@ export default {
   },
   data: () => {
     return {
+      icons: {
+        close: mdiClose
+      }
     }
   },
   computed: {
@@ -110,10 +114,8 @@ export default {
       this.setBoostersVisibility(false);
     },
     deleteBoost: function(boostObj) {
-      console.log(boostObj)
       postServices.deleteBoostByBoostId({ boostId: boostObj.id })
       .then(() => {
-        console.log('delete shod')
         this.updateStateArticle({ postId: boostObj.PostId })
         .then(() => {
         })

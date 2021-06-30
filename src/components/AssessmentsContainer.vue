@@ -7,7 +7,7 @@
 
           <v-row align-center fill-height no-gutters>
 
-            <v-icon @click="hideContainer" class="clear-sign">clear</v-icon>
+            <v-icon @click="hideContainer" class="clear-sign">{{icons.close}}</v-icon>
 
             <v-col cols="12">
               <v-row justify="center" no-gutters>
@@ -88,10 +88,11 @@
 import innerAssessment from '@/components/InnerAssessment'
 import utils from '@/services/utils'
 import { mapState, mapActions } from 'vuex'
+import { mdiClose } from '@mdi/js';
 
 export default {
   components: {
-   'inner-assessment': innerAssessment
+    'inner-assessment': innerAssessment
   },
   props: {
     namespace: {
@@ -101,7 +102,10 @@ export default {
   },
   data () {
     return {
-      revealedSize: {}
+      revealedSize: {},
+      icons: {
+        close: mdiClose
+      }
     }
   },
   computed: {

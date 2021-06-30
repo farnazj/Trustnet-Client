@@ -10,7 +10,7 @@
          </v-col>
          <v-col cols="1">
            <v-row no-gutters justify="end">
-             <v-icon @click="hideHistory">clear</v-icon>
+             <v-icon @click="hideHistory">{{icons.close}}</v-icon>
            </v-row>
          </v-col>
        </v-row>
@@ -19,14 +19,14 @@
 
        <v-card-text>
 
-         <v-row justify="start" align="center" class="pt-1">
+         <v-row justify="start" align="center" class="pt-1" no-gutters>
            <custom-avatar :user="historyOwner" :clickEnabled="true" class="mr-2">
            </custom-avatar>
             <span>{{sourceDisplayName(historyOwner)}}</span>
          </v-row>
 
          <template v-for="assessment in assessmentHistory">
-           <v-row :key="assessment.id" align="center" class="py-1">
+           <v-row :key="assessment.id" align="center" class="py-1" no-gutters>
             <v-col cols="12" class="pa-1">
               <p class="font-italic font-weight-light mb-0">{{accuracyMapping(assessment.postCredibility)}}</p>
               <p class="mb-1" v-if="assessment.body">
@@ -53,6 +53,7 @@ import timeHelpers from '@/mixins/timeHelpers'
 import sourceHelpers from '@/mixins/sourceHelpers'
 import consts from '@/services/constants'
 import { mapState, mapActions } from 'vuex'
+import { mdiClose } from '@mdi/js';
 
 export default {
   components: {
@@ -66,6 +67,9 @@ export default {
   },
   data: () => {
     return {
+      icons: {
+        close: mdiClose
+      }
     }
   },
   computed: {

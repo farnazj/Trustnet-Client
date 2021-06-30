@@ -8,7 +8,7 @@
        <v-row class="pa-1" full-height align="center" no-gutters>
 
          <v-col>
-           <v-icon large @click="articleDetailsVisible = false">clear</v-icon>
+           <v-icon large @click="articleDetailsVisible = false">{{icons.close}}</v-icon>
          </v-col>
 
          <v-col cols="7" class="right-align">
@@ -18,7 +18,7 @@
                 
                   <v-btn text icon color="blue darken-1" class="mr-4" v-clipboard="() => articleLink"
                      v-clipboard:success="linkCopied">
-                    <v-icon small>fas fa-link</v-icon>
+                    <v-icon>{{icons.link}}</v-icon>
                   </v-btn>
               
               </template>
@@ -33,7 +33,7 @@
              <template v-slot:activator="{ on }">
                 <v-btn text icon  color="blue darken-1" v-on="on"
                  class="mr-4">
-                  <v-icon >gavel</v-icon>
+                  <v-icon >{{icons.gavel}}</v-icon>
                 </v-btn>
               </template>
 
@@ -53,7 +53,7 @@
 
                     <v-btn text @click="cancelMenu('assessmentMenu')" small>Cancel</v-btn>
                     <v-btn color="primary" text @click="postAssessment" :disabled="invalid" small>
-                      <v-icon class="pr-1" small>gavel</v-icon> Assess
+                      <v-icon class="pr-1" small>{{icons.gavel}}</v-icon> Assess
                     </v-btn>
                   </v-card-actions>
                 </v-card>
@@ -76,7 +76,7 @@
              <template v-slot:activator="{ on }">
              <v-btn text icon color="blue darken-1" :class="['mr-4', {'reset-pointer-events': !disableBoost},
               {'v-btn--disabled': disableBoost }]" v-on="on">
-               <v-icon >fas fa-share</v-icon>
+               <v-icon >{{icons.share}}</v-icon>
              </v-btn>
             </template>
 
@@ -95,14 +95,14 @@
 
                  <v-card-actions>
                    <a :href="emailLink" class="ml-1 email-link">
-                    <v-icon small color="primary">email</v-icon>
+                    <v-icon small color="primary">{{icons.email}}</v-icon>
                    </a>
 
                    <v-spacer></v-spacer>
 
                    <v-btn text @click="cancelMenu('boostMenu')" small>Cancel</v-btn>
                    <v-btn color="primary" text @click="boostArticle" small>
-                     <v-icon class="pr-1" small>fas fa-share</v-icon> Share
+                     <v-icon class="pr-1" small>{{icons.share}}</v-icon> Share
                    </v-btn>
                  </v-card-actions>
 
@@ -127,7 +127,7 @@
 
        <v-snackbar v-model="showInfoSnackbar" top>
         {{ editSubmitInfo }}
-         <v-btn color="blue lighten-1" text @click="snackbar = false">
+         <v-btn color="blue lighten-1" text @click="showInfoSnackbar = false">
            Close
          </v-btn>
        </v-snackbar>
@@ -142,19 +142,19 @@
             <template v-slot:activator>
               <v-btn v-model="fab" color="blue darken-2"
               dark fab large>
-                <v-icon v-if="fab">close</v-icon>
-                <v-icon v-else>build</v-icon>
+                <v-icon v-if="fab">{{icons.close}}</v-icon>
+                <v-icon v-else>{{icons.build}}</v-icon>
               </v-btn>
             </template>
 
             <v-btn fab dark @click="editMode = true"
               color="green lighten-1">
-              <v-icon>edit</v-icon>
+              <v-icon>{{icons.edit}}</v-icon>
             </v-btn>
 
             <v-btn fab dark @click="showDeleteDialog = true"
               color="red lighten-1">
-              <v-icon>delete</v-icon>
+              <v-icon>{{icons.delete}}</v-icon>
             </v-btn>
 
           </v-speed-dial>
@@ -164,7 +164,7 @@
           <v-fab-transition>
             <v-btn fab dark @click="saveEdits"
              color="green">
-             <v-icon>check</v-icon>
+             <v-icon>{{icons.check}}</v-icon>
             </v-btn>
           </v-fab-transition>
         </v-row>
@@ -254,6 +254,7 @@ import postServices from '@/services/postServices'
 import consts from '@/services/constants'
 import { mapState, mapGetters, mapActions } from 'vuex'
 import { ValidationObserver} from 'vee-validate'
+import { mdiClose, mdiLink, mdiGavel, mdiShare, mdiPencil, mdiDelete, mdiEmail, mdiWrench, mdiCheck } from '@mdi/js';
 
 export default {
   components: {
@@ -299,7 +300,18 @@ export default {
       editSubmitInfo: '',
       emails: null,
       rerenderKey: null,
-      showLinkToolTip: false
+      showLinkToolTip: false,
+      icons: {
+        close: mdiClose,
+        link: mdiLink,
+        gavel: mdiGavel,
+        share: mdiShare,
+        edit: mdiPencil,
+        delete: mdiDelete,
+        email: mdiEmail,
+        build: mdiWrench,
+        check: mdiCheck
+      }
     }
   },
   created() {
