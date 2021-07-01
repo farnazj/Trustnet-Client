@@ -23,7 +23,7 @@
          </v-col>
          <v-col cols="1">
            <v-row no-gutters justify="end">
-             <v-icon @click="titleDialogVisible = false">clear</v-icon>
+             <v-icon @click="titleDialogVisible = false">{{icons.clear}}</v-icon>
            </v-row>
          </v-col>
        </v-row>
@@ -77,13 +77,13 @@
 
             <v-row no-gutters class="py-1">
               <v-col cols="1">
-                <v-icon @click="changeEndorsement(titleObj, index, false)"
+                <v-icon @click="changeEndorsement(titleObj, index, false)" small
                 v-if="titleObj.userEndorsed" color="primary" class="xs-icon-font interactable">
-                  fas fa-thumbs-up
+                   {{icons.thumbUpFilled}}
                 </v-icon>
-                <v-icon @click="changeEndorsement(titleObj, index, true)" v-else
+                <v-icon @click="changeEndorsement(titleObj, index, true)" v-else small
                 color="primary" class="xs-icon-font interactable">
-                  far fa-thumbs-up
+                  {{icons.thumbUpOutline}}
                 </v-icon>
               </v-col>
 
@@ -170,6 +170,7 @@ import timeHelpers from '@/mixins/timeHelpers'
 import titleHelpers from '@/mixins/titleHelpers'
 import titleServices from '@/services/titleServices'
 import { mapState, mapGetters, mapActions } from 'vuex'
+import { mdiClose, mdiThumbUpOutline, mdiThumbUp } from '@mdi/js';
 
 export default {
   components: {
@@ -209,8 +210,12 @@ export default {
         ]
       },
       alert: false,
-      alertMessage: ''
-
+      alertMessage: '',
+      icons: {
+        clear: mdiClose,
+        thumbUpOutline: mdiThumbUpOutline,
+        thumbUpFilled: mdiThumbUp
+      }
     }
   },
   computed: {

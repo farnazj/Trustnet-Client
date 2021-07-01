@@ -49,11 +49,11 @@
                 <v-col cols="12">
                    <div class="px-2">
                     
-                     <span v-if="displayedAlternativeTitle" class="mx-1 font-italic font-weight-light interactable title title-custom alt-title"
+                     <span v-if="displayedAlternativeTitle" class="mx-1 font-italic font-weight-light interactable title title-custom "
                      >{{displayedAlternativeTitle}}</span>
 
                       <p :class="['mr-1', 'interactable', $vuetify.breakpoint.smAndDown ? 'title-custom-small': 'title-custom',
-                      { strikethrough: displayedAlternativeTitle, 'title': $vuetify.breakpoint.smAndDown }]"
+                      { 'original-title': displayedAlternativeTitle, 'title': $vuetify.breakpoint.smAndDown }]"
                      v-html="post.title"></p>
 
                        <v-tooltip bottom>
@@ -335,13 +335,13 @@
 
 .title-custom {
   line-height: 1.5rem;
-  font-size: 0.9rem !important;
+  font-size: 1.1rem !important;
   display: inline !important;
 }
 
 .title-custom-small {
   line-height: 1em;
-  font-size: 0.8em !important;
+  font-size: 1em !important;
   display: inline !important;
 }
 
@@ -353,8 +353,9 @@
   max-width: 22px;
 } */
 
-.strikethrough {
-  text-decoration: line-through
+.original-title {
+  text-decoration: line-through;
+  font-size: 0.9rem !important;
 }
 
 </style>
