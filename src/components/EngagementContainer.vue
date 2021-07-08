@@ -3,14 +3,14 @@
   <v-fade-transition v-if="visible">
     <v-row class="pt-12" id="assessment_container" no-gutters>
       <v-col cols="12">
-        <v-card tile>
+        <v-card outlined>
 
           <v-row align-center fill-height no-gutters>
             
             <v-icon @click="() => {hideContainer(); selectAssessments()}" class="clear-sign">clear</v-icon>
 
             <v-col cols="6">
-              <v-card outlined :color="assessmentsColor" @click="selectAssessments">
+              <v-card outlined :color="assessmentsSelected ? 'lime lighten-3' : 'white'" @click="selectAssessments">
                 <v-row justify="center" no-gutters>
                   <p class="pb-0 mb-0 subheading font-weight-medium">Accurate?</p>
                 </v-row>
@@ -18,7 +18,7 @@
             </v-col>
 
             <v-col cols="6">
-              <v-card outlined :color="discussionColor" @click="selectDiscussion">
+              <v-card outlined :color="!assessmentsSelected ? 'lime lighten-3' : 'white'" @click="selectDiscussion">
                 <v-row justify="center" no-gutters>
                   <p class="pb-0 mb-0 subheading font-weight-medium">Discussion</p>
                 </v-row>
@@ -67,12 +67,6 @@ export default {
     visible: function() {
       return this.assessmentState.visible;
     },
-    assessmentsColor: function() {
-      return this.assessmentsSelected ? "lime lighten-3" : "white"
-    },
-    discussionColor: function() {
-      return !(this.assessmentsSelected) ? "lime lighten-3" : "white"
-    },
     ...mapState({
        assessmentState (state) {
          return state[this.assessmentsNamespace];
@@ -102,25 +96,26 @@ export default {
 </script>
 
 <style scoped>
-.right-align {
+
+/*.right-align {
   text-align: right;
-}
+}*/
 
 #assessment_container {
   right: 0px;
   width: 34%;
   max-height: 95vh;
   min-height: 95vh;
-  /*overflow-y: auto;*/
-  overflow-y: hidden;
+  overflow-y: auto;
+  /*overflow-y: hidden;*/
   bottom: 0px;
 }
 
-.assessment-col {
+/*.assessment-col {
   overflow-y: scroll;
   max-height: 90vh;
   min-height: 90vh;
-}
+}*/
 
 .assessment-col:first-child {
   border-right: 1px solid #B0BEC5;

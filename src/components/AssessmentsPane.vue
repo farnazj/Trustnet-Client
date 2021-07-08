@@ -15,6 +15,7 @@
        <template v-for="assessment in getAssessmentsSlice('questioned')" >
          <inner-assessment :assessmentObj="assessment" :namespace="namespace"
           :key="assessment.lastVersion.id" assessmentType="question"></inner-assessment>
+          <v-divider :key="`divider-${assessment.lastVersion.id}`"></v-divider>
           
        </template>
 
@@ -30,36 +31,37 @@
     </v-row>
 
     <v-row no-gutters>
-    <template v-for="(key, index) in ['confirmed', 'refuted']" >
-      <v-col :key="index" :xs6="isDebated" :xs12="!isDebated" v-if="sortedAssessments[key].length != 0">
+      <template v-for="(key, index) in ['confirmed', 'refuted']" >
+        <v-col :key="index" :xs6="isDebated" :xs12="!isDebated" v-if="sortedAssessments[key].length != 0">
 
-        <v-card class="assessment-col" outlined>
+          <v-card class="assessment-col" outlined>
 
-          <v-card-title>
-           <div>
-             <p class="mb-1 body-2 font-weight-medium" v-if="key == 'confirmed'"> Yes</p>
-             <p class="mb-1 body-2 font-weight-medium" v-else-if="key == 'refuted'"> No</p>
-           </div>
-         </v-card-title>
-         <v-divider ></v-divider>
+            <v-card-title>
+             <div>
+               <p class="mb-1 body-2 font-weight-medium" v-if="key == 'confirmed'"> Yes</p>
+               <p class="mb-1 body-2 font-weight-medium" v-else-if="key == 'refuted'"> No</p>
+             </div>
+           </v-card-title>
+           <v-divider></v-divider>
 
-          <template v-for="assessment in getAssessmentsSlice(key)" >
-            <inner-assessment :assessmentObj="assessment" :namespace="namespace"
-            :key="assessment.lastVersion.id" :assessmentType="key"></inner-assessment>
-          </template>
+            <template v-for="assessment in getAssessmentsSlice(key)" >
+              <inner-assessment :assessmentObj="assessment" :namespace="namespace"
+              :key="assessment.lastVersion.id" :assessmentType="key"></inner-assessment>
+              <v-divider :key="`divider-${assessment.lastVersion.id}`" class="center-align"></v-divider>
+            </template>
 
-          <v-row no-gutters class="pa-1">
-            <span v-if="assessmentsRemaining(key)" @click="revealMore(key)"
-              class="blue--text text--darken-3 body-2 interactable">
-              Show More Assessments</span>
-            <v-spacer></v-spacer>
-            <span class="caption grey--text text--darken-3 pr-1"> {{getAssessmentStats(key)}} </span>
-          </v-row>
+            <v-row no-gutters class="pa-1">
+              <span v-if="assessmentsRemaining(key)" @click="revealMore(key)"
+                class="blue--text text--darken-3 body-2 interactable">
+                Show More Assessments</span>
+              <v-spacer></v-spacer>
+              <span class="caption grey--text text--darken-3 pr-1"> {{getAssessmentStats(key)}} </span>
+            </v-row>
 
-       </v-card>
+         </v-card>
 
-      </v-col>
-    </template>
+        </v-col>
+      </template>
     </v-row>
 
   </div>
@@ -135,6 +137,10 @@ export default {
 </script>
 
 <style scoped>
+.center-align {
+  vertical-align: middle;
+}
+
 .right-align {
   text-align: right;
 }
