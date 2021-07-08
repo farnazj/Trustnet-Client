@@ -50,8 +50,8 @@
       </v-col>
 
       <v-col v-if="assessmentsVisible">
-        <assessments-container namespace="homeAssessments" class="frozen">
-        </assessments-container>
+        <engagement-container assessmentsNamespace="homeAssessments" commentsNamespace="homeComments" class="frozen">
+        </engagement-container>
       </v-col>
 
     </v-row>
@@ -66,7 +66,7 @@
 import customToolbar from '@/components/CustomToolbar'
 import articleHolder from '@/components/ArticleHolder'
 import articleDetails from '@/components/ArticleDetails'
-import assessmentsContainer from '@/components/AssessmentsContainer'
+import engagementContainer from '@/components/EngagementContainer'
 import boostersList from '@/components/BoostersList'
 import customTitles from '@/components/CustomTitles'
 import assessmentHistory from '@/components/AssessmentHistory'
@@ -80,7 +80,7 @@ export default {
     'custom-toolbar': customToolbar,
     'article-holder': articleHolder,
     'article-details': articleDetails,
-    'assessments-container': assessmentsContainer,
+    'engagement-container': engagementContainer,
     'boosters-list': boostersList,
     'custom-titles': customTitles,
     'assessment-history': assessmentHistory,

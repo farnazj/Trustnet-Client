@@ -225,6 +225,7 @@
         this.getPostComments({
           postIdOfComments: this.post.id
         })
+        // .then(() => {console.log(this.commentState.comments)})
       },
       fetchAssociations: function() {
 
