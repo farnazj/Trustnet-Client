@@ -14,7 +14,7 @@
 
       <!-- <span v-if="assessmentObj.lastVersion.postCredibility != 0" class="ml-2 mr-1 caption grey--text text--darken-1"> {{confidence}}</span> -->
       <span v-if="assessmentObj.lastVersion.isTransitive" class="ml-2 mr-1 caption grey--text text--darken-1 "> Adopted through their network</span>
-      <span class="ml-2 caption grey--text text--darken-3"> {{timeElapsed(assessmentObj.lastVersion.createdAt)}} </span>
+      <span class="ml-2 caption grey--text text--darken-3"> {{timestamp}} </span>
       <span v-if="assessmentObj.history && assessmentObj.history.length"
       class="ml-2 caption grey--text text--darken-1 interactable" @click.stop="showHistory">
         Edited</span>
@@ -72,13 +72,18 @@ export default {
     }
   },
   computed: {
-    truncatedText: function() {
+    timestamp() {
+      return this.timeElapsed(
+        this.assessmentObj.history.length ? this.assessmentObj.history[this.assessmentObj.history.length - 1].createdAt : this.assessmentObj.lastVersion.createdAt
+        );
+    },
+    truncatedText() {
       return this.assessmentObj.lastVersion.body.split(' ').slice(0, 25).join(' ') + '...';
     },
-    bodyWordCount: function() {
+    bodyWordCount() {
       return this.assessmentObj.lastVersion.body.split(' ').length;
     },
-    confidence: function() {
+    confidence() {
       let percentage = Math.abs(Math.round(this.assessmentObj.lastVersion.postCredibility * 100));
       return percentage + '% confident';
     }

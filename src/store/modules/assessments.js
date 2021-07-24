@@ -6,7 +6,7 @@ export default {
       assessments: {},
       postIdOfAssessments: null,
       historyVisibility: false,
-      assessmentHistory: [],
+      history: [],
       historyOwner: {}
     }
   },
@@ -30,7 +30,7 @@ export default {
     },
 
     populate_assessment_history: (state, payload) => {
-      state.assessmentHistory = payload.history;
+      state.history = payload.history;
       state.historyOwner = payload.assessor;
     }
   },

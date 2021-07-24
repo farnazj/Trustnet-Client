@@ -5,13 +5,25 @@ export default {
   state() {
     return {
       comments: {},
-      postIdOfComments: null
+      postIdOfComments: null,
+      historyVisibility: false,
+      history: [],
+      historyOwner: {}
     }
   },
   mutations: {
     populate_comments: (state, payload) => {
-      state.postIdOfComments = payload.postIdOfComments;
       state.comments = payload.comments;
+      state.postIdOfComments = payload.postIdOfComments;
+    },
+
+    set_history_visibility: (state, visiblity) => {
+      state.historyVisibility  = visiblity;
+    },
+
+    populate_comment_history: (state, payload) => {
+      state.history = payload.history;
+      state.historyOwner = payload.author;
     }
   },
   actions: {
@@ -45,5 +57,13 @@ export default {
         })
       })
     },
+
+    setHistoryVisibility: (context, payload) => {
+      context.commit('set_history_visibility', payload);
+    },
+
+    populateCommentHistory: (context, payload) => {
+      context.commit('populate_comment_history', payload);
+    }
   }
 }

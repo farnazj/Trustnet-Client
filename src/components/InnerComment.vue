@@ -4,15 +4,8 @@
     <v-row class="mb-1" align="center" wrap no-gutters>
       <custom-avatar v-if="author" :user="author" :clickEnabled="false" class="mb-1"></custom-avatar>
       
-      <!-- <span v-if="assessmentType == 'question' && assessmentObj.lastVersion.sourceIsAnonymous" 
-        class="ml-2 mr-1 caption grey--text text--darken-3"> Asked anonymously</span> -->
-
-      <!-- <span v-if="assessmentObj.lastVersion.postCredibility != 0" class="ml-2 mr-1 caption grey--text text--darken-1"> {{confidence}}</span> -->
-      <!-- <span v-if="assessmentObj.lastVersion.isTransitive" class="ml-2 mr-1 caption grey--text text--darken-1 "> Adopted through their network</span> -->
-      <span class="ml-2 caption grey--text text--darken-3"> {{timeElapsed(commentObj.createdAt)}} </span>
-      <!-- <span v-if="assessmentObj.history && assessmentObj.history.length"
-      class="ml-2 caption grey--text text--darken-1 interactable" @click.stop="showHistory">
-        Edited</span> -->
+      <span class="ml-2 caption grey--text text--darken-3"> {{timestamp}} </span>
+      <span v-if="commentObj.history.length" class="ml-2 caption grey--text text--darken-1 interactable" @click.stop="showHistory">Edited</span>
     </v-row>
 
     <v-row v-if="commentObj.body" no-gutters class="pa-1 pb-2 body-2 assessment-text">
@@ -50,7 +43,11 @@ export default {
    'custom-avatar': customAvatar
   },
   props: {
-    namespace: {
+    assessmentsNamespace: {
+      type: String,
+      required: true
+    },
+    commentsNamespace: {
       type: String,
       required: true
     },
@@ -66,6 +63,9 @@ export default {
     }
   },
   computed: {
+    timestamp() {
+      return this.timeElapsed(this.commentObj.originTime);
+    },
     truncatedText: function() {
       return this.commentObj.body.split(' ').slice(0, 25).join(' ') + '...';
     },
@@ -76,17 +76,17 @@ export default {
   methods: {
     showHistory: function() {
       this.populateHistory({
-        history: [this.assessmentObj.lastVersion].concat(this.assessmentObj.history),
-        assessor: this.assessmentObj.assessor
+        history: [this.commentObj, ...([...this.commentObj.history].reverse())],
+        author: this.author
       });
       this.sethistoryVisibility(true);
     },
     ...mapActions({
       populateHistory (dispatch, payload) {
-        return dispatch(this.namespace + '/populateAssessmentHistory', payload)
+        return dispatch(this.commentsNamespace + '/populateCommentHistory', payload)
       },
       sethistoryVisibility (dispatch, payload) {
-        return dispatch(this.namespace + '/setHistoryVisibility', payload)
+        return dispatch(this.commentsNamespace + '/setHistoryVisibility', payload)
       }
     })
   },

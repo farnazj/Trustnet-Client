@@ -1,11 +1,22 @@
 <template>
 	
-  <v-card class="assessment-col" outlined>
-    <!-- <v-text-field></v-text-field> -->
-    <template v-for="dItem in thread">
-      <inner-discussion :key="dItem.eId" :namespace="assessmentsNamespace" :discussionObj="dItem" :nested="false"></inner-discussion>
-      <v-divider :key="`divider-${dItem.eId}`"></v-divider>
-    </template>
+  <v-card outlined>
+    <v-form>
+      
+      <v-textarea hide-details="auto" outlined auto-grow rows="1" placeholder="Add a comment here..."></v-textarea>
+
+      <v-layout justify-end>
+        <v-btn small color="primary" class="mb-3">Submit</v-btn>
+      </v-layout>
+
+    </v-form>
+
+    <div class="assessment-col">
+      <template v-for="dItem in thread">
+        <inner-discussion :key="dItem.eId" :assessmentsNamespace="assessmentsNamespace" :commentsNamespace="commentsNamespace" :discussionObj="dItem" :nested="false"></inner-discussion>
+        <v-divider :key="`divider-${dItem.eId}`"></v-divider>
+      </template>
+    </div>
   </v-card>
 
 </template>
@@ -13,7 +24,7 @@
 <script>
 import innerDiscussion from '@/components/InnerDiscussion'
 import utils from '@/services/utils'
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -31,17 +42,18 @@ export default {
   },
   data() {
     return {
+      thread: null
     }
   },
   computed: {
+    postId() {
+      return this.commentState.postIdOfComments;
+    },
     comments() {
       return this.commentState.comments;
     },
     assessments() {
       return this.assessmentState.assessments;
-    },
-    thread() {
-      return this.processDiscussion();
     },
     ...mapState({
        assessmentState (state) {
@@ -129,10 +141,15 @@ export default {
           currentParent.replies.push(d);
         }
       }
-      return discussionTree;
+      this.thread = discussionTree;
     },
-  }
-
+  },
+  watch: {
+    postId: {
+      immediate: true,
+      handler: 'processDiscussion' // Update the thread only once the assessments and comments have fully updated
+    }
+  },
 }
 
 </script>
@@ -140,10 +157,10 @@ export default {
 <style scoped>
 
 .assessment-col {
-  /*overflow-y: scroll;*/
-  overflow-y: hidden;
-  /*max-height: 90vh;*/
-  min-height: 90vh;
+  overflow-y: auto;
+  /*overflow-y: hidden;*/
+  max-height: 73vh;
+  min-height: 73vh;
 }
 
 </style>

@@ -104,10 +104,10 @@ export default {
 #assessment_container {
   right: 0px;
   width: 34%;
-  max-height: 95vh;
+  /*max-height: 95vh;*/
   min-height: 95vh;
-  overflow-y: auto;
-  /*overflow-y: hidden;*/
+  /*overflow-y: auto;*/
+  overflow-y: hidden;
   bottom: 0px;
 }
 

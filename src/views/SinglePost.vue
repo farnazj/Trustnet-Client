@@ -5,7 +5,7 @@
     <v-row no-gutters>
       <boosters-list detailsNamespace="singleArticleDetails" filtersNamespace="articleFilters"></boosters-list>
       <custom-titles titlesNamespace="singleArticleTitles" filtersNamespace="articleFilters"></custom-titles>
-      <assessment-history namespace="singleArticleAssessments"></assessment-history>
+      <engagement-history assessmentsNamespace="singleArticleAssessments" commentsNamespace="singleArticleComments"></engagement-history>
 
       <v-col class="pt-12" md="7" cols="8" :offset="$vuetify.breakpoint.smAndDown ? 0 : 1" >
         <article-preview v-if="post" :post="post" detailsNamespace="singleArticleDetails"
@@ -33,7 +33,7 @@ import articleDetails from '@/components/ArticleDetails'
 import engagementContainer from '@/components/EngagementContainer'
 import boostersList from '@/components/BoostersList'
 import customTitles from '@/components/CustomTitles'
-import assessmentHistory from '@/components/AssessmentHistory'
+import engagementHistory from '@/components/EngagementHistory'
 import assessmentHelpers from '@/mixins/assessmentHelpers'
 
 import postServices from '@/services/postServices'
@@ -47,7 +47,7 @@ export default {
     'engagement-container': engagementContainer,
     'boosters-list': boostersList,
     'custom-titles': customTitles,
-    'assessment-history': assessmentHistory
+    'engagement-history': engagementHistory
   },
   props: ['postid'],
   data () {

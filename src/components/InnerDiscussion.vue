@@ -2,12 +2,12 @@
 
 <div>
   <div :style="!discussionObj.eType ? 'background-color: #e8f3ff' : 'white'">
-    <inner-comment v-if="discussionObj.eType" :namespace="namespace" :commentObj="discussionObj" :class="{ 'mx-10' : nested }"></inner-comment>
-    <inner-assessment v-else :namespace="namespace" :assessmentObj="discussionObj" :assessmentType="discussionObj.assessmentType" :class="{ 'mx-10' : nested }"></inner-assessment>
+    <inner-comment v-if="discussionObj.eType" :assessmentsNamespace="assessmentsNamespace" :commentsNamespace="commentsNamespace" :commentObj="discussionObj" :class="{ 'mx-10' : nested }"></inner-comment>
+    <inner-assessment v-else :namespace="assessmentsNamespace" :assessmentObj="discussionObj" :assessmentType="discussionObj.assessmentType" :class="{ 'mx-10' : nested }"></inner-assessment>
   </div>
 
   <template v-if="discussionObj.replies.length">
-    <inner-discussion v-for="dItem in discussionObj.replies" :key="dItem.eId" :namespace="namespace" :discussionObj="dItem" :nested="true"></inner-discussion>
+    <inner-discussion v-for="dItem in discussionObj.replies" :key="dItem.eId" :assessmentsNamespace="assessmentsNamespace" :commentsNamespace="commentsNamespace" :discussionObj="dItem" :nested="true"></inner-discussion>
   </template>
 
 </div>
@@ -26,7 +26,11 @@ export default {
    'inner-comment': innerComment,
   },
   props: {
-    namespace: {
+    assessmentsNamespace: {
+      type: String,
+      required: true
+    },
+    commentsNamespace: {
       type: String,
       required: true
     },

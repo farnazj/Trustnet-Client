@@ -30,7 +30,7 @@
     <v-row no-gutters>
       <boosters-list detailsNamespace="homeArticleDetails" filtersNamespace="articleFilters"></boosters-list>
       <custom-titles titlesNamespace="homeTitles" filtersNamespace="articleFilters"></custom-titles>
-      <assessment-history namespace="homeAssessments"></assessment-history>
+      <engagement-history assessmentsNamespace="homeAssessments" commentsNamespace="homeComments"></engagement-history>
 
       <v-col sm="3" md="2" v-show="filtersVisible">
         <filters class="frozen"></filters>
@@ -69,7 +69,7 @@ import articleDetails from '@/components/ArticleDetails'
 import engagementContainer from '@/components/EngagementContainer'
 import boostersList from '@/components/BoostersList'
 import customTitles from '@/components/CustomTitles'
-import assessmentHistory from '@/components/AssessmentHistory'
+import engagementHistory from '@/components/EngagementHistory'
 import Filters from '@/components/Filters'
 
 import postServices from '@/services/postServices'
@@ -83,7 +83,7 @@ export default {
     'engagement-container': engagementContainer,
     'boosters-list': boostersList,
     'custom-titles': customTitles,
-    'assessment-history': assessmentHistory,
+    'engagement-history': engagementHistory,
     'filters': Filters,
   },
   props: ['postid'],
