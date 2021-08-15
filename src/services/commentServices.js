@@ -34,7 +34,7 @@ export default {
       withCredentials: true
     })
   },
-  deleteComment(postId) {
+  deleteComment(setId) {
     console.log("deleteComment")
     return Api().delete('/comments/sets/' + setId, {
       withCredentials: true

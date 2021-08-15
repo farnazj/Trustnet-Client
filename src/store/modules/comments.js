@@ -62,8 +62,6 @@ export default {
 
     editComment: (context, payload) => {
       console.log("editComment");
-      console.log(context);
-      console.log(payload);
       return new Promise((resolve, reject) => {
         commentServices.editComment(payload.setIdOfComment, payload)
         .then(response => {
