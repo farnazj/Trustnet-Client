@@ -20,9 +20,9 @@ export default {
       withCredentials: true
     })
   }, // edit + reply + delete
-  editComment(postId, reqBody) {
+  editComment(setId, reqBody) {
     console.log("editComment")
-    return Api().post('/comments/sets/' + postId,
+    return Api().post('/comments/sets/' + setId,
     reqBody, {
       withCredentials: true
     })
@@ -34,10 +34,9 @@ export default {
       withCredentials: true
     })
   },
-  deleteComment(postId, reqBody) {
+  deleteComment(postId) {
     console.log("deleteComment")
-    return Api().post('/comments/sets/' + postId,
-    reqBody, {
+    return Api().delete('/comments/sets/' + setId, {
       withCredentials: true
     })
   }

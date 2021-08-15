@@ -10,7 +10,12 @@
 
     <v-row v-if="commentObj.body" no-gutters class="pa-1 pb-0 body-2 assessment-text">
       <v-col cols="12">
-        <v-row v-if="!showFullText && bodyWordCount > 25" class="ma-0">
+        <v-form v-if="editing">
+          <v-text-field class="assessment-text-inner" dense v-model="commentObj.body" hide-details="auto" append-icon="mdi-send" @click:append="onDone">
+          </v-text-field>
+        </v-form>
+
+        <v-row v-else-if="!showFullText && bodyWordCount > 25" class="ma-0">
           <p v-html="truncatedText" class="assessment-text-inner mb-0"></p>
           <span class="blue--text text--darken-3 interactable" @click="showFullText = true">
             show more
@@ -27,7 +32,7 @@
       </v-col>
     </v-row>
 
-    <v-row class="mb-1 justify-end" align="centre" wrap no-gutters>
+    <v-row v-if="!editing" class="mb-1 justify-end" align="centre" wrap no-gutters>
       <v-btn @click.stop="onEdit" icon>
         <v-icon class="s-icon-font">edit</v-icon>
       </v-btn>
@@ -70,7 +75,9 @@ export default {
   data () {
     return {
       author: null,
-      showFullText: false
+      showFullText: false,
+      editing: false,
+      comment: ""
     }
   },
   computed: {
@@ -92,19 +99,26 @@ export default {
       });
       this.sethistoryVisibility(true);
     },
-    clearComment() {
-      console.log(this.commentObj);
+    onDone: function() {
+      this.editComment({
+          setIdOfComment: this.commentObj.setId,
+          body: this.commentObj.body
+      });
+      this.doneEditing()
+    },
+    doneEditing() {
+      this.editing = false
     },
     onEdit() {
-      this.clearComment()
+      console.log(this.commentObj)
+      this.editing = true
     },
     onReply() {
       alert('You clicked on a button!')
     },
     onDelete () { 
-      alert('You clicked on a button!')
       this.deleteComment({
-          postIdOfComments: this.commentState.postIdOfComments
+          setIdOfComment: this.commentObj.setId,
       });
     },
     ...mapActions({
@@ -115,7 +129,11 @@ export default {
         return dispatch(this.commentsNamespace + '/setHistoryVisibility', payload)
       },
       deleteComment (dispatch, payload) {
+        console.log(payload);
         return dispatch(this.commentsNamespace + '/deleteComment', payload)
+      },
+      editComment (dispatch, payload) {
+        return dispatch(this.commentsNamespace + '/editComment', payload)
       }
     })
   },
@@ -140,6 +158,12 @@ export default {
 .assessment-text-inner {
   white-space: pre-wrap;
   word-break: break-word;
+}
+
+.v-text-field {
+  font-size: 1em;
+  line-height: 125%;
+  padding-bottom: 15px;
 }
 
 </style>
