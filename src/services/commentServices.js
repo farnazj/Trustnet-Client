@@ -19,7 +19,7 @@ export default {
     reqBody, {
       withCredentials: true
     })
-  }, // edit + reply + delete
+  },
   editComment(setId, reqBody) {
     console.log("editComment")
     return Api().post('/comments/sets/' + setId,
