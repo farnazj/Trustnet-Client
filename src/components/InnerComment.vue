@@ -8,7 +8,7 @@
       <span v-if="commentObj.history.length" class="ml-2 caption grey--text text--darken-1 interactable" @click.stop="showHistory">Edited</span>
     </v-row>
 
-    <v-row v-if="commentObj.body" no-gutters class="pa-1 pb-2 body-2 assessment-text">
+    <v-row v-if="commentObj.body" no-gutters class="pa-1 pb-0 body-2 assessment-text">
       <v-col cols="12">
         <v-row v-if="!showFullText && bodyWordCount > 25" class="ma-0">
           <p v-html="truncatedText" class="assessment-text-inner mb-0"></p>
@@ -27,7 +27,18 @@
       </v-col>
     </v-row>
 
-    <!-- <v-divider></v-divider> -->
+    <v-row class="mb-1 justify-end" align="centre" wrap no-gutters>
+      <v-btn @click.stop="onEdit" icon>
+        <v-icon class="s-icon-font">edit</v-icon>
+      </v-btn>
+      <v-btn @click.stop="onReply" icon>
+        <v-icon class="xs-icon-font">fa-reply</v-icon>
+      </v-btn>
+      <v-btn @click.stop="onDelete" icon>
+        <v-icon class="xs-icon-font">fa-trash</v-icon>
+      </v-btn>
+    </v-row>
+
   </div>
 
 </template>
@@ -81,12 +92,30 @@ export default {
       });
       this.sethistoryVisibility(true);
     },
+    clearComment() {
+      console.log(this.commentObj);
+    },
+    onEdit() {
+      this.clearComment()
+    },
+    onReply() {
+      alert('You clicked on a button!')
+    },
+    onDelete () { 
+      alert('You clicked on a button!')
+      this.deleteComment({
+          postIdOfComments: this.commentState.postIdOfComments
+      });
+    },
     ...mapActions({
       populateHistory (dispatch, payload) {
         return dispatch(this.commentsNamespace + '/populateCommentHistory', payload)
       },
       sethistoryVisibility (dispatch, payload) {
         return dispatch(this.commentsNamespace + '/setHistoryVisibility', payload)
+      },
+      deleteComment (dispatch, payload) {
+        return dispatch(this.commentsNamespace + '/deleteComment', payload)
       }
     })
   },

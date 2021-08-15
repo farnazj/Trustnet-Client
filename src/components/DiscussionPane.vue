@@ -1,14 +1,13 @@
 <template>
 	
   <v-card outlined>
-    <v-form>
-      
-      <v-textarea hide-details="auto" outlined auto-grow rows="1" placeholder="Add a comment here..."></v-textarea>
-
-      <v-layout justify-end>
-        <v-btn small color="primary" class="mb-3">Submit</v-btn>
-      </v-layout>
-
+    <v-form class="pl-2 pr-2">
+        <v-text-field auto-grow v-model="comment"  label="Add a comment here..." hide-details="auto">
+        </v-text-field>
+      <v-row class="pa-2 justify-end" align="centre" wrap no-gutters>
+        <v-btn @click.stop="onSubmit" small color="primary">Submit
+        </v-btn>
+      </v-row>
     </v-form>
 
     <div class="assessment-col">
@@ -40,11 +39,10 @@ export default {
       required: true
     }
   },
-  data() {
-    return {
-      thread: null
-    }
-  },
+  data:() =>  ({
+    thread: null,
+    comment: ""
+  }),
   computed: {
     postId() {
       return this.commentState.postIdOfComments;
@@ -65,6 +63,22 @@ export default {
     })
   },
   methods: {
+    onSubmit: function() {
+      this.submitComment({
+          postIdOfComments: this.commentState.postIdOfComments,
+          body: this.comment
+      });
+      this.clearComment()
+      this.updateComments()
+    },
+    clearComment () {
+      this.comment = ''
+    },
+    updateComments () {
+      this.getPostComments({
+        postIdOfComments: this.commentState.postIdOfComments
+      })  
+    },  
     processDiscussion() {
       const discussionList = []; // For sorting purposes, as object property sorting can be unpredictable
       const discussionMap = {}; // Source of objects for building the tree
@@ -143,7 +157,16 @@ export default {
       }
       this.thread = discussionTree;
     },
+    ...mapActions({
+      submitComment (dispatch, payload) {
+        return dispatch(this.commentsNamespace + '/submitComment', payload)
+      },
+      getPostComments (dispatch, payload) {
+        return dispatch(this.commentsNamespace + '/getPostComments', payload)
+      }
+    })
   },
+  
   watch: {
     postId: {
       immediate: true,

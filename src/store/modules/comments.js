@@ -45,8 +45,8 @@ export default {
       })
     },
 
-    postAuthUserComment: (context, payload) => {
-
+    submitComment: (context, payload) => {
+      console.log("submitComment")
       return new Promise((resolve, reject) => {
         commentServices.postComment(context.state.postIdOfComments, payload)
         .then(() => {
