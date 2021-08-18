@@ -2,20 +2,26 @@
 	
   <v-card outlined>
     <v-form>
-      
       <v-textarea hide-details="auto" outlined auto-grow rows="1" placeholder="Add a comment here..."></v-textarea>
 
       <v-layout justify-end>
         <v-btn small color="primary" class="mb-3">Submit</v-btn>
       </v-layout>
-
     </v-form>
 
     <div class="assessment-col">
-      <template v-for="dItem in thread">
-        <inner-discussion :key="dItem.eId" :assessmentsNamespace="assessmentsNamespace" :commentsNamespace="commentsNamespace" :discussionObj="dItem" :nested="false"></inner-discussion>
-        <v-divider :key="`divider-${dItem.eId}`"></v-divider>
+      <template v-for="(dItem, index) in thread">
+        <!-- <template v-if="index < visibleCommentLimit || remainingCommentsVisible"> -->
+          <inner-discussion :key="dItem.eId" :assessmentsNamespace="assessmentsNamespace" :commentsNamespace="commentsNamespace" :discussionObj="dItem" :depth="0"></inner-discussion>
+          <v-divider :key="`divider-${dItem.eId}`" v-if="index != thread.length - 1"></v-divider>
+          <!-- <v-divider :key="`divider-${dItem.eId}`" v-if="index != thread.length - 1 && index != visibleCommentLimit - 1"></v-divider> -->
+        <!-- </template> -->
       </template>
+
+      <!-- <span v-if="!remainingCommentsVisible" class="blue--text text--darken-3 interactable" @click="remainingCommentsVisible = true">show more comments
+      </span>
+      <span v-else class="blue--text text--darken-3 interactable" @click="remainingCommentsVisible = false">hide additional comments
+      </span> -->
     </div>
   </v-card>
 
@@ -42,7 +48,9 @@ export default {
   },
   data() {
     return {
-      thread: null
+      thread: null,
+      // visibleCommentLimit: 3,
+      // remainingCommentsVisible: false,
     }
   },
   computed: {
@@ -74,7 +82,7 @@ export default {
       for (const aType of ['confirmed', 'questioned', 'refuted']) {
         for (const a of this.assessments[aType]) {
           let ot = a.history.length ? a.history[a.history.length - 1].createdAt : a.lastVersion.createdAt;
-          let newA = {...a, assessmentType: aType, eType: 0, eId: `a${a.lastVersion.id}`, originTime: ot, replies: []};
+          let newA = {...a, assessmentType: aType, eType: 0, eId: `a${a.lastVersion.id}`, parent: null, originTime: ot, replies: []};
           discussionList.push(newA);
           discussionMap[newA.eId] = newA;
           originTimes[newA.eId] = ot;
@@ -86,7 +94,7 @@ export default {
           ot = c.createdAt;
         else
           ot = originTimes[c.setId];
-        const newC = {...c, eType: 1, eId: `c${c.id}`, originTime: ot, history: [], replies: []};
+        const newC = {...c, eType: 1, eId: `c${c.id}`, parent: null, originTime: ot, history: [], replies: []};
         discussionList.push(newC);
         discussionMap[newC.eId] = newC;
         if (newC.version === 1)
@@ -138,13 +146,21 @@ export default {
               }
             }
           }
+          d.parent = currentParent;
           currentParent.replies.push(d);
         }
       }
+      
       this.thread = discussionTree;
-    },
+      // this.remainingCommentsVisible = discussionTree.length <= this.visibleCommentLimit ? true : false;
+    }
   },
   watch: {
+    // comments: {
+    //   deep: true,
+    //   immediate: true,
+    //   handler: 'processDiscussion' // Update the thread only once the assessments and comments have fully updated
+    // }
     postId: {
       immediate: true,
       handler: 'processDiscussion' // Update the thread only once the assessments and comments have fully updated

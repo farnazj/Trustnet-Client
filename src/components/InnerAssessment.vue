@@ -4,7 +4,7 @@
 <template>
   <div class="pa-1">
 
-    <v-row class="mb-1" align="center" wrap no-gutters>
+    <v-row class="mb-n1" align="center" wrap no-gutters>
       <assessor :user="assessmentObj.assessor" :clickEnabled="true" :isTransitive="assessmentObj.lastVersion.isTransitive"
         :credibilityValue="assessmentObj.lastVersion.postCredibility" class="mb-1">
       </assessor>

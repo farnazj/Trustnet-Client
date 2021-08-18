@@ -19,13 +19,13 @@
 
               <v-row no-gutters>
                 <v-text-field v-model="username" tabindex="1"
-                  label="Username" required>
+                  label="Username" @keyup.enter="login" required>
                 </v-text-field>
               </v-row>
 
               <v-row no-gutters>
                 <v-text-field v-model="password" type="password" tabindex="2"
-                  label="Password" required>
+                  label="Password" @keyup.enter="login" required>
                 </v-text-field>
               </v-row>
 
