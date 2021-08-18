@@ -7,7 +7,7 @@
 
           <v-row align-center fill-height no-gutters>
             
-            <v-icon @click="() => {hideContainer(); selectAssessments()}" class="clear-sign">clear</v-icon>
+            <v-icon @click="() => {hideContainer()}" class="clear-sign">clear</v-icon>
 
             <v-col cols="6">
               <v-card outlined :color="assessmentsSelected ? 'lime lighten-3' : 'white'" @click="selectAssessments">

@@ -1,8 +1,8 @@
 <template>
   <div class="pa-1">
 
-    <v-row class="mb-1" align="center" wrap no-gutters>
-      <custom-avatar v-if="author" :user="author" :clickEnabled="false" class="mb-1"></custom-avatar>
+    <v-row class="mb-n1" align="center" wrap no-gutters>
+      <custom-avatar :user="commentObj.Source" :clickEnabled="false" class="mb-1"></custom-avatar>
       
       <span class="ml-2 caption grey--text text--darken-3"> {{timestamp}} </span>
       <span v-if="commentObj.history.length" class="ml-2 caption grey--text text--darken-1 interactable" @click.stop="showHistory">Edited</span>
@@ -72,9 +72,8 @@ export default {
       required: true
     },
   },
-  data () {
+  data() {
     return {
-      author: null,
       showFullText: false,
       editing: false,
       comment: ""
@@ -95,7 +94,7 @@ export default {
     showHistory: function() {
       this.populateHistory({
         history: [this.commentObj, ...([...this.commentObj.history].reverse())],
-        author: this.author
+        author: this.commentObj.Source
       });
       this.sethistoryVisibility(true);
     },
@@ -137,10 +136,10 @@ export default {
       }
     })
   },
-  created() {
-    sourceServices.getSourceById(this.commentObj.SourceId)
-    .then(response => {this.author = response.data});
-  },
+  // created() {
+  //   sourceServices.getSourceById(this.commentObj.SourceId)
+  //   .then(response => {this.author = response.data});
+  // },
   mixins: [timeHelpers]
 }
 

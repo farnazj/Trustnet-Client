@@ -2,7 +2,7 @@
 
   <v-avatar color="blue-grey darken-3" :size="getSize">
     <v-img v-if="user.photoUrl" contain :src="extendedPhotoUrl"> </v-img>
-    <span v-else class="blue-grey--text text--lighten-5"> {{getInitials}}</span>
+    <span v-else class="blue-grey--text text--lighten-5" :style="`font-size: ${getTextSize}px`"> {{getInitials}}</span>
     <!-- <span v-else class="white--text"> {{getCroppedUserName}} </span> -->
   </v-avatar>
 
@@ -54,6 +54,9 @@ export default {
     },
     getSize: function() {
       return this.size ? this.size : this.defaultSize;
+    },
+    getTextSize: function() {
+      return (16 / 30) * this.getSize;
     },
     extendedPhotoUrl: function() {
       if (this.user.photoUrl.includes('http'))
