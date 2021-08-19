@@ -27,13 +27,13 @@ export default {
       withCredentials: true
     })
   },
-  replyToComment(postId, reqBody) {
-    // console.log("replyToComment")
-    return Api().post('/comments/sets/' + postId,
-    reqBody, {
-      withCredentials: true
-    })
-  },
+  // replyToComment(postId, reqBody) {
+  //   // console.log("replyToComment")
+  //   return Api().post('/comments/sets/' + postId,
+  //   reqBody, {
+  //     withCredentials: true
+  //   })
+  // },
   deleteComment(setId) {
     // console.log("deleteComment")
     return Api().delete('/comments/sets/' + setId, {

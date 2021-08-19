@@ -11,7 +11,7 @@
     <v-row no-gutters class="pa-1 pb-0 body-2 assessment-text">
       <v-col cols="12" style="z-index: 5">
         <v-form v-if="editing">
-          <v-textarea auto-grow rows="1" dense v-model="editText" hide-details="auto" color="blue" style="font-size: 14px" class="assessment-text-inner">
+          <v-textarea auto-grow rows="1" :autofocus="true" dense v-model="editText" hide-details="auto" color="blue" style="font-size: 14px" class="assessment-text-inner">
             <template slot="append">
               <v-icon @click="sendEdit" color="blue">mdi-send</v-icon>
               <v-icon @click="editing = false; resetEditText()" color="red">clear</v-icon>
@@ -35,14 +35,21 @@
         </v-row>
       </v-col>
 
-      <v-row :style="iconsActive && !editing && !isDeleted ? 'visibility: visible' : 'visibility: hidden'" class="mt-n7 justify-end" align="center" wrap no-gutters>
-        <v-btn style="z-index: 5" @click.stop="sendReply" icon>
+      <v-textarea v-if="replying" placeholder="Add a reply here..." outlined auto-grow rows="1" :autofocus="true" dense v-model="replyText" hide-details="auto" color="blue" style="font-size: 14px; width: 500px" :class="`pt-5 ${!isReply ? 'ml-10' : 'ml-0'} assessment-text-inner`">
+        <template slot="append">
+          <v-icon @click="sendReply" color="blue">mdi-send</v-icon>
+          <v-icon @click="replying = false; replyText = ''" color="red">clear</v-icon>
+        </template>
+      </v-textarea>
+
+      <v-row :style="iconsActive && !editing && !replying && !isDeleted ? 'visibility: visible' : 'visibility: hidden'" class="mt-n7 justify-end" align="center" wrap no-gutters>
+        <v-btn style="z-index: 5" @click.stop="replying = true; iconsActive = false" icon>
           <v-icon style="z-index: 5" class="xs-icon-font" color="blue">fa-reply</v-icon>
         </v-btn>
-        <v-btn v-if="isUser" style="z-index: 5" @click.stop="editing = true" icon>
+        <v-btn v-if="isUser" style="z-index: 5" @click.stop="editing = true; iconsActive = false" icon>
           <v-icon style="z-index: 5" class="s-icon-font" color="blue">edit</v-icon>
         </v-btn>
-        <v-btn v-if="isUser" style="z-index: 5" @click.stop="sendDelete" icon>
+        <v-btn v-if="isUser" style="z-index: 5" @click.stop="sendDelete(); iconsActive = false" icon>
           <v-icon style="z-index: 5" class="xs-icon-font" color="blue">fa-trash</v-icon>
         </v-btn>
       </v-row>
@@ -81,6 +88,8 @@ export default {
       showFullText: false,
       editing: false,
       editText: "",
+      replying: false,
+      replyText: "",
       iconsActive: false
     }
   },
@@ -90,6 +99,9 @@ export default {
     },
     bodyText() {
       return !this.isDeleted ? this.commentObj.body : '[deleted]';
+    },
+    isReply() {
+      return this.commentObj.ParentAssessmentId !== null || this.commentObj.ParentCommentId !== null;
     },
     timestamp() {
       return this.timeElapsed(this.commentObj.originTime);
@@ -135,7 +147,13 @@ export default {
       .then(() => {this.editing = false});
     },
     sendReply() {
-      alert('You clicked on a button!')
+      this.postComment({
+          body: this.replyText,
+          repliesTo: this.commentObj.id,
+          repliesToType: 1
+      })
+      .then(this.updateComments)
+      .then(() => {this.iconsActive = false; this.replying = false; this.replyText = ''})
     },
     sendDelete() { 
       this.deleteComment({
