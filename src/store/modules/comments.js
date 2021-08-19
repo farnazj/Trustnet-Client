@@ -28,7 +28,7 @@ export default {
   },
   actions: {
     getPostComments: (context, payload) => {
-      
+      // console.log("getPostComments")
       return new Promise((resolve, reject) => {
         commentServices.getCommentsForPost(payload.postIdOfComments)
         .then(response => {
@@ -37,6 +37,7 @@ export default {
             postIdOfComments: payload.postIdOfComments,
             comments: comments
           });
+          // console.log(response);
           resolve();
         })
         .catch(err => {
@@ -45,11 +46,41 @@ export default {
       })
     },
 
-    postAuthUserComment: (context, payload) => {
-
+    postComment: (context, payload) => {
+      // console.log("submitComment")
       return new Promise((resolve, reject) => {
         commentServices.postComment(context.state.postIdOfComments, payload)
-        .then(() => {
+        .then(response => {
+          // console.log(response);
+          resolve();
+        })
+        .catch(err => {
+          reject(err);
+        })
+      })
+    },
+
+    editComment: (context, payload) => {
+      // console.log("editComment");
+      return new Promise((resolve, reject) => {
+        commentServices.editComment(payload.setIdOfComment, payload)
+        .then(response => {
+          // console.log(response);
+          resolve();
+        })
+        .catch(err => {
+          reject(err);
+        })
+      })
+    },
+
+    deleteComment: (context, payload) => {
+      // console.log("deleteComment")
+      return new Promise((resolve, reject) => {
+        // console.log(context.state);
+        commentServices.deleteComment(payload.setIdOfComment)
+        .then(response => {
+          // console.log(response);
           resolve();
         })
         .catch(err => {

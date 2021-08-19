@@ -1,12 +1,8 @@
 <template>
 	
   <v-card outlined>
-    <v-form>
-      <v-textarea hide-details="auto" outlined auto-grow rows="1" placeholder="Add a comment here..."></v-textarea>
-
-      <v-layout justify-end>
-        <v-btn small color="primary" class="mb-3">Submit</v-btn>
-      </v-layout>
+    <v-form class="pl-2 pr-2 my-2">
+        <v-textarea auto-grow rows="1" v-model="newComment" label="Add a comment here..." hide-details="auto" append-icon="mdi-send" @click:append="submitComment" color="blue" style="font-size: 14px"></v-textarea>
     </v-form>
 
     <div class="assessment-col">
@@ -29,7 +25,6 @@
 
 <script>
 import innerDiscussion from '@/components/InnerDiscussion'
-import utils from '@/services/utils'
 import { mapState, mapActions, mapGetters } from 'vuex'
 
 export default {
@@ -49,8 +44,7 @@ export default {
   data() {
     return {
       thread: null,
-      // visibleCommentLimit: 3,
-      // remainingCommentsVisible: false,
+      newComment: ""
     }
   },
   computed: {
@@ -69,10 +63,23 @@ export default {
        },
        commentState (state) {
          return state[this.commentsNamespace];
-       },
+       }
     })
   },
   methods: {
+    submitComment: function() {
+      this.postComment({
+          postIdOfComments: this.postId,
+          body: this.newComment
+      })
+      .then(() => {this.newComment = ''})
+      .then(this.updateComments);
+    },
+    updateComments() {
+      this.getPostComments({
+        postIdOfComments: this.postId
+      })
+    },
     processDiscussion() {
       const discussionList = []; // For sorting purposes, as object property sorting can be unpredictable
       const discussionMap = {}; // Source of objects for building the tree
@@ -152,19 +159,27 @@ export default {
       }
       
       this.thread = discussionTree;
-      // this.remainingCommentsVisible = discussionTree.length <= this.visibleCommentLimit ? true : false;
-    }
+    },
+    ...mapActions({
+      postComment (dispatch, payload) {
+        return dispatch(this.commentsNamespace + '/postComment', payload)
+      },
+      getPostComments (dispatch, payload) {
+        return dispatch(this.commentsNamespace + '/getPostComments', payload)
+      }
+    })
   },
+  
   watch: {
-    // comments: {
-    //   deep: true,
-    //   immediate: true,
-    //   handler: 'processDiscussion' // Update the thread only once the assessments and comments have fully updated
-    // }
-    postId: {
+    comments: {
+      deep: true,
       immediate: true,
       handler: 'processDiscussion' // Update the thread only once the assessments and comments have fully updated
     }
+    // postId: {
+    //   immediate: true,
+    //   handler: 'processDiscussion' // Update the thread only once the assessments and comments have fully updated
+    // }
   },
 }
 
@@ -174,6 +189,7 @@ export default {
 
 .assessment-col {
   overflow-y: auto;
+  overflow-x: hidden;
   /*overflow-y: hidden;*/
   max-height: 73vh;
   min-height: 73vh;
