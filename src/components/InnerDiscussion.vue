@@ -22,7 +22,7 @@
       </template>
 
       <inner-comment v-if="discussionObj.eType" :assessmentsNamespace="assessmentsNamespace" :commentsNamespace="commentsNamespace" :commentObj="discussionObj" :class="{ 'ml-10' : depth }"></inner-comment>
-      <inner-assessment v-else :namespace="assessmentsNamespace" :assessmentObj="discussionObj" :assessmentType="discussionObj.assessmentType" :class="{ 'ml-10' : depth }"></inner-assessment>
+      <inner-assessment v-else :assessmentsNamespace="assessmentsNamespace" :commentsNamespace="commentsNamespace" :assessmentObj="discussionObj" :assessmentType="discussionObj.assessmentType" :class="{ 'ml-10' : depth }"></inner-assessment>
 
     </div>
 
