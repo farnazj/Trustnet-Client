@@ -27,7 +27,7 @@
 
           </v-row>
 
-          <assessments-pane v-if="assessmentsSelected" :namespace="assessmentsNamespace"></assessments-pane>
+          <assessments-pane v-if="assessmentsSelected" :assessmentsNamespace="assessmentsNamespace" :commentsNamespace="commentsNamespace"></assessments-pane>
           <discussion-pane v-else :assessmentsNamespace="assessmentsNamespace" :commentsNamespace="commentsNamespace"></discussion-pane>
 
         </v-card>
