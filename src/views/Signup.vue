@@ -140,7 +140,7 @@ export default {
           this.buttonDisabled = true;
         })
         .catch(err => {
-          this.alertMessage = err.response.data.message;
+          this.alertMessage = err.response;
           this.type = 'error';
           this.alert = true;
         })

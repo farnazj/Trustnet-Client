@@ -16,6 +16,11 @@ export default {
     return Api().get('/sources/' + username, {
       withCredentials: true
     })
+  },
+  updateSource(reqBody) {
+    return Api().put('/sources',
+     reqBody, { withCredentials: true }
+    )
   }
 
 }
