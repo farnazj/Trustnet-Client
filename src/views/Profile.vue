@@ -48,11 +48,12 @@
 
             <v-col sm="7" cols="5">
               <v-card-title class="pb-1"> 
-                <v-row no-gutters v-if="profileOwner">
+                <v-row no-gutters>
                   
                   <template v-if="!editMode">
                     <div v-if="profileOwner.description && profileOwner.description.length" class="caption break-word bio-text" v-html="profileOwner.description"></div>
-                    <div v-else class="caption bio-text">Add your bio</div>
+                    <div v-if="AuthUserIsOwner && (!profileOwner.description || !profileOwner.description.length)"
+                      class="caption bio-text">Add your bio</div>
                   </template>
 
                   <v-textarea v-else v-model="edit.bio" dark dense rows=3 :rules="edit.rules"
