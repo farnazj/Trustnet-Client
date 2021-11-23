@@ -3,7 +3,7 @@
 
     <v-snackbar v-model="showInfoSnackbar" top>
       {{ editSubmitInfo }}
-      <v-btn color="blue lighten-1" text @click="showInfoSnackbar = false">
+      <v-btn color="blue lighten-1" text @click="showInfoSnackbar = false" x-small>
         Close
       </v-btn>
     </v-snackbar>
@@ -51,8 +51,8 @@
                 <v-row no-gutters>
                   
                   <template v-if="!editMode">
-                    <div v-if="profileOwner.description && profileOwner.description.length" class="caption break-word bio-text" v-html="profileOwner.description"></div>
-                    <div v-if="AuthUserIsOwner && (!profileOwner.description || !profileOwner.description.length)"
+                    <div v-if="profileOwner.description" class="caption break-word bio-text" v-html="profileOwner.description"></div>
+                    <div v-if="AuthUserIsOwner && (!profileOwner.description)"
                       class="caption bio-text">Add your bio</div>
                   </template>
 
@@ -66,7 +66,7 @@
                       <v-icon>{{icons.edit}}</v-icon>
                     </v-btn>
                     <v-fab-transition>
-                      <v-btn v-if="editMode" fab dark @click="saveEdits" color="green" x-small>
+                      <v-btn v-if="editMode" fab dark @click="saveEdits" color="green" x-small :disabled="saveButtonDisabled">
                         <v-icon>{{icons.check}}</v-icon>
                       </v-btn>
                     </v-fab-transition>
@@ -77,7 +77,7 @@
 
               <v-card-title class="pt-1">
                 <v-row no-gutters>
-                  <div class="headline grey--text text--lighten-4" v-if="!profileOwner.systemMade || !profileOwner.isVerified">
+                  <div class="headline grey--text text--lighten-4 mr-1" v-if="!profileOwner.systemMade || !profileOwner.isVerified">
                     {{sourceDisplayName(profileOwner)}}</div>
                    <div class="headline grey--text text--lighten-4" v-else>{{profileOwner.userName}}</div>
 
@@ -93,14 +93,14 @@
 
             <v-col cols="3">
               <v-row v-if="notUser" justify="end" wrap no-gutters>
-                <v-btn :small="$vuetify.breakpoint.xsOnly" depressed @click="changeTrustStatus()"
-                :color="isTrusted ? 'grey lighten-1' : 'light-green lighten-1' " class="ma-1">
+                <v-btn small depressed @click="changeTrustStatus()"
+                :color="isTrusted ? 'grey lighten-1' : 'light-green lighten-2' " class="ma-1">
                   <span v-if="!isTrusted">Trust</span>
                   <span v-else>Untrust</span>
                 </v-btn>
 
-                <v-btn :small="$vuetify.breakpoint.xsOnly" depressed @click="changeFollowStatus()"
-                :color="isFollowed ? 'grey lighten-1' : 'blue lighten-1' " class="ma-1">
+                <v-btn small depressed @click="changeFollowStatus()"
+                :color="isFollowed ? 'grey lighten-1' : 'blue lighten-3' " class="ma-1">
                   <span v-if="!isFollowed">Follow</span>
                   <span v-else>Unfollow</span>
                 </v-btn>
@@ -209,7 +209,8 @@ export default {
         check: mdiCheck
       },
       showInfoSnackbar: false,
-      editSubmitInfo: ''
+      editSubmitInfo: '',
+      saveButtonDisabled: true
     }
   },
   created() {
@@ -357,6 +358,15 @@ export default {
       this.hideContainer();
       this.setUsername(val);
       this.getUser();
+    },
+    edit: {
+      handler(val) {
+       if (val.bio.length)
+        this.saveButtonDisabled = false;
+      else
+        this.saveButtonDisabled = true;
+      },
+      deep: true
     }
   },
   mixins: [sourceHelpers]
