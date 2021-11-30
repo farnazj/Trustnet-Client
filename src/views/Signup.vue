@@ -92,6 +92,7 @@ export default {
   components: {
     'custom-toolbar': customToolbar
   },
+  props: ['mode'],
   data(){
     return {
       user: {
@@ -132,7 +133,11 @@ export default {
 
       if (this.$refs.signupForm.validate()) {
 
-        this.$store.dispatch('auth/signup', this.user)
+        let data = this.user;
+        if (this.mode == 'user-study')
+          data.userStudy = true;
+
+        this.$store.dispatch('auth/signup', data)
         .then(response => {
           this.type = 'info';
           this.alertMessage = response.data.message;
@@ -140,7 +145,7 @@ export default {
           this.buttonDisabled = true;
         })
         .catch(err => {
-          this.alertMessage = err.response;
+          this.alertMessage = err.response.data.message;
           this.type = 'error';
           this.alert = true;
         })
