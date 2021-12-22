@@ -43,6 +43,8 @@ export default {
   },
   data() {
     return {
+      discussionMap: null,
+      discussionList: null,
       thread: null,
       newComment: ""
     }
@@ -80,9 +82,8 @@ export default {
         postIdOfComments: this.postId
       })
     },
-    processDiscussion() {
-      const discussionList = []; // For sorting purposes, as object property sorting can be unpredictable
-      const discussionMap = {}; // Source of objects for building the tree
+    buildDiscussionMap() {
+      const discussionMap = { engagementIds: {}, currentComments: {} }; // Source of objects for building the tree
       const originTimes = {}; // Stores oldest timestamp of all discussion objects
 
       // Combine the assessments and comments, and label them as such
@@ -90,8 +91,8 @@ export default {
         for (const a of this.assessments[aType]) {
           let ot = a.history.length ? a.history[a.history.length - 1].createdAt : a.lastVersion.createdAt;
           let newA = {...a, assessmentType: aType, eType: 0, eId: `a${a.lastVersion.id}`, parent: null, originTime: ot, replies: []};
-          discussionList.push(newA);
-          discussionMap[newA.eId] = newA;
+          // discussionList.push(newA);
+          discussionMap['engagementIds'][newA.eId] = newA;
           originTimes[newA.eId] = ot;
         }
       }
@@ -102,11 +103,19 @@ export default {
         else
           ot = originTimes[c.setId];
         const newC = {...c, eType: 1, eId: `c${c.id}`, parent: null, originTime: ot, history: [], replies: []};
-        discussionList.push(newC);
-        discussionMap[newC.eId] = newC;
+        discussionMap['engagementIds'][newC.eId] = newC;
         if (newC.version === 1)
-          discussionMap[newC.setId] = newC;
+          discussionMap['currentComments'][newC.setId] = newC;
         originTimes[newC.setId] = ot;
+      }
+
+      this.discussionMap = discussionMap;
+    },
+    buildDiscussionList() {
+      const discussionList = []
+
+      for (const [id, e] of Object.entries(this.discussionMap['engagementIds'])) {
+        discussionList.push(e);
       }
 
       // Sort the discussion chronologically
@@ -119,11 +128,14 @@ export default {
           return 0;
       });
 
-      // Form the reply tree
+      this.discussionList = discussionList;
+    },
+    processDiscussion() {   // Form the reply tree
       const discussionTree = [];
-      for (const d of discussionList) {
+
+      for (const d of this.discussionList) {
         if (d.eType && d.version !== 1) {
-          discussionMap[d.setId].history.push(d)
+          this.discussionMap['currentComments'][d.setId].history.push(d)
         }
         else if (!d.eType || (d.ParentCommentId === null && d.ParentAssessmentId === null)) {
           discussionTree.push(d);
@@ -132,19 +144,19 @@ export default {
           var currentParent = null;
           if (d.ParentAssessmentId === null) {
             const directParentId = `c${d.ParentCommentId}`;
-            const directParent = discussionMap[directParentId];
-            currentParent = discussionMap[directParent.setId]
+            const directParent = this.discussionMap['engagementIds'][directParentId];
+            currentParent = this.discussionMap['currentComments'][directParent.setId]
           }
           else {
             const directParentId = `a${d.ParentAssessmentId}`;
-            if (Object.prototype.hasOwnProperty.call(discussionMap, directParentId)) {
-              currentParent = discussionMap[directParentId];
+            if (Object.prototype.hasOwnProperty.call(this.discussionMap['engagementIds'], directParentId)) {
+              currentParent = this.discussionMap['engagementIds'][directParentId];
             }
             else {
               for (const recentA of [...this.assessments.confirmed, ...this.assessments.questioned, ...this.assessments.refuted]) {
                 for (const a of recentA.history) {
                   if (`a${a.id}` === directParentId) {
-                    currentParent = discussionMap[`a${recentA.lastVersion.id}`];
+                    currentParent = this.discussionMap['engagementIds'][`a${recentA.lastVersion.id}`];
                     break;
                   }
                 }
@@ -171,16 +183,24 @@ export default {
   },
   
   watch: {
+    // Update the thread only once the assessments and comments have fully updated
+    discussionList: {
+      handler: 'processDiscussion'
+    },
+    discussionMap: {
+      handler: 'buildDiscussionList'
+    },
     comments: {
       deep: true,
       immediate: true,
-      handler: 'processDiscussion' // Update the thread only once the assessments and comments have fully updated
+      handler: 'buildDiscussionMap'
     }
+
     // postId: {
     //   immediate: true,
     //   handler: 'processDiscussion' // Update the thread only once the assessments and comments have fully updated
     // }
-  },
+  }
 }
 
 </script>
