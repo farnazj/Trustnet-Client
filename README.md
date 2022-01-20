@@ -1,7 +1,7 @@
 TrustNetClient
 =
 
-TrustNetClient is a client written in Vue that connects to [TrustnetBackend](https://github.com/farnazj/Trustnet-Backend).
+Trustnet-Client is a client written in Vue that connects to [Trustnet-Backend](https://github.com/farnazj/Trustnet-Backend).
 
 ### Setup Instructions
 
