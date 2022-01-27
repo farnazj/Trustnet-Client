@@ -334,8 +334,8 @@ export default {
     cancel: function() {
 
       for (let reference of ['createPostForm', 'importArticleObserver']) {
-        if (typeof this.$refs[form] !== 'undefined')
-          this.$refs[form].reset();
+        if (typeof this.$refs[reference] !== 'undefined')
+          this.$refs[reference].reset();
       }
       this.menu = false;
     },

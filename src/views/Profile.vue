@@ -3,7 +3,7 @@
 
     <v-snackbar v-model="showInfoSnackbar" top>
       {{ editSubmitInfo }}
-      <v-btn color="blue lighten-1" text @click="showInfoSnackbar = false" x-small>
+      <v-btn class="snackbar-close-button" color="blue lighten-1" text @click="showInfoSnackbar = false" x-small >
         Close
       </v-btn>
     </v-snackbar>
@@ -208,7 +208,7 @@ export default {
         edit: mdiPencil,
         check: mdiCheck
       },
-      showInfoSnackbar: false,
+      showInfoSnackbar: true,
       editSubmitInfo: '',
       saveButtonDisabled: true
     }
@@ -419,5 +419,9 @@ export default {
 
 .bio-input {
   line-height: 1.2rem;
+}
+
+.snackbar-close-button {
+  float: right;
 }
 </style>

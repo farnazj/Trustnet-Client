@@ -2,14 +2,13 @@
 
   <v-avatar color="blue-grey darken-3" :size="getSize">
     <v-img v-if="user.photoUrl" contain :src="extendedPhotoUrl"> </v-img>
-    <span v-else class="blue-grey--text text--lighten-5"> {{getInitials}}</span>
+    <span v-else class="blue-grey--text text--lighten-5 source-initials"> {{getInitials}}</span>
     <!-- <span v-else class="white--text"> {{getCroppedUserName}} </span> -->
   </v-avatar>
 
 </template>
 
 <script>
-import utils from '@/services/utils'
 import consts from '@/services/constants'
 
 export default {
@@ -65,3 +64,10 @@ export default {
 
 }
 </script>
+
+<style scoped>
+.source-initials {
+	max-width: 100%;
+	overflow: hidden;
+}
+</style>

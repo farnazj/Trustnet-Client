@@ -55,7 +55,8 @@ export default {
   methods: {
     goToPage: function(event) {
       event.stopPropagation();
-      this.$router.push({ name: 'profile', params: { username: this.user.userName } });
+      let route = this.$router.resolve({ name: 'profile', params: { username: this.user.userName } });
+      window.open(route.href);
     }
   }
 
