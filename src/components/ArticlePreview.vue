@@ -250,10 +250,23 @@
 
         return new Promise((resolve, reject) => {
 
-          this.setPostTitleId({ postId: this.post.id, standaloneTitleId: this.post.StandaloneTitle ? this.post.StandaloneTitle.id : null });
-          let customTitles = this.post.StandaloneTitle ? this.post.StandaloneTitle.StandaloneCustomTitles : [];
+          this.setPostTitleIds({ postId: this.post.id, standaloneTitleIds: this.post.PostStandAloneTitles.length ? 
+            this.post.PostStandAloneTitles.map(standaloneTitle => standaloneTitle.id) : [] });
+          let customTitles = this.post.PostStandAloneTitles.length ? this.post.PostStandAloneTitles.map(standaloneTitle => 
+            standaloneTitle.StandaloneCustomTitles) : [];
 
-          return this.arrangeCustomTitles(customTitles) //in titleHelpers mixin
+          let uniqueCustomTitlesSeen = [];
+          let uniqueCustomTitles = [];
+
+          let allCustomTitles = customTitles.flat();
+          for (let customTitle of allCustomTitles) {
+            if (!(customTitle.id in uniqueCustomTitlesSeen)) {
+                uniqueCustomTitlesSeen.push(customTitle.id);
+                uniqueCustomTitles.push(customTitle);
+            } 
+          }
+
+          return this.arrangeCustomTitles(uniqueCustomTitles) //in titleHelpers mixin
           .then(res => {
             if (this.sortedTitles.length) {
               this.displayedAlternativeTitle = this.sortedTitles[0]['lastVersion'].text;
@@ -268,7 +281,8 @@
       },
       showTitles: function() {
 
-        this.setPostTitleId({ postId: this.post.id, standaloneTitleId: this.post.StandaloneTitle ? this.post.StandaloneTitle.id : null });
+        this.setPostTitleIds({ postId: this.post.id, standaloneTitleIds: this.post.PostStandAloneTitles.length ? 
+            this.post.PostStandAloneTitles.map(standaloneTitle => standaloneTitle.id) : [] });
         this.populateTitles(this.titleObjects);
         this.setTitlesVisibility(true);
       },

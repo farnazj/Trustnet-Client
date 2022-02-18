@@ -201,14 +201,14 @@ export default {
       showUploader: false,
       edit: {
         bio: '',
-        rules: [v => v.length <= 250 || 'Max 250 characters']
+        rules: [v => !v || v.length <= 250 || 'Max 250 characters']
       },
       editMode: false,
       icons: {
         edit: mdiPencil,
         check: mdiCheck
       },
-      showInfoSnackbar: true,
+      showInfoSnackbar: false,
       editSubmitInfo: '',
       saveButtonDisabled: true
     }
@@ -361,7 +361,7 @@ export default {
     },
     edit: {
       handler(val) {
-       if (val.bio.length)
+       if (this.AuthUserIsOwner && val.bio && val.bio.length)
         this.saveButtonDisabled = false;
       else
         this.saveButtonDisabled = true;

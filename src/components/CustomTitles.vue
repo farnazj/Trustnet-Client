@@ -269,20 +269,22 @@ export default {
 
       if (this.$refs.newTitleForm.validate()) {
 
-        titleServices.postCustomTitle({ postId: this.postId,
-        customTitleText: this.newTitle,
-        appRequest: true })
-        .then(res => {         
+        titleServices.postCustomTitle({
+          postId: this.postId,
+          customTitleText: this.newTitle,
+          appRequest: true
+        }).then(res => {         
           /*
           If the user's submitted custom title is the first every custom title submitted
           for the post, the post does not have an associated standaloneTitle with each and
-          therefore the value of titleId in the titles module in the store is null.
+          therefore the value of titleIds in the titles module in the store is [].
           After submitting the custom title, the server returns the standaloneCustomTitle
-          in the data field in its response and this component sets the titleId in the store's
+          in the data field in its response and this component adds the titleId in the store's
           state to be the id in the data returned from the server.
           */
-          if (!this.standaloneTitleId) {
-            this.setTitleId(res.data.data.id)
+
+          if (!this.standaloneTitleIds.length) {
+            this.setTitleIds(res.data.data.map(el=> el.id))
             .then(() => {
               this.fetchPostTitles();
             })
@@ -361,7 +363,7 @@ export default {
       if (this.$refs.editTitleForm[index].validate()) {
 
         titleServices.editCustomTitle({
-          standaloneTitleId: this.standaloneTitleId,
+          standaloneTitleIds: this.standaloneTitleIds,
           setId: this.edit.setId
         }, { text: this.edit.text })
         .then(res => {
