@@ -69,6 +69,7 @@ import customAvatar from '@/components/CustomAvatar'
 import contentBooster from '@/components/ContentBooster'
 import notificationPanel from '@/components/NotificationPanel'
 import sourceServices from '@/services/sourceServices'
+import logHelpers from '@/mixins/logHelpers'
 import { mapState, mapGetters } from 'vuex'
 
 export default {
@@ -120,12 +121,16 @@ export default {
      });
    },
    goToPage: function(page) {
-     if (page != 'Profile')
+    if (page != 'Profile')
       this.$router.push({ name: page.toLowerCase() });
-     else
+    else {
+      this.logEvent({ type: 'visit_profile', data: this.user.userName });
       this.$router.push({ name: 'profile', params: { username: this.user.userName } });
+     }
    }
- }
+ },
+  mixins: [logHelpers]
+
 }
 </script>
 

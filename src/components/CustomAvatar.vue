@@ -17,6 +17,7 @@
 
 <script>
 import innerAvatar from '@/components/InnerAvatar'
+import logHelpers from '@/mixins/logHelpers'
 import utils from '@/services/utils'
 import { mapState } from 'vuex';
 
@@ -55,10 +56,12 @@ export default {
   methods: {
     goToPage: function(event) {
       event.stopPropagation();
+      this.logEvent({ type: 'visit_profile', data: this.user.userName });
       let route = this.$router.resolve({ name: 'profile', params: { username: this.user.userName } });
       window.open(route.href);
     }
-  }
+  },
+  mixins: [logHelpers]
 
 }
 </script>

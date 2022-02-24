@@ -6,10 +6,10 @@ export default {
             withCredentials: true
         })
     },
-    // logUserInteraction(reqBody) {
-    //     return Api().post('/headline-study-log', reqBody, {
-    //         withCredentials: true
-    //     })
-    // }
+    logUserInteraction(reqBody) {
+        return Api().post('/log-interaction', reqBody, {
+            withCredentials: true
+        })
+    }
 
 }

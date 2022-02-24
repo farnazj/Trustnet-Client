@@ -46,5 +46,5 @@ export default {
       withCredentials: true,
       headers: headers
     })
-  },
+  }
 }
