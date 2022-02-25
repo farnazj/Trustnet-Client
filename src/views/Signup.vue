@@ -55,7 +55,7 @@
               </v-row>
 
               <v-row no-gutters class="pt-5">
-                <p class="body-2 mb-0">{{siteName}} is a research platform intended to help people navigate their information space.
+                <p class="body-2 mb-0">{{siteName}} is a research platform intended to help people navigate their social information space.
                   Do you give us your consent to use your data in our research analyses and subsequent publications?
                 </p>
                 <v-radio-group v-model="user.consent" required :rules="formRules.consentRules" class="mt-1">
