@@ -82,7 +82,7 @@
                    <div class="headline grey--text text--lighten-4" v-else>{{profileOwner.userName}}</div>
 
                   <div class="subheading grey--text text--lighten-2" v-if="!profileOwner.systemMade">({{profileOwner.userName}})</div>
-                  <div class="caption grey--text text--lighten-2 mt-2" v-if="profileOwner.systemMade && !profileOwner.SourceFeeds.length && profileOwner.isVerified">
+                  <div class="caption grey--text text--lighten-2 mt-2 ml-1" v-if="profileOwner.systemMade && !profileOwner.SourceFeeds.length && profileOwner.isVerified">
                     There is currently no RSS feed associated with this source. The posts on this page have been individually imported.
                     You can add this source's feed to {{siteName}} by going to the Sources page <v-icon small color="grey grey--lighten-2">arrow_right_alt</v-icon> Add Feeds.
                   </div>
