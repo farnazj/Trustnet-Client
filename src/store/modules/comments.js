@@ -4,7 +4,7 @@ export default {
   namespaced: true,
   state() {
     return {
-      comments: {},
+      comments: [],
       postIdOfComments: null,
       historyVisibility: false,
       history: [],
@@ -12,9 +12,10 @@ export default {
     }
   },
   mutations: {
-    populate_comments: (state, payload) => {
-      state.comments = payload.comments;
-      state.postIdOfComments = payload.postIdOfComments;
+    add_comments: (state, payload) => {
+      state.comments = [...state.comments, ...payload.comments]; // Add new comments to old, without mutating
+      if (payload.postIdOfComments)
+        state.postIdOfComments = payload.postIdOfComments;
     },
 
     set_history_visibility: (state, visiblity) => {
@@ -24,21 +25,57 @@ export default {
     populate_comment_history: (state, payload) => {
       state.history = payload.history;
       state.historyOwner = payload.author;
+    },
+
+    set_comments: (state, {comments}) => {
+      state.comments = comments;
+    },
+
+    clear_comments: (state) => {
+      state.comments = [];
     }
   },
   actions: {
     getPostComments: (context, payload) => {
       // console.log("getPostComments")
       return new Promise((resolve, reject) => {
-        commentServices.getCommentsForPost(payload.postIdOfComments)
+        commentServices.getCommentsForPost({
+          postId: payload.postIdOfComments,
+          limit: payload.limit,
+          offset: payload.offset
+        })
         .then(response => {
           let comments = response.data.length ? response.data : [];
-          context.commit('populate_comments', {
+          context.commit('add_comments', {
             postIdOfComments: payload.postIdOfComments,
             comments: comments
           });
+
+          // context.dispatch('getReplyComments', {rootSetId: comments[0].setId, limit: 1, offset: 0});
+
           // console.log(response);
-          resolve();
+          resolve(comments);
+        })
+        .catch(err => {
+          reject(err);
+        })
+      })
+    },
+    getReplyComments: (context, payload) => {
+      return new Promise((resolve, reject) => {
+        commentServices.getReplyComments({
+          rootSetId: payload.rootSetId,
+          limit: payload.limit,
+          offset: payload.offset
+        })
+        .then(response => {
+          let replyComments = response.data.length ? response.data : [];
+          context.commit('add_comments', {
+            // postIdOfComments: payload.postIdOfComments,
+            comments: replyComments
+          });
+          // console.log(response);
+          resolve(replyComments);
         })
         .catch(err => {
           reject(err);
@@ -51,8 +88,21 @@ export default {
       return new Promise((resolve, reject) => {
         commentServices.postComment(context.state.postIdOfComments, payload)
         .then(response => {
+          let newComment = response.data.data;
+          let newFormattedComment = {...newComment, Source: context.rootGetters['auth/user']};
+          let newCommentList = response.data.data ? [newFormattedComment] : [];
+          // console.log(newCommentList);
           // console.log(response);
-          resolve();
+          // console.log(newCommentList);
+          context.commit('add_comments', {
+            // postIdOfComments: payload.postIdOfComments,
+            comments: newCommentList
+          });
+          // console.log(response);
+          resolve(newCommentList);
+
+          // console.log(response);
+          // resolve();
         })
         .catch(err => {
           reject(err);

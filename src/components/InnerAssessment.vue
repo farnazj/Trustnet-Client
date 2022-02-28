@@ -147,7 +147,7 @@ export default {
           repliesTo: this.assessmentObj.lastVersion.id,
           repliesToType: 2
       })
-      .then(this.updateComments)
+      // .then(this.updateComments)
       .then(() => {this.iconsActive = false; this.replying = false; this.replyText = ''})
     },
     updateComments() {

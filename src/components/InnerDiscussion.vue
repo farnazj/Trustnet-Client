@@ -28,6 +28,13 @@
 
     <template>
       <inner-discussion v-for="dItem in discussionObj.replies" :key="dItem.eId" :assessmentsNamespace="assessmentsNamespace" :commentsNamespace="commentsNamespace" :discussionObj="dItem" :depth="depth + 1"></inner-discussion>
+      <p
+        @click="getReplies"
+        v-if="discussionObj.eType && discussionObj.rootSetId === null"
+        class="blue--text text--darken-3 interactable ml-10"
+      >
+        Show more replies
+      </p>
     </template>
 
   </div>
@@ -40,6 +47,7 @@ import innerDiscussion from '@/components/InnerDiscussion'
 import customAvatar from '@/components/CustomAvatar'
 import sourceServices from '@/services/sourceServices'
 import { mdiArrowTopRight } from '@mdi/js';
+import { mapState, mapActions } from 'vuex'
 
 export default {
   name: 'inner-discussion',
@@ -68,11 +76,16 @@ export default {
   },
   data () {
     return {
+      replyCommentsLimit: 3,
+      repliesOffset: 2
       // parentAuthor: null,
-      arrow: mdiArrowTopRight
+      // arrow: mdiArrowTopRight
     }
   },
   computed: {
+    // console() {
+    //   return console
+    // },
     deepNest() {
       return this.depth >= 2
     },
@@ -87,8 +100,34 @@ export default {
       let base = parentBody.split(' ').slice(0, 5).join(' ');
       return base + (base === parentBody ? '' : '...');
     }
+    // comments() {
+    //   return this.commentState.comments;
+    // },
+    // ...mapState({
+    //    commentState (state) {
+    //      return state[this.commentsNamespace];
+    //    }
+    // })
+    // postId() {
+    //   return this.commentState.postIdOfComments;
+    // },
   },
   methods: {
+    getReplies() {
+      this.getReplyComments({
+        rootSetId: this.discussionObj.setId,
+        limit: this.replyCommentsLimit,
+        offset: this.repliesOffset
+      })
+      .then(replyComments => {
+        this.repliesOffset += replyComments.length;
+      })
+    },
+    ...mapActions({
+      getReplyComments (dispatch, payload) {
+        return dispatch(this.commentsNamespace + '/getReplyComments', payload)
+      }
+    })
   },
   // created() {
   //   if (this.deepNest) {

@@ -110,7 +110,7 @@
           :class="[$vuetify.breakpoint.smAndDown ? 'assessment-hinter-vertical' : 'assessment-hinter-horizontal', 'interactable']"
           :elevation="shownAssessmentPostId == post.id ? 24 : 4"
         > -->
-        <v-card flat @click.stop="() => {revealAssessments(); getComments()}" :height="$vuetify.breakpoint.smAndDown ? '17px' : '80px'" color="lime lighten-3"
+        <v-card flat @click.stop="() => {revealAssessments(); getInitialComments()}" :height="$vuetify.breakpoint.smAndDown ? '17px' : '80px'" color="lime lighten-3"
           :class="[$vuetify.breakpoint.smAndDown ? 'assessment-hinter-vertical' : 'assessment-hinter-horizontal', 'interactable']"
           :elevation="shownAssessmentPostId == post.id ? 24 : 4"
         >
@@ -171,7 +171,9 @@
       return {
         boostObjects: [],
         postSeen: false,
-        displayedAlternativeTitle: null
+        displayedAlternativeTitle: null,
+        topLevelCommentsLimit: 3,
+        replyCommentsLimit: 2
       }
     },
     computed: {
@@ -221,9 +223,29 @@
           postIdOfAssessments: this.post.id
         });
       },
-      getComments: function() {
+      // getTopLevelComments: function() {
+      //   this.getPostComments({
+      //     postIdOfComments: this.post.id,
+      //     limit: this.topLevelCommentsLimit,
+      //     offset: 0
+      //   })
+      // },
+      getInitialComments: function() {
         this.getPostComments({
-          postIdOfComments: this.post.id
+          postIdOfComments: this.post.id,
+          limit: this.topLevelCommentsLimit,
+          offset: 0
+        }).then(postComments => {
+          postComments.forEach(comment => {
+            this.getReplyComments({
+              rootSetId: comment.setId,
+              limit: this.replyCommentsLimit,
+              offset: 0
+            })
+            // .then(replyComments => {
+            //   this.repliesOffset += replyComments.length;
+            // })
+          })
         })
       },
       fetchAssociations: function() {
@@ -301,6 +323,9 @@
         },
         getPostComments (dispatch, payload) {
           return dispatch(this.commentsNamespace + '/getPostComments', payload)
+        },
+        getReplyComments (dispatch, payload) {
+          return dispatch(this.commentsNamespace + '/getReplyComments', payload)
         }
       })
 

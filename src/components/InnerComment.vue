@@ -5,7 +5,7 @@
       <custom-avatar :user="commentObj.Source" :clickEnabled="false" class="mb-1"></custom-avatar>
       
       <span class="ml-2 caption grey--text text--darken-3"> {{timestamp}} </span>
-      <span v-if="commentObj.history.length" class="ml-2 caption grey--text text--darken-1 interactable" @click.stop="showHistory">Edited</span>
+      <!-- <span v-if="true" class="ml-2 caption grey--text text--darken-1 interactable" @click.stop="showHistory">Edited</span> -->
     </v-row>
 
     <v-row no-gutters class="pa-1 pb-0 body-2 assessment-text">
@@ -43,8 +43,9 @@
       </v-textarea>
 
       <v-row :style="iconsActive && !editing && !replying && !isDeleted ? 'visibility: visible' : 'visibility: hidden'" class="mt-n7 justify-end" align="center" wrap no-gutters>
-        <v-btn style="z-index: 5" @click.stop="replying = true; iconsActive = false" icon>
-          <v-icon style="z-index: 5" class="xs-icon-font" color="blue">fa-reply</v-icon>
+        <v-btn style="z-index: 5; transform: scale(1)" @click.stop="replying = true; iconsActive = false" icon>
+          <v-icon style="z-index: 5; transform: scale(1);
+" color="blue">fa-reply</v-icon>
         </v-btn>
         <v-btn v-if="isUser" style="z-index: 5" @click.stop="editing = true; iconsActive = false" icon>
           <v-icon style="z-index: 5" class="s-icon-font" color="blue">edit</v-icon>
@@ -113,7 +114,7 @@ export default {
       return this.bodyText.split(' ').length;
     },
     isUser() {
-      return this.commentObj.Source.id === this.user.id;
+      return (this.commentObj.SourceId ? this.commentObj.SourceId : this.commentObj.Source.id) === this.user.id;
     },
     postId() {
       return this.commentState.postIdOfComments;
@@ -143,7 +144,7 @@ export default {
           setIdOfComment: this.commentObj.setId,
           body: this.editText
       })
-      .then(this.updateComments)
+      // .then(this.updateComments)
       .then(() => {this.editing = false});
     },
     sendReply() {
@@ -152,14 +153,14 @@ export default {
           repliesTo: this.commentObj.id,
           repliesToType: 1
       })
-      .then(this.updateComments)
+      // .then(this.updateComments)
       .then(() => {this.iconsActive = false; this.replying = false; this.replyText = ''})
     },
     sendDelete() { 
       this.deleteComment({
           setIdOfComment: this.commentObj.setId,
       })
-      .then(this.updateComments);
+      // .then(this.updateComments);
     },
     updateComments() {
       this.getPostComments({

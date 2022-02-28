@@ -6,11 +6,16 @@
 import Api from './api'
 
 export default {
-  getCommentsForPost(postId, headers) {
+  getCommentsForPost(params) {
     // console.log("getCommentsForPost")
-    return Api().get('/comments/posts/' + postId, {
+    return Api().get('/comments/posts/' + params.postId + `?limit=${params.limit}&offset=${params.offset}`, {
       withCredentials: true,
-      headers: headers
+    })
+  },
+  getReplyComments(params) {
+    // console.log("getCommentsForPost")
+    return Api().get('/comments/trees/' + params.rootSetId + `?limit=${params.limit}&offset=${params.offset}`, {
+      withCredentials: true,
     })
   },
   postComment(postId, reqBody) {
