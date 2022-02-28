@@ -18,6 +18,10 @@ export default {
         state.postIdOfComments = payload.postIdOfComments;
     },
 
+    delete_comment: (state, {setId}) => {
+      state.comments = state.comments.filter(comment => comment.setId !== setId);
+    },
+
     set_history_visibility: (state, visiblity) => {
       state.historyVisibility  = visiblity;
     },
@@ -115,8 +119,18 @@ export default {
       return new Promise((resolve, reject) => {
         commentServices.editComment(payload.setIdOfComment, payload)
         .then(response => {
-          // console.log(response);
-          resolve();
+          let newComment = response.data.data;
+          let newFormattedComment = {...newComment, Source: context.rootGetters['auth/user']};
+          let newCommentList = response.data.data ? [newFormattedComment] : [];
+
+          context.commit('delete_comment', {
+            setId: payload.setIdOfComment
+          });
+          context.commit('add_comments', {
+            comments: newCommentList
+          });
+
+          resolve(newCommentList);
         })
         .catch(err => {
           reject(err);
@@ -130,8 +144,20 @@ export default {
         // console.log(context.state);
         commentServices.deleteComment(payload.setIdOfComment)
         .then(response => {
-          // console.log(response);
-          resolve();
+          let dummyComment = response.data.data;
+          let dummyFormattedComment = {...dummyComment, Source: context.rootGetters['auth/user']};
+          let dummyCommentList = response.data.data ? [dummyFormattedComment] : [];
+
+          console.log(dummyCommentList);
+          
+          context.commit('delete_comment', {
+            setId: payload.setIdOfComment
+          });
+          context.commit('add_comments', {
+            comments: dummyCommentList
+          });
+
+          resolve(dummyCommentList);
         })
         .catch(err => {
           reject(err);

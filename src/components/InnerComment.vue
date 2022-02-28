@@ -96,6 +96,7 @@ export default {
   },
   computed: {
     isDeleted() {
+      // console.log(this.commentObj.body);
       return this.commentObj.body === null;
     },
     bodyText() {
