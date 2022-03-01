@@ -51,6 +51,7 @@ export default {
       thread: null,
       newComment: "",
       commentsRemaining: undefined, // Check if comments were exhausted from ArticlePreview fetch
+      initialTopLevelCommentsLimit: 3,
       topLevelCommentsLimit: 2,
       topLevelCommentsOffset: undefined // Start with however many were fetched by ArticlePreview
     }
@@ -88,7 +89,7 @@ export default {
         }
       })
     },
-    submitComment: function() {
+    submitComment() {
       this.postComment({
           postIdOfComments: this.postId,
           body: this.newComment
@@ -141,6 +142,8 @@ export default {
       }
 
       this.discussionMap = discussionMap;
+
+      // console.log(discussionMap)
     },
     buildDiscussionList() {
       const discussionList = []
@@ -188,6 +191,10 @@ export default {
   },
   
   watch: {
+    postId() {
+      this.commentsRemaining = undefined;
+      this.topLevelCommentsOffset = undefined;
+    },
     // Update the thread only once the assessments and comments have fully updated
     discussionList: {
       handler: 'processDiscussion'
@@ -203,7 +210,7 @@ export default {
         if (this.commentsRemaining === undefined) {
           const topLevels = newComments.filter(comment => comment.parentId === null);
           this.topLevelCommentsOffset = topLevels.length;
-          this.commentsRemaining = topLevels.length >= this.topLevelCommentsLimit;
+          this.commentsRemaining = topLevels.length === this.initialTopLevelCommentsLimit;
         }
       }
     }

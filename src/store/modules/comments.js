@@ -8,17 +8,17 @@ export default {
       postIdOfComments: null,
       historyVisibility: false,
       history: [],
-      historyOwner: {}
+      historyOwner: {},
     }
   },
   mutations: {
-    add_comments: (state, payload) => {
-      state.comments = [...state.comments, ...payload.comments]; // Add new comments to old, without mutating
-      if (payload.postIdOfComments)
-        state.postIdOfComments = payload.postIdOfComments;
+    add_comments: (state, { comments, postIdOfComments }) => {
+      state.comments = [...state.comments, ...comments]; // Add new comments to old, without mutating
+      if (postIdOfComments !== undefined)
+        state.postIdOfComments = postIdOfComments;
     },
 
-    delete_comment: (state, {setId}) => {
+    delete_comment: (state, setId) => {
       state.comments = state.comments.filter(comment => comment.setId !== setId);
     },
 
@@ -26,12 +26,12 @@ export default {
       state.historyVisibility  = visiblity;
     },
 
-    populate_comment_history: (state, payload) => {
-      state.history = payload.history;
-      state.historyOwner = payload.author;
+    populate_comment_history: (state, { history, author }) => {
+      state.history = history;
+      state.historyOwner = author;
     },
 
-    set_comments: (state, {comments}) => {
+    set_comments: (state, comments) => {
       state.comments = comments;
     }
   },
@@ -46,8 +46,8 @@ export default {
         .then(response => {
           let comments = response.data.length ? response.data : [];
           context.commit('add_comments', {
-            postIdOfComments: payload.postIdOfComments,
-            comments: comments
+            comments: comments,
+            postIdOfComments: payload.postIdOfComments
           });
           resolve(comments);
         })
@@ -103,9 +103,7 @@ export default {
           let newFormattedComment = {...newComment, Source: context.rootGetters['auth/user']};
           let newCommentList = response.data.data ? [newFormattedComment] : [];
 
-          context.commit('delete_comment', {
-            setId: payload.setIdOfComment
-          });
+          context.commit('delete_comment', payload.setIdOfComment);
           context.commit('add_comments', {
             comments: newCommentList
           });
@@ -126,9 +124,7 @@ export default {
           let dummyFormattedComment = {...dummyComment, Source: context.rootGetters['auth/user']};
           let dummyCommentList = response.data.data ? [dummyFormattedComment] : [];
           
-          context.commit('delete_comment', {
-            setId: payload.setIdOfComment
-          });
+          context.commit('delete_comment', payload.setIdOfComment);
           context.commit('add_comments', {
             comments: dummyCommentList
           });
@@ -150,9 +146,7 @@ export default {
     },
 
     clearComments: (context) => {
-      context.commit('set_comments', {
-        comments: []
-      })
+      context.commit('set_comments', []);
     }
   }
 }

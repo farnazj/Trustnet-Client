@@ -29,7 +29,7 @@
     <template>
       <inner-discussion v-for="dItem in discussionObj.replies" :key="dItem.eId" :assessmentsNamespace="assessmentsNamespace" :commentsNamespace="commentsNamespace" :discussionObj="dItem" :depth="depth + 1"></inner-discussion>
       <p
-        @click="getReplies"
+        @click="getReplies(replyCommentsLimit)"
         v-if="discussionObj.eType && discussionObj.rootSetId === null && commentsRemaining"
         class="caption blue--text text--darken-3 interactable ml-10"
       >
@@ -77,8 +77,9 @@ export default {
   data () {
     return {
       commentsRemaining: true,
-      replyCommentsLimit: 3,
-      repliesOffset: 2
+      initialReplyCommentsLimit: 2,
+      replyCommentsLimit: 4,
+      repliesOffset: 0
     }
   },
   computed: {
@@ -98,15 +99,15 @@ export default {
     }
   },
   methods: {
-    getReplies() {
+    getReplies(lim) {
       this.getReplyComments({
         rootSetId: this.discussionObj.setId,
-        limit: this.replyCommentsLimit,
+        limit: lim,
         offset: this.repliesOffset
       })
       .then(replyComments => {
         this.repliesOffset += replyComments.length;
-        if (replyComments.length < this.replyCommentsLimit) {
+        if (replyComments.length < lim) {
           this.commentsRemaining = false;
         }
       })
@@ -117,6 +118,9 @@ export default {
       }
     })
   },
+  created() {
+    this.getReplies(this.initialReplyCommentsLimit);
+  }
 }
 
 </script>

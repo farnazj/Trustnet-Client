@@ -172,8 +172,7 @@
         boostObjects: [],
         postSeen: false,
         displayedAlternativeTitle: null,
-        topLevelCommentsLimit: 3,
-        replyCommentsLimit: 2
+        initialTopLevelCommentsLimit: 3
       }
     },
     computed: {
@@ -229,17 +228,8 @@
           .then(() => {
             return this.getPostComments({
               postIdOfComments: this.post.id,
-              limit: this.topLevelCommentsLimit,
+              limit: this.initialTopLevelCommentsLimit,
               offset: 0
-            })
-          })
-          .then(postComments => {
-            postComments.forEach(comment => {
-              this.getReplyComments({
-                rootSetId: comment.setId,
-                limit: this.replyCommentsLimit,
-                offset: 0
-              })
             })
           })
         }
