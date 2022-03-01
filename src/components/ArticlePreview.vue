@@ -134,7 +134,10 @@
   import sourceServices from '@/services/sourceServices'
   import postServices from '@/services/postServices'
   import utils from '@/services/utils'
+  import consts from '../services/constants.js'
   import { mapState, mapActions } from 'vuex'
+
+  const { INITIAL_TOP_LEVEL_COMMENTS_LIMIT } = consts;
 
   export default {
     components: {
@@ -172,7 +175,7 @@
         boostObjects: [],
         postSeen: false,
         displayedAlternativeTitle: null,
-        initialTopLevelCommentsLimit: 3
+        initialTopLevelCommentsLimit: INITIAL_TOP_LEVEL_COMMENTS_LIMIT
       }
     },
     computed: {

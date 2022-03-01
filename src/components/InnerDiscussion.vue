@@ -46,8 +46,11 @@ import innerComment from '@/components/InnerComment'
 import innerDiscussion from '@/components/InnerDiscussion'
 import customAvatar from '@/components/CustomAvatar'
 import sourceServices from '@/services/sourceServices'
+import consts from '../services/constants.js'
 import { mdiArrowTopRight } from '@mdi/js';
 import { mapState, mapActions } from 'vuex'
+
+const { INITIAL_REPLY_LEVEL_COMMENTS_LIMIT, REPLY_LEVEL_COMMENTS_LIMIT } = consts;
 
 export default {
   name: 'inner-discussion',
@@ -77,8 +80,8 @@ export default {
   data () {
     return {
       commentsRemaining: true,
-      initialReplyCommentsLimit: 2,
-      replyCommentsLimit: 4,
+      initialReplyCommentsLimit: INITIAL_REPLY_LEVEL_COMMENTS_LIMIT,
+      replyCommentsLimit: REPLY_LEVEL_COMMENTS_LIMIT,
       repliesOffset: 0
     }
   },

@@ -25,10 +25,10 @@
 
 <script>
 import innerDiscussion from '@/components/InnerDiscussion'
-
-import commentServices from '@/services/commentServices'
-
+import consts from '../services/constants.js'
 import { mapState, mapActions, mapGetters } from 'vuex'
+
+const { INITIAL_TOP_LEVEL_COMMENTS_LIMIT, TOP_LEVEL_COMMENTS_LIMIT } = consts;
 
 export default {
   components: {
@@ -51,8 +51,8 @@ export default {
       thread: null,
       newComment: "",
       commentsRemaining: undefined, // Check if comments were exhausted from ArticlePreview fetch
-      initialTopLevelCommentsLimit: 3,
-      topLevelCommentsLimit: 2,
+      initialTopLevelCommentsLimit: INITIAL_TOP_LEVEL_COMMENTS_LIMIT,
+      topLevelCommentsLimit: TOP_LEVEL_COMMENTS_LIMIT,
       topLevelCommentsOffset: undefined // Start with however many were fetched by ArticlePreview
     }
   },
