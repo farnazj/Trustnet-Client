@@ -79,14 +79,9 @@ export default {
       commentsRemaining: true,
       replyCommentsLimit: 3,
       repliesOffset: 2
-      // parentAuthor: null,
-      // arrow: mdiArrowTopRight
     }
   },
   computed: {
-    // console() {
-    //   return console
-    // },
     deepNest() {
       return this.depth >= 2
     },
@@ -101,17 +96,6 @@ export default {
       let base = parentBody.split(' ').slice(0, 5).join(' ');
       return base + (base === parentBody ? '' : '...');
     }
-    // comments() {
-    //   return this.commentState.comments;
-    // },
-    // ...mapState({
-    //    commentState (state) {
-    //      return state[this.commentsNamespace];
-    //    }
-    // })
-    // postId() {
-    //   return this.commentState.postIdOfComments;
-    // },
   },
   methods: {
     getReplies() {
@@ -133,16 +117,6 @@ export default {
       }
     })
   },
-  // created() {
-  //   if (this.deepNest) {
-  //     if (!this.discussionObj.parent.eType)
-  //       this.parentAuthor = this.discussionObj.parent.assessor
-  //     else {
-  //       sourceServices.getSourceById(this.discussionObj.parent.SourceId)
-  //       .then(response => {this.parentAuthor = response.data})
-  //     }
-  //   }
-  // }
 }
 
 </script>

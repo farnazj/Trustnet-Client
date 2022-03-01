@@ -143,7 +143,6 @@ export default {
           setIdOfComment: this.commentObj.setId,
           body: this.editText
       })
-      // .then(this.updateComments)
       .then(() => {this.editing = false});
     },
     sendReply() {
@@ -152,14 +151,12 @@ export default {
           repliesTo: this.commentObj.id,
           repliesToType: 1
       })
-      // .then(this.updateComments)
       .then(() => {this.iconsActive = false; this.replying = false; this.replyText = ''})
     },
     sendDelete() { 
       this.deleteComment({
           setIdOfComment: this.commentObj.setId,
       })
-      // .then(this.updateComments);
     },
     updateComments() {
       this.getPostComments({
@@ -183,7 +180,6 @@ export default {
         return dispatch(this.commentsNamespace + '/editComment', payload)
       },
       deleteComment (dispatch, payload) {
-        // console.log(payload);
         return dispatch(this.commentsNamespace + '/deleteComment', payload)
       }
     })

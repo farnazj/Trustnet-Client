@@ -37,7 +37,6 @@ export default {
   },
   actions: {
     getPostComments: (context, payload) => {
-      // console.log("getPostComments")
       return new Promise((resolve, reject) => {
         commentServices.getCommentsForPost({
           postId: payload.postIdOfComments,
@@ -50,10 +49,6 @@ export default {
             postIdOfComments: payload.postIdOfComments,
             comments: comments
           });
-
-          // context.dispatch('getReplyComments', {rootSetId: comments[0].setId, limit: 1, offset: 0});
-
-          // console.log(response);
           resolve(comments);
         })
         .catch(err => {
@@ -71,10 +66,8 @@ export default {
         .then(response => {
           let replyComments = response.data.length ? response.data : [];
           context.commit('add_comments', {
-            // postIdOfComments: payload.postIdOfComments,
             comments: replyComments
           });
-          // console.log(response);
           resolve(replyComments);
         })
         .catch(err => {
@@ -84,7 +77,6 @@ export default {
     },
 
     postComment: (context, payload) => {
-      // console.log("submitComment")
       return new Promise((resolve, reject) => {
         commentServices.postComment(context.state.postIdOfComments, payload)
         .then(response => {
@@ -92,20 +84,10 @@ export default {
           let newFormattedComment = {...newComment, Source: context.rootGetters['auth/user']};
           let newCommentList = response.data.data ? [newFormattedComment] : [];
 
-          // console.log(newCommentList);
-
-          // console.log(newCommentList);
-          // console.log(response);
-          // console.log(newCommentList);
           context.commit('add_comments', {
-            // postIdOfComments: payload.postIdOfComments,
             comments: newCommentList
           });
-          // console.log(response);
           resolve(newCommentList);
-
-          // console.log(response);
-          // resolve();
         })
         .catch(err => {
           reject(err);
@@ -114,7 +96,6 @@ export default {
     },
 
     editComment: (context, payload) => {
-      // console.log("editComment");
       return new Promise((resolve, reject) => {
         commentServices.editComment(payload.setIdOfComment, payload)
         .then(response => {
@@ -138,16 +119,12 @@ export default {
     },
 
     deleteComment: (context, payload) => {
-      // console.log("deleteComment")
       return new Promise((resolve, reject) => {
-        // console.log(context.state);
         commentServices.deleteComment(payload.setIdOfComment)
         .then(response => {
           let dummyComment = response.data.data;
           let dummyFormattedComment = {...dummyComment, Source: context.rootGetters['auth/user']};
           let dummyCommentList = response.data.data ? [dummyFormattedComment] : [];
-
-          // console.log(dummyCommentList);
           
           context.commit('delete_comment', {
             setId: payload.setIdOfComment

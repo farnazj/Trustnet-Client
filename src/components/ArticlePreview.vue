@@ -223,13 +223,6 @@
           postIdOfAssessments: this.post.id
         });
       },
-      // getTopLevelComments: function() {
-      //   this.getPostComments({
-      //     postIdOfComments: this.post.id,
-      //     limit: this.topLevelCommentsLimit,
-      //     offset: 0
-      //   })
-      // },
       getInitialComments: function() {
         this.clearComments()
         .then(() => {
