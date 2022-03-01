@@ -26,8 +26,7 @@
           </span>
         </v-row>
         <v-row v-else class="ma-0" >
-          <p v-html="bodyText" class="assessment-text-inner mb-0">
-          </p>
+          <p v-html="bodyText" class="assessment-text-inner mb-n2"></p>
             <span v-if="bodyWordCount > 25" class="blue--text text--darken-3 interactable"
              @click="showFullText = false">
             show less
@@ -96,7 +95,6 @@ export default {
   },
   computed: {
     isDeleted() {
-      // console.log(this.commentObj.body);
       return this.commentObj.body === null;
     },
     bodyText() {
@@ -200,7 +198,7 @@ export default {
 
 <style scoped>
 .assessment-text p, .assessment-text span {
-  font-size: 0.95em;
+  font-size: 0.85em;
   line-height: 125%;
 }
 .center-align {

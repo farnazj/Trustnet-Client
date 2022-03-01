@@ -231,20 +231,21 @@
       //   })
       // },
       getInitialComments: function() {
-        this.getPostComments({
-          postIdOfComments: this.post.id,
-          limit: this.topLevelCommentsLimit,
-          offset: 0
-        }).then(postComments => {
+        this.clearComments()
+        .then(() => {
+          return this.getPostComments({
+            postIdOfComments: this.post.id,
+            limit: this.topLevelCommentsLimit,
+            offset: 0
+          })
+        })
+        .then(postComments => {
           postComments.forEach(comment => {
             this.getReplyComments({
               rootSetId: comment.setId,
               limit: this.replyCommentsLimit,
               offset: 0
             })
-            // .then(replyComments => {
-            //   this.repliesOffset += replyComments.length;
-            // })
           })
         })
       },
@@ -326,6 +327,9 @@
         },
         getReplyComments (dispatch, payload) {
           return dispatch(this.commentsNamespace + '/getReplyComments', payload)
+        },
+        clearComments (dispatch) {
+          return dispatch(this.commentsNamespace + '/clearComments')
         }
       })
 

@@ -30,8 +30,8 @@
       <inner-discussion v-for="dItem in discussionObj.replies" :key="dItem.eId" :assessmentsNamespace="assessmentsNamespace" :commentsNamespace="commentsNamespace" :discussionObj="dItem" :depth="depth + 1"></inner-discussion>
       <p
         @click="getReplies"
-        v-if="discussionObj.eType && discussionObj.rootSetId === null"
-        class="blue--text text--darken-3 interactable ml-10"
+        v-if="discussionObj.eType && discussionObj.rootSetId === null && commentsRemaining"
+        class="caption blue--text text--darken-3 interactable ml-10"
       >
         Show more replies
       </p>
@@ -76,6 +76,7 @@ export default {
   },
   data () {
     return {
+      commentsRemaining: true,
       replyCommentsLimit: 3,
       repliesOffset: 2
       // parentAuthor: null,
@@ -121,6 +122,9 @@ export default {
       })
       .then(replyComments => {
         this.repliesOffset += replyComments.length;
+        if (replyComments.length < this.replyCommentsLimit) {
+          this.commentsRemaining = false;
+        }
       })
     },
     ...mapActions({
@@ -144,5 +148,9 @@ export default {
 </script>
 
 <style scoped>
+
+.show-more-text {
+  font-size: 0.90em;
+}
 
 </style>

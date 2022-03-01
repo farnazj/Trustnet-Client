@@ -15,7 +15,8 @@
       </template>
       <p
         @click="getTopLevels"
-        class="blue--text text--darken-3 interactable pt-3"
+        v-if="commentsRemaining"
+        class="caption blue--text text--darken-3 interactable pt-3"
       >
         Show more comments
       </p>
@@ -56,8 +57,9 @@ export default {
       discussionList: null,
       thread: null,
       newComment: "",
+      commentsRemaining: undefined, // Check if comments were exhausted from ArticlePreview fetch
       topLevelCommentsLimit: 2,
-      topLevelCommentsOffset: 3
+      topLevelCommentsOffset: undefined // Start with however many were fetched by ArticlePreview
     }
   },
   computed: {
@@ -86,8 +88,11 @@ export default {
         limit: this.topLevelCommentsLimit,
         offset: this.topLevelCommentsOffset
       })
-      .then(postComments=> {
+      .then(postComments => {
         this.topLevelCommentsOffset += postComments.length;
+        if (postComments.length < this.topLevelCommentsLimit) {
+          this.commentsRemaining = false;
+        }
       })
     },
     submitComment: function() {
@@ -367,7 +372,14 @@ export default {
     comments: {
       deep: true,
       immediate: true,
-      handler: 'buildDiscussionMap'
+      handler(newComments, prevComments) {
+        this.buildDiscussionMap();
+        if (this.commentsRemaining === undefined) {
+          const topLevels = newComments.filter(comment => comment.parentId === null);
+          this.topLevelCommentsOffset = topLevels.length;
+          this.commentsRemaining = topLevels.length >= this.topLevelCommentsLimit;
+        }
+      }
     }
 
     // postId: {
@@ -387,6 +399,11 @@ export default {
   /*overflow-y: hidden;*/
   max-height: 73vh;
   min-height: 73vh;
+}
+
+.show-more-text {
+  font-size: 0.90em;
+  margin-top:-0.7em;
 }
 
 </style>

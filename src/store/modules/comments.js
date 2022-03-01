@@ -33,10 +33,6 @@ export default {
 
     set_comments: (state, {comments}) => {
       state.comments = comments;
-    },
-
-    clear_comments: (state) => {
-      state.comments = [];
     }
   },
   actions: {
@@ -95,6 +91,9 @@ export default {
           let newComment = response.data.data;
           let newFormattedComment = {...newComment, Source: context.rootGetters['auth/user']};
           let newCommentList = response.data.data ? [newFormattedComment] : [];
+
+          // console.log(newCommentList);
+
           // console.log(newCommentList);
           // console.log(response);
           // console.log(newCommentList);
@@ -148,7 +147,7 @@ export default {
           let dummyFormattedComment = {...dummyComment, Source: context.rootGetters['auth/user']};
           let dummyCommentList = response.data.data ? [dummyFormattedComment] : [];
 
-          console.log(dummyCommentList);
+          // console.log(dummyCommentList);
           
           context.commit('delete_comment', {
             setId: payload.setIdOfComment
@@ -171,6 +170,12 @@ export default {
 
     populateCommentHistory: (context, payload) => {
       context.commit('populate_comment_history', payload);
+    },
+
+    clearComments: (context) => {
+      context.commit('set_comments', {
+        comments: []
+      })
     }
   }
 }
