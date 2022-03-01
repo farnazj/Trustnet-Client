@@ -224,23 +224,27 @@
         });
       },
       getInitialComments: function() {
-        this.clearComments()
-        .then(() => {
-          return this.getPostComments({
-            postIdOfComments: this.post.id,
-            limit: this.topLevelCommentsLimit,
-            offset: 0
-          })
-        })
-        .then(postComments => {
-          postComments.forEach(comment => {
-            this.getReplyComments({
-              rootSetId: comment.setId,
-              limit: this.replyCommentsLimit,
+        if (this.commentState.postIdOfComments !== this.post.id) {
+          this.clearComments()
+          .then(() => {
+            return this.getPostComments({
+              postIdOfComments: this.post.id,
+              limit: this.topLevelCommentsLimit,
               offset: 0
             })
           })
-        })
+          .then(postComments => {
+            postComments.forEach(comment => {
+              this.getReplyComments({
+                rootSetId: comment.setId,
+                limit: this.replyCommentsLimit,
+                offset: 0
+              })
+            })
+          })
+        }
+        
+        
       },
       fetchAssociations: function() {
 
