@@ -2,7 +2,7 @@
   <div class="ml-1 my-2" @mouseenter="iconsActive = true" @mouseleave="iconsActive = false">
 
     <v-row class="mb-n1" align="center" wrap no-gutters>
-      <custom-avatar :user="commentObj.Source" :clickEnabled="false" class="mb-1"></custom-avatar>
+      <custom-avatar :user="commentObj.Source" :clickEnabled="false" :size="23" class="mb-1"></custom-avatar>
       
       <span class="ml-2 caption grey--text text--darken-3"> {{timestamp}} </span>
       <!-- <span v-if="true" class="ml-2 caption grey--text text--darken-1 interactable" @click.stop="showHistory">Edited</span> -->

@@ -9,7 +9,7 @@
           </v-col>
 
           <v-col cols="1" class="ml-n5 mt-n1">
-            <custom-avatar :user="parentAuthor" :size="22" :clickEnabled="false"></custom-avatar>
+            <custom-avatar :user="parentAuthor" :size="23" :clickEnabled="false"></custom-avatar>
           </v-col>
 
           <v-col class="ml-n5 mt-n1">
