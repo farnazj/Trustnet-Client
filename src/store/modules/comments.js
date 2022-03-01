@@ -8,17 +8,17 @@ export default {
       postIdOfComments: null,
       historyVisibility: false,
       history: [],
-      historyOwner: {}
+      historyOwner: {},
     }
   },
   mutations: {
-    add_comments: (state, payload) => {
-      state.comments = [...state.comments, ...payload.comments]; // Add new comments to old, without mutating
-      if (payload.postIdOfComments)
-        state.postIdOfComments = payload.postIdOfComments;
+    add_comments: (state, { comments, postIdOfComments }) => {
+      state.comments = [...state.comments, ...comments]; // Add new comments to old, without mutating
+      if (postIdOfComments !== undefined)
+        state.postIdOfComments = postIdOfComments;
     },
 
-    delete_comment: (state, {setId}) => {
+    delete_comment: (state, setId) => {
       state.comments = state.comments.filter(comment => comment.setId !== setId);
     },
 
@@ -26,22 +26,17 @@ export default {
       state.historyVisibility  = visiblity;
     },
 
-    populate_comment_history: (state, payload) => {
-      state.history = payload.history;
-      state.historyOwner = payload.author;
+    populate_comment_history: (state, { history, author }) => {
+      state.history = history;
+      state.historyOwner = author;
     },
 
-    set_comments: (state, {comments}) => {
+    set_comments: (state, comments) => {
       state.comments = comments;
-    },
-
-    clear_comments: (state) => {
-      state.comments = [];
     }
   },
   actions: {
     getPostComments: (context, payload) => {
-      // console.log("getPostComments")
       return new Promise((resolve, reject) => {
         commentServices.getCommentsForPost({
           postId: payload.postIdOfComments,
@@ -51,13 +46,9 @@ export default {
         .then(response => {
           let comments = response.data.length ? response.data : [];
           context.commit('add_comments', {
-            postIdOfComments: payload.postIdOfComments,
-            comments: comments
+            comments: comments,
+            postIdOfComments: payload.postIdOfComments
           });
-
-          // context.dispatch('getReplyComments', {rootSetId: comments[0].setId, limit: 1, offset: 0});
-
-          // console.log(response);
           resolve(comments);
         })
         .catch(err => {
@@ -75,10 +66,8 @@ export default {
         .then(response => {
           let replyComments = response.data.length ? response.data : [];
           context.commit('add_comments', {
-            // postIdOfComments: payload.postIdOfComments,
             comments: replyComments
           });
-          // console.log(response);
           resolve(replyComments);
         })
         .catch(err => {
@@ -88,25 +77,17 @@ export default {
     },
 
     postComment: (context, payload) => {
-      // console.log("submitComment")
       return new Promise((resolve, reject) => {
         commentServices.postComment(context.state.postIdOfComments, payload)
         .then(response => {
           let newComment = response.data.data;
           let newFormattedComment = {...newComment, Source: context.rootGetters['auth/user']};
           let newCommentList = response.data.data ? [newFormattedComment] : [];
-          // console.log(newCommentList);
-          // console.log(response);
-          // console.log(newCommentList);
+
           context.commit('add_comments', {
-            // postIdOfComments: payload.postIdOfComments,
             comments: newCommentList
           });
-          // console.log(response);
           resolve(newCommentList);
-
-          // console.log(response);
-          // resolve();
         })
         .catch(err => {
           reject(err);
@@ -115,7 +96,6 @@ export default {
     },
 
     editComment: (context, payload) => {
-      // console.log("editComment");
       return new Promise((resolve, reject) => {
         commentServices.editComment(payload.setIdOfComment, payload)
         .then(response => {
@@ -123,9 +103,7 @@ export default {
           let newFormattedComment = {...newComment, Source: context.rootGetters['auth/user']};
           let newCommentList = response.data.data ? [newFormattedComment] : [];
 
-          context.commit('delete_comment', {
-            setId: payload.setIdOfComment
-          });
+          context.commit('delete_comment', payload.setIdOfComment);
           context.commit('add_comments', {
             comments: newCommentList
           });
@@ -139,20 +117,14 @@ export default {
     },
 
     deleteComment: (context, payload) => {
-      // console.log("deleteComment")
       return new Promise((resolve, reject) => {
-        // console.log(context.state);
         commentServices.deleteComment(payload.setIdOfComment)
         .then(response => {
           let dummyComment = response.data.data;
           let dummyFormattedComment = {...dummyComment, Source: context.rootGetters['auth/user']};
           let dummyCommentList = response.data.data ? [dummyFormattedComment] : [];
-
-          console.log(dummyCommentList);
           
-          context.commit('delete_comment', {
-            setId: payload.setIdOfComment
-          });
+          context.commit('delete_comment', payload.setIdOfComment);
           context.commit('add_comments', {
             comments: dummyCommentList
           });
@@ -171,6 +143,10 @@ export default {
 
     populateCommentHistory: (context, payload) => {
       context.commit('populate_comment_history', payload);
+    },
+
+    clearComments: (context) => {
+      context.commit('set_comments', []);
     }
   }
 }

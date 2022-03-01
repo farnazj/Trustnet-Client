@@ -2,7 +2,7 @@
   <div class="ml-1 my-2" @mouseenter="iconsActive = true" @mouseleave="iconsActive = false">
 
     <v-row class="mb-n1" align="center" wrap no-gutters>
-      <custom-avatar :user="commentObj.Source" :clickEnabled="false" class="mb-1"></custom-avatar>
+      <custom-avatar :user="commentObj.Source" :clickEnabled="false" :size="23" class="mb-1"></custom-avatar>
       
       <span class="ml-2 caption grey--text text--darken-3"> {{timestamp}} </span>
       <!-- <span v-if="true" class="ml-2 caption grey--text text--darken-1 interactable" @click.stop="showHistory">Edited</span> -->
@@ -26,8 +26,7 @@
           </span>
         </v-row>
         <v-row v-else class="ma-0" >
-          <p v-html="bodyText" class="assessment-text-inner mb-0">
-          </p>
+          <p v-html="bodyText" class="assessment-text-inner mb-n2"></p>
             <span v-if="bodyWordCount > 25" class="blue--text text--darken-3 interactable"
              @click="showFullText = false">
             show less
@@ -96,7 +95,6 @@ export default {
   },
   computed: {
     isDeleted() {
-      // console.log(this.commentObj.body);
       return this.commentObj.body === null;
     },
     bodyText() {
@@ -145,7 +143,6 @@ export default {
           setIdOfComment: this.commentObj.setId,
           body: this.editText
       })
-      // .then(this.updateComments)
       .then(() => {this.editing = false});
     },
     sendReply() {
@@ -154,14 +151,12 @@ export default {
           repliesTo: this.commentObj.id,
           repliesToType: 1
       })
-      // .then(this.updateComments)
       .then(() => {this.iconsActive = false; this.replying = false; this.replyText = ''})
     },
     sendDelete() { 
       this.deleteComment({
           setIdOfComment: this.commentObj.setId,
       })
-      // .then(this.updateComments);
     },
     updateComments() {
       this.getPostComments({
@@ -185,7 +180,6 @@ export default {
         return dispatch(this.commentsNamespace + '/editComment', payload)
       },
       deleteComment (dispatch, payload) {
-        // console.log(payload);
         return dispatch(this.commentsNamespace + '/deleteComment', payload)
       }
     })
@@ -200,7 +194,7 @@ export default {
 
 <style scoped>
 .assessment-text p, .assessment-text span {
-  font-size: 0.95em;
+  font-size: 0.85em;
   line-height: 125%;
 }
 .center-align {

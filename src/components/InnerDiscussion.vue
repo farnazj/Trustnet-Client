@@ -9,7 +9,7 @@
           </v-col>
 
           <v-col cols="1" class="ml-n5 mt-n1">
-            <custom-avatar :user="parentAuthor" :size="22" :clickEnabled="false"></custom-avatar>
+            <custom-avatar :user="parentAuthor" :size="23" :clickEnabled="false"></custom-avatar>
           </v-col>
 
           <v-col class="ml-n5 mt-n1">
@@ -29,9 +29,9 @@
     <template>
       <inner-discussion v-for="dItem in discussionObj.replies" :key="dItem.eId" :assessmentsNamespace="assessmentsNamespace" :commentsNamespace="commentsNamespace" :discussionObj="dItem" :depth="depth + 1"></inner-discussion>
       <p
-        @click="getReplies"
-        v-if="discussionObj.eType && discussionObj.rootSetId === null"
-        class="blue--text text--darken-3 interactable ml-10"
+        @click="getReplies(replyCommentsLimit)"
+        v-if="discussionObj.eType && discussionObj.rootSetId === null && commentsRemaining"
+        class="caption blue--text text--darken-3 interactable ml-10"
       >
         Show more replies
       </p>
@@ -46,8 +46,11 @@ import innerComment from '@/components/InnerComment'
 import innerDiscussion from '@/components/InnerDiscussion'
 import customAvatar from '@/components/CustomAvatar'
 import sourceServices from '@/services/sourceServices'
+import consts from '../services/constants.js'
 import { mdiArrowTopRight } from '@mdi/js';
 import { mapState, mapActions } from 'vuex'
+
+const { INITIAL_REPLY_LEVEL_COMMENTS_LIMIT, REPLY_LEVEL_COMMENTS_LIMIT } = consts;
 
 export default {
   name: 'inner-discussion',
@@ -76,16 +79,13 @@ export default {
   },
   data () {
     return {
-      replyCommentsLimit: 3,
-      repliesOffset: 2
-      // parentAuthor: null,
-      // arrow: mdiArrowTopRight
+      commentsRemaining: true,
+      initialReplyCommentsLimit: INITIAL_REPLY_LEVEL_COMMENTS_LIMIT,
+      replyCommentsLimit: REPLY_LEVEL_COMMENTS_LIMIT,
+      repliesOffset: 0
     }
   },
   computed: {
-    // console() {
-    //   return console
-    // },
     deepNest() {
       return this.depth >= 2
     },
@@ -100,27 +100,19 @@ export default {
       let base = parentBody.split(' ').slice(0, 5).join(' ');
       return base + (base === parentBody ? '' : '...');
     }
-    // comments() {
-    //   return this.commentState.comments;
-    // },
-    // ...mapState({
-    //    commentState (state) {
-    //      return state[this.commentsNamespace];
-    //    }
-    // })
-    // postId() {
-    //   return this.commentState.postIdOfComments;
-    // },
   },
   methods: {
-    getReplies() {
+    getReplies(lim) {
       this.getReplyComments({
         rootSetId: this.discussionObj.setId,
-        limit: this.replyCommentsLimit,
+        limit: lim,
         offset: this.repliesOffset
       })
       .then(replyComments => {
         this.repliesOffset += replyComments.length;
+        if (replyComments.length < lim) {
+          this.commentsRemaining = false;
+        }
       })
     },
     ...mapActions({
@@ -129,20 +121,17 @@ export default {
       }
     })
   },
-  // created() {
-  //   if (this.deepNest) {
-  //     if (!this.discussionObj.parent.eType)
-  //       this.parentAuthor = this.discussionObj.parent.assessor
-  //     else {
-  //       sourceServices.getSourceById(this.discussionObj.parent.SourceId)
-  //       .then(response => {this.parentAuthor = response.data})
-  //     }
-  //   }
-  // }
+  created() {
+    this.getReplies(this.initialReplyCommentsLimit);
+  }
 }
 
 </script>
 
 <style scoped>
+
+.show-more-text {
+  font-size: 0.90em;
+}
 
 </style>

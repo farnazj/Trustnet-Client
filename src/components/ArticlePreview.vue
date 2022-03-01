@@ -134,7 +134,10 @@
   import sourceServices from '@/services/sourceServices'
   import postServices from '@/services/postServices'
   import utils from '@/services/utils'
+  import consts from '../services/constants.js'
   import { mapState, mapActions } from 'vuex'
+
+  const { INITIAL_TOP_LEVEL_COMMENTS_LIMIT } = consts;
 
   export default {
     components: {
@@ -172,8 +175,7 @@
         boostObjects: [],
         postSeen: false,
         displayedAlternativeTitle: null,
-        topLevelCommentsLimit: 3,
-        replyCommentsLimit: 2
+        initialTopLevelCommentsLimit: INITIAL_TOP_LEVEL_COMMENTS_LIMIT
       }
     },
     computed: {
@@ -223,30 +225,19 @@
           postIdOfAssessments: this.post.id
         });
       },
-      // getTopLevelComments: function() {
-      //   this.getPostComments({
-      //     postIdOfComments: this.post.id,
-      //     limit: this.topLevelCommentsLimit,
-      //     offset: 0
-      //   })
-      // },
       getInitialComments: function() {
-        this.getPostComments({
-          postIdOfComments: this.post.id,
-          limit: this.topLevelCommentsLimit,
-          offset: 0
-        }).then(postComments => {
-          postComments.forEach(comment => {
-            this.getReplyComments({
-              rootSetId: comment.setId,
-              limit: this.replyCommentsLimit,
+        if (this.commentState.postIdOfComments !== this.post.id) {
+          this.clearComments()
+          .then(() => {
+            return this.getPostComments({
+              postIdOfComments: this.post.id,
+              limit: this.initialTopLevelCommentsLimit,
               offset: 0
             })
-            // .then(replyComments => {
-            //   this.repliesOffset += replyComments.length;
-            // })
           })
-        })
+        }
+        
+        
       },
       fetchAssociations: function() {
 
@@ -326,6 +317,9 @@
         },
         getReplyComments (dispatch, payload) {
           return dispatch(this.commentsNamespace + '/getReplyComments', payload)
+        },
+        clearComments (dispatch) {
+          return dispatch(this.commentsNamespace + '/clearComments')
         }
       })
 
