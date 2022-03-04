@@ -75,9 +75,9 @@ export default {
           const user = resp.data.user;
           context.commit('auth_success');
           context.commit('update_user', user);
-          context.dispatch('relatedSources/fetchFollows',{}, { root: true });
-          context.dispatch('relatedSources/fetchTrusteds',{}, { root: true });
-          context.dispatch('relatedSources/fetchFollowers',{}, { root: true });
+          context.dispatch('relatedSources/fetchFollows', {}, { root: true });
+          context.dispatch('relatedSources/fetchTrusteds', {}, { root: true });
+          context.dispatch('relatedSources/fetchFollowers', {}, { root: true });
           context.dispatch('preferences/getUserPreferences', {}, { root: true });
 
           resolve(resp);
@@ -89,11 +89,11 @@ export default {
       })
     },
 
-    signup: ({commit}, user) => {
+    signup: ({commit}, data) => {
 
       return new Promise((resolve, reject) => {
         commit('auth_request');
-        authServices.signup(user).then(resp => {
+        authServices.signup(data).then(resp => {
           resolve(resp);
         })
         .catch(err => {

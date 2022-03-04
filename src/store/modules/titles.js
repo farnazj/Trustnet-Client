@@ -7,7 +7,7 @@ export default {
       customTitlesVisible: false,
       titles: [], //sorted customTitles
       postId: null,
-      standaloneTitleId: null,
+      standaloneTitleIds: [],
       selectedCustomTitleSetId: null, //used for both endorsers and title history
       titleEndorsersState: {
         endorsersVisibility: false,
@@ -20,13 +20,13 @@ export default {
     }
   },
   mutations: {
-    set_post_title_id: (state, payload) => {
+    set_post_title_ids: (state, payload) => {
       state.postId = payload.postId;
-      state.standaloneTitleId = payload.standaloneTitleId;
+      state.standaloneTitleIds = payload.standaloneTitleIds;
     },
 
-    set_title_id: (state, payload) => {
-      state.standaloneTitleId = payload;
+    set_title_ids: (state, payload) => {
+      state.standaloneTitleIds = payload;
     },
 
     set_titles_visibility: (state, visibility) => {
@@ -58,12 +58,12 @@ export default {
     },
   },
   actions: {
-    setPostTitleId: (context, payload) => {
-      context.commit('set_post_title_id', payload);
+    setPostTitleIds: (context, payload) => {
+      context.commit('set_post_title_ids', payload);
     },
 
-    setTitleId: (context, payload) => {
-      context.commit('set_title_id', payload);
+    setTitleIds: (context, payload) => {
+      context.commit('set_title_ids', payload);
     },
 
     fetchPostTitles: (context, payload) => {
@@ -80,12 +80,19 @@ export default {
           };
         }
 
-        titleServices.getCustomTitlesOfstandaloneTitle({ 
-          standaloneTitleId: context.state.standaloneTitleId }, customTitleReqHeaders)
-        .then(response => {
+        let customTitlesProms = [];
+        for (let standaloneTitleId of context.state.standaloneTitleIds) {
+          customTitlesProms.push(titleServices.getCustomTitlesOfstandaloneTitle({ 
+            standaloneTitleId: standaloneTitleId
+           }, customTitleReqHeaders));
+        }
+
+        Promise.all(customTitlesProms)
+        .then(responses => {
+          let standaloneTitles = responses.map(response => response.data).flat().filter(el => Object.keys(el).length);
           context.dispatch(`${payload.filtersNamespace}/updateTitles`, {
             postId: context.state.postId,
-            standaloneTitle: response.data
+            standaloneTitles: standaloneTitles
           }, { root: true });
           resolve();
         })

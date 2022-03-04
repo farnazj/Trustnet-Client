@@ -4,6 +4,8 @@ export default {
   data: () => {
     return {
       search: '',
+      displayedSourceFilters: ['media', 'users'],
+      individualFilterHeader: null,
       sourceResults: [],
       limit: 50,
       offset: 0,
@@ -52,6 +54,18 @@ export default {
   },
   watch: {
     search () {
+      this.initiateSearch();
+    },
+    displayedSourceFilters: function(newArr) {
+      if (newArr.length != 1) //2 or 0
+        this.individualFilterHeader = null;
+      else {
+        if (newArr.includes('users'))
+          this.individualFilterHeader = 'true';
+        else
+          this.individualFilterHeader = 'false';
+      }
+
       this.initiateSearch();
     }
   }

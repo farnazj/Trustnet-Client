@@ -329,8 +329,10 @@
           this.filterBoosts();
         }
         else {
-          if (isSource)
-            this.$router.push({ name: 'profile', params: { username: entity.userName } });
+          if (isSource) {
+            let route = this.$router.resolve({ name: 'profile', params: { username: entity.userName } });
+            window.open(route.href);
+          }                  
         }
 
       },

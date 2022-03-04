@@ -48,11 +48,13 @@
               <v-row no-gutters>
                 <v-col cols="12">
                    <div class="px-2">
-                     <p :class="['mr-1', 'interactable', $vuetify.breakpoint.smAndDown ? 'title-custom-small': 'title-custom',
-                      { strikethrough: displayedAlternativeTitle, 'title': $vuetify.breakpoint.smAndDown }]"
-                     v-html="post.title"></p>
-                     <span v-if="displayedAlternativeTitle" class="mx-1 font-italic font-weight-light interactable title title-custom"
+                    
+                     <span v-if="displayedAlternativeTitle" class="mx-1 font-italic font-weight-light interactable title title-custom "
                      >{{displayedAlternativeTitle}}</span>
+
+                      <p :class="['mr-1', 'interactable', $vuetify.breakpoint.smAndDown ? 'title-custom-small': 'title-custom',
+                      { 'original-title': displayedAlternativeTitle, 'title': $vuetify.breakpoint.smAndDown }]"
+                     v-html="post.title"></p>
 
                        <v-tooltip bottom>
                          <template v-slot:activator="{ on }">
@@ -277,10 +279,23 @@
 
         return new Promise((resolve, reject) => {
 
-          this.setPostTitleId({ postId: this.post.id, standaloneTitleId: this.post.StandaloneTitle ? this.post.StandaloneTitle.id : null });
-          let customTitles = this.post.StandaloneTitle ? this.post.StandaloneTitle.StandaloneCustomTitles : [];
+          this.setPostTitleIds({ postId: this.post.id, standaloneTitleIds: this.post.PostStandAloneTitles.length ? 
+            this.post.PostStandAloneTitles.map(standaloneTitle => standaloneTitle.id) : [] });
+          let customTitles = this.post.PostStandAloneTitles.length ? this.post.PostStandAloneTitles.map(standaloneTitle => 
+            standaloneTitle.StandaloneCustomTitles) : [];
 
-          return this.arrangeCustomTitles(customTitles) //in titleHelpers mixin
+          let uniqueCustomTitlesSeen = [];
+          let uniqueCustomTitles = [];
+
+          let allCustomTitles = customTitles.flat();
+          for (let customTitle of allCustomTitles) {
+            if (!(customTitle.id in uniqueCustomTitlesSeen)) {
+                uniqueCustomTitlesSeen.push(customTitle.id);
+                uniqueCustomTitles.push(customTitle);
+            } 
+          }
+
+          return this.arrangeCustomTitles(uniqueCustomTitles) //in titleHelpers mixin
           .then(res => {
             if (this.sortedTitles.length) {
               this.displayedAlternativeTitle = this.sortedTitles[0]['lastVersion'].text;
@@ -295,7 +310,8 @@
       },
       showTitles: function() {
 
-        this.setPostTitleId({ postId: this.post.id, standaloneTitleId: this.post.StandaloneTitle ? this.post.StandaloneTitle.id : null });
+        this.setPostTitleIds({ postId: this.post.id, standaloneTitleIds: this.post.PostStandAloneTitles.length ? 
+            this.post.PostStandAloneTitles.map(standaloneTitle => standaloneTitle.id) : [] });
         this.populateTitles(this.titleObjects);
         this.setTitlesVisibility(true);
       },
@@ -380,13 +396,18 @@
   font-size: 1em !important;
   display: inline !important;
 }
+
+.alt-title {
+  font-size: 1.1rem !important;
+}
 /* 
 .assessment-handle {
   max-width: 22px;
 } */
 
-.strikethrough {
-  text-decoration: line-through
+.original-title {
+  text-decoration: line-through;
+  font-size: 0.9rem !important;
 }
 
 </style>

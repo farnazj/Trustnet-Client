@@ -1,26 +1,29 @@
 <template>
 
-  <div :class="['c100', valuePercentage, valueColor , {transitive: isTransitive}]">
-      <span v-if="isUserNonEmpty">
-        <v-tooltip bottom open-delay="500">
-          <template v-slot:activator="{ on }">
-            <span v-on="on">
-              <custom-avatar :user="user" :clickEnabled="true">
-              </custom-avatar>
-            </span>
-          </template>
-          <span>{{sourceDisplayName(user)}}</span>
-        </v-tooltip>
-      </span>
-      <span v-else>
-        <v-icon small>fas fa-user</v-icon>
-      </span>
+  <!-- <div :class="['c100', valuePercentage, valueColor , {transitive: isTransitive}, 'assessor']"> -->
+	<v-progress-circular  :value="valuePercentage" :color="valueColor" class="assessor" :size="barSize" :width="barWidth">
+		<span v-if="isUserNonEmpty">
+			<v-tooltip bottom open-delay="500">
+				<template v-slot:activator="{ on }">
+					<span v-on="on">
+						<custom-avatar :user="user" :clickEnabled="true" :size="barSize - 2 * barWidth">
+						</custom-avatar>
+					</span>
+				</template>
+				<span>{{sourceDisplayName(user)}}</span>
+			</v-tooltip>
+		</span>
+		<span v-else>
+		<v-icon small>fas fa-user</v-icon>
+		</span>
+	
+	</v-progress-circular >
 
-      <div class="slice">
+      <!-- <div class="slice">
         <div class="bar"></div>
         <div class="fill"></div>
       </div>
-  </div>
+  </div> -->
 
 </template>
 
@@ -33,38 +36,50 @@ export default {
    'custom-avatar': customAvatar
   },
   props: {
-    user: {
+	user: {
       type: Object,
       required: true
     },
-    isTransitive: {
+	isTransitive: {
       type: Boolean
     },
-    credibilityValue: {
-      type: Number
-    }
+	credibilityValue: {
+		type: Number
+	},
+	size: {
+		type: Number,
+		required: false
+	}
   },
   data: () => {
     return {
-
     }
   },
   computed: {
-    isUserNonEmpty: function() {
+	isUserNonEmpty: function() {
       return Object.keys(this.user).length > 0;
     },
-    valueColor: function() {
+	barWidth: function() {
+		return 4;
+	},
+	barSize: function() {
+		if (this.size)
+			return this.size;
+		else
+			return 36;
+	},
+	valueColor: function() {
       if (this.credibilityValue < 0)
         return 'red lighten-2';
-    //   else if (this.credibilityValue == 0)
-    //     return 'gray lighten-1';
-      else if (this.credibilityValue > 0)
+    else if (this.credibilityValue == 0)
+		return 'blue-grey lighten-2';
+    else if (this.credibilityValue > 0)
         return 'green darken-1';
-    },
-    valuePercentage: function() {
-      let percentage = Math.abs(Math.round(this.credibilityValue * 100));
-      return 'p' + percentage;
-    }
+	},
+	valuePercentage: function() {
+		let percentage = Math.abs(Math.round(this.credibilityValue * 100));
+		return 'p' + percentage;
+	}
   },
   mixins: [sourceHelpers]
 

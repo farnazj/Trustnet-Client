@@ -133,6 +133,17 @@ div.vicp-preview-item.vicp-preview-item-circle {
 
 .v-badge__badge .v-icon {
   font-size: 17px !important;
-  inset: calc(100% - 14px) auto auto calc(100% - 14px);
+  inset: calc(100% - 11px) auto auto calc(100% - 15px);
   color: #827717  !important;
+}
+.assessor .v-badge__badge .v-icon {
+  inset: calc(100% - 10px) auto auto calc(100% - 13px); 
+}
+
+.v-chip__content .v-avatar {
+  overflow: initial;
+}
+
+.v-chip .v-badge__badge .v-icon {
+  transform: scale(0.8);
 }

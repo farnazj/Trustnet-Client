@@ -8,6 +8,18 @@
           v-model="search" append-icon="search" label="Search sources you trust or follow"
           single-line hide-details></v-text-field>
       </v-col>
+
+       <v-col :cols="$vuetify.breakpoint.smAndDown ? 12 : 6" class="mt-2">
+
+          <v-checkbox v-model="displayedSourceFilters" label="News Media" value="media" 
+            dense :class="['filter-checkbox', $vuetify.breakpoint.mdAndUp ? 'ml-8': '']" 
+            :hide-details="true" color="blue lighten-2">
+          </v-checkbox>
+          <v-checkbox v-model="displayedSourceFilters" label="Individual Users" value="users"
+            dense class="filter-checkbox ml-4" :hide-details="true">
+          </v-checkbox>
+
+        </v-col>
     </v-row>
 
     <v-row>
@@ -78,10 +90,30 @@ export default {
     querySources: function() {
       let searchLowerCase = this.search.toLowerCase();
 
+       let headers =  {
+          searchterm: this.search,
+          followconstraint: 'not followed',
+        }
+
+      if (this.individualFilterHeader)
+        headers.individual = this.individualFilterHeader;
+
+
       return new Promise((resolve, reject) => {
         let filteredSources = this.followedOrTrusteds.filter(source => {
 
           let fullName = source.systemMade ? '' : source.firstName + ' ' + source.lastName;
+          
+           
+          if (this.individualFilterHeader == 'true') {
+            if (source.systemMade == 1)
+              return false;
+          }
+          else if (this.individualFilterHeader == 'false') {
+            if (!source.systemMade || !source.isVerified )
+              return false;
+          }
+
           return source.userName.toLowerCase().includes(searchLowerCase) ||
             fullName.toLowerCase().includes(searchLowerCase);
         });
@@ -106,3 +138,10 @@ export default {
 
 }
 </script>
+
+<style scoped>
+.filter-checkbox {
+  display: inline-block;
+}
+
+</style>

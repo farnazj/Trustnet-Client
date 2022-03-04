@@ -37,6 +37,7 @@
 import customToolbar from '@/components/CustomToolbar'
 import generalLoading from '@/components/GeneralLoading'
 import authServices from '@/services/authServices'
+import studyServices from '@/services/studyServices'
 import { mapActions } from 'vuex'
 
 export default {
@@ -44,7 +45,7 @@ export default {
     'custom-toolbar': customToolbar,
     'loading': generalLoading
   },
-  props: ['token'],
+  props: ['token', 'mode'],
   data(){
     return {
       type: 'info',
@@ -71,10 +72,20 @@ export default {
 
       verifyCall({ token: this.token })
       .then(response => {
-        this.type = 'info';
-        this.alertMessage = response.data.message;
-        this.alert = true;
-        this.loginVisible = true;
+
+        let prom;
+        if (this.mode == 'user-study')
+          prom = studyServices.finishStudySignup({ token: this.token });
+        else
+          prom = new Promise((resolve) => { resolve(); })
+
+        prom.then(() => {
+          this.type = 'info';
+          this.alertMessage = response.data.message;
+          this.alert = true;
+          this.loginVisible = true;
+        })
+        
       })
       .catch(err => {
         this.alertMessage = err.response.data.message;

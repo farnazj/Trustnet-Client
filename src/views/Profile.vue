@@ -1,6 +1,13 @@
 <template>
   <v-container fluid class="px-0 flex-parent">
 
+    <v-snackbar v-model="showInfoSnackbar" top>
+      {{ editSubmitInfo }}
+      <v-btn class="snackbar-close-button" color="blue lighten-1" text @click="showInfoSnackbar = false" x-small >
+        Close
+      </v-btn>
+    </v-snackbar>
+
     <photo-upload field="avatar" v-model="showUploader"
         @crop-upload-success="updateAuthUser()"
         :noSquare="true"
@@ -40,31 +47,60 @@
             </v-col>
 
             <v-col sm="7" cols="5">
-              <v-card-title>
-                <div>
-                  <div class="headline grey--text text--lighten-4" v-if="!profileOwner.systemMade || !profileOwner.isVerified">
+              <v-card-title class="pb-1"> 
+                <v-row no-gutters>
+                  
+                  <template v-if="!editMode">
+                    <div v-if="profileOwner.description" class="caption break-word bio-text" v-html="profileOwner.description"></div>
+                    <div v-if="AuthUserIsOwner && (!profileOwner.description)"
+                      class="caption bio-text">Add your bio</div>
+                  </template>
+
+                  <v-textarea v-else v-model="edit.bio" dark dense rows=3 :rules="edit.rules"
+                  counter maxlength="250" color="blue-grey lighten-4" class="mr-2 caption bio-input">
+                  </v-textarea>
+                  
+                  <v-col cols="1" align-self="end">
+                    <v-btn v-if="AuthUserIsOwner && !editMode" fab @click="editMode = true"
+                    color="light-green lighten-1" x-small >
+                      <v-icon>{{icons.edit}}</v-icon>
+                    </v-btn>
+                    <v-fab-transition>
+                      <v-btn v-if="editMode" fab dark @click="saveEdits" color="green" x-small :disabled="saveButtonDisabled">
+                        <v-icon>{{icons.check}}</v-icon>
+                      </v-btn>
+                    </v-fab-transition>
+                  </v-col>
+
+                </v-row>
+              </v-card-title>
+
+              <v-card-title class="pt-1">
+                <v-row no-gutters>
+                  <div class="headline grey--text text--lighten-4 mr-1" v-if="!profileOwner.systemMade || !profileOwner.isVerified">
                     {{sourceDisplayName(profileOwner)}}</div>
                    <div class="headline grey--text text--lighten-4" v-else>{{profileOwner.userName}}</div>
 
                   <div class="subheading grey--text text--lighten-2" v-if="!profileOwner.systemMade">({{profileOwner.userName}})</div>
-                  <div class="caption grey--text text--lighten-2 mt-2" v-if="profileOwner.systemMade && !profileOwner.SourceFeeds.length && profileOwner.isVerified">
+                  <div class="caption grey--text text--lighten-2 mt-2 ml-1" v-if="profileOwner.systemMade && !profileOwner.SourceFeeds.length && profileOwner.isVerified">
                     There is currently no RSS feed associated with this source. The posts on this page have been individually imported.
                     You can add this source's feed to {{siteName}} by going to the Sources page <v-icon small color="grey grey--lighten-2">arrow_right_alt</v-icon> Add Feeds.
                   </div>
-                </div>
+                </v-row>
+
               </v-card-title>
             </v-col>
 
             <v-col cols="3">
               <v-row v-if="notUser" justify="end" wrap no-gutters>
-                <v-btn :small="$vuetify.breakpoint.xsOnly" depressed @click="changeTrustStatus()"
-                :color="isTrusted ? 'grey lighten-1' : 'light-green lighten-1' " class="ma-1">
+                <v-btn small depressed @click="changeTrustStatus()"
+                :color="isTrusted ? 'grey lighten-1' : 'light-green lighten-2' " class="ma-1">
                   <span v-if="!isTrusted">Trust</span>
                   <span v-else>Untrust</span>
                 </v-btn>
 
-                <v-btn :small="$vuetify.breakpoint.xsOnly" depressed @click="changeFollowStatus()"
-                :color="isFollowed ? 'grey lighten-1' : 'blue lighten-1' " class="ma-1">
+                <v-btn small depressed @click="changeFollowStatus()"
+                :color="isFollowed ? 'grey lighten-1' : 'blue lighten-3' " class="ma-1">
                   <span v-if="!isFollowed">Follow</span>
                   <span v-else>Unfollow</span>
                 </v-btn>
@@ -141,6 +177,7 @@ import sourceHelpers from '@/mixins/sourceHelpers'
 import consts from '@/services/constants'
 import utils from '@/services/utils'
 import { mapState, mapGetters, mapActions } from 'vuex'
+import { mdiPencil, mdiCheck } from '@mdi/js';
 
 
 export default {
@@ -161,7 +198,19 @@ export default {
       profileOwner: {},
       tabs: null,
       showUploadForm: false,
-      showUploader: false
+      showUploader: false,
+      edit: {
+        bio: '',
+        rules: [v => !v || v.length <= 250 || 'Max 250 characters']
+      },
+      editMode: false,
+      icons: {
+        edit: mdiPencil,
+        check: mdiCheck
+      },
+      showInfoSnackbar: false,
+      editSubmitInfo: '',
+      saveButtonDisabled: true
     }
   },
   created() {
@@ -195,6 +244,9 @@ export default {
     },
     siteName: function() {
       return consts.SITE_NAME;
+    },
+    AuthUserIsOwner: function() {
+      return this.user.userName == this.username;
     },
     ...mapGetters('auth', [
       'user'
@@ -233,6 +285,7 @@ export default {
               this.profileOwner.photoUrl = consts.BASE_URL + '/' + this.profileOwner.photoUrl;
           }
 
+          this.edit.bio = this.profileOwner.description;
         }
         else {
           this.$router.push({ name: 'invalid' });
@@ -258,6 +311,26 @@ export default {
         this.follow({ username: source.userName });
       else
         this.unfollow({ username: source.userName });
+    },
+    saveEdits: function() {
+      this.editMode = false;
+      sourceServices.updateSource({ description: this.edit.bio })
+      .then(res => {
+        Promise.all([this.updateUser(), this.getUser()])
+        .then(() => {
+          this.editSubmitInfo = "Bio has been updated."
+          this.showInfoSnackbar = true;
+        })
+        
+      })
+      .catch(err => {
+        console.log(err)
+        this.editSubmitInfo = "Something went wrong. Please try again later."
+        this.showInfoSnackbar = true;
+      })
+      .finally(() => {
+        this.editMode = false;
+      })
     },
     ...mapActions('profileArticles', [
       'setUsername'
@@ -285,6 +358,15 @@ export default {
       this.hideContainer();
       this.setUsername(val);
       this.getUser();
+    },
+    edit: {
+      handler(val) {
+       if (this.AuthUserIsOwner && val.bio && val.bio.length)
+        this.saveButtonDisabled = false;
+      else
+        this.saveButtonDisabled = true;
+      },
+      deep: true
     }
   },
   mixins: [sourceHelpers]
@@ -326,4 +408,20 @@ export default {
   overflow: initial;
 }
 
+.bio-text {
+  color: #ECEFF1;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  flex-direction: column;
+  margin-right: 1%;
+}
+
+.bio-input {
+  line-height: 1.2rem;
+}
+
+.snackbar-close-button {
+  float: right;
+}
 </style>

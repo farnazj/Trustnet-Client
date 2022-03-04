@@ -25,8 +25,8 @@ export default {
     postId: function() {
       return this.state.postId;
     },
-    standaloneTitleId: function() {
-      return this.state.standaloneTitleId;
+    standaloneTitleIds: function() {
+      return this.state.standaloneTitleIds;
     },
     customTitlesVisible: function() {
       return this.state.customTitlesVisible;
@@ -84,11 +84,11 @@ export default {
     },
 
     ...mapActions({
-      setPostTitleId(dispatch, payload) {
-        return dispatch(this.titlesNamespace + '/setPostTitleId', payload)
+      setPostTitleIds(dispatch, payload) {
+        return dispatch(this.titlesNamespace + '/setPostTitleIds', payload)
       },
-      setTitleId(dispatch, payload) {
-        return dispatch(this.titlesNamespace + '/setTitleId', payload)
+      setTitleIds(dispatch, payload) {
+        return dispatch(this.titlesNamespace + '/setTitleIds', payload)
       },
       populateTitles(dispatch, payload) {
         return dispatch(this.titlesNamespace + '/populateTitles', payload)

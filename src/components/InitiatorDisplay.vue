@@ -11,7 +11,7 @@
       <custom-avatar :user="initiator" :clickEnabled="true"></custom-avatar>
       <v-divider v-if="author" vertical class="mx-2 initiator-divider" ></v-divider>
       <span v-if="author" class="mr-3">{{author}}</span>
-      <span :class="{'ml-1':!author}"> {{timeElapsed(postDate)}} </span>
+      <span v-if="postDate" :class="{'ml-1':!author}"> {{timeElapsed(postDate)}} </span>
     </div>
 
   </v-row>

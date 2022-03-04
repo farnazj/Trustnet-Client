@@ -31,20 +31,20 @@ export default {
       })
   },
   editCustomTitle(params, reqBody) {    
-    return Api().post(`custom-titles/${params.standaloneTitleId}/${params.setId}`,
+    return Api().post(`custom-titles/${params.setId}`,
       reqBody, {
         withCredentials: true
       })
   },
   deleteCustomTitle(params) {
-    return Api().delete(`/custom-titles/${params.standaloneTitleId}/${params.setId}`,
+    return Api().delete(`/custom-titles/${params.setId}`,
     { withCredentials: true })
   },
   getCustomTitlesOfstandaloneTitle(params, headers) {
-    return Api().get(`/custom-titles/${params.standaloneTitleId}`,
+    return Api().get(`/custom-titles/original-title/${params.standaloneTitleId}`,
     {
       withCredentials: true,
       headers: headers
     })
-  },
+  }
 }

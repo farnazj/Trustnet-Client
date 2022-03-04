@@ -2,9 +2,10 @@
     <v-app-bar dense fixed color="lime lighten-1">
 
       <v-toolbar-title @click="goToPage('Home')" class="headline text-uppercase interactable">
+        <v-img src="logo.png" class="logo-img mr-1"></v-img>
         <span class="font-weight-light">Trustnet</span>
       </v-toolbar-title>
-
+       
       <v-spacer></v-spacer>
 
       <template v-if="isLoggedIn" class="center-aligned">
@@ -68,6 +69,7 @@ import customAvatar from '@/components/CustomAvatar'
 import contentBooster from '@/components/ContentBooster'
 import notificationPanel from '@/components/NotificationPanel'
 import sourceServices from '@/services/sourceServices'
+import logHelpers from '@/mixins/logHelpers'
 import { mapState, mapGetters } from 'vuex'
 
 export default {
@@ -119,18 +121,29 @@ export default {
      });
    },
    goToPage: function(page) {
-     if (page != 'Profile')
+    if (page != 'Profile')
       this.$router.push({ name: page.toLowerCase() });
-     else
+    else {
+      this.logEvent({ type: 'visit_profile', data: this.user.userName });
       this.$router.push({ name: 'profile', params: { username: this.user.userName } });
+     }
    }
- }
+ },
+  mixins: [logHelpers]
+
 }
 </script>
 
 <style scoped>
 
 .center-aligned {
-    align-items: center;
+  align-items: center;
+}
+
+.logo-img {
+  display: inline-flex;
+  border-radius: 50%;
+  vertical-align: middle;
+  width: 40px;
 }
 </style>

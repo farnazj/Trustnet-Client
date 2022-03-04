@@ -23,7 +23,7 @@
          </v-col>
          <v-col cols="1">
            <v-row no-gutters justify="end">
-             <v-icon @click="titleDialogVisible = false">clear</v-icon>
+             <v-icon @click="titleDialogVisible = false">{{icons.clear}}</v-icon>
            </v-row>
          </v-col>
        </v-row>
@@ -77,13 +77,13 @@
 
             <v-row no-gutters class="py-1">
               <v-col cols="1">
-                <v-icon @click="changeEndorsement(titleObj, index, false)"
+                <v-icon @click="changeEndorsement(titleObj, index, false)" small
                 v-if="titleObj.userEndorsed" color="primary" class="xs-icon-font interactable">
-                  fas fa-thumbs-up
+                   {{icons.thumbUpFilled}}
                 </v-icon>
-                <v-icon @click="changeEndorsement(titleObj, index, true)" v-else
+                <v-icon @click="changeEndorsement(titleObj, index, true)" v-else small
                 color="primary" class="xs-icon-font interactable">
-                  far fa-thumbs-up
+                  {{icons.thumbUpOutline}}
                 </v-icon>
               </v-col>
 
@@ -170,6 +170,7 @@ import timeHelpers from '@/mixins/timeHelpers'
 import titleHelpers from '@/mixins/titleHelpers'
 import titleServices from '@/services/titleServices'
 import { mapState, mapGetters, mapActions } from 'vuex'
+import { mdiClose, mdiThumbUpOutline, mdiThumbUp } from '@mdi/js';
 
 export default {
   components: {
@@ -209,8 +210,12 @@ export default {
         ]
       },
       alert: false,
-      alertMessage: ''
-
+      alertMessage: '',
+      icons: {
+        clear: mdiClose,
+        thumbUpOutline: mdiThumbUpOutline,
+        thumbUpFilled: mdiThumbUp
+      }
     }
   },
   computed: {
@@ -264,20 +269,22 @@ export default {
 
       if (this.$refs.newTitleForm.validate()) {
 
-        titleServices.postCustomTitle({ postId: this.postId,
-        customTitleText: this.newTitle,
-        appRequest: true })
-        .then(res => {         
+        titleServices.postCustomTitle({
+          postId: this.postId,
+          customTitleText: this.newTitle,
+          appRequest: true
+        }).then(res => {         
           /*
           If the user's submitted custom title is the first every custom title submitted
           for the post, the post does not have an associated standaloneTitle with each and
-          therefore the value of titleId in the titles module in the store is null.
+          therefore the value of titleIds in the titles module in the store is [].
           After submitting the custom title, the server returns the standaloneCustomTitle
-          in the data field in its response and this component sets the titleId in the store's
+          in the data field in its response and this component adds the titleId in the store's
           state to be the id in the data returned from the server.
           */
-          if (!this.standaloneTitleId) {
-            this.setTitleId(res.data.data.id)
+
+          if (!this.standaloneTitleIds.length) {
+            this.setTitleIds(res.data.data.map(el=> el.id))
             .then(() => {
               this.fetchPostTitles();
             })
@@ -356,7 +363,7 @@ export default {
       if (this.$refs.editTitleForm[index].validate()) {
 
         titleServices.editCustomTitle({
-          standaloneTitleId: this.standaloneTitleId,
+          standaloneTitleIds: this.standaloneTitleIds,
           setId: this.edit.setId
         }, { text: this.edit.text })
         .then(res => {

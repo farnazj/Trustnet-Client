@@ -10,7 +10,7 @@
          </v-col>
          <v-col cols="1">
            <v-row no-gutters justify="end">
-             <v-icon @click="hideHistory">clear</v-icon>
+             <v-icon @click="hideHistory">{{icons.close}}</v-icon>
            </v-row>
          </v-col>
        </v-row>
@@ -19,7 +19,7 @@
 
        <v-card-text>
 
-         <v-row justify="start" align="center" class="pt-4">
+         <v-row justify="start" align="center" class="pt-1" no-gutters>
            <custom-avatar :user="historyOwner" :clickEnabled="true" class="mr-2">
            </custom-avatar>
             <span>{{sourceDisplayName(historyOwner)}}</span>
@@ -53,6 +53,7 @@ import timeHelpers from '@/mixins/timeHelpers'
 import sourceHelpers from '@/mixins/sourceHelpers'
 import consts from '@/services/constants'
 import { mapState, mapActions } from 'vuex'
+import { mdiClose } from '@mdi/js';
 
 export default {
   components: {
@@ -70,6 +71,9 @@ export default {
   },
   data: () => {
     return {
+      icons: {
+        close: mdiClose
+      }
     }
   },
   computed: {

@@ -55,18 +55,18 @@
           This is you
         </v-row>
 
-        <v-row v-else no-gutters align="end">
+        <v-row v-else no-gutters align="end" class="pl-1">
 
           <v-btn x-small text :color="isTrusted ? 'grey darken-2' : 'light-green darken-3' "
             @click.stop="changeTrustStatus(source)" :class="$vuetify.breakpoint.smAndDown ? 'custom-btn-text-sm' :'custom-btn-text' ">
-            <span v-if="isTrusted"> Untrust</span>
-            <span v-else> Trust</span>
+            <span v-if="isTrusted" class="caption"> Untrust</span>
+            <span v-else class="caption"> Trust</span>
           </v-btn>
 
           <v-btn x-small text :color="isFollowed ? 'grey darken-2' : 'light-blue darken-4' "
             @click.stop="changeFollowStatus(source)" :class="$vuetify.breakpoint.smAndDown ? 'custom-btn-text-sm' :'custom-btn-text' ">
-            <span v-if="isFollowed"> Unfollow</span>
-            <span v-else> Follow</span>
+            <span v-if="isFollowed" class="caption"> Unfollow</span>
+            <span v-else class="caption"> Follow</span>
           </v-btn>
 
           <v-spacer></v-spacer>
