@@ -1,11 +1,23 @@
 <template>
   <v-row no-gutters>
     <v-col cols="12">
-      <v-row class="pa-4">
+      <v-row no-gutters class="pa-4">
         <v-col :cols="$vuetify.breakpoint.smAndDown ? 12 : 6">
           <v-text-field
             v-model="search" append-icon="search" label="Search sources you do not follow yet"
             single-line hide-details></v-text-field>
+        </v-col>
+
+        <v-col :cols="$vuetify.breakpoint.smAndDown ? 12 : 6" class="mt-2">
+
+          <v-checkbox v-model="displayedSourceFilters" label="News Media" value="media" 
+            dense :class="['filter-checkbox', $vuetify.breakpoint.mdAndUp ? 'ml-8': '']" 
+            :hide-details="true" color="blue lighten-2">
+          </v-checkbox>
+          <v-checkbox v-model="displayedSourceFilters" label="Individual Users" value="users"
+            dense class="filter-checkbox ml-4" :hide-details="true">
+          </v-checkbox>
+
         </v-col>
       </v-row>
 
@@ -43,6 +55,7 @@ export default {
   data () {
     return {
       sourcesToFollow: []
+    
     }
   },
   created() {
@@ -50,15 +63,20 @@ export default {
   },
   methods: {
     querySources: function() {
+      let headers =  {
+          searchterm: this.search,
+          followconstraint: 'not followed',
+        }
+
+      if (this.individualFilterHeader)
+        headers.individual = this.individualFilterHeader;
+
       return sourceServices.getSources(
         {
           limit: this.limit,
           offset: this.offset
         },
-        {
-          searchterm: this.search,
-          followconstraint: 'not followed'
-        }
+        headers
       )
     },
     setupSourcestoFollow: function() {
@@ -84,6 +102,7 @@ export default {
     sourceResults: function() {
       this.setupSourcestoFollow();
     }
+   
   },
   mixins: [loadMore]
 }
@@ -94,4 +113,9 @@ export default {
 .username-text {
   font-size: 1.2em;
 }
+
+.filter-checkbox {
+  display: inline-block;
+}
+
 </style>
