@@ -48,6 +48,11 @@
           </v-col>
 
         </v-row>
+
+        <v-row no-gutters class="caption mt-1 source-info blue-grey--text text--darken-2">
+          {{source.description}}
+        </v-row>
+
       </v-container>
 
       <v-card-actions class="pb-1 px-0">
@@ -182,7 +187,7 @@ export default {
 }
 
 .source-info-wrapper {
-  height: 70px;
+  height: 95px;
   align-items: flex-start;
 }
 
@@ -192,6 +197,12 @@ export default {
 
 .username {
   display: inline-block;
+}
+
+.source-info {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 </style>

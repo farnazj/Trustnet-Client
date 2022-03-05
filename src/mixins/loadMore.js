@@ -7,7 +7,7 @@ export default {
       displayedSourceFilters: ['media', 'users'],
       individualFilterHeader: null,
       sourceResults: [],
-      limit: 50,
+      limit: 60,
       offset: 0,
       loadDisabled: false
     }
