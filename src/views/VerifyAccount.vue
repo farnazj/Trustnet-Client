@@ -74,8 +74,8 @@ export default {
       .then(response => {
 
         let prom;
-        if (this.mode == 'user-study')
-          prom = studyServices.finishStudySignup({ token: this.token });
+        if (this.mode)
+          prom = studyServices.finishStudySignup({ token: this.token}, { specialGroup: this.mode });
         else
           prom = new Promise((resolve) => { resolve(); })
 

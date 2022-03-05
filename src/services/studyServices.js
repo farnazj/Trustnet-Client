@@ -1,8 +1,8 @@
 import Api from './api'
 
 export default {
-    finishStudySignup(params) {
-        return Api().post(`/finish-user-study-signup/${params.token}`, {}, {
+    finishStudySignup(params, reqBody) {
+        return Api().post(`/finish-user-study-signup/${params.token}`, reqBody, {
             withCredentials: true
         })
     },

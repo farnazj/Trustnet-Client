@@ -74,6 +74,11 @@ let router = new Router({
       component: Signup
     },
     {
+      path: '/signup',
+      name: 'signup',
+      component: Signup
+    },
+    {
       path: '/forgot-password',
       name: 'forgotPassword',
       component: ForgotPassword
