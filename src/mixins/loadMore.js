@@ -32,8 +32,10 @@ export default {
       this.querySources()
       .then(results => {
         if (results.data.length) {
-          this.sourceResults.push(...results.data);
-          this.sourceResults.sort(utils.compareSources);
+          let retreivedData = results.data;
+          retreivedData.sort(utils.compareSources);
+          this.sourceResults.push(...retreivedData);
+          
           this.offset += results.data.length;
         }
         if (results.data.length < this.limit)
