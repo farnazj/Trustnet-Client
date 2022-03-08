@@ -42,6 +42,7 @@ import assessmentsPane from '@/components/AssessmentsPane'
 import discussionPane from '@/components/DiscussionPane'
 import utils from '@/services/utils'
 import { mapState, mapActions } from 'vuex'
+import { mdiClose } from '@mdi/js';
 
 export default {
   components: {
@@ -60,7 +61,10 @@ export default {
   },
   data() {
     return {
-      assessmentsSelected: true
+      assessmentsSelected: true,
+      icons: {
+        close: mdiClose
+      }
     }
   },
   computed: {
