@@ -75,7 +75,7 @@ let router = new Router({
     },
     {
       path: '/signup',
-      name: 'signup',
+      name: 'signupNoMode',
       component: Signup
     },
     {
@@ -91,13 +91,13 @@ let router = new Router({
     },
     {
       path: '/verify-new-account/:mode/:token',
-      name: 'verifyAccount',
+      name: 'verifyNewAccount',
       props: true,
       component: VerifyAccount
     },
     {
       path: '/verify-existing-account/:mode/:token',
-      name: 'verifyAccount',
+      name: 'verifyExistingAccount',
       props: true,
       component: VerifyAccount
     },
