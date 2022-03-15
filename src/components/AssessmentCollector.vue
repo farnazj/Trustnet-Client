@@ -136,7 +136,7 @@ export default {
           color: 'green--text text--darken-2'
         },
         {
-          label: 'This article is inaccurate',
+          label: 'This article is inaccurate or misleading',
           value: consts.ACCURACY_CODES.REFUTED + 2,
           color: 'red--text text--accent-3'
         },

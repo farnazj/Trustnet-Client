@@ -96,7 +96,7 @@ export default {
   methods: {
     accuracyMapping: function(val){
       if (val < 0)
-        return 'This article is inaccurate.';
+        return 'This article is inaccurate or misleading.';
       else if (val == 0)
         return 'I want to know about the accuracy of this article.';
       else if (val > 0)
