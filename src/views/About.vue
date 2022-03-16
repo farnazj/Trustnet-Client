@@ -157,7 +157,7 @@
                 </p>
                 <p>
                   All of the above filters work in conjuction with each other. For
-                  example, to see the articles that you have not seen yet and that have
+                  example, to see the posts that you have not seen yet and that have
                   been confirmed by your trusted sources, you can select <v-icon>remove_red_eye</v-icon>
                   Seen Status <v-icon>arrow_right_alt</v-icon> Not Seen, <v-icon>gavel</v-icon>
                   Accuracy <v-icon>arrow_right_alt</v-icon> Confirmed, and

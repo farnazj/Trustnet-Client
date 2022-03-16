@@ -105,7 +105,11 @@ export default {
   components: {
     'custom-toolbar': customToolbar
   },
-  props: ['mode'],
+  props: {
+    mode: {
+      required: false
+    }
+  },
   data(){
     return {
       user: {
@@ -156,8 +160,8 @@ export default {
       if (this.$refs.signupForm.validate()) {
 
         let data = this.user;
-        if (this.mode == 'user-study')
-          data.userStudy = true;
+        if (this.mode)
+          data.specialGroup = this.mode;
 
         this.$store.dispatch('auth/signup', data)
         .then(response => {
