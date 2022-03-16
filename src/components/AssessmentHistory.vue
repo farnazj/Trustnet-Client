@@ -96,11 +96,11 @@ export default {
   methods: {
     accuracyMapping: function(val){
       if (val < 0)
-        return 'This article is inaccurate or misleading.';
+        return 'This content is inaccurate or misleading.';
       else if (val == 0)
-        return 'I want to know about the accuracy of this article.';
+        return 'I want to know about the accuracy of this content.';
       else if (val > 0)
-        return 'This article is accurate.'
+        return 'This content is accurate.'
     },
     hideHistory: function() {
       this.setHistoryVisibility(false);

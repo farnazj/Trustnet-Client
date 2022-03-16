@@ -9,7 +9,7 @@ extend("required", {
         };
       },
     computesRequired: true,
-    message: 'Please assess the accuracy of the article'
+    message: 'Please assess the accuracy of the content'
 });
 
 extend('reasoningRule', {
