@@ -149,15 +149,6 @@ export default {
   text-align: right;
 }
 
-#assessment_container {
-  right: 0px;
-  width: 34%;
-  max-height: 95vh;
-  min-height: 95vh;
-  overflow-y: auto;
-  bottom: 0px;
-}
-
 .assessment-col {
   overflow-y: scroll;
   max-height: 90vh;

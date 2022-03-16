@@ -1,7 +1,7 @@
 <template>
 
   <v-fade-transition v-if="visible">
-    <v-row class="pt-12" id="assessment_container" no-gutters>
+    <v-row class="pt-12 engagement-container" no-gutters>
       <v-col cols="12">
         <v-card outlined>
 
@@ -105,7 +105,7 @@ export default {
   text-align: right;
 }*/
 
-#assessment_container {
+.engagement-container {
   right: 0px;
   width: 34%;
   max-height: 98vh;
@@ -113,16 +113,6 @@ export default {
   /*overflow-y: auto;*/
   overflow-y: hidden;
   bottom: 0px;
-}
-
-/*.assessment-col {
-  overflow-y: scroll;
-  max-height: 90vh;
-  min-height: 90vh;
-}*/
-
-.assessment-col:first-child {
-  border-right: 1px solid #B0BEC5;
 }
 
 .clear-sign {

@@ -142,7 +142,7 @@
                   assessmentsNamespace="profileAssessments" commentsNamespace="profileComments" titlesNamespace="profileTitles" :loadLocked="tabs != 'history'"></article-holder>
                 </v-col>
 
-                <engagement-container assessmentsNamespace="profileAssessments" commentsNamespace="profileComments" class="assessments-container">
+                <engagement-container assessmentsNamespace="profileAssessments" commentsNamespace="profileComments" class="engagement-container">
                 </engagement-container>
 
               </v-row>
@@ -390,7 +390,7 @@ export default {
   border-radius: 50%;
 }
 
-.assessments-container {
+.engagement-container {
   position: sticky;
   top: 30px;
 }

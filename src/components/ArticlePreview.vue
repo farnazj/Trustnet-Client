@@ -136,7 +136,7 @@
   import sourceServices from '@/services/sourceServices'
   import postServices from '@/services/postServices'
   import utils from '@/services/utils'
-  import consts from '../services/constants.js'
+  import consts from '@/services/constants'
   import { mapState, mapActions } from 'vuex'
 
   const { INITIAL_TOP_LEVEL_COMMENTS_LIMIT } = consts;
@@ -229,6 +229,8 @@
       },
       getInitialComments: function() {
         if (this.commentState.postIdOfComments !== this.post.id) {
+
+          console.log('getting initial comments')
           this.clearComments()
           .then(() => {
             return this.getPostComments({

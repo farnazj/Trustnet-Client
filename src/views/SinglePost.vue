@@ -7,15 +7,15 @@
       <custom-titles titlesNamespace="singleArticleTitles" filtersNamespace="articleFilters"></custom-titles>
       <engagement-history assessmentsNamespace="singleArticleAssessments" commentsNamespace="singleArticleComments"></engagement-history>
 
-      <v-col class="pt-12" md="7" cols="8" :offset="$vuetify.breakpoint.smAndDown ? 0 : 1" >
+      <v-col class="pt-12 ml-1" md="7" cols="8" >
         <article-preview v-if="post" :post="post" detailsNamespace="singleArticleDetails"
           filtersNamespace="articleFilters"
           assessmentsNamespace="singleArticleAssessments" commentsNamespace="singleArticleComments" titlesNamespace="singleArticleTitles">
         </article-preview>
       </v-col>
 
-      <v-col>
-        <engagement-container assessmentsNamespace="singleArticleAssessments" commentsNamespace="singleArticleComments" class="frozen">
+      <v-col md="5" cols="4">
+        <engagement-container assessmentsNamespace="singleArticleAssessments" commentsNamespace="singleArticleComments" class="single-post-engagements frozen">
         </engagement-container>
       </v-col>
     </v-row>
@@ -36,8 +36,12 @@ import customTitles from '@/components/CustomTitles'
 import engagementHistory from '@/components/EngagementHistory'
 import assessmentHelpers from '@/mixins/assessmentHelpers'
 
-import postServices from '@/services/postServices'
+import consts from '@/services/constants'
+
 import { mapState, mapActions } from 'vuex'
+
+const { INITIAL_TOP_LEVEL_COMMENTS_LIMIT } = consts;
+
 
 export default {
   components: {
@@ -52,21 +56,29 @@ export default {
   props: ['postid'],
   data () {
     return {
-      post: null
+      post: null,
+      initialTopLevelCommentsLimit: INITIAL_TOP_LEVEL_COMMENTS_LIMIT
+
     }
   },
   created() {
     if (this.postid)
       this.getArticle();
+
     this.fetchFollows();
     this.fetchTrusteds();
+
+    console.log('comment limit', this.initialTopLevelCommentsLimit)
   },
   computed: {
-    ...mapState('homeAssessments', [
+    ...mapState('singleArticleAssessments', [
      'visible'
     ]),
     ...mapState('articleFilters', [
       'articles'
+    ]),
+    ...mapState('singleArticleComments', [
+      'commentState'
     ])
   },
   beforeRouteLeave (to, from, next) {
@@ -78,10 +90,11 @@ export default {
   methods: {
     getArticle: function() {
       this.getSingleArticle({ postId: this.postid })
-      // postServices.getBoostByPostId({postId: this.postid})
+      
       .then( () => {
         //this.showArticleDrawer(res.data);
         this.post = this.articles[0];
+        this.getInitialComments();
         Promise.all(this.restructureAssessments())
         .then(() => {
           this.showAssessments({
@@ -94,6 +107,18 @@ export default {
     },
     hideAssessments: function() {
       this.hideContainer();
+    },
+    getInitialComments: function() {
+    
+      this.clearComments()
+      .then(() => {
+        return this.getPostComments({
+          postIdOfComments: this.postid,
+          limit: this.initialTopLevelCommentsLimit,
+          offset: 0
+        })
+      })
+      
     },
     ...mapActions('singleArticleAssessments', [
       'hideContainer',
@@ -112,6 +137,10 @@ export default {
     ]),
     ...mapActions('articleFilters', [
       'getSingleArticle'
+    ]),
+    ...mapActions('singleArticleComments', [
+      'getPostComments',
+      'clearComments'
     ])
   },
   watch: {
@@ -122,3 +151,9 @@ export default {
   mixins: [assessmentHelpers]
 }
 </script>
+
+<style scoped>
+.single-post-engagements {
+  width: 40%;
+}
+</style>
