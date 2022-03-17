@@ -67,8 +67,6 @@ export default {
 
     this.fetchFollows();
     this.fetchTrusteds();
-
-    console.log('comment limit', this.initialTopLevelCommentsLimit)
   },
   computed: {
     ...mapState('singleArticleAssessments', [

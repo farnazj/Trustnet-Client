@@ -34,7 +34,7 @@
         :discussionObj="dItem" :depth="depth + 1"></inner-discussion>
       <p
         @click="getReplies(replyCommentsLimit)"
-        v-if="discussionObj.eType && discussionObj.rootSetId === null && commentsRemaining"
+        v-if=" discussionObj.rootSetId == null && commentsRemaining"
         class="caption blue--text text--darken-3 interactable ml-10 mb-1"
       >
         Show more replies
@@ -108,7 +108,7 @@ export default {
   methods: {
     getReplies(lim) {
       this.getReplyComments({
-        rootSetId: this.discussionObj.setId,
+        rootSetId: this.discussionObj.eType ? this.discussionObj.setId : this.discussionObj.assessor.id,
         limit: lim,
         offset: this.repliesOffset
       })
@@ -117,6 +117,7 @@ export default {
         if (replyComments.length < lim) {
           this.commentsRemaining = false;
         }
+
       })
     },
     ...mapActions({

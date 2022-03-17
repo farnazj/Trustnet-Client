@@ -134,7 +134,7 @@ export default {
       for (const aType of ['confirmed', 'questioned', 'refuted']) {
         for (const a of this.assessments[aType]) {
           const newA = this.preprocessAssessment(a, aType);
-          discussionMap.set(newA.assessor.id, newA);
+          discussionMap.set('' + newA.assessor.id, newA); //empty string prepended to convert sourceId from number to string
         }
       }
 
@@ -174,7 +174,7 @@ export default {
           discussionTree.push(d);
         }
         else {
-          let commentParent = this.discussionMap.get(d.parentSetId);
+          let commentParent = this.discussionMap.get('' + d.parentSetId);
           d.parent = commentParent;
           commentParent.replies.push(d);
         }

@@ -64,6 +64,7 @@ export default {
           offset: payload.offset
         })
         .then(response => {
+
           let replyComments = response.data.length ? response.data : [];
           context.commit('add_comments', {
             comments: replyComments
