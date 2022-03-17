@@ -2,12 +2,14 @@
 	
   <v-card outlined class="discussion-pane-card">
     <v-form class="pl-2 pr-2 my-2">
-        <v-textarea auto-grow rows="1" v-model="newComment" label="Add a comment here..." hide-details="auto" append-icon="mdi-send" @click:append="submitComment" color="blue" style="font-size: 14px"></v-textarea>
+        <v-textarea auto-grow rows="1" v-model="newComment" label="Add a comment here..." hide-details="auto" append-icon="mdi-send" 
+          @click:append="submitComment" color="blue" class="new-comment-textbox"></v-textarea>
     </v-form>
 
     <div class="discussion-col">
       <template v-for="(dItem, index) in thread">
-          <inner-discussion :key="dItem.eId" :assessmentsNamespace="assessmentsNamespace" :commentsNamespace="commentsNamespace" :discussionObj="dItem" :depth="0"></inner-discussion>
+          <inner-discussion :key="dItem.eId" :assessmentsNamespace="assessmentsNamespace" :commentsNamespace="commentsNamespace" 
+            :discussionObj="dItem" :depth="0"></inner-discussion>
           <v-divider :key="`divider-${dItem.eId}`" v-if="index != thread.length - 1" class="mt-1"></v-divider>
       </template>
       <p
@@ -103,7 +105,7 @@ export default {
       })
     },
     preprocessAssessment(obj, aType) {
-      const ot = obj.history.length ? obj.history[obj.history.length - 1].createdAt : obj.lastVersion.createdAt;
+      const ot = (obj.history != null && obj.history.length) ? obj.history[obj.history.length - 1].createdAt : obj.lastVersion.createdAt;
       const newA = {
         ...obj,
         assessmentType: aType,
@@ -227,6 +229,10 @@ export default {
   overflow-y: scroll;
   max-height: 85vh;
   min-height: 85vh;
+}
+
+.new-comment-textbox {
+  font-size: 14px;
 }
 
 </style>

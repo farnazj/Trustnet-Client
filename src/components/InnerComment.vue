@@ -13,8 +13,14 @@
         <v-form v-if="editing">
           <v-textarea auto-grow rows="1" :autofocus="true" dense v-model="editText" hide-details="auto" color="blue" class="assessment-text-inner">
             <template slot="append">
-              <v-icon @click="sendEdit" x-small color="blue">mdi-send</v-icon>
-              <v-icon @click="editing = false; resetEditText()" x-small color="red">clear</v-icon>
+              <v-btn x-small @click="sendEdit" icon class="mr-1">
+                <v-icon  small color="blue" >mdi-send</v-icon>
+              </v-btn>
+
+              <v-btn x-small @click="editing = false; resetEditText()" icon class="mr-1">
+                <v-icon  small color="red" >clear</v-icon>
+              </v-btn>
+
             </template>
           </v-textarea>
         </v-form>

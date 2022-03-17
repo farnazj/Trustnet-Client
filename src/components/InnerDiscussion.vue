@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div :style="!discussionObj.eType ? 'background-color: #e8f3ff' : 'background-color: white'" class="mt-2">
+    <div  :class="{'mt-2': true, 'assessment-background': !discussionObj.eType}">
       <template v-if="deepNest">
 
         <v-row class="ml-9 mb-n6">
@@ -140,5 +140,9 @@ export default {
 
 .parent-text {
   font-size: 11px;
+}
+
+.assessment-background {
+  background-color: #F9FBE7;
 }
 </style>

@@ -105,8 +105,9 @@ export default {
     },
     timestamp() {
       return this.timeElapsed(
-        this.assessmentObj.history.length ? this.assessmentObj.history[this.assessmentObj.history.length - 1].createdAt : this.assessmentObj.lastVersion.createdAt
-        );
+        (this.assessmentObj.history != null && this.assessmentObj.history.length) ? this.assessmentObj.history[this.assessmentObj.history.length - 1].createdAt : 
+          this.assessmentObj.lastVersion.createdAt
+      );
     },
     truncatedText() {
       return this.assessmentObj.lastVersion.body.split(' ').slice(0, 25).join(' ') + '...';
