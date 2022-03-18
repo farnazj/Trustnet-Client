@@ -36,7 +36,6 @@ export default {
     },
 
     set_initial_engagement_tab: (state, payload) => {
-      console.log('chi shod pas paylaod', payload)
       state.initialEngagementTab = payload;
     }
   },

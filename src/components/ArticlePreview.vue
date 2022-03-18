@@ -123,7 +123,7 @@
           :elevation="shownAssessmentPostId == post.id ? 24 : 4"
         >
           <v-row align="center" justify="center" no-gutters class="parent-height" >
-            <v-icon :small="$vuetify.breakpoint.smAndDown" medium>arrow_right</v-icon>
+            <v-icon small>{{icons.gavel}}</v-icon>
           </v-row>
         </v-card>
       </v-col>
@@ -144,6 +144,7 @@
   import utils from '@/services/utils'
   import consts from '@/services/constants'
   import { mapState, mapActions } from 'vuex'
+  import { mdiGavel } from '@mdi/js';
 
   const { INITIAL_TOP_LEVEL_COMMENTS_LIMIT } = consts;
 
@@ -183,7 +184,10 @@
         boostObjects: [],
         postSeen: false,
         displayedAlternativeTitle: null,
-        initialTopLevelCommentsLimit: INITIAL_TOP_LEVEL_COMMENTS_LIMIT
+        initialTopLevelCommentsLimit: INITIAL_TOP_LEVEL_COMMENTS_LIMIT,
+        icons: {
+          gavel: mdiGavel
+        }
       }
     },
      created() {
@@ -275,8 +279,6 @@
       },
       getInitialComments: function() {
         if (this.commentState.postIdOfComments !== this.post.id) {
-
-          console.log('getting initial comments')
           this.clearComments()
           .then(() => {
             return this.getPostComments({
