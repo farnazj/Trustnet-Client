@@ -230,6 +230,7 @@ export default {
 .discussion-col {
   /* overflow-y: auto;
   overflow-x: hidden; */
+  overflow-x: hidden;
   overflow-y: scroll;
   max-height: 85vh;
   min-height: 85vh;
