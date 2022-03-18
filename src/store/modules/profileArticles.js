@@ -16,7 +16,11 @@ export default {
       return {
         filteredTags: state.filteredTags
       }
-    }
+    },
+    postHasComment: (state) => 
+      (postId) => {
+        return state.articlesCommentOwnership[postId];
+      }
   },
   mutations: {
 
