@@ -15,7 +15,8 @@ export default {
     articles: [],
     offset: 0,
     limit: 10,
-    articlesFetched: false
+    articlesFetched: false,
+    articlesCommentOwnership: {} //mapping of post id to Boolean indicating whether the post has comments
   },
   getters: {
 
@@ -29,7 +30,12 @@ export default {
         filteredLists: state.filteredLists,
         filteredTags: state.filteredTags
       }
-    }
+    },
+    postHasComment: (state) => 
+      (postId) => {
+        return state.articlesCommentOwnership[postId];
+      }
+    
 
   },
   mutations: {
@@ -38,6 +44,14 @@ export default {
       let filteredPosts = posts.filter(post => !articleIds.includes(post.id) );
       state.articles.push(...filteredPosts);
       state.offset += posts.length;
+
+      filteredPosts.forEach(post => {
+        let postId = post.id;
+        let newAttr = {};
+        newAttr[postId] = false;
+        state.articlesCommentOwnership = Object.assign({}, state.articlesCommentOwnership, newAttr);
+      })
+      
     },
 
     refresh_articles: (state) => {
@@ -92,6 +106,13 @@ export default {
         state.filteredTags.splice(index, 1);
       }
 
+    },
+
+    update_has_comments: (state, payload) => {
+      let postId = payload.postId;
+
+      if (postId in state.articlesCommentOwnership)
+        Vue.set(state.articlesCommentOwnership, postId, payload.hasComments);
     }
 
   },
@@ -129,8 +150,9 @@ export default {
 
         context.dispatch('getArticles')
         .then(posts => {
-           context.commit('append_articles', posts);
-           resolve(); })
+          context.commit('append_articles', posts);
+          resolve();
+        })
         .catch(error => {
           reject(error);
         })
@@ -248,6 +270,10 @@ export default {
         })
       })
 
+    },
+
+    updateHasComments: (context, payload) => {
+      context.commit('update_has_comments', payload);
     }
 
   }

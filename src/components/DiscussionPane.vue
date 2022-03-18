@@ -1,6 +1,6 @@
 <template>
 	
-  <v-card outlined class="discussion-pane-card">
+  <v-card outlined class="discussion-pane-card" tile>
     <v-form class="pl-2 pr-2 my-2">
         <v-textarea auto-grow rows="1" v-model="newComment" label="Add a comment here..." hide-details="auto" append-icon="mdi-send" 
           @click:append="submitComment" color="blue" class="new-comment-textbox"></v-textarea>
@@ -96,7 +96,10 @@ export default {
           postIdOfComments: this.postId,
           body: this.newComment
       })
-      .then(() => {this.newComment = ''})
+      .then(() => {
+        this.updatePostHasComments({ hasComments: true });
+        this.newComment = '';
+      })
       // .then(this.updateComments);
     },
     updateComments() {
@@ -188,6 +191,9 @@ export default {
       },
       getPostComments (dispatch, payload) {
         return dispatch(this.commentsNamespace + '/getPostComments', payload)
+      },
+      updatePostHasComments (dispatch, payload) {
+        return dispatch(this.commentsNamespace + '/updatePostHasComments', payload)
       }
     })
   },

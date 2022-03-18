@@ -34,7 +34,7 @@
       <template v-for="(key, index) in ['confirmed', 'refuted']" >
         <v-col :key="index" :xs6="isDebated" :xs12="!isDebated" v-if="sortedAssessments[key].length != 0">
 
-          <v-card class="assessment-col" outlined>
+          <v-card class="assessment-col" outlined tile>
 
             <v-card-title>
              <div>

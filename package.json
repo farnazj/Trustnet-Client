@@ -23,7 +23,7 @@
     "vuex": "^3.6.2"
   },
   "devDependencies": {
-    "@fortawesome/fontawesome-free": "^5.15.3",
+    "@fortawesome/fontawesome-free": "^6.1.0",
     "@mdi/font": "^5.9.55",
     "@vue/cli-plugin-babel": "^4.5.8",
     "@vue/cli-plugin-eslint": "^4.2.3",

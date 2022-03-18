@@ -12,7 +12,7 @@
 
         <v-card @click="revealArticleDetails(post)" class="pa-1 "
         :tile="shownAssessmentPostId == null || shownAssessmentPostId != post.id"
-        :elevation="shownAssessmentPostId == post.id ? 24 : 4">
+        :elevation="shownAssessmentPostId == post.id ? 24 : 3">
           <v-row no-gutters >
 
             <!-- <v-col :cols="$vuetify.breakpoint.smAndDown ? 12 : 3">
@@ -95,9 +95,15 @@
 
           <v-row v-if="uniqueBoosters.length" no-gutters wrap>
             <v-col cols="12" >
-               <v-icon small>fas fa-share</v-icon>
+              <v-icon small>fas fa-share</v-icon>
               <span @click.stop="showBoosters" class="caption blue--text text--darken-3 interactable">
                 Show sharers info</span>
+
+              <v-btn @click.stop="showEngagementPane('discussion')" class="comment-indicator pr-3"
+                v-if="postHasComment" plain>
+                <v-icon >fa-regular fa-comments</v-icon>
+              </v-btn>
+
             </v-col>
           </v-row>
 
@@ -112,7 +118,7 @@
           :class="[$vuetify.breakpoint.smAndDown ? 'assessment-hinter-vertical' : 'assessment-hinter-horizontal', 'interactable']"
           :elevation="shownAssessmentPostId == post.id ? 24 : 4"
         > -->
-        <v-card flat @click.stop="() => {revealAssessments(); getInitialComments()}" :height="$vuetify.breakpoint.smAndDown ? '17px' : '80px'" color="lime lighten-3"
+        <v-card flat @click.stop="showEngagementPane('assessments')" :height="$vuetify.breakpoint.smAndDown ? '17px' : '80px'" color="lime lighten-3"
           :class="[$vuetify.breakpoint.smAndDown ? 'assessment-hinter-vertical' : 'assessment-hinter-horizontal', 'interactable']"
           :elevation="shownAssessmentPostId == post.id ? 24 : 4"
         >
@@ -180,6 +186,42 @@
         initialTopLevelCommentsLimit: INITIAL_TOP_LEVEL_COMMENTS_LIMIT
       }
     },
+     created() {
+      this.fetchAssociations();
+      this.fetchSeenStatus();
+      this.arrangeTitles();
+
+      // let thisRef = this;
+    
+      /*
+      Checking to see if the post has at least one comment (top level comment or reply to an assessment)
+      to signal it on the preview card
+      */ 
+      this.getPostComments({
+        postIdOfComments: this.post.id,
+        limit: 1,
+        offset: 0
+      })
+      .then(postComment => {
+        if (postComment.length)
+          this.updateHasComments({ postId: this.post.id, hasComments: true });
+        else {
+          
+          let assessmentSourceIds = Object.values(this.assessments).flat().map(assessment => assessment.lastVersion.SourceId).filter(sourceId => sourceId);
+          assessmentSourceIds.forEach(sourceId => {
+            this.getReplyComments({
+              rootSetId: sourceId,
+              limit: 1,
+              offset: 0
+            })
+            .then(replies => {
+              if (replies.length)
+                this.updateHasComments({ postId: this.post.id, hasComments: true });
+            })
+          });
+        }
+      })
+    },
     computed: {
 
       sortedBoosts: function() {
@@ -205,7 +247,11 @@
       },
       ...mapState('preferences', [
         'userPreferences'
-      ])
+      ]),
+      postHasComment: function() {
+        let getterName = this.filtersNamespace + '/postHasComment';
+        return this.$store.getters[getterName](this.post.id);
+      }
 
     },
     methods: {
@@ -316,6 +362,11 @@
         this.populateTitles(this.titleObjects);
         this.setTitlesVisibility(true);
       },
+      showEngagementPane: function(initialTab) {
+        this.revealAssessments();
+        this.getInitialComments();
+        this.setInitialTab(initialTab);
+      },
       ...mapActions({
         populateBoosters (dispatch, payload) {
           return dispatch(this.detailsNamespace + '/populateBoosters', payload)
@@ -337,17 +388,20 @@
         },
         clearComments (dispatch) {
           return dispatch(this.commentsNamespace + '/clearComments')
+        },
+        updateHasComments (dispatch, payload) {
+          return dispatch(this.filtersNamespace + '/updateHasComments', payload)
+        },
+        setInitialTab (dispatch, payload) {
+          return dispatch(this.assessmentsNamespace + '/setInitialTab', payload)
         }
+
       })
 
     },
-    created() {
-      this.fetchAssociations();
-      this.fetchSeenStatus();
-      this.arrangeTitles();
-    },
     watch: {
       post: function(val) {
+        console.log('triggering ths', val)
         /*
         For when the user deletes their boost in BoostersList
         */
@@ -411,4 +465,8 @@
   font-size: 0.9rem !important;
 }
 
+
+.comment-indicator {
+  float: right;
+}
 </style>

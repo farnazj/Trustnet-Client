@@ -157,7 +157,12 @@ export default {
           repliesTo: this.commentObj.id,
           repliesToType: 1
       })
-      .then(() => {this.iconsActive = false; this.replying = false; this.replyText = ''})
+      .then(() => {
+        this.updatePostHasComments({ hasComments: true });
+        this.iconsActive = false;
+        this.replying = false;
+        this.replyText = '';
+      })
     },
     sendDelete() { 
       this.deleteComment({
@@ -187,6 +192,9 @@ export default {
       },
       deleteComment (dispatch, payload) {
         return dispatch(this.commentsNamespace + '/deleteComment', payload)
+      },
+      updatePostHasComments (dispatch, payload) {
+        return dispatch(this.commentsNamespace + '/updatePostHasComments', payload)
       }
     })
   },
