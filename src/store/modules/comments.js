@@ -80,7 +80,6 @@ export default {
 
     postComment: (context, payload) => {
       return new Promise((resolve, reject) => {
-        console.log('tuye post', context.state.postIdOfComments)
         commentServices.postComment(context.state.postIdOfComments, payload)
         .then(response => {
           let newComment = response.data.data;
@@ -154,16 +153,15 @@ export default {
 
     updatePostHasComments: (context, payload) => {
 
-      console.log('dare mifreste', context.state.postIdOfComments, payload.hasComments)
-        context.dispatch('articleFilters/updateHasComments', {
-          postId: context.state.postIdOfComments,
-          hasComments: payload.hasComments
-        }, { root: true });
-   
-        context.dispatch('profileArticles/updateHasComments', {
-          postId: context.state.postIdOfComments,
-          hasComments: payload.hasComments
-        }, { root: true });
+      context.dispatch('articleFilters/updateHasComments', {
+        postId: context.state.postIdOfComments,
+        hasComments: payload.hasComments
+      }, { root: true });
+  
+      context.dispatch('profileArticles/updateHasComments', {
+        postId: context.state.postIdOfComments,
+        hasComments: payload.hasComments
+      }, { root: true });
 
         //singleArticleview
     
