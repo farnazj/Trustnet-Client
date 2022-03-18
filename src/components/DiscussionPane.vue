@@ -142,8 +142,6 @@ export default {
       }
 
       this.discussionMap = discussionMap;
-
-      // console.log(discussionMap)
     },
     buildDiscussionList() {
       const discussionList = []

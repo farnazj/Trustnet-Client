@@ -47,7 +47,7 @@
       </v-textarea>
 
       <v-row :style="iconsActive && !replying ? 'visibility: visible' : 'visibility: hidden'" class="mt-n7 justify-end" align="center" wrap no-gutters>
-        <v-btn style="z-index: 5" @click.stop="replying = true; iconsActive = false" icon>
+        <v-btn style="z-index: 5; scale(0.8)" @click.stop="replying = true; iconsActive = false" icon>
           <v-icon style="z-index: 5" class="xs-icon-font" color="blue">fa-reply</v-icon>
         </v-btn>
         <!-- <v-btn v-if="isUser" style="z-index: 5" @click.stop="editing = true; iconsActive = false" icon>
