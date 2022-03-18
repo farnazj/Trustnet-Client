@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div :style="!discussionObj.eType ? 'background-color: #e8f3ff' : 'background-color: white'" class="my-2">
+    <div  :class="{'mt-2': true, 'assessment-background': !discussionObj.eType}">
       <template v-if="deepNest">
 
         <v-row class="ml-9 mb-n6">
@@ -13,7 +13,7 @@
           </v-col>
 
           <v-col class="ml-n5 mt-n1">
-            <span style="font-size: 11px; color: #c3c3c3;">
+            <span class="parent-text grey--text text--darken-1">
               {{parentText}}
             </span>
           </v-col>
@@ -21,17 +21,21 @@
 
       </template>
 
-      <inner-comment v-if="discussionObj.eType" :assessmentsNamespace="assessmentsNamespace" :commentsNamespace="commentsNamespace" :commentObj="discussionObj" :class="{ 'ml-10' : depth }"></inner-comment>
-      <inner-assessment v-else :assessmentsNamespace="assessmentsNamespace" :commentsNamespace="commentsNamespace" :assessmentObj="discussionObj" :assessmentType="discussionObj.assessmentType" :class="{ 'ml-10' : depth }"></inner-assessment>
+      <inner-comment v-if="discussionObj.eType" :assessmentsNamespace="assessmentsNamespace" 
+        :commentsNamespace="commentsNamespace" :commentObj="discussionObj" :class="{ 'ml-10' : depth }"></inner-comment>
+      <inner-assessment v-else :assessmentsNamespace="assessmentsNamespace" :commentsNamespace="commentsNamespace" 
+        :assessmentObj="discussionObj" :assessmentType="discussionObj.assessmentType" :class="{ 'ml-10' : depth }"></inner-assessment>
 
     </div>
 
     <template>
-      <inner-discussion v-for="dItem in discussionObj.replies" :key="dItem.eId" :assessmentsNamespace="assessmentsNamespace" :commentsNamespace="commentsNamespace" :discussionObj="dItem" :depth="depth + 1"></inner-discussion>
+      <inner-discussion v-for="dItem in discussionObj.replies" :key="dItem.eId" 
+        :assessmentsNamespace="assessmentsNamespace" :commentsNamespace="commentsNamespace" 
+        :discussionObj="dItem" :depth="depth + 1"></inner-discussion>
       <p
         @click="getReplies(replyCommentsLimit)"
-        v-if="discussionObj.eType && discussionObj.rootSetId === null && commentsRemaining"
-        class="caption blue--text text--darken-3 interactable ml-10"
+        v-if=" discussionObj.rootSetId == null && commentsRemaining"
+        class="caption blue--text text--darken-3 interactable ml-10 mb-1"
       >
         Show more replies
       </p>
@@ -104,7 +108,7 @@ export default {
   methods: {
     getReplies(lim) {
       this.getReplyComments({
-        rootSetId: this.discussionObj.setId,
+        rootSetId: this.discussionObj.eType ? this.discussionObj.setId : this.discussionObj.assessor.id,
         limit: lim,
         offset: this.repliesOffset
       })
@@ -113,6 +117,7 @@ export default {
         if (replyComments.length < lim) {
           this.commentsRemaining = false;
         }
+
       })
     },
     ...mapActions({
@@ -134,4 +139,11 @@ export default {
   font-size: 0.90em;
 }
 
+.parent-text {
+  font-size: 11px;
+}
+
+.assessment-background {
+  background-color: #F9FBE7;
+}
 </style>

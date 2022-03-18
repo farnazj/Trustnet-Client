@@ -34,7 +34,7 @@
       <template v-for="(key, index) in ['confirmed', 'refuted']" >
         <v-col :key="index" :xs6="isDebated" :xs12="!isDebated" v-if="sortedAssessments[key].length != 0">
 
-          <v-card class="assessment-col" outlined>
+          <v-card class="assessment-col" outlined tile>
 
             <v-card-title>
              <div>
@@ -147,15 +147,6 @@ export default {
 
 .right-align {
   text-align: right;
-}
-
-#assessment_container {
-  right: 0px;
-  width: 34%;
-  max-height: 95vh;
-  min-height: 95vh;
-  overflow-y: auto;
-  bottom: 0px;
 }
 
 .assessment-col {

@@ -39,7 +39,8 @@
         </v-row>
       </v-col>
 
-      <v-textarea v-if="replying" placeholder="Add a reply here..." outlined auto-grow rows="1" :autofocus="true" dense v-model="replyText" hide-details="auto" color="blue" style="font-size: 14px; width: 500px" class="pt-5 assessment-text-inner">
+      <v-textarea v-if="replying" placeholder="Add a reply here..." outlined auto-grow rows="1" :autofocus="true" 
+        dense v-model="replyText" hide-details="auto" color="blue" style="font-size: 14px; width: 500px" class="pt-5 assessment-text-inner">
         <template slot="append">
           <v-icon @click="sendReply" color="blue">mdi-send</v-icon>
           <v-icon @click="replying = false; replyText = ''" color="red">clear</v-icon>
@@ -105,8 +106,9 @@ export default {
     },
     timestamp() {
       return this.timeElapsed(
-        this.assessmentObj.history.length ? this.assessmentObj.history[this.assessmentObj.history.length - 1].createdAt : this.assessmentObj.lastVersion.createdAt
-        );
+        (this.assessmentObj.history != null && this.assessmentObj.history.length) ? this.assessmentObj.history[this.assessmentObj.history.length - 1].createdAt : 
+          this.assessmentObj.lastVersion.createdAt
+      );
     },
     truncatedText() {
       return this.assessmentObj.lastVersion.body.split(' ').slice(0, 25).join(' ') + '...';
@@ -148,7 +150,12 @@ export default {
           repliesToType: 2
       })
       // .then(this.updateComments)
-      .then(() => {this.iconsActive = false; this.replying = false; this.replyText = ''})
+      .then(() => {
+        this.updatePostHasComments({ hasComments: true });
+        this.iconsActive = false;
+        this.replying = false;
+        this.replyText = ''
+      })
     },
     updateComments() {
       this.getPostComments({
@@ -167,6 +174,9 @@ export default {
       },
       postComment (dispatch, payload) {
         return dispatch(this.commentsNamespace + '/postComment', payload)
+      },
+      updatePostHasComments (dispatch, payload) {
+        return dispatch(this.commentsNamespace + '/updatePostHasComments', payload)
       }
     })
   },

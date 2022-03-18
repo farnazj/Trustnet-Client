@@ -116,7 +116,7 @@
             </v-menu>
           </template>
 
-          <span>To share the article, first you need to assess it.</span>
+          <span>To share the content, first you need to assess it.</span>
         </v-tooltip>
       </v-col>
     </v-row>
@@ -361,7 +361,7 @@ export default {
       return 'mailto:?subject=' + encodeURI('On ' + consts.SITE_NAME + '.com: ' +
       this.article.title + '&body=On ' + consts.SITE_NAME + '.com: ' + this.article.title +
        '\n\n' + this.article.description + '\n\n' +
-       'Visit the link to see the article and its assessments:\n' + this.articleLink);
+       'Visit the link to see the content and its assessments:\n' + this.articleLink);
     },
     ...mapGetters('auth', [
       'user'

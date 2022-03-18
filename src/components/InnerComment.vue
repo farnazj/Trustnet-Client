@@ -9,12 +9,18 @@
     </v-row>
 
     <v-row no-gutters class="pa-1 pb-0 body-2 assessment-text">
-      <v-col cols="12" style="z-index: 5">
+      <v-col cols="12" class="elevated">
         <v-form v-if="editing">
-          <v-textarea auto-grow rows="1" :autofocus="true" dense v-model="editText" hide-details="auto" color="blue" style="font-size: 14px" class="assessment-text-inner">
+          <v-textarea auto-grow rows="1" :autofocus="true" dense v-model="editText" hide-details="auto" color="blue" class="assessment-text-inner">
             <template slot="append">
-              <v-icon @click="sendEdit" color="blue">mdi-send</v-icon>
-              <v-icon @click="editing = false; resetEditText()" color="red">clear</v-icon>
+              <v-btn x-small @click="sendEdit" icon class="mr-1">
+                <v-icon  small color="blue" >mdi-send</v-icon>
+              </v-btn>
+
+              <v-btn x-small @click="editing = false; resetEditText()" icon class="mr-1">
+                <v-icon  small color="red" >clear</v-icon>
+              </v-btn>
+
             </template>
           </v-textarea>
         </v-form>
@@ -25,16 +31,17 @@
             show more
           </span>
         </v-row>
-        <v-row v-else class="ma-0" >
+        <v-row v-else class="ma-0 mb-1">
           <p v-html="bodyText" class="assessment-text-inner mb-n2"></p>
-            <span v-if="bodyWordCount > 25" class="blue--text text--darken-3 interactable"
+            <span v-if="bodyWordCount > 25" class="blue--text text--darken-3 interactable mt-2"
              @click="showFullText = false">
             show less
           </span>
         </v-row>
       </v-col>
 
-      <v-textarea v-if="replying" placeholder="Add a reply here..." outlined auto-grow rows="1" :autofocus="true" dense v-model="replyText" hide-details="auto" color="blue" style="font-size: 14px; width: 500px" :class="`pt-5 ${!isReply ? 'ml-10' : 'ml-0'} assessment-text-inner`">
+      <v-textarea v-if="replying" placeholder="Add a reply here..." outlined auto-grow rows="1" :autofocus="true" dense v-model="replyText" 
+        hide-details="auto" color="blue" :class="`pt-3 ${!isReply ? 'ml-10' : 'ml-0'} assessment-text-inner new-comment`">
         <template slot="append">
           <v-icon @click="sendReply" color="blue">mdi-send</v-icon>
           <v-icon @click="replying = false; replyText = ''" color="red">clear</v-icon>
@@ -42,17 +49,14 @@
       </v-textarea>
 
       <v-row :style="iconsActive && !editing && !replying && !isDeleted ? 'visibility: visible' : 'visibility: hidden'" class="mt-n7 justify-end" align="center" wrap no-gutters>
-        <v-btn style="z-index: 5; transform: scale(0.7)" @click.stop="replying = true; iconsActive = false" icon>
-          <v-icon style="z-index: 5; transform: scale(1);
-" color="blue">fa-reply</v-icon>
+        <v-btn x-small @click.stop="replying = true; iconsActive = false" icon class="mr-1 elevated">
+          <v-icon small color="blue">fa-reply</v-icon>
         </v-btn>
-        <v-btn v-if="isUser" style="z-index: 5; scale(1)" @click.stop="editing = true; iconsActive = false" icon>
-          <v-icon style="z-index: 5; scale(2)" class="s-icon-font" color="blue">edit</v-icon>
-          <!-- <v-icon style="z-index: 5; scale(1)" color="blue">edit</v-icon> -->
+        <v-btn v-if="isUser" x-small @click.stop="editing = true; iconsActive = false" icon class="mr-1 elevated">
+          <v-icon small color="blue">edit</v-icon>
         </v-btn>
-        <v-btn v-if="isUser" style="z-index: 5; scale(1)" @click.stop="sendDelete(); iconsActive = false" icon>
-          <v-icon style="z-index: 5; scale(2)" class="xs-icon-font" color="blue">fa-trash</v-icon>
-          <!-- <v-icon style="z-index: 5; scale(0.5)" color="blue">fa-trash</v-icon> -->
+        <v-btn v-if="isUser" x-small @click.stop="sendDelete(); iconsActive = false" icon class="elevated">
+          <v-icon x-small color="blue">fa-trash</v-icon>
         </v-btn>
       </v-row>
 
@@ -153,7 +157,12 @@ export default {
           repliesTo: this.commentObj.id,
           repliesToType: 1
       })
-      .then(() => {this.iconsActive = false; this.replying = false; this.replyText = ''})
+      .then(() => {
+        this.updatePostHasComments({ hasComments: true });
+        this.iconsActive = false;
+        this.replying = false;
+        this.replyText = '';
+      })
     },
     sendDelete() { 
       this.deleteComment({
@@ -183,6 +192,9 @@ export default {
       },
       deleteComment (dispatch, payload) {
         return dispatch(this.commentsNamespace + '/deleteComment', payload)
+      },
+      updatePostHasComments (dispatch, payload) {
+        return dispatch(this.commentsNamespace + '/updatePostHasComments', payload)
       }
     })
   },
@@ -206,12 +218,22 @@ export default {
 .assessment-text-inner {
   white-space: pre-wrap;
   word-break: break-word;
+  font-size: 14px;
 }
 
 .v-text-field {
   font-size: 1em;
   line-height: 125%;
   padding-bottom: 15px;
+}
+
+.elevated {
+  z-index: 5;
+}
+
+.new-comment {
+  font-size: 14px;
+  width: 500px;
 }
 
 </style>

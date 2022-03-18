@@ -1,19 +1,21 @@
 <template>
 	
-  <v-card outlined>
+  <v-card outlined class="discussion-pane-card" tile>
     <v-form class="pl-2 pr-2 my-2">
-        <v-textarea auto-grow rows="1" v-model="newComment" label="Add a comment here..." hide-details="auto" append-icon="mdi-send" @click:append="submitComment" color="blue" style="font-size: 14px"></v-textarea>
+        <v-textarea auto-grow rows="1" v-model="newComment" label="Add a comment here..." hide-details="auto" append-icon="mdi-send" 
+          @click:append="submitComment" color="blue" class="new-comment-textbox"></v-textarea>
     </v-form>
 
-    <div class="assessment-col">
+    <div class="discussion-col">
       <template v-for="(dItem, index) in thread">
-          <inner-discussion :key="dItem.eId" :assessmentsNamespace="assessmentsNamespace" :commentsNamespace="commentsNamespace" :discussionObj="dItem" :depth="0"></inner-discussion>
-          <v-divider :key="`divider-${dItem.eId}`" v-if="index != thread.length - 1"></v-divider>
+          <inner-discussion :key="dItem.eId" :assessmentsNamespace="assessmentsNamespace" :commentsNamespace="commentsNamespace" 
+            :discussionObj="dItem" :depth="0"></inner-discussion>
+          <v-divider :key="`divider-${dItem.eId}`" v-if="index != thread.length - 1" class="mt-1"></v-divider>
       </template>
       <p
         @click="getTopLevels"
         v-if="commentsRemaining"
-        class="caption blue--text text--darken-3 interactable"
+        class="caption blue--text text--darken-3 interactable pl-2 mb-1"
       >
         Show more comments
       </p>
@@ -94,7 +96,10 @@ export default {
           postIdOfComments: this.postId,
           body: this.newComment
       })
-      .then(() => {this.newComment = ''})
+      .then(() => {
+        this.updatePostHasComments({ hasComments: true });
+        this.newComment = '';
+      })
       // .then(this.updateComments);
     },
     updateComments() {
@@ -103,7 +108,7 @@ export default {
       })
     },
     preprocessAssessment(obj, aType) {
-      const ot = obj.history.length ? obj.history[obj.history.length - 1].createdAt : obj.lastVersion.createdAt;
+      const ot = (obj.history != null && obj.history.length) ? obj.history[obj.history.length - 1].createdAt : obj.lastVersion.createdAt;
       const newA = {
         ...obj,
         assessmentType: aType,
@@ -132,7 +137,7 @@ export default {
       for (const aType of ['confirmed', 'questioned', 'refuted']) {
         for (const a of this.assessments[aType]) {
           const newA = this.preprocessAssessment(a, aType);
-          discussionMap.set(newA.assessor.id, newA);
+          discussionMap.set('' + newA.assessor.id, newA); //empty string prepended to convert sourceId from number to string
         }
       }
 
@@ -170,7 +175,7 @@ export default {
           discussionTree.push(d);
         }
         else {
-          let commentParent = this.discussionMap.get(d.parentSetId);
+          let commentParent = this.discussionMap.get('' + d.parentSetId);
           d.parent = commentParent;
           commentParent.replies.push(d);
         }
@@ -184,6 +189,9 @@ export default {
       },
       getPostComments (dispatch, payload) {
         return dispatch(this.commentsNamespace + '/getPostComments', payload)
+      },
+      updatePostHasComments (dispatch, payload) {
+        return dispatch(this.commentsNamespace + '/updatePostHasComments', payload)
       }
     })
   },
@@ -219,12 +227,16 @@ export default {
 
 <style scoped>
 
-.assessment-col {
-  overflow-y: auto;
-  overflow-x: hidden;
-  /*overflow-y: hidden;*/
-  max-height: 73vh;
-  min-height: 73vh;
+.discussion-col {
+  /* overflow-y: auto;
+  overflow-x: hidden; */
+  overflow-y: scroll;
+  max-height: 85vh;
+  min-height: 85vh;
+}
+
+.new-comment-textbox {
+  font-size: 14px;
 }
 
 </style>

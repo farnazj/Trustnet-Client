@@ -38,6 +38,7 @@ export default {
   actions: {
     getPostComments: (context, payload) => {
       return new Promise((resolve, reject) => {
+        
         commentServices.getCommentsForPost({
           postId: payload.postIdOfComments,
           limit: payload.limit,
@@ -64,6 +65,7 @@ export default {
           offset: payload.offset
         })
         .then(response => {
+
           let replyComments = response.data.length ? response.data : [];
           context.commit('add_comments', {
             comments: replyComments
@@ -147,6 +149,22 @@ export default {
 
     clearComments: (context) => {
       context.commit('set_comments', []);
+    },
+
+    updatePostHasComments: (context, payload) => {
+
+      context.dispatch('articleFilters/updateHasComments', {
+        postId: context.state.postIdOfComments,
+        hasComments: payload.hasComments
+      }, { root: true });
+  
+      context.dispatch('profileArticles/updateHasComments', {
+        postId: context.state.postIdOfComments,
+        hasComments: payload.hasComments
+      }, { root: true });
+
+        //singleArticleview
+    
     }
   }
 }

@@ -95,7 +95,7 @@ export default {
       })
     },
     goToSignup: function() {
-      this.$router.push({ name: 'signup' });
+      this.$router.push({ name: 'signupNoMode' });
     },
     goToPasswordReset: function() {
       this.$router.push({ name: 'forgotPassword' });

@@ -51,13 +51,13 @@
                 <v-row no-gutters>
                   
                   <template v-if="!editMode">
-                    <div v-if="profileOwner.description" class="caption break-word bio-text" v-html="profileOwner.description"></div>
+                    <div v-if="profileOwner.description" class="body-2 break-word bio-text" v-html="profileOwner.description"></div>
                     <div v-if="AuthUserIsOwner && (!profileOwner.description)"
                       class="caption bio-text">Add your bio</div>
                   </template>
 
                   <v-textarea v-else v-model="edit.bio" dark dense rows=3 :rules="edit.rules"
-                  counter maxlength="250" color="blue-grey lighten-4" class="mr-2 caption bio-input">
+                  counter maxlength="250" color="blue-grey lighten-4" class="mr-2 body-2 bio-input">
                   </v-textarea>
                   
                   <v-col cols="1" align-self="end">
@@ -142,7 +142,7 @@
                   assessmentsNamespace="profileAssessments" commentsNamespace="profileComments" titlesNamespace="profileTitles" :loadLocked="tabs != 'history'"></article-holder>
                 </v-col>
 
-                <engagement-container assessmentsNamespace="profileAssessments" commentsNamespace="profileComments" class="assessments-container">
+                <engagement-container assessmentsNamespace="profileAssessments" commentsNamespace="profileComments" class="engagement-container">
                 </engagement-container>
 
               </v-row>
@@ -390,7 +390,7 @@ export default {
   border-radius: 50%;
 }
 
-.assessments-container {
+.engagement-container {
   position: sticky;
   top: 30px;
 }

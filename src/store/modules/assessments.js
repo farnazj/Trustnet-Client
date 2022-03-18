@@ -7,7 +7,8 @@ export default {
       postIdOfAssessments: null,
       historyVisibility: false,
       history: [],
-      historyOwner: {}
+      historyOwner: {},
+      initialEngagementTab: null
     }
   },
   mutations: {
@@ -32,6 +33,10 @@ export default {
     populate_assessment_history: (state, payload) => {
       state.history = payload.history;
       state.historyOwner = payload.assessor;
+    },
+
+    set_initial_engagement_tab: (state, payload) => {
+      state.initialEngagementTab = payload;
     }
   },
   actions: {
@@ -50,6 +55,10 @@ export default {
 
     populateAssessmentHistory: (context, payload) => {
       context.commit('populate_assessment_history', payload);
+    },
+
+    setInitialTab: (context, payload) => {
+      context.commit('set_initial_engagement_tab', payload);
     }
   }
 
