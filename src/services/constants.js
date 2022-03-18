@@ -1,5 +1,5 @@
-//const BASE_URL = `http://localhost:3000`;
-const BASE_URL = `https://developer.trustnet.csail.mit.edu`
+const BASE_URL = `http://localhost:3000`;
+//const BASE_URL = `https://developer.trustnet.csail.mit.edu`
 const SERVED_CLIENT_URL = `https://trustnet.csail.mit.edu`;
 // const FB_COMMENTS_BASE_URL= `http://trustnet.csail.mit.edu/test`;
 // const FB_APP_ID = `1910706082368253`;
@@ -15,6 +15,11 @@ const ACCURACY_REQ_MAPPING = { all: 'all', confirmed: 'confirmed', refuted: 'ref
 const SEEN_STATUS_REQ_MAPPING = { 'seen': 'seen', 'not seen': 'not seen' };
 const ACCURACY_CODES = {'CONFIRMED': 1, 'REFUTED': -1, 'QUESTIONED': 0};
 
+const INITIAL_TOP_LEVEL_COMMENTS_LIMIT = 3;
+const INITIAL_REPLY_LEVEL_COMMENTS_LIMIT = 2;
+const TOP_LEVEL_COMMENTS_LIMIT = 5;
+const REPLY_LEVEL_COMMENTS_LIMIT = 10;
+
 export default {
   BASE_URL,
   SERVED_CLIENT_URL,
@@ -24,5 +29,9 @@ export default {
   CRED_SOURCES_REQ_MAPPING,
   ACCURACY_REQ_MAPPING,
   SEEN_STATUS_REQ_MAPPING,
-  ACCURACY_CODES
+  ACCURACY_CODES,
+  INITIAL_TOP_LEVEL_COMMENTS_LIMIT,
+  INITIAL_REPLY_LEVEL_COMMENTS_LIMIT,
+  TOP_LEVEL_COMMENTS_LIMIT,
+  REPLY_LEVEL_COMMENTS_LIMIT
 }

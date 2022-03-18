@@ -30,7 +30,7 @@
     <v-row no-gutters>
       <boosters-list detailsNamespace="homeArticleDetails" filtersNamespace="articleFilters"></boosters-list>
       <custom-titles titlesNamespace="homeTitles" filtersNamespace="articleFilters"></custom-titles>
-      <assessment-history namespace="homeAssessments"></assessment-history>
+      <engagement-history assessmentsNamespace="homeAssessments" commentsNamespace="homeComments"></engagement-history>
 
       <v-col sm="3" md="2" v-show="filtersVisible">
         <filters class="frozen"></filters>
@@ -44,14 +44,14 @@
 
       <v-col md="7" cols="8" :offset="$vuetify.breakpoint.smAndDown ? 0 : (($vuetify.breakpoint.mdAndDown && !assessmentsVisible) ? 2 : 1)">
         <article-holder detailsNamespace="homeArticleDetails" filtersNamespace="articleFilters"
-          assessmentsNamespace="homeAssessments" titlesNamespace="homeTitles"
+          assessmentsNamespace="homeAssessments" commentsNamespace="homeComments" titlesNamespace="homeTitles"
           :class="{'pt-5': !$vuetify.breakpoint.smAndDown}">
        </article-holder>
       </v-col>
 
       <v-col v-if="assessmentsVisible">
-        <assessments-container namespace="homeAssessments" class="frozen">
-        </assessments-container>
+        <engagement-container assessmentsNamespace="homeAssessments" commentsNamespace="homeComments" class="frozen">
+        </engagement-container>
       </v-col>
 
     </v-row>
@@ -66,10 +66,10 @@
 import customToolbar from '@/components/CustomToolbar'
 import articleHolder from '@/components/ArticleHolder'
 import articleDetails from '@/components/ArticleDetails'
-import assessmentsContainer from '@/components/AssessmentsContainer'
+import engagementContainer from '@/components/EngagementContainer'
 import boostersList from '@/components/BoostersList'
 import customTitles from '@/components/CustomTitles'
-import assessmentHistory from '@/components/AssessmentHistory'
+import engagementHistory from '@/components/EngagementHistory'
 import Filters from '@/components/Filters'
 
 import postServices from '@/services/postServices'
@@ -80,10 +80,10 @@ export default {
     'custom-toolbar': customToolbar,
     'article-holder': articleHolder,
     'article-details': articleDetails,
-    'assessments-container': assessmentsContainer,
+    'engagement-container': engagementContainer,
     'boosters-list': boostersList,
     'custom-titles': customTitles,
-    'assessment-history': assessmentHistory,
+    'engagement-history': engagementHistory,
     'filters': Filters,
   },
   props: ['postid'],

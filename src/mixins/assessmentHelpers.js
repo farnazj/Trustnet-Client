@@ -39,7 +39,7 @@ export default {
       let assessmentsBySource = {};
       this.post.PostAssessments.forEach(postAssessment => {
 
-        if (postAssessment.SourceId === null ) {
+        if (postAssessment.SourceId === null ) { //when the SourceId is retracted because they have asked a question anonymously
           if (postAssessment.version == 1) {
             let assessmentsObj = { lastVersion: postAssessment, assessor: {} };
             let credValue = this.accuracyMapping(assessmentsObj.lastVersion.postCredibility);
@@ -48,6 +48,7 @@ export default {
         }
         else {
           if (!(postAssessment.SourceId in assessmentsBySource)) {
+
             let assessmentsObj = {};
             assessmentsObj['history'] = [];
             assessmentsBySource[postAssessment.SourceId] = assessmentsObj;
@@ -62,7 +63,17 @@ export default {
 
      })
 
-     let sourcePromises = [];
+    /*
+    If an earlier version of a question had not been anonymous but the more recent ones are,
+    this case can happen that assessmentsBySource[sourceId] for that SourceId can have a history
+    property but not lastVersion. We remove this (the earlier versions) from the assessments.
+    */
+    for (const sourceId in assessmentsBySource) {
+      if (!('lastVersion' in assessmentsBySource[sourceId]))
+        delete assessmentsBySource[sourceId];
+    }
+
+    let sourcePromises = [];
 
      for (const [SourceId, assessmentsObj] of Object.entries(assessmentsBySource)) {
         let credValue = this.accuracyMapping(assessmentsObj.lastVersion.postCredibility);

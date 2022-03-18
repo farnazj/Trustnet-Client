@@ -25,20 +25,20 @@
             <span>{{sourceDisplayName(historyOwner)}}</span>
          </v-row>
 
-         <template v-for="assessment in assessmentHistory">
-           <v-row :key="assessment.id" align="center" class="py-1" no-gutters>
+         <template v-for="item in history">
+           <v-row :key="item.id" align="center" class="py-1">
             <v-col cols="12" class="pa-1">
-              <p class="font-italic font-weight-light mb-0">{{accuracyMapping(assessment.postCredibility)}}</p>
-              <p class="mb-1" v-if="assessment.body">
-                {{assessment.body}}
+              <p v-if="!engagementType" class="font-italic font-weight-light mb-0">{{accuracyMapping(item.postCredibility)}}</p>
+              <p class="mb-1" v-if="item.body">
+                {{item.body}}
               </p>
-              <span class="caption grey--text text--darken-2">{{timeElapsed(assessment.createdAt)}}</span>
-              <span v-if="assessment.isTransitive" class="ml-2 font-weight-light caption grey--text text--darken-1">
+              <span class="caption grey--text text--darken-2">{{timeElapsed(item.createdAt)}}</span>
+              <span v-if="!engagementType && item.isTransitive" class="ml-2 font-weight-light caption grey--text text--darken-1">
                 Adopted through their network
               </span>
             </v-col>
           </v-row>
-          <v-divider :key="`divider-${assessment.id}`"></v-divider>
+          <v-divider :key="`divider-${item.id}`" class="my-2"></v-divider>
 
          </template>
       </v-card-text>
@@ -60,7 +60,11 @@ export default {
    'custom-avatar': customAvatar
   },
   props: {
-    namespace: {
+    assessmentsNamespace: {
+      type: String,
+      required: true
+    },
+    commentsNamespace: {
       type: String,
       required: true
     },
@@ -75,22 +79,34 @@ export default {
   computed: {
     visible: {
       get: function() {
-        return this.state.historyVisibility;
+        return (this.assessmentState.historyVisibility || this.commentState.historyVisibility) ? true : false
       },
       set: function(newValue) {
-        this.setHistoryVisibility(newValue);
+        if (this.assessmentState.historyVisibility)
+          this.setAssessmentHistoryVisibility(newValue);
+        else
+          this.setCommentHistoryVisibility(newValue);
       }
     },
-    historyOwner: function() {
-      return this.state.historyOwner;
+    visibleState() {
+      return this.assessmentState.historyVisibility ? this.assessmentState : this.commentState;
     },
-    assessmentHistory: function() {
-      return this.state.assessmentHistory;
+    engagementType() {
+      return this.assessmentState.historyVisibility ? 0 : 1;
+    },
+    historyOwner() {
+      return this.visibleState.historyOwner;
+    },
+    history() {
+      return this.visibleState.history;
     },
     ...mapState({
-      state (state) {
-       return state[this.namespace];
-      }
+       assessmentState (state) {
+         return state[this.assessmentsNamespace];
+       },
+       commentState (state) {
+         return state[this.commentsNamespace];
+       },
     })
   },
   methods: {
@@ -103,11 +119,15 @@ export default {
         return 'This content is accurate.'
     },
     hideHistory: function() {
-      this.setHistoryVisibility(false);
+      this.setAssessmentHistoryVisibility(false);
+      this.setCommentHistoryVisibility(false);
     },
     ...mapActions({
-      setHistoryVisibility (dispatch, payload) {
-        return dispatch(this.namespace + '/setHistoryVisibility', payload)
+      setAssessmentHistoryVisibility (dispatch, payload) {
+        return dispatch(this.assessmentsNamespace + '/setHistoryVisibility', payload)
+      },
+      setCommentHistoryVisibility (dispatch, payload) {
+        return dispatch(this.commentsNamespace + '/setHistoryVisibility', payload)
       }
     })
   },

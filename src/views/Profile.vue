@@ -135,15 +135,15 @@
               <v-row no-gutters>
                 <boosters-list detailsNamespace="profileArticleDetails" filtersNamespace="profileArticles"></boosters-list>
                 <custom-titles titlesNamespace="profileTitles" filtersNamespace="profileArticles"></custom-titles>
-                <assessment-history namespace="profileAssessments"></assessment-history>
+                <engagement-history assessmentsNamespace="profileAssessments" commentsNamespace="profileComments"></engagement-history>
 
                 <v-col cols="7" class="ml-2">
                   <article-holder detailsNamespace="profileArticleDetails" filtersNamespace="profileArticles"
-                  assessmentsNamespace="profileAssessments" titlesNamespace="profileTitles" :loadLocked="tabs != 'history'"></article-holder>
+                  assessmentsNamespace="profileAssessments" commentsNamespace="profileComments" titlesNamespace="profileTitles" :loadLocked="tabs != 'history'"></article-holder>
                 </v-col>
 
-                <assessments-container namespace="profileAssessments" class="assessments-container">
-                </assessments-container>
+                <engagement-container assessmentsNamespace="profileAssessments" commentsNamespace="profileComments" class="engagement-container">
+                </engagement-container>
 
               </v-row>
             </v-container>
@@ -165,11 +165,11 @@
 import customToolbar from '@/components/CustomToolbar'
 import articleHolder from '@/components/ArticleHolder'
 import articleDetails from '@/components/ArticleDetails'
-import assessmentsContainer from '@/components/AssessmentsContainer'
+import engagementContainer from '@/components/EngagementContainer'
 import followersContainer from '@/components/FollowersContainer'
 import boostersList from '@/components/BoostersList'
 import customTitles from '@/components/CustomTitles'
-import assessmentHistory from '@/components/AssessmentHistory'
+import engagementHistory from '@/components/EngagementHistory'
 import photoUpload from 'vue-image-crop-upload'
 
 import sourceServices from '@/services/sourceServices'
@@ -185,10 +185,10 @@ export default {
     'custom-toolbar': customToolbar,
     'article-holder': articleHolder,
     'article-details': articleDetails,
-    'assessments-container': assessmentsContainer,
+    'engagement-container': engagementContainer,
     'boosters-list': boostersList,
     'custom-titles': customTitles,
-    'assessment-history': assessmentHistory,
+    'engagement-history': engagementHistory,
     'followers-container': followersContainer,
     'photo-upload': photoUpload
   },
@@ -390,7 +390,7 @@ export default {
   border-radius: 50%;
 }
 
-.assessments-container {
+.engagement-container {
   position: sticky;
   top: 30px;
 }

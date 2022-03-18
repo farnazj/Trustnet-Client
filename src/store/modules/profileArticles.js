@@ -9,6 +9,7 @@ export default {
     filteredTags: [],
     offset: 0,
     limit: 10,
+    articlesCommentOwnership: {} //mapping of post id to Boolean indicating whether the post has comments
   },
   getters: {
     filters: (state) => {
@@ -28,6 +29,13 @@ export default {
       let filteredPosts = posts.filter(post => !articleIds.includes(post.id) );
       state.articles.push(...filteredPosts);
       state.offset += filteredPosts.length;
+
+      filteredPosts.forEach(post => {
+        let postId = post.id;
+        let newAttr = {};
+        newAttr[postId] = false;
+        state.articlesCommentOwnership = Object.assign({}, state.articlesCommentOwnership, newAttr);
+      })
     },
 
     refresh_articles: (state) => {
@@ -60,7 +68,13 @@ export default {
         let index = state.filteredTags.findIndex(tag => tag.id == payload.tag.id);
         state.filteredTags.splice(index, 1);
       }
+    },
 
+    update_has_comments: (state, payload) => {
+      let postId = payload.postId;
+
+      if (postId in state.articlesCommentOwnership)
+        Vue.set(state.articlesCommentOwnership, postId, payload.hasComments);
     }
   },
   actions: {
@@ -172,6 +186,10 @@ export default {
         })
       })
 
+    },
+
+    updateHasComments: (context, payload) => {
+      context.commit('update_has_comments', payload);
     }
   }
 }

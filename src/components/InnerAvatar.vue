@@ -54,6 +54,9 @@ export default {
     getSize: function() {
       return this.size ? this.size : this.defaultSize;
     },
+    getTextSize: function() {
+      return (16 / 30) * this.getSize;
+    },
     extendedPhotoUrl: function() {
       if (this.user.photoUrl.includes('http'))
         return this.user.photoUrl;
