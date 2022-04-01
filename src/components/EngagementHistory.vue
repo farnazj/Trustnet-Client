@@ -112,11 +112,11 @@ export default {
   methods: {
     accuracyMapping: function(val){
       if (val < 0)
-        return 'This content is inaccurate or misleading.';
+        return 'I think this content is inaccurate or misleading.';
       else if (val == 0)
         return 'I want to know about the accuracy of this content.';
       else if (val > 0)
-        return 'This content is accurate.'
+        return 'I think this content is accurate.'
     },
     hideHistory: function() {
       this.setAssessmentHistoryVisibility(false);

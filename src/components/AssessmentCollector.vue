@@ -131,12 +131,12 @@ export default {
       */
       accuracyStatus: [
         {
-          label: 'This content is accurate',
+          label: 'I think this content is accurate',
           value: consts.ACCURACY_CODES.CONFIRMED + 2,
           color: 'green--text text--darken-2'
         },
         {
-          label: 'This content is inaccurate or misleading',
+          label: 'I think this content is inaccurate or misleading',
           value: consts.ACCURACY_CODES.REFUTED + 2,
           color: 'red--text text--accent-3'
         },
