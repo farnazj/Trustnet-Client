@@ -1,15 +1,33 @@
 <template>
-  <v-container fluid class="pt-12 px-5">
+  <v-container fluid class="pt-12 px-0">
     <custom-toolbar></custom-toolbar>
 
-    <v-row no-gutters class="pt-12">
-      <h5 class="headline">About {{siteName}}</h5>
+
+    <v-row no-gutters :class="[ {'frozen': !$vuetify.breakpoint.mdAndDown}]">
+      <v-tabs centered dark icons-and-text  dense :vertical="$vuetify.breakpoint.mdAndDown ? false : true"
+       background-color="grey darken-3" slider-color="lime lighten-4" v-model="tabs" >
+        <v-tab href="#platform">
+            {{siteName}} Platform
+          </v-tab>
+
+          <v-tab href="#extension">
+            {{siteName}} Extension
+          </v-tab>
+
+          <v-tab href="#reheadline">
+            Reheadline Extension
+          </v-tab>
+
+      </v-tabs>
     </v-row>
 
-    <v-row no-gutters justify="center">
-      <v-col sm="12" md="7">
-        <v-row no-gutters justify="center">
-            <about-card categoryType="general">
+    <v-row no-gutters justify="center" class="pt-5">
+      <v-col sm="12" lg="7" md="9">
+
+        <v-tabs-items v-model="tabs">
+            <v-tab-item value="platform">
+
+              <about-card categoryType="general">
               <template v-slot:category>
                 General
               </template>
@@ -20,7 +38,7 @@
                 <p>
                   {{siteName}} is a news reading and sharing platform where you can follow different
                   news publishing media or your friends to see what they post, write posts of your own, or
-                  share posts to those you think would be interested in knowing about them.
+                  share posts with those you think would be interested in knowing about them.
                 </p>
 
                 <p>
@@ -206,29 +224,275 @@
               </template>
             </about-card>
 
-        </v-row>
+          </v-tab-item>
+
+
+          <v-tab-item value="extension">
+
+            <about-card categoryType="general">
+              <template v-slot:category>
+                General
+              </template>
+              <template v-slot:title>
+                What's cool about the {{siteName}} extension?
+              </template>
+              <template v-slot:body>
+                <p>
+                  The {{siteName}} extension lets you assess any content on the web right on the page where the content is and also enables you to see content assessments from those you trust. This has the potential to help you avoid being tricked by misinformation and empowers you to help the others in this regard.
+                </p>
+
+                <p>
+                  With the {{siteName}} extension, you can assess any content that has a URL. This includes news articles, Youtube videos, tweets, Facebook posts, and so on.
+                </p>
+
+              </template>
+            </about-card>
+
+            <about-card categoryType="settings" height="80px">
+              <template v-slot:category>
+                <v-icon small>{{icons.settings}}</v-icon> Installation
+              </template>
+              <template v-slot:title>
+                Installation
+              </template>
+              <template v-slot:body>
+                <p>
+                  Visit <a href="https://chrome.google.com/webstore/detail/trustnet/nphapibbiamgbhamgmfgdeiiekddoejo" target="_blank"> this link </a> and add the extension to your Chrome browser.
+                </p>
+
+                <p>
+                Because the extension delivers customized assessments to you (i.e., the assessments of those you explicitly mark as trustworthy), you will need to log in. To log in, open a tab in your browser and navigate to any website, for example <a href="https://www.nytimes.com/" target="_blank">The New York Times</a>.
+                </p>
+
+                <p>
+                  The login pane for the extension will open on the side of the page. Log in with your {{siteName}} credentials.
+                </p>
+
+                <v-row no-gutters justify="center">
+                  <v-img :src="images('trustnetExtensionLogin')" contain max-width="150"></v-img>
+                </v-row>
+                
+              </template>
+            </about-card>
+           
+            <about-card categoryType="news" height="80px">
+              <template v-slot:category>
+                <v-icon small>{{icons.news}}</v-icon> News Articles
+              </template>
+              <template v-slot:title>
+                Assessing news article
+              </template>
+              <template v-slot:body>
+                <p>
+                 To assess any piece of content using the {{siteName}} extension, you need to navigate to the page where the content is identified via its URL. For example, for assessing an article, you simply navigate to the article's page and assess it there, as shown here:
+                </p>
+
+                <v-img :src="images('assessingArticles')" contain max-width="500"></v-img>
+                
+              </template>
+            </about-card>
+
+            <about-card categoryType="twitter" height="80px">
+              <template v-slot:category>
+                <v-icon small>{{icons.twitter}}</v-icon> Tweets
+              </template>
+              <template v-slot:title>
+                Assessing tweets
+              </template>
+              <template v-slot:body>
+                <p>
+                  For assessing an article that is embedded inside a tweet, you can simply navigate to the article's page and assess it. The assessments of the article will be displayed on the tweet.
+                </p>
+                <p>
+                  If you would like to assess a tweet itself, you can click on it and navigate to the tweet's page and assess it there:
+                </p>
+
+                <v-img :src="images('assessingTweets')" contain max-width="500"></v-img>
+                
+                <p class="mt-4">
+                  If you encounter a tweet that has been assessed, the assessment indicator will be placed next to the time the tweet was posted, as shown here:
+                </p>
+
+                <v-img :src="images('assessedTweets')" contain max-width="500"></v-img>
+
+                <p class="mt-4">
+                  This is because the accuracy icons for a piece of content are placed next to the link to that content and the posted time of a tweet is where the link to the tweet is contained.
+                </p>
+              </template>
+            </about-card>
+
+            <about-card categoryType="facebook" height="80px">
+              <template v-slot:category>
+                <v-icon small>{{icons.facebook}}</v-icon> Facebook posts
+              </template>
+              <template v-slot:title>
+                Assessing facebook posts
+              </template>
+              <template v-slot:body>
+                <p>
+                  For assessing an article that is embedded inside a post, you can simply navigate to the article's page and assess it. The assessments of the article will be displayed on the post.
+                </p>
+                <p>
+                  If you want to assess a <span class="font-weight-medium">post itself</span> on Facebook, you need to navigate to the page where the post is identified via its URL <span class="font-weight-medium">by clicking on the time the post was posted</span>:
+                </p>
+
+                <v-row no-gutters justify="center">
+                  <v-img :src="images('facebookTimestamp')" contain max-width="230"></v-img>
+                </v-row>
+                
+                <p class="mt-4">
+                  Once you are on the post's page, you can assess it or ask about its accuracy:
+                </p>
+
+                <v-img :src="images('assessingFacebookPost')" contain max-width="500"></v-img>
+
+                <p class="mt-6">
+                  If you encounter a facebook post that has been assessed or inquired about, the assessment indicator will be placed next to the time the post was posted, as shown here:
+                </p>
+
+                <v-row no-gutters justify="center">
+                  <v-img :src="images('assessedFacebookPost')" contain max-width="230"></v-img>
+                </v-row>
+
+              </template>
+            </about-card>
+
+
+          </v-tab-item>
+
+
+             <v-tab-item value="reheadline">
+
+            <about-card categoryType="general">
+              <template v-slot:category>
+                General
+              </template>
+              <template v-slot:title>
+                What's cool about the Reheadline extension?
+              </template>
+              <template v-slot:body>
+                <p>
+                  The Reheadline extension identifies news headlines on any article's page and lets you submit alternative headlines. Then whenever those who follow you come across the headline <span class="font-weight-medium">anywhere on the web</span> (e.g., in their social media feed or the homepage of the news source), they will see your suggested alternative headline alongside the original. This lets you do something about sensationalist, misinformative, or clickbaity headlines.  
+                </p>
+
+              </template>
+            </about-card>
+
+            <about-card categoryType="settings" height="80px">
+              <template v-slot:category>
+                <v-icon small>{{icons.settings}}</v-icon> Installation
+              </template>
+              <template v-slot:title>
+                Installation
+              </template>
+              <template v-slot:body>
+                <p>
+                  Visit <a href="https://chrome.google.com/webstore/detail/reheadline/iignpdlabbnnacdkchpnpljkhdlkblbh" target="_blank"> this link </a> and add the extension to your Chrome browser.
+                </p>
+
+                <p>
+                Because the extension delivers customized alternative headlines to you (i.e., the headlines suggested by those you explicitly mark as trustworthy and those you follow), you will need to log in. To log in, open a tab in your browser and navigate to any website, for example <a href="https://www.nytimes.com/" target="_blank">The New York Times</a>.
+                </p>
+
+                <p>
+                  The login pane for the extension will open on the side of the page. Log in with your {{siteName}} credentials.
+                </p>
+
+                <v-row no-gutters justify="center">
+                  <v-img :src="images('reheadlineLogin')" contain max-width="150"></v-img>
+                </v-row>
+                
+              </template>
+            </about-card>
+           
+            <about-card categoryType="news" height="80px">
+              <template v-slot:category>
+                <v-icon small>{{icons.news}}</v-icon> Suggesting headlines
+              </template>
+              <template v-slot:title>
+                Suggesting alternative headlines
+              </template>
+              <template v-slot:body>
+                <p>
+                  On some websites, whenever you visit an article, the extension identifies the headline on the page. It will highlight the headline and add an edit button next to it:
+                </p>
+
+                <v-img :src="images('headlineRecognized')" contain max-width="500"></v-img>
+
+                <p class="mt-4">
+                  Once you click on the edit button, you can write your own headline for the article and submit it. The alternative headline will then be displayed on the article, like this:
+                </p>
+
+                <v-img :src="images('alternativeHeadlines')" contain max-width="500"></v-img>
+
+                <p class="mt-4">
+                  You can edit or delete your submitted headlines. 
+                </p>
+                
+              </template>
+            </about-card>
+
+            <about-card categoryType="news" height="80px">
+              <template v-slot:category>
+                <v-icon small>{{icons.news}}</v-icon> Recognize headlines
+              </template>
+              <template v-slot:title>
+                Making headlines editable
+              </template>
+              <template v-slot:body>
+                <p>
+                  The Reheadline extension will recognize the article headline on websites that it knows to be news websites. If you encounter a news website whose headlines are not highlighted for editing, you can inform the extension that the current website is in fact a news website and that it should try to identify its headlines and make them editable for all the users of the extension. You can do so by clicking on the extension's action button (added to the browser's navbar) which opens a popup. From the popup, select Identify Headlines.
+                </p>
+
+                <v-img :src="images('identifyUnrecognizedHeadlines')" contain max-width="500"></v-img>
+                <p class="mt-5">
+                  If you do not see the extension's action button, it is possible that it is collapsed under Chrome's puzzle icon.
+                </p>
+            
+                
+              </template>
+            </about-card>
+
+            <about-card categoryType="settings" height="80px">
+              <template v-slot:category>
+                <v-icon small>{{icons.disable}}</v-icon> Disabling extension
+              </template>
+              <template v-slot:title>
+                Disabling the extension on select domains
+              </template>
+              <template v-slot:body>
+                <p>
+                If you do not want to see alternative headlines submitted by the users of the extension on a particular website, you can add the website to the list of websites the extension should be disabled on. You can do that by visiting the options page of the extension, as shown in the video:
+                </p>
+                
+                <v-row no-gutters justify="center" class="iframe-container">
+                  <iframe src="https://drive.google.com/file/d/1dpLAljhttI4qs9ES56FmGQHYyRj4us2X/preview"  allow="autoplay"></iframe>
+                </v-row>
+
+              </template>
+            </about-card>
+
+
+            <about-card categoryType="settings" height="80px">
+              <template v-slot:category>
+                <v-icon small>{{icons.link}}</v-icon> Following links
+              </template>
+              <template v-slot:title>
+                Following a link with an alternative headline next to it
+              </template>
+              <template v-slot:body>
+                <p>
+                  If you see a link e.g., on a news website's homepage or your Twitter feed that has an alternative headline next to it, to follow the link and open the article, you need to click on the old headline that has been struck through. Clicking on the new alternative headline will open the Alternative Headline pane where you can suggest new headlines for the article.
+
+                </p>
+
+              </template>
+            </about-card>
+
+          </v-tab-item>
+
+        </v-tabs-items>
       </v-col>
-
-      <!--
-        <v-card class="pa-2">
-          <v-row no-gutters>
-            <v-col cols="3" class="pa-1">
-              <span class="title">How do the filters on the <v-icon>home</v-icon>
-                homepage work?</span>
-            </v-col>
-            <v-col cols="9">
-              <p>
-                You can click on your avatar at the righthand side of the toolbar
-                to go to the <v-icon>account_circle</v-icon> Sources page.
-                There, you can discover other sources that you might want to follow or
-                trust, make customized lists, and add sources to those lists.
-              </p>
-            </v-col>
-          </v-row>
-        </v-card>
-
-      </v-col> -->
-
     </v-row>
 
   </v-container>
@@ -238,20 +502,86 @@
 import customToolbar from '@/components/CustomToolbar'
 import aboutCard from '@/components/AboutCard'
 import consts from '@/services/constants'
+import { mdiGavel, mdiTwitter, mdiNewspaperVariantOutline, mdiCogPlay, mdiFacebook, mdiPuzzle, mdiPower, mdiLink, mdiCogOutline } from '@mdi/js';
 
 export default {
   components: {
     'custom-toolbar': customToolbar,
     'about-card': aboutCard
   },
-  data(){
+  props: {
+    activeTab: null
+  },
+  data() {
     return {
+      tabs: null,
+      prefix: '.',
+      icons: {
+        gavel: mdiGavel,
+        twitter: mdiTwitter,
+        news: mdiNewspaperVariantOutline,
+        settings: mdiCogOutline,
+        facebook: mdiFacebook,
+        puzzle: mdiPuzzle,
+        disable: mdiPower,
+        link: mdiLink
+      }
+    }
+  },
+  created() {
+    if (this.activeTab) {
+      this.tabs = this.activeTab;
+      this.prefix = '..'
     }
   },
   computed: {
     siteName: function() {
       return consts.SITE_NAME;
-    }
+    } 
+  },
+  methods: {
+    images: function(key) {
+      if (key == 'assessingArticles')
+        return  `${this.prefix}/images/news-articles-assessments.png`;
+      else if (key == 'assessingTweets')
+        return `${this.prefix}/images/assessing-tweets.png`;
+      else if (key == 'assessedTweets') 
+        return `${this.prefix}/images/tweets-assessed.png`;
+      else if (key == 'trustnetExtensionLogin')
+        return `${this.prefix}/images/trustnet-extension-login-pane.png`;
+      else if (key == 'facebookTimestamp')
+        return `${this.prefix}/images/facebook-post-timestamp.png`;
+      else if (key == 'assessingFacebookPost')
+        return `${this.prefix}/images/assessing-facebook-post.png`;
+      else if (key == 'assessedFacebookPost')
+        return `${this.prefix}/images/assessed-facebook-post.png`;
+      else if (key == 'reheadlineLogin')
+        return `${this.prefix}/images/reheadline-login-pane.png`;
+      else if (key == 'headlineRecognized')
+        return `${this.prefix}/images/headline-recognized.png`;
+      else if (key == 'alternativeHeadlines')
+        return `${this.prefix}/images/alternative-headlines.png`;
+      else if (key == 'identifyUnrecognizedHeadlines')
+        return `${this.prefix}/images/action-button-identify-headlines.png`;
+      }
+      
   }
 }
 </script>
+
+<style scoped>
+.iframe-container {
+   overflow: hidden;
+  padding-top: 56.25%;
+  position: relative;
+}
+
+.iframe-container iframe {
+   border: 0;
+   height: 100%;
+   left: 0;
+   position: absolute;
+   top: 0;
+   width: 100%;
+}
+</style>
