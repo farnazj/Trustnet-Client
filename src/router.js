@@ -11,6 +11,7 @@ import Settings from './views/Settings.vue'
 import Profile from './views/Profile.vue'
 import Invalid from './views/Invalid.vue'
 import SinglePost from './views/SinglePost.vue'
+import News from './views/News.vue'
 import ExternalAssessmentCollector from './views/ExternalAssessmentCollector.vue'
 import store from './store/store'
 
@@ -116,6 +117,14 @@ let router = new Router({
       }
     },
     {
+      path: '/news',
+      name: 'news',
+      component: News,
+      meta: {
+        title: 'User study of social news reading tools'
+      }
+    },
+    {
       path: '/about/:activeTab?',
       props: true,
       name: 'about',
@@ -144,5 +153,12 @@ router.beforeEach((to, from, next) => {
     next();
   }
 })
+
+router.afterEach((to, from) => {
+  if (to.meta.title)
+    Vue.nextTick(() => {
+        document.title = to.meta.title || DEFAULT_TITLE;
+    });
+});
 
 export default router;
