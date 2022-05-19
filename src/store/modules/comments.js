@@ -14,8 +14,12 @@ export default {
   mutations: {
     add_comments: (state, { comments, postIdOfComments }) => {
       state.comments = [...state.comments, ...comments]; // Add new comments to old, without mutating
-      if (postIdOfComments !== undefined)
-        state.postIdOfComments = postIdOfComments;
+      // if (postIdOfComments !== undefined)
+      //   state.postIdOfComments = postIdOfComments;
+    },
+
+    update_comments_post_id: (state, postId) => {
+      state.postIdOfComments = postId;
     },
 
     delete_comment: (state, setId) => {
@@ -59,7 +63,9 @@ export default {
     },
     getReplyComments: (context, payload) => {
       return new Promise((resolve, reject) => {
+
         commentServices.getReplyComments({
+          postId: context.state.postIdOfComments,
           rootSetId: payload.rootSetId,
           limit: payload.limit,
           offset: payload.offset
@@ -165,6 +171,11 @@ export default {
 
         //singleArticleview
     
+    },
+
+    updateCommentsPostId: (context, payload) => {
+      context.commit('update_comments_post_id', payload);
     }
+
   }
 }

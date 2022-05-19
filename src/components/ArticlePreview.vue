@@ -368,6 +368,7 @@
         this.revealAssessments();
         this.getInitialComments();
         this.setInitialTab(initialTab);
+        this.updateCommentsPostId(this.post.id);
       },
       ...mapActions({
         populateBoosters (dispatch, payload) {
@@ -381,6 +382,9 @@
         },
         showAssessments (dispatch, payload) {
           return dispatch(this.assessmentsNamespace + '/showAssessments', payload)
+        },
+        updateCommentsPostId (dispatch, payload) {
+          return dispatch(this.commentsNamespace + '/updateCommentsPostId', payload)
         },
         getPostComments (dispatch, payload) {
           return dispatch(this.commentsNamespace + '/getPostComments', payload)
