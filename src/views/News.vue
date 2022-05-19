@@ -50,6 +50,9 @@ export default {
     },
     created() {
         document.querySelector('meta[property="og:description"]').setAttribute("content", " We're recruiting participants for a study of two new misinformation-fighting browser extensions we've developed. One lets you assess any page as accurate or inaccurate or ask about its accuracy. The other allows you to rewrite news headlines.");
+
+        document.querySelector('meta[property="og:url"]').setAttribute("content", 'https://trustnet.csail.mit.edu/news');
+        
     }
 
 }
