@@ -121,7 +121,7 @@ let router = new Router({
       name: 'news',
       component: News,
       meta: {
-        title: 'User study of social news reading tools'
+        title: 'Social news reading tools'
       }
     },
     {
@@ -157,7 +157,8 @@ router.beforeEach((to, from, next) => {
 router.afterEach((to, from) => {
   if (to.meta.title)
     Vue.nextTick(() => {
-        document.title = to.meta.title || DEFAULT_TITLE;
+        document.title = to.meta.title;
+        document.querySelector('meta[property="og:title"]').setAttribute("content", to.meta.title);
     });
 });
 

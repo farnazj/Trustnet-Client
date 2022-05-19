@@ -2,6 +2,7 @@
 
     <v-container fluid class="pt-12 px-0">
         <custom-toolbar></custom-toolbar>
+        <main>
         <v-row no-gutters justify="center" >
             <v-col cols="12" md="6" class="px-3 pt-8" >
                 <p class="subtitle-1 font-weight-medium">
@@ -28,9 +29,11 @@
                     MIT CSAIL
                 </p>    
             </v-col>
+            
 
 
         </v-row>
+        </main>
     </v-container>
 </template>
 
@@ -44,6 +47,10 @@ export default {
     data () {
         return {
         }
+    },
+    created() {
+        document.querySelector('meta[property="og:description"]').setAttribute("content", " We're recruiting participants for a study of two new misinformation-fighting browser extensions we've developed. One lets you assess any page as accurate or inaccurate or ask about its accuracy. The other allows you to rewrite news headlines.");
     }
+
 }
 </script>
