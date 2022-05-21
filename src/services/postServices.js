@@ -11,6 +11,12 @@ export default {
     return Api().post('/posts',
      reqBody, { withCredentials: true })
   },
+  getPostByURL(headers) {
+    return Api().get('/posts/url', {
+      withCredentials: true,
+      headers: headers
+    })
+  },
   importArticle(reqBody) {
     return Api().post('/posts/import',
     reqBody, { withCredentials: true })
