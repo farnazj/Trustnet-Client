@@ -107,7 +107,7 @@ export default {
   },
   computed: {
     isSearchVisible() {
-      return this.$route.name == 'home';
+      return ['home', 'singlePost'].includes(this.$route.name);
     },
 
     ...mapGetters('auth', [
@@ -142,8 +142,14 @@ export default {
        url: this.postURL
      })
      .then(res => {
-        if (res.data)
-          this.$router.push({ name: 'singlePost', params: { postid: res.data.id }})
+        if (res.data) {
+          if (this.$route.name == 'home')
+            this.$router.push({ name: 'singlePost', params: { postid: res.data.id }});
+          else { //singlePost 
+            this.$router.push({ params: { postid: res.data.id } });
+          }
+          
+        }
      })
    }
  },
