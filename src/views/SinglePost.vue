@@ -144,6 +144,9 @@ export default {
   watch: {
     articles: function(newVal) {
       this.post = newVal[0];
+    },
+    postid: function(newVal) {
+      this.getArticle();
     }
   },
   mixins: [assessmentHelpers]

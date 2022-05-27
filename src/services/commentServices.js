@@ -14,7 +14,7 @@ export default {
   },
   getReplyComments(params) {
     // console.log("getCommentsForPost")
-    return Api().get('/comments/trees/' + params.rootSetId + `?limit=${params.limit}&offset=${params.offset}`, {
+    return Api().get(`/comments/trees/${params.postId}/${params.rootSetId}?limit=${params.limit}&offset=${params.offset}`, {
       withCredentials: true,
     })
   },

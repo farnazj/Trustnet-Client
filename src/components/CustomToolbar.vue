@@ -5,6 +5,10 @@
         <v-img src="logo.png" class="logo-img mr-1"></v-img>
         <span class="font-weight-light">Trustnet</span>
       </v-toolbar-title>
+
+        <v-text-field v-if="isSearchVisible" outlined dense v-on:keyup.enter="searchByURL"
+            label="Search for content by URL" class="search-bar ml-6 pt-6" v-model="postURL"
+        ></v-text-field>
        
       <v-spacer></v-spacer>
 
@@ -69,6 +73,7 @@ import customAvatar from '@/components/CustomAvatar'
 import contentBooster from '@/components/ContentBooster'
 import notificationPanel from '@/components/NotificationPanel'
 import sourceServices from '@/services/sourceServices'
+import postServices from '@/services/postServices'
 import logHelpers from '@/mixins/logHelpers'
 import { mapState, mapGetters } from 'vuex'
 
@@ -94,12 +99,16 @@ export default {
         name: 'About', icon: 'help'
       }, {
         name: 'Logout', icon: 'power_settings_new'
-      }]
+      }],
+      postURL: ''
     }
   },
   created() {
   },
   computed: {
+    isSearchVisible() {
+      return ['home', 'singlePost'].includes(this.$route.name);
+    },
 
     ...mapGetters('auth', [
      'user',
@@ -127,6 +136,21 @@ export default {
       this.logEvent({ type: 'visit_profile', data: this.user.userName });
       this.$router.push({ name: 'profile', params: { username: this.user.userName } });
      }
+   },
+   searchByURL: function() {
+     postServices.getPostByURL({
+       url: this.postURL
+     })
+     .then(res => {
+        if (res.data) {
+          if (this.$route.name == 'home')
+            this.$router.push({ name: 'singlePost', params: { postid: res.data.id }});
+          else { //singlePost 
+            this.$router.push({ params: { postid: res.data.id } });
+          }
+          
+        }
+     })
    }
  },
   mixins: [logHelpers]
@@ -145,5 +169,9 @@ export default {
   border-radius: 50%;
   vertical-align: middle;
   width: 40px;
+}
+
+.search-bar {
+  max-width: 25vw;
 }
 </style>

@@ -11,6 +11,7 @@ import Settings from './views/Settings.vue'
 import Profile from './views/Profile.vue'
 import Invalid from './views/Invalid.vue'
 import SinglePost from './views/SinglePost.vue'
+import News from './views/News.vue'
 import ExternalAssessmentCollector from './views/ExternalAssessmentCollector.vue'
 import store from './store/store'
 
@@ -116,7 +117,16 @@ let router = new Router({
       }
     },
     {
-      path: '/about',
+      path: '/news',
+      name: 'news',
+      component: News,
+      meta: {
+        title: 'Social news reading tools'
+      }
+    },
+    {
+      path: '/about/:activeTab?',
+      props: true,
       name: 'about',
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
@@ -143,5 +153,13 @@ router.beforeEach((to, from, next) => {
     next();
   }
 })
+
+router.afterEach((to, from) => {
+  if (to.meta.title)
+    Vue.nextTick(() => {
+        document.title = to.meta.title;
+        document.querySelector('meta[property="og:title"]').setAttribute("content", to.meta.title);
+    });
+});
 
 export default router;

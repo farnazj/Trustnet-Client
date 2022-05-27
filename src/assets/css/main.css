@@ -147,3 +147,11 @@ div.vicp-preview-item.vicp-preview-item-circle {
 .v-chip .v-badge__badge .v-icon {
   transform: scale(0.8);
 }
+
+.custom-plain-link {
+  text-decoration: none;
+}
+
+.v-application a {
+  color: #AFB42B !important;
+}

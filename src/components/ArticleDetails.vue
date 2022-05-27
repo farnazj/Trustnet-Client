@@ -69,54 +69,54 @@
           <v-tooltip bottom :disabled="!disableBoost" >
             <template v-slot:activator="{ on }">
 
-           <v-menu v-model="boostMenu"
-             :close-on-content-click="false" :disabled="disableBoost"
-             max-width="380" offset-y left attach>
+              <v-menu v-model="boostMenu"
+                :close-on-content-click="false" :disabled="disableBoost"
+                max-width="380" offset-y left attach>
 
-             <template v-slot:activator="{ on }">
-             <v-btn text icon color="blue darken-1" :class="['mr-4', {'reset-pointer-events': !disableBoost},
-              {'v-btn--disabled': disableBoost }]" v-on="on">
-               <v-icon >{{icons.share}}</v-icon>
-             </v-btn>
-            </template>
+                <template v-slot:activator="{ on }">
+                  <v-btn text icon color="blue darken-1" :class="['mr-4', {'reset-pointer-events': !disableBoost},
+                    {'v-btn--disabled': disableBoost }]" :v-on="on">
+                    <v-icon >{{icons.share}}</v-icon>
+                  </v-btn>
+                </template>
 
-            <v-form ref="boostMenu" lazy-validation>
-             <v-card >
-               <v-container fluid>
-                 <v-row no-gutters>
-                   <v-col cols="12">
-                     <!-- <span>Select your target audience or leave this empty to
-                       include everyone</span> -->
-                     <source-selector ref="boostTargets" class="mt-2" population="downstream">
-                     </source-selector>
-                   </v-col>
-                 </v-row>
-               </v-container>
+                <v-form ref="boostMenu" lazy-validation >
+                <v-card >
+                  <v-container fluid>
+                    <v-row no-gutters>
+                      <v-col cols="12">
+                        <!-- <span>Select your target audience or leave this empty to
+                          include everyone</span> -->
+                        <source-selector ref="boostTargets" class="mt-2" population="downstream">
+                        </source-selector>
+                      </v-col>
+                    </v-row>
+                  </v-container>
 
-                 <v-card-actions>
-                   <a :href="emailLink" class="ml-1 email-link">
-                    <v-icon small color="primary">{{icons.email}}</v-icon>
-                   </a>
+                    <v-card-actions>
+                      <a :href="emailLink" class="ml-1 email-link">
+                        <v-icon small color="primary">{{icons.email}}</v-icon>
+                      </a>
 
-                   <v-spacer></v-spacer>
+                      <v-spacer></v-spacer>
 
-                   <v-btn text @click="cancelMenu('boostMenu')" small>Cancel</v-btn>
-                   <v-btn color="primary" text @click="boostArticle" small>
-                     <v-icon class="pr-1" small>{{icons.share}}</v-icon> Share
-                   </v-btn>
-                 </v-card-actions>
+                      <v-btn text @click="cancelMenu('boostMenu')" small>Cancel</v-btn>
+                      <v-btn color="primary" text @click="boostArticle" small>
+                        <v-icon class="pr-1" small>{{icons.share}}</v-icon> Share
+                      </v-btn>
+                    </v-card-actions>
 
-               </v-card>
-             </v-form>
+                  </v-card>
+                </v-form>
 
-             <v-alert v-model="boostAlert" type="error" dismissible>
-               Something went wrong. Try again later.
-             </v-alert>
+              <v-alert v-model="boostAlert" type="error" dismissible>
+                Something went wrong. Try again later.
+              </v-alert>
 
-            </v-menu>
-          </template>
+              </v-menu>
+           </template>
 
-          <span>To share the content, first you need to assess it.</span>
+          <span >To share the content, first you need to assess it.</span>
         </v-tooltip>
       </v-col>
     </v-row>
