@@ -145,7 +145,7 @@ export default {
   max-height: 98vh;
   min-height: 98vh;
   /*overflow-y: auto;*/
-  overflow-y: hidden;
+  overflow-y: auto;
   bottom: 0px;
 }
 
