@@ -25,6 +25,11 @@ export default {
       withCredentials: true
     })
   },
+  getCommentHistory(setId) {
+    return Api().get('/comments/sets/' + setId, {
+      withCredentials: true
+    })
+  },
   editComment(setId, reqBody) {
     // console.log("editComment")
     return Api().post('/comments/sets/' + setId,
