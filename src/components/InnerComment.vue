@@ -5,7 +5,7 @@
       <custom-avatar :user="commentObj.Source" :clickEnabled="false" :size="23" class="mb-1"></custom-avatar>
       
       <span class="ml-2 caption grey--text text--darken-3"> {{timestamp}} </span>
-      <!-- <span v-if="true" class="ml-2 caption grey--text text--darken-1 interactable" @click.stop="showHistory">Edited</span> -->
+      <span class="ml-2 caption grey--text text--darken-1 interactable elevated" @click.stop="showHistory">History</span>
     </v-row>
 
     <v-row no-gutters class="pa-1 pb-0 body-2 assessment-text">
@@ -69,6 +69,7 @@
 <script>
 import customAvatar from '@/components/CustomAvatar'
 import timeHelpers from '@/mixins/timeHelpers'
+import commentServices from '@/services/commentServices'
 import { mapState, mapActions, mapGetters } from 'vuex'
 
 export default {
@@ -135,11 +136,19 @@ export default {
   },
   methods: {
     showHistory() {
-      this.populateHistory({
-        history: [this.commentObj, ...([...this.commentObj.history].reverse())],
-        author: this.commentObj.Source
+      commentServices.getCommentHistory(this.commentObj.setId)
+      .then(rawCommentHistory => {
+        const commentHistory = rawCommentHistory.data.reverse();
+        this.populateHistory({
+          history: commentHistory,
+          author: this.commentObj.Source
+        });
+        this.sethistoryVisibility(true);
+      })
+      .catch(() => {
+        console.log("Comment history could not be obtained")
       });
-      this.sethistoryVisibility(true);
+      
     },
     resetEditText() {
       this.editText = this.commentObj.body !== null ? this.bodyText.slice() : "";
