@@ -107,43 +107,45 @@ export default {
         postIdOfComments: this.postId
       })
     },
-    preprocessAssessment(obj, aType) {
-      const ot = (obj.history != null && obj.history.length) ? obj.history[obj.history.length - 1].createdAt : obj.lastVersion.createdAt;
-      const newA = {
-        ...obj,
-        assessmentType: aType,
+    preprocessAssessment(assessmentObj, assessmentType) {
+      const originTime = (assessmentObj.history != null && assessmentObj.history.length)
+                                   ? assessmentObj.history[assessmentObj.history.length - 1].createdAt
+                                   : assessmentObj.lastVersion.createdAt;
+      const newAssessment = {
+        ...assessmentObj,
+        assessmentType: assessmentType,
         eType: 0,
-        eId: `a${obj.lastVersion.id}`,
+        eId: `a${assessmentObj.lastVersion.id}`,
         parent: null,
-        originTime: ot,
+        originTime: originTime,
         replies: []
       };
-      return newA;
+      return newAssessment;
     },
-    preprocessComment(obj) {
-      const newC = {
-        ...obj,
+    preprocessComment(commentObj) {
+      const newComment = {
+        ...commentObj,
         eType: 1,
-        eId: `c${obj.id}`,
+        eId: `c${commentObj.id}`,
         parent: null,
-        originTime: obj.createdAt,
+        originTime: commentObj.createdAt,
         replies: []
       };
-      return newC;
+      return newComment;
     },
     buildDiscussionMap() {
       const discussionMap = new Map();
 
-      for (const aType of ['confirmed', 'questioned', 'refuted']) {
-        for (const a of this.assessments[aType]) {
-          const newA = this.preprocessAssessment(a, aType);
-          discussionMap.set('' + newA.assessor.id, newA); //empty string prepended to convert sourceId from number to string
+      for (const assessmentType of ['confirmed', 'questioned', 'refuted']) {
+        for (const assessment of this.assessments[assessmentType]) {
+          const newAssessment = this.preprocessAssessment(assessment, assessmentType);
+          discussionMap.set(newAssessment.assessor.id.toString(), newAssessment);
         }
       }
 
-      for (const c of this.comments) {
-        const newC = this.preprocessComment(c);
-        discussionMap.set(newC.setId, newC);
+      for (const comment of this.comments) {
+        const newComment = this.preprocessComment(comment);
+        discussionMap.set(newComment.setId, newComment);
       }
 
       this.discussionMap = discussionMap;
@@ -151,8 +153,8 @@ export default {
     buildDiscussionList() {
       const discussionList = []
 
-      for (const [id, e] of this.discussionMap) {
-        discussionList.push(e);
+      for (const [id, engagementObj] of this.discussionMap) {
+        discussionList.push(engagementObj);
       }
 
       // Sort the discussion chronologically
@@ -170,14 +172,14 @@ export default {
     processDiscussion() {   // Form the reply tree
       const discussionTree = [];
 
-      for (const d of this.discussionList) {
-        if (!d.eType || d.parentId === null) {
-          discussionTree.push(d);
+      for (const discussionObj of this.discussionList) {
+        if (!discussionObj.eType || discussionObj.parentId === null) {
+          discussionTree.push(discussionObj);
         }
         else {
-          let commentParent = this.discussionMap.get('' + d.parentSetId);
-          d.parent = commentParent;
-          commentParent.replies.push(d);
+          let commentParent = this.discussionMap.get(discussionObj.parentSetId.toString());
+          discussionObj.parent = commentParent;
+          commentParent.replies.push(discussionObj);
         }
       }
       
