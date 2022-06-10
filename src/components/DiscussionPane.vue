@@ -8,9 +8,9 @@
 
     <div class="discussion-col">
       <template v-for="(dItem, index) in thread">
-          <inner-discussion :key="dItem.eId" :assessmentsNamespace="assessmentsNamespace" :commentsNamespace="commentsNamespace" 
+          <inner-discussion :key="dItem.engagementId" :assessmentsNamespace="assessmentsNamespace" :commentsNamespace="commentsNamespace" 
             :discussionObj="dItem" :depth="0"></inner-discussion>
-          <v-divider :key="`divider-${dItem.eId}`" v-if="index != thread.length - 1" class="mt-1"></v-divider>
+          <v-divider :key="`divider-${dItem.engagementId}`" v-if="index != thread.length - 1" class="mt-1"></v-divider>
       </template>
       <p
         @click="getTopLevels"
@@ -114,8 +114,8 @@ export default {
       const newAssessment = {
         ...assessmentObj,
         assessmentType: assessmentType,
-        eType: 0,
-        eId: `a${assessmentObj.lastVersion.id}`,
+        engagementType: 0, // assessment type constant
+        engagementId: `a${assessmentObj.lastVersion.id}`,
         parent: null,
         originTime: originTime,
         replies: []
@@ -125,8 +125,8 @@ export default {
     preprocessComment(commentObj) {
       const newComment = {
         ...commentObj,
-        eType: 1,
-        eId: `c${commentObj.id}`,
+        engagementType: 1, // comment type constant
+        engagementId: `c${commentObj.id}`,
         parent: null,
         originTime: commentObj.createdAt,
         replies: []
@@ -173,7 +173,7 @@ export default {
       const discussionTree = [];
 
       for (const discussionObj of this.discussionList) {
-        if (!discussionObj.eType || discussionObj.parentId === null) {
+        if (!discussionObj.engagementType || discussionObj.parentId === null) {
           discussionTree.push(discussionObj);
         }
         else {
