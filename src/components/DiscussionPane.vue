@@ -128,7 +128,6 @@ export default {
         engagementType: 1, // comment type constant
         engagementId: `c${commentObj.id}`,
         parent: null,
-        originTime: commentObj.createdAt,
         replies: []
       };
       return newComment;

@@ -5,7 +5,7 @@
       <custom-avatar :user="commentObj.Source" :clickEnabled="false" :size="23" class="mb-1"></custom-avatar>
       
       <span class="ml-2 caption grey--text text--darken-3"> {{timestamp}} </span>
-      <span class="ml-2 caption grey--text text--darken-1 interactable elevated" @click.stop="showHistory">History</span>
+      <span v-if="isEdited" class="ml-2 caption grey--text text--darken-1 interactable elevated" @click.stop="showHistory">Edited</span>
     </v-row>
 
     <v-row no-gutters class="pa-1 pb-0 body-2 assessment-text">
@@ -101,6 +101,9 @@ export default {
     }
   },
   computed: {
+    isEdited() {
+      return this.commentObj.createdAt !== this.commentObj.originTime;
+    },
     isDeleted() {
       return this.commentObj.body === null;
     },
