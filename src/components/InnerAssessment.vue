@@ -51,7 +51,7 @@
       </template>
     </v-textarea>
 
-    <v-row :style="iconsActive && !replying ? 'visibility: visible' : 'visibility: hidden'" class="mt-n7 justify-end" align="center" wrap no-gutters>
+    <v-row :style="iconsActive && !replying && inDiscussion ? 'visibility: visible' : 'visibility: hidden'" class="mt-n7 justify-end" align="center" wrap no-gutters>
         <v-btn style="z-index: 5" @click.stop="replying = true; iconsActive = false" icon>
           <v-icon style="z-index: 5" class="xs-icon-font" color="blue">fa-reply</v-icon>
         </v-btn>
@@ -86,6 +86,10 @@ export default {
     },
     assessmentType: {
       type: String
+    },
+    inDiscussion: {
+      type: Boolean,
+      default() { return false }
     }
   },
   data () {

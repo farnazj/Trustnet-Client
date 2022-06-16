@@ -24,7 +24,7 @@
       <inner-comment v-if="discussionObj.engagementType" :assessmentsNamespace="assessmentsNamespace" 
         :commentsNamespace="commentsNamespace" :commentObj="discussionObj" :class="{ 'ml-10' : depth }"></inner-comment>
       <inner-assessment v-else :assessmentsNamespace="assessmentsNamespace" :commentsNamespace="commentsNamespace" 
-        :assessmentObj="discussionObj" :assessmentType="discussionObj.assessmentType" :class="{ 'ml-10' : depth }"></inner-assessment>
+        :assessmentObj="discussionObj" :assessmentType="discussionObj.assessmentType" inDiscussion :class="{ 'ml-10' : depth }"></inner-assessment>
 
     </div>
 
