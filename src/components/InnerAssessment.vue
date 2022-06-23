@@ -44,7 +44,7 @@
     </v-row>
 
     <v-textarea v-if="replying" placeholder="Add a reply here..." outlined auto-grow rows="1" :autofocus="true" 
-        dense v-model="replyText" hide-details="auto" color="blue" style="font-size: 14px; width: 500px" class="pt-5 assessment-text-inner">
+        dense v-model="replyText" hide-details="auto" color="blue" class="pt-5 assessment-text-inner new-assessment">
       <template slot="append">
         <v-icon @click="sendReply" color="blue">mdi-send</v-icon>
         <v-icon @click="replying = false; replyText = ''" color="red">clear</v-icon>
@@ -52,8 +52,8 @@
     </v-textarea>
 
     <v-row :style="iconsActive && !replying && inDiscussion ? 'visibility: visible' : 'visibility: hidden'" class="mt-n7 justify-end" align="center" wrap no-gutters>
-        <v-btn style="z-index: 5" @click.stop="replying = true; iconsActive = false" icon>
-          <v-icon style="z-index: 5" class="xs-icon-font" color="blue">fa-reply</v-icon>
+        <v-btn class="elevated" @click.stop="replying = true; iconsActive = false" icon>
+          <v-icon class="xs-icon-font elevated" color="blue">fa-reply</v-icon>
         </v-btn>
     </v-row>
 
@@ -197,6 +197,15 @@ export default {
 .assessment-text-inner {
   white-space: pre-wrap;
   word-break: break-word;
+}
+
+.new-assessment {
+  font-size: 14px;
+  width: 500px;
+}
+
+.elevated {
+  z-index: 6;
 }
 
 .show-more-less {
