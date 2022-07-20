@@ -3,12 +3,12 @@
     <custom-toolbar></custom-toolbar>
 
     <v-row no-gutters>
-      <boosters-list detailsNamespace="singleArticleDetails" filtersNamespace="articleFilters"></boosters-list>
+      <boosters-list filtersNamespace="articleFilters"></boosters-list>
       <custom-titles titlesNamespace="singleArticleTitles" filtersNamespace="articleFilters"></custom-titles>
       <engagement-history assessmentsNamespace="singleArticleAssessments" commentsNamespace="singleArticleComments"></engagement-history>
 
       <v-col class="pt-12 ml-1" md="7" cols="8" >
-        <article-preview v-if="post" :post="post" detailsNamespace="singleArticleDetails"
+        <article-preview v-if="post" :post="post"
           filtersNamespace="articleFilters"
           assessmentsNamespace="singleArticleAssessments" commentsNamespace="singleArticleComments" titlesNamespace="singleArticleTitles">
         </article-preview>
@@ -20,7 +20,7 @@
       </v-col>
     </v-row>
 
-    <article-details detailsNamespace="singleArticleDetails"
+    <article-details
      filtersNamespace="articleFilters" @assessmentUpdate="getArticle"> </article-details>
 
   </v-container>
@@ -122,7 +122,7 @@ export default {
       'hideContainer',
       'showAssessments'
     ]),
-    ...mapActions('singleArticleDetails', [
+    ...mapActions('articleDetails', [
       'showArticleDrawer',
       'setBoostersVisibility'
     ]),

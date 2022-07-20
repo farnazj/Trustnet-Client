@@ -5,7 +5,7 @@
 
     <v-row justify="center" align="center" fill-height class="pt-5 full-height">
 
-    <article-details detailsNamespace="singleArticleDetails" :customWidth="'100vw'"
+    <article-details :customWidth="'100vw'"
      filtersNamespace="articleFilters" :externalUserToken="token">
      </article-details>
     </v-row>
@@ -35,7 +35,7 @@ export default {
         }
     },
     computed: {
-        ...mapState('singleArticleDetails', [
+        ...mapState('articleDetails', [
             'article'
         ])
     },
@@ -48,7 +48,7 @@ export default {
                 this.showArticleDrawer(res.data);
             })
         },   
-        ...mapActions('singleArticleDetails', [
+        ...mapActions('articleDetails', [
             'showArticleDrawer'
         ])
 

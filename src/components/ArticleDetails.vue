@@ -267,10 +267,6 @@ export default {
 
   },
   props: {
-    detailsNamespace: {
-      type: String,
-      required: true
-    },
     filtersNamespace: {
       type: String,
       required: true
@@ -345,15 +341,6 @@ export default {
     AuthUserIsOwner: function() {
       return this.user && this.article.SourceId == this.user.id;
     },
-    drawerVisible: function() {
-      return this.state.drawerVisible;
-    },
-    article: function() {
-      return this.state.article;
-    },
-    assessment: function() {
-      return this.state.assessment;
-    },
     articleLink: function() {
       return consts.SERVED_CLIENT_URL + '/posts/' + this.article.id;
     },
@@ -366,12 +353,7 @@ export default {
     ...mapGetters('auth', [
       'user'
     ]),
-    ...mapState({
-       state (state) {
-         return state[this.detailsNamespace];
-       }
-     })
-
+    ...mapState('articleDetails', ['drawerVisible', 'article', 'assessment'])
   },
   methods: {
     postAssessment: function() {
@@ -533,16 +515,16 @@ export default {
     // },
     ...mapActions({
       setDrawerVisibility (dispatch, payload) {
-        return dispatch(this.detailsNamespace + '/setDrawerVisibility', payload)
+        return dispatch('articleDetails' + '/setDrawerVisibility', payload)
       },
       getAuthUserPostAssessment (dispatch, payload) {
-        return dispatch(this.detailsNamespace + '/getAuthUserPostAssessment', payload)
+        return dispatch('articleDetails' + '/getAuthUserPostAssessment', payload)
       },
       postAuthUserAssessment (dispatch, payload) {
-        return dispatch(this.detailsNamespace + '/postAuthUserAssessment', payload)
+        return dispatch('articleDetails' + '/postAuthUserAssessment', payload)
       },
       updateDisplayedArticle (dispatch, payload) {
-        return dispatch(this.detailsNamespace + '/updateDisplayedArticle', payload)
+        return dispatch('articleDetails' + '/updateDisplayedArticle', payload)
       }
     }),
     ...mapActions({

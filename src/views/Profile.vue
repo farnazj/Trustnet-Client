@@ -19,7 +19,7 @@
 
     <custom-toolbar></custom-toolbar>
 
-    <article-details detailsNamespace="profileArticleDetails"
+    <article-details
      filtersNamespace="profileArticles"> </article-details>
 
      <v-row no-gutters class="pt-9 flex-fixed-height-child">
@@ -133,12 +133,12 @@
           <v-tab-item value="history">
             <v-container fluid class="px-0">
               <v-row no-gutters>
-                <boosters-list detailsNamespace="profileArticleDetails" filtersNamespace="profileArticles"></boosters-list>
+                <boosters-list filtersNamespace="profileArticles"></boosters-list>
                 <custom-titles titlesNamespace="profileTitles" filtersNamespace="profileArticles"></custom-titles>
                 <engagement-history assessmentsNamespace="profileAssessments" commentsNamespace="profileComments"></engagement-history>
 
                 <v-col cols="7" class="ml-2">
-                  <article-holder detailsNamespace="profileArticleDetails" filtersNamespace="profileArticles"
+                  <article-holder filtersNamespace="profileArticles"
                   assessmentsNamespace="profileAssessments" commentsNamespace="profileComments" titlesNamespace="profileTitles" :loadLocked="tabs != 'history'"></article-holder>
                 </v-col>
 

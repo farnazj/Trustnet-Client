@@ -36,13 +36,15 @@ let store = new Vuex.Store({
     loader,
     sourceLists,
     preferences,
-    consent
+    consent,
+
+    articleDetails
   }
 })
 
-store.registerModule('homeArticleDetails', articleDetails);
-store.registerModule('profileArticleDetails', articleDetails);
-store.registerModule('singleArticleDetails', articleDetails);
+// store.registerModule('homeArticleDetails', articleDetails);
+// store.registerModule('profileArticleDetails', articleDetails);
+// store.registerModule('singleArticleDetails', articleDetails);
 
 store.registerModule('homeAssessments', assessments);
 store.registerModule('profileAssessments', assessments);

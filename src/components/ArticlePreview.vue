@@ -155,10 +155,6 @@
      'preview-assessments': previewAssessments
     },
     props: {
-      detailsNamespace: {
-        type: String,
-        required: true
-      },
       filtersNamespace: {
         type: String,
         required: true
@@ -372,13 +368,13 @@
       },
       ...mapActions({
         populateBoosters (dispatch, payload) {
-          return dispatch(this.detailsNamespace + '/populateBoosters', payload)
+          return dispatch('articleDetails' + '/populateBoosters', payload)
         },
         setBoostersVisibility (dispatch, payload) {
-          return dispatch(this.detailsNamespace + '/setBoostersVisibility', payload)
+          return dispatch('articleDetails' + '/setBoostersVisibility', payload)
         },
         showArticleDrawer (dispatch, payload) {
-          return dispatch(this.detailsNamespace + '/showArticleDrawer', payload)
+          return dispatch('articleDetails' + '/showArticleDrawer', payload)
         },
         showAssessments (dispatch, payload) {
           return dispatch(this.assessmentsNamespace + '/showAssessments', payload)

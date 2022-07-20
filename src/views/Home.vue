@@ -28,7 +28,7 @@
     </v-row>
 
     <v-row no-gutters>
-      <boosters-list detailsNamespace="homeArticleDetails" filtersNamespace="articleFilters"></boosters-list>
+      <boosters-list filtersNamespace="articleFilters"></boosters-list>
       <custom-titles titlesNamespace="homeTitles" filtersNamespace="articleFilters"></custom-titles>
       <engagement-history assessmentsNamespace="homeAssessments" commentsNamespace="homeComments"></engagement-history>
 
@@ -43,7 +43,7 @@
       </div>
 
       <v-col md="7" cols="8" :offset="$vuetify.breakpoint.smAndDown ? 0 : (($vuetify.breakpoint.mdAndDown && !assessmentsVisible) ? 2 : 1)">
-        <article-holder detailsNamespace="homeArticleDetails" filtersNamespace="articleFilters"
+        <article-holder filtersNamespace="articleFilters"
           assessmentsNamespace="homeAssessments" commentsNamespace="homeComments" titlesNamespace="homeTitles"
           :class="{'pt-5': !$vuetify.breakpoint.smAndDown}">
        </article-holder>
@@ -56,8 +56,7 @@
 
     </v-row>
 
-    <article-details detailsNamespace="homeArticleDetails"
-     filtersNamespace="articleFilters"> </article-details>
+    <article-details filtersNamespace="articleFilters"> </article-details>
 
   </v-container>
 </template>
@@ -136,7 +135,7 @@ export default {
       ...mapActions('homeAssessments', [
         'hideContainer'
       ]),
-      ...mapActions('homeArticleDetails', [
+      ...mapActions('articleDetails', [
         'showArticleDrawer',
         'setBoostersVisibility'
       ]),
