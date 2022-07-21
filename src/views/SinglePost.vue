@@ -4,13 +4,13 @@
 
     <v-row no-gutters>
       <boosters-list filtersNamespace="articleFilters"></boosters-list>
-      <custom-titles titlesNamespace="singleArticleTitles" filtersNamespace="articleFilters"></custom-titles>
+      <custom-titles filtersNamespace="articleFilters"></custom-titles>
       <engagement-history assessmentsNamespace="singleArticleAssessments" commentsNamespace="singleArticleComments"></engagement-history>
 
       <v-col class="pt-12 ml-1" md="7" cols="8" >
         <article-preview v-if="post" :post="post"
           filtersNamespace="articleFilters"
-          assessmentsNamespace="singleArticleAssessments" commentsNamespace="singleArticleComments" titlesNamespace="singleArticleTitles">
+          assessmentsNamespace="singleArticleAssessments" commentsNamespace="singleArticleComments">
         </article-preview>
       </v-col>
 
@@ -126,7 +126,7 @@ export default {
       'showArticleDrawer',
       'setBoostersVisibility'
     ]),
-    ...mapActions('singleArticleTitles', [
+    ...mapActions('titles', [
       'setTitlesVisibility'
     ]),
     ...mapActions('relatedSources', [

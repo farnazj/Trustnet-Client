@@ -134,12 +134,12 @@
             <v-container fluid class="px-0">
               <v-row no-gutters>
                 <boosters-list filtersNamespace="profileArticles"></boosters-list>
-                <custom-titles titlesNamespace="profileTitles" filtersNamespace="profileArticles"></custom-titles>
+                <custom-titles filtersNamespace="profileArticles"></custom-titles>
                 <engagement-history assessmentsNamespace="profileAssessments" commentsNamespace="profileComments"></engagement-history>
 
                 <v-col cols="7" class="ml-2">
                   <article-holder filtersNamespace="profileArticles"
-                  assessmentsNamespace="profileAssessments" commentsNamespace="profileComments" titlesNamespace="profileTitles" :loadLocked="tabs != 'history'"></article-holder>
+                  assessmentsNamespace="profileAssessments" commentsNamespace="profileComments" :loadLocked="tabs != 'history'"></article-holder>
                 </v-col>
 
                 <engagement-container assessmentsNamespace="profileAssessments" commentsNamespace="profileComments" class="engagement-container">

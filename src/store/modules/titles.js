@@ -72,7 +72,7 @@ export default {
 
         let customTitleReqHeaders = {};
 
-        if (payload.titlesNamespace == 'profileTitles') {
+        if (payload.filtersNamespace == 'profileArticles') {
           let activityUserName = context.rootState['profileArticles'].username;
           
           customTitleReqHeaders = {

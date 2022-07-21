@@ -29,7 +29,7 @@
 
     <v-row no-gutters>
       <boosters-list filtersNamespace="articleFilters"></boosters-list>
-      <custom-titles titlesNamespace="homeTitles" filtersNamespace="articleFilters"></custom-titles>
+      <custom-titles filtersNamespace="articleFilters"></custom-titles>
       <engagement-history assessmentsNamespace="homeAssessments" commentsNamespace="homeComments"></engagement-history>
 
       <v-col sm="3" md="2" v-show="filtersVisible">
@@ -44,7 +44,7 @@
 
       <v-col md="7" cols="8" :offset="$vuetify.breakpoint.smAndDown ? 0 : (($vuetify.breakpoint.mdAndDown && !assessmentsVisible) ? 2 : 1)">
         <article-holder filtersNamespace="articleFilters"
-          assessmentsNamespace="homeAssessments" commentsNamespace="homeComments" titlesNamespace="homeTitles"
+          assessmentsNamespace="homeAssessments" commentsNamespace="homeComments"
           :class="{'pt-5': !$vuetify.breakpoint.smAndDown}">
        </article-holder>
       </v-col>
@@ -139,7 +139,7 @@ export default {
         'showArticleDrawer',
         'setBoostersVisibility'
       ]),
-      ...mapActions('homeTitles', [
+      ...mapActions('titles', [
         'setTitlesVisibility'
       ]),
       ...mapActions('preferences', [

@@ -50,11 +50,8 @@ export default {
   components: {
    'custom-avatar': customAvatar
   },
-    props: {
-    namespace: {
-      type: String,
-      required: true
-    },
+  props: {
+
   },
   data: () => {
     return {
@@ -80,19 +77,19 @@ export default {
       return endorsers;
     },
     titleEndorsersState: function() {
-      return this.state.titleEndorsersState;
+      return this.titleEndorsersState;
     },
     titles: function() {
-      return this.state.titles;
+      return this.titles;
     },
     selectedCustomTitleSetId: function() {
-      return this.state.selectedCustomTitleSetId;
+      return this.selectedCustomTitleSetId;
     },
-    ...mapState({
-      state (state) {
-       return state[this.namespace];
-      }
-    })
+    ...mapState('titles', [
+        'titleEndorsersState',
+        'titles',
+        'selectedCustomTitleSetId'
+    ])
   },
   methods: {
 
@@ -102,7 +99,7 @@ export default {
 
     ...mapActions({
         setEndorsersVisibility(dispatch, payload) {
-            return dispatch(`${this.namespace}/setEndorsersVisibility`, payload)
+            return dispatch(`titles/setEndorsersVisibility`, payload)
         }
     })
   },

@@ -38,7 +38,8 @@ let store = new Vuex.Store({
     preferences,
     consent,
 
-    articleDetails
+    articleDetails,
+    titles
   }
 })
 
@@ -54,8 +55,8 @@ store.registerModule('homeComments', comments);
 store.registerModule('profileComments', comments);
 store.registerModule('singleArticleComments', comments);
 
-store.registerModule('homeTitles', titles);
-store.registerModule('profileTitles', titles);
-store.registerModule('singleArticleTitles', titles);
+// store.registerModule('homeTitles', titles);
+// store.registerModule('profileTitles', titles);
+// store.registerModule('singleArticleTitles', titles);
 
 export default store;

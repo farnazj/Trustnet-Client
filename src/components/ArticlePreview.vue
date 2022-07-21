@@ -167,10 +167,6 @@
         type: String,
         required: true
       },
-      titlesNamespace: {
-        type: String,
-        required: true
-      },
       post: {
         type: Object
       }
