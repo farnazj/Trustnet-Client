@@ -72,10 +72,6 @@ export default {
    'assessor': assessor
   },
   props: {
-    assessmentsNamespace: {
-      type: String,
-      required: true
-    },
     assessmentObj: {
       type: Object,
       required: true
@@ -160,10 +156,10 @@ export default {
     },
     ...mapActions({
       populateHistory (dispatch, payload) {
-        return dispatch(this.assessmentsNamespace + '/populateAssessmentHistory', payload)
+        return dispatch('assessments' + '/populateAssessmentHistory', payload)
       },
       sethistoryVisibility (dispatch, payload) {
-        return dispatch(this.assessmentsNamespace + '/setHistoryVisibility', payload)
+        return dispatch('assessments' + '/setHistoryVisibility', payload)
       },
       getPostComments (dispatch, payload) {
         return dispatch('comments' + '/getPostComments', payload)

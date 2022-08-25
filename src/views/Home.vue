@@ -30,7 +30,7 @@
     <v-row no-gutters>
       <boosters-list filtersNamespace="articleFilters"></boosters-list>
       <custom-titles filtersNamespace="articleFilters"></custom-titles>
-      <engagement-history assessmentsNamespace="homeAssessments"></engagement-history>
+      <engagement-history></engagement-history>
 
       <v-col sm="3" md="2" v-show="filtersVisible">
         <filters class="frozen"></filters>
@@ -44,13 +44,12 @@
 
       <v-col md="7" cols="8" :offset="$vuetify.breakpoint.smAndDown ? 0 : (($vuetify.breakpoint.mdAndDown && !assessmentsVisible) ? 2 : 1)">
         <article-holder filtersNamespace="articleFilters"
-          assessmentsNamespace="homeAssessments"
           :class="{'pt-5': !$vuetify.breakpoint.smAndDown}">
        </article-holder>
       </v-col>
 
       <v-col v-if="assessmentsVisible">
-        <engagement-container assessmentsNamespace="homeAssessments" class="frozen">
+        <engagement-container class="frozen">
         </engagement-container>
       </v-col>
 
@@ -103,7 +102,7 @@ export default {
     assessmentsVisible: function() {
       return this.visible;
     },
-    ...mapState('homeAssessments', [
+    ...mapState('assessments', [
      'visible'
    ])
   },
@@ -132,7 +131,7 @@ export default {
       hideAssessments: function() {
         this.hideContainer();
       },
-      ...mapActions('homeAssessments', [
+      ...mapActions('assessments', [
         'hideContainer'
       ]),
       ...mapActions('articleDetails', [

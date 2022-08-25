@@ -25,8 +25,8 @@
               </v-card>
             </v-col> -->
 
-          <!-- <assessments-pane v-if="assessmentsSelected" :assessmentsNamespace="assessmentsNamespace"></assessments-pane> -->
-          <!-- <discussion-pane v-else :assessmentsNamespace="assessmentsNamespace"></discussion-pane> -->
+          <!-- <assessments-pane v-if="assessmentsSelected"></assessments-pane> -->
+          <!-- <discussion-pane v-else></discussion-pane> -->
 
             <v-tabs v-model="tabModel" fixed-tabs slider-color="lime darken-1" background-color="lime lighten-4"
               color="lime darken-4" height="35">
@@ -43,11 +43,11 @@
 
           <v-tabs-items v-model="tabModel">
             <v-tab-item value="assessments" >
-              <assessments-pane :assessmentsNamespace="assessmentsNamespace"></assessments-pane>
+              <assessments-pane></assessments-pane>
             </v-tab-item>
 
             <v-tab-item value="discussion" >
-              <discussion-pane :assessmentsNamespace="assessmentsNamespace"></discussion-pane>
+              <discussion-pane></discussion-pane>
             </v-tab-item>
 
           </v-tabs-items>
@@ -72,10 +72,7 @@ export default {
    'discussion-pane': discussionPane
   },
   props: {
-    assessmentsNamespace: {
-      type: String,
-      required: true
-    }
+    
   },
   data() {
     return {
@@ -100,7 +97,7 @@ export default {
     },
     ...mapState({
        assessmentState (state) {
-         return state[this.assessmentsNamespace];
+         return state['assessments'];
        },
        commentState (state) {
          return state['comments'];
@@ -117,10 +114,10 @@ export default {
     },
     ...mapActions({
       hideContainer (dispatch, payload) {
-        return dispatch(this.assessmentsNamespace + '/hideContainer', payload);
+        return dispatch('assessments' + '/hideContainer', payload);
       },
       setInitialTab (dispatch, payload) {
-        return dispatch(this.assessmentsNamespace + '/setInitialTab', payload);
+        return dispatch('assessments' + '/setInitialTab', payload);
       }
     })
   }

@@ -77,10 +77,6 @@ export default {
    'custom-avatar': customAvatar
   },
   props: {
-    assessmentsNamespace: {
-      type: String,
-      required: true
-    },
     commentObj: {
       type: Object,
       required: true

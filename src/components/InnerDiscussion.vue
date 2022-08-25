@@ -21,16 +21,15 @@
 
       </template>
 
-      <inner-comment v-if="discussionObj.engagementType" :assessmentsNamespace="assessmentsNamespace" 
+      <inner-comment v-if="discussionObj.engagementType"
         :commentObj="discussionObj" :class="{ 'ml-10' : depth }"></inner-comment>
-      <inner-assessment v-else :assessmentsNamespace="assessmentsNamespace" 
+      <inner-assessment v-else
         :assessmentObj="discussionObj" :assessmentType="discussionObj.assessmentType" inDiscussion :class="{ 'ml-10' : depth }"></inner-assessment>
 
     </div>
 
     <template>
-      <inner-discussion v-for="dItem in discussionObj.replies" :key="dItem.engagementId" 
-        :assessmentsNamespace="assessmentsNamespace" 
+      <inner-discussion v-for="dItem in discussionObj.replies" :key="dItem.engagementId"
         :discussionObj="dItem" :depth="depth + 1"></inner-discussion>
       <p
         @click="getReplies(replyCommentsLimit)"
@@ -64,10 +63,6 @@ export default {
    'custom-avatar': customAvatar
   },
   props: {
-    assessmentsNamespace: {
-      type: String,
-      required: true
-    },
     discussionObj: {
       type: Object,
       required: true

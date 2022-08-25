@@ -13,7 +13,7 @@
        </v-card-title>
 
        <template v-for="assessment in getAssessmentsSlice('questioned')" >
-         <inner-assessment :assessmentObj="assessment" :assessmentsNamespace="assessmentsNamespace"
+         <inner-assessment :assessmentObj="assessment"
           :key="assessment.lastVersion.id" assessmentType="question"></inner-assessment>
           <v-divider :key="`divider-${assessment.lastVersion.id}`"></v-divider>
           
@@ -45,7 +45,7 @@
            <v-divider></v-divider>
 
             <template v-for="assessment in getAssessmentsSlice(key)" >
-              <inner-assessment :assessmentObj="assessment" :assessmentsNamespace="assessmentsNamespace"
+              <inner-assessment :assessmentObj="assessment"
               :key="assessment.lastVersion.id" :assessmentType="key"></inner-assessment>
               <v-divider :key="`divider-${assessment.lastVersion.id}`" class="center-align"></v-divider>
             </template>
@@ -78,10 +78,7 @@ export default {
    'inner-assessment': innerAssessment
   },
   props: {
-    assessmentsNamespace: {
-      type: String,
-      required: true
-    }
+
   },
   data() {
     return {
@@ -104,7 +101,7 @@ export default {
     },
     ...mapState({
        state (state) {
-         return state[this.assessmentsNamespace];
+         return state['assessments'];
        }
     })
 

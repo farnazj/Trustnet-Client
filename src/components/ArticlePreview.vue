@@ -159,10 +159,6 @@
         type: String,
         required: true
       },
-      assessmentsNamespace: {
-        type: String,
-        required: true
-      },
       post: {
         type: Object
       }
@@ -228,7 +224,7 @@
       },
       ...mapState({
          assessmentState (state) {
-           return state[this.assessmentsNamespace];
+           return state['assessments'];
          },
          commentState (state) {
            return state['comments'];
@@ -369,7 +365,7 @@
           return dispatch('articleDetails' + '/showArticleDrawer', payload)
         },
         showAssessments (dispatch, payload) {
-          return dispatch(this.assessmentsNamespace + '/showAssessments', payload)
+          return dispatch('assessments' + '/showAssessments', payload)
         },
         updateCommentsPostId (dispatch, payload) {
           return dispatch('comments' + '/updateCommentsPostId', payload)
@@ -387,7 +383,7 @@
           return dispatch(this.filtersNamespace + '/updateHasComments', payload)
         },
         setInitialTab (dispatch, payload) {
-          return dispatch(this.assessmentsNamespace + '/setInitialTab', payload)
+          return dispatch('assessments' + '/setInitialTab', payload)
         }
 
       })

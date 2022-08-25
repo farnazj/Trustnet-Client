@@ -20,8 +20,7 @@
 
       <v-row v-for="article in articles" :key="article.id" no-gutters>
         <article-preview :post="article"
-        :filtersNamespace="filtersNamespace"
-          :assessmentsNamespace="assessmentsNamespace">
+        :filtersNamespace="filtersNamespace">
         </article-preview>
       </v-row>
       
@@ -74,10 +73,6 @@ export default {
   },
   props: {
     filtersNamespace: {
-      type: String,
-      required: true
-    },
-    assessmentsNamespace: {
       type: String,
       required: true
     },

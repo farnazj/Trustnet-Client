@@ -8,7 +8,7 @@
 
     <div class="discussion-col">
       <template v-for="(dItem, index) in thread">
-          <inner-discussion :key="dItem.engagementId" :assessmentsNamespace="assessmentsNamespace" 
+          <inner-discussion :key="dItem.engagementId" 
             :discussionObj="dItem" :depth="0"></inner-discussion>
           <v-divider :key="`divider-${dItem.engagementId}`" v-if="index != thread.length - 1" class="mt-1"></v-divider>
       </template>
@@ -37,10 +37,7 @@ export default {
     'inner-discussion': innerDiscussion
   },
   props: {
-    assessmentsNamespace: {
-      type: String,
-      required: true
-    }
+
   },
   data() {
     return {
@@ -66,7 +63,7 @@ export default {
     },
     ...mapState({
        assessmentState (state) {
-         return state[this.assessmentsNamespace];
+         return state['assessments'];
        },
        commentState (state) {
          return state['comments'];

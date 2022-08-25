@@ -135,14 +135,13 @@
               <v-row no-gutters>
                 <boosters-list filtersNamespace="profileArticles"></boosters-list>
                 <custom-titles filtersNamespace="profileArticles"></custom-titles>
-                <engagement-history assessmentsNamespace="profileAssessments"></engagement-history>
+                <engagement-history></engagement-history>
 
                 <v-col cols="7" class="ml-2">
-                  <article-holder filtersNamespace="profileArticles"
-                  assessmentsNamespace="profileAssessments" :loadLocked="tabs != 'history'"></article-holder>
+                  <article-holder filtersNamespace="profileArticles" :loadLocked="tabs != 'history'"></article-holder>
                 </v-col>
 
-                <engagement-container assessmentsNamespace="profileAssessments" class="engagement-container">
+                <engagement-container class="engagement-container">
                 </engagement-container>
 
               </v-row>
@@ -346,7 +345,7 @@ export default {
     ...mapActions('auth', [
       'updateUser'
     ]),
-    ...mapActions('profileAssessments', [
+    ...mapActions('assessments', [
       'hideContainer'
     ]),
     ...mapActions('preferences', [
