@@ -81,10 +81,6 @@ export default {
       type: String,
       required: true
     },
-    commentsNamespace: {
-      type: String,
-      required: true
-    },
     commentObj: {
       type: Object,
       required: true
@@ -130,7 +126,7 @@ export default {
     },
     ...mapState({
        commentState (state) {
-         return state[this.commentsNamespace];
+         return state['comments'];
        }
     }),
     ...mapGetters('auth', [
@@ -188,25 +184,25 @@ export default {
     },
     ...mapActions({
       populateHistory (dispatch, payload) {
-        return dispatch(this.commentsNamespace + '/populateCommentHistory', payload)
+        return dispatch('comments' + '/populateCommentHistory', payload)
       },
       sethistoryVisibility (dispatch, payload) {
-        return dispatch(this.commentsNamespace + '/setHistoryVisibility', payload)
+        return dispatch('comments' + '/setHistoryVisibility', payload)
       },
       getPostComments (dispatch, payload) {
-        return dispatch(this.commentsNamespace + '/getPostComments', payload)
+        return dispatch('comments' + '/getPostComments', payload)
       },
       postComment (dispatch, payload) {
-        return dispatch(this.commentsNamespace + '/postComment', payload)
+        return dispatch('comments' + '/postComment', payload)
       },
       editComment (dispatch, payload) {
-        return dispatch(this.commentsNamespace + '/editComment', payload)
+        return dispatch('comments' + '/editComment', payload)
       },
       deleteComment (dispatch, payload) {
-        return dispatch(this.commentsNamespace + '/deleteComment', payload)
+        return dispatch('comments' + '/deleteComment', payload)
       },
       updatePostHasComments (dispatch, payload) {
-        return dispatch(this.commentsNamespace + '/updatePostHasComments', payload)
+        return dispatch('comments' + '/updatePostHasComments', payload)
       }
     })
   },

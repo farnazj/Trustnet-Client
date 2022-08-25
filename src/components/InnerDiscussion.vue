@@ -22,15 +22,15 @@
       </template>
 
       <inner-comment v-if="discussionObj.engagementType" :assessmentsNamespace="assessmentsNamespace" 
-        :commentsNamespace="commentsNamespace" :commentObj="discussionObj" :class="{ 'ml-10' : depth }"></inner-comment>
-      <inner-assessment v-else :assessmentsNamespace="assessmentsNamespace" :commentsNamespace="commentsNamespace" 
+        :commentObj="discussionObj" :class="{ 'ml-10' : depth }"></inner-comment>
+      <inner-assessment v-else :assessmentsNamespace="assessmentsNamespace" 
         :assessmentObj="discussionObj" :assessmentType="discussionObj.assessmentType" inDiscussion :class="{ 'ml-10' : depth }"></inner-assessment>
 
     </div>
 
     <template>
       <inner-discussion v-for="dItem in discussionObj.replies" :key="dItem.engagementId" 
-        :assessmentsNamespace="assessmentsNamespace" :commentsNamespace="commentsNamespace" 
+        :assessmentsNamespace="assessmentsNamespace" 
         :discussionObj="dItem" :depth="depth + 1"></inner-discussion>
       <p
         @click="getReplies(replyCommentsLimit)"
@@ -65,10 +65,6 @@ export default {
   },
   props: {
     assessmentsNamespace: {
-      type: String,
-      required: true
-    },
-    commentsNamespace: {
       type: String,
       required: true
     },
@@ -122,7 +118,7 @@ export default {
     },
     ...mapActions({
       getReplyComments (dispatch, payload) {
-        return dispatch(this.commentsNamespace + '/getReplyComments', payload)
+        return dispatch('comments' + '/getReplyComments', payload)
       }
     })
   },

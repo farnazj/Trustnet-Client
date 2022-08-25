@@ -25,8 +25,8 @@
               </v-card>
             </v-col> -->
 
-          <!-- <assessments-pane v-if="assessmentsSelected" :assessmentsNamespace="assessmentsNamespace" :commentsNamespace="commentsNamespace"></assessments-pane> -->
-          <!-- <discussion-pane v-else :assessmentsNamespace="assessmentsNamespace" :commentsNamespace="commentsNamespace"></discussion-pane> -->
+          <!-- <assessments-pane v-if="assessmentsSelected" :assessmentsNamespace="assessmentsNamespace"></assessments-pane> -->
+          <!-- <discussion-pane v-else :assessmentsNamespace="assessmentsNamespace"></discussion-pane> -->
 
             <v-tabs v-model="tabModel" fixed-tabs slider-color="lime darken-1" background-color="lime lighten-4"
               color="lime darken-4" height="35">
@@ -43,11 +43,11 @@
 
           <v-tabs-items v-model="tabModel">
             <v-tab-item value="assessments" >
-              <assessments-pane :assessmentsNamespace="assessmentsNamespace" :commentsNamespace="commentsNamespace"></assessments-pane>
+              <assessments-pane :assessmentsNamespace="assessmentsNamespace"></assessments-pane>
             </v-tab-item>
 
             <v-tab-item value="discussion" >
-              <discussion-pane :assessmentsNamespace="assessmentsNamespace" :commentsNamespace="commentsNamespace"></discussion-pane>
+              <discussion-pane :assessmentsNamespace="assessmentsNamespace"></discussion-pane>
             </v-tab-item>
 
           </v-tabs-items>
@@ -73,10 +73,6 @@ export default {
   },
   props: {
     assessmentsNamespace: {
-      type: String,
-      required: true
-    },
-    commentsNamespace: {
       type: String,
       required: true
     }
@@ -107,7 +103,7 @@ export default {
          return state[this.assessmentsNamespace];
        },
        commentState (state) {
-         return state[this.commentsNamespace];
+         return state['comments'];
        }
     })
 

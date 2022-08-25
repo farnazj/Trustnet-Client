@@ -5,17 +5,17 @@
     <v-row no-gutters>
       <boosters-list filtersNamespace="articleFilters"></boosters-list>
       <custom-titles filtersNamespace="articleFilters"></custom-titles>
-      <engagement-history assessmentsNamespace="singleArticleAssessments" commentsNamespace="singleArticleComments"></engagement-history>
+      <engagement-history assessmentsNamespace="singleArticleAssessments"></engagement-history>
 
       <v-col class="pt-12 ml-1" md="7" cols="8" >
         <article-preview v-if="post" :post="post"
           filtersNamespace="articleFilters"
-          assessmentsNamespace="singleArticleAssessments" commentsNamespace="singleArticleComments">
+          assessmentsNamespace="singleArticleAssessments">
         </article-preview>
       </v-col>
 
       <v-col md="5" cols="4">
-        <engagement-container assessmentsNamespace="singleArticleAssessments" commentsNamespace="singleArticleComments" class="single-post-engagements frozen">
+        <engagement-container assessmentsNamespace="singleArticleAssessments" class="single-post-engagements frozen">
         </engagement-container>
       </v-col>
     </v-row>
@@ -75,7 +75,7 @@ export default {
     ...mapState('articleFilters', [
       'articles'
     ]),
-    ...mapState('singleArticleComments', [
+    ...mapState('comments', [
       'commentState'
     ])
   },
@@ -136,7 +136,7 @@ export default {
     ...mapActions('articleFilters', [
       'getSingleArticle'
     ]),
-    ...mapActions('singleArticleComments', [
+    ...mapActions('comments', [
       'getPostComments',
       'clearComments'
     ])

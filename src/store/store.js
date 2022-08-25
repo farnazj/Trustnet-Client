@@ -39,7 +39,9 @@ let store = new Vuex.Store({
     consent,
 
     articleDetails,
-    titles
+    titles,
+
+    comments
   }
 })
 
@@ -51,9 +53,9 @@ store.registerModule('homeAssessments', assessments);
 store.registerModule('profileAssessments', assessments);
 store.registerModule('singleArticleAssessments', assessments);
 
-store.registerModule('homeComments', comments);
-store.registerModule('profileComments', comments);
-store.registerModule('singleArticleComments', comments);
+// store.registerModule('homeComments', comments);
+// store.registerModule('profileComments', comments);
+// store.registerModule('singleArticleComments', comments);
 
 // store.registerModule('homeTitles', titles);
 // store.registerModule('profileTitles', titles);

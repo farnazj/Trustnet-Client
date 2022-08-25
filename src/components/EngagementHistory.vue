@@ -63,11 +63,7 @@ export default {
     assessmentsNamespace: {
       type: String,
       required: true
-    },
-    commentsNamespace: {
-      type: String,
-      required: true
-    },
+    }
   },
   data: () => {
     return {
@@ -105,7 +101,7 @@ export default {
          return state[this.assessmentsNamespace];
        },
        commentState (state) {
-         return state[this.commentsNamespace];
+         return state['comments'];
        },
     })
   },
@@ -127,7 +123,7 @@ export default {
         return dispatch(this.assessmentsNamespace + '/setHistoryVisibility', payload)
       },
       setCommentHistoryVisibility (dispatch, payload) {
-        return dispatch(this.commentsNamespace + '/setHistoryVisibility', payload)
+        return dispatch('comments' + '/setHistoryVisibility', payload)
       }
     })
   },

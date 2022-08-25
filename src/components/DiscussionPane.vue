@@ -8,7 +8,7 @@
 
     <div class="discussion-col">
       <template v-for="(dItem, index) in thread">
-          <inner-discussion :key="dItem.engagementId" :assessmentsNamespace="assessmentsNamespace" :commentsNamespace="commentsNamespace" 
+          <inner-discussion :key="dItem.engagementId" :assessmentsNamespace="assessmentsNamespace" 
             :discussionObj="dItem" :depth="0"></inner-discussion>
           <v-divider :key="`divider-${dItem.engagementId}`" v-if="index != thread.length - 1" class="mt-1"></v-divider>
       </template>
@@ -40,10 +40,6 @@ export default {
     assessmentsNamespace: {
       type: String,
       required: true
-    },
-    commentsNamespace: {
-      type: String,
-      required: true
     }
   },
   data() {
@@ -73,7 +69,7 @@ export default {
          return state[this.assessmentsNamespace];
        },
        commentState (state) {
-         return state[this.commentsNamespace];
+         return state['comments'];
        }
     })
   },
@@ -186,13 +182,13 @@ export default {
     },
     ...mapActions({
       postComment (dispatch, payload) {
-        return dispatch(this.commentsNamespace + '/postComment', payload)
+        return dispatch('comments' + '/postComment', payload)
       },
       getPostComments (dispatch, payload) {
-        return dispatch(this.commentsNamespace + '/getPostComments', payload)
+        return dispatch('comments' + '/getPostComments', payload)
       },
       updatePostHasComments (dispatch, payload) {
-        return dispatch(this.commentsNamespace + '/updatePostHasComments', payload)
+        return dispatch('comments' + '/updatePostHasComments', payload)
       }
     })
   },

@@ -163,10 +163,6 @@
         type: String,
         required: true
       },
-      commentsNamespace: {
-        type: String,
-        required: true
-      },
       post: {
         type: Object
       }
@@ -235,7 +231,7 @@
            return state[this.assessmentsNamespace];
          },
          commentState (state) {
-           return state[this.commentsNamespace];
+           return state['comments'];
          },
       }),
       defaultView: function() {
@@ -376,16 +372,16 @@
           return dispatch(this.assessmentsNamespace + '/showAssessments', payload)
         },
         updateCommentsPostId (dispatch, payload) {
-          return dispatch(this.commentsNamespace + '/updateCommentsPostId', payload)
+          return dispatch('comments' + '/updateCommentsPostId', payload)
         },
         getPostComments (dispatch, payload) {
-          return dispatch(this.commentsNamespace + '/getPostComments', payload)
+          return dispatch('comments' + '/getPostComments', payload)
         },
         getReplyComments (dispatch, payload) {
-          return dispatch(this.commentsNamespace + '/getReplyComments', payload)
+          return dispatch('comments' + '/getReplyComments', payload)
         },
         clearComments (dispatch) {
-          return dispatch(this.commentsNamespace + '/clearComments')
+          return dispatch('comments' + '/clearComments')
         },
         updateHasComments (dispatch, payload) {
           return dispatch(this.filtersNamespace + '/updateHasComments', payload)

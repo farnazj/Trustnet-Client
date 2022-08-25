@@ -76,10 +76,6 @@ export default {
       type: String,
       required: true
     },
-    commentsNamespace: {
-      type: String,
-      required: true
-    },
     assessmentObj: {
       type: Object,
       required: true
@@ -125,7 +121,7 @@ export default {
     },
     ...mapState({
        commentState (state) {
-         return state[this.commentsNamespace];
+         return state['comments'];
        }
     }),
     ...mapGetters('auth', [
@@ -170,13 +166,13 @@ export default {
         return dispatch(this.assessmentsNamespace + '/setHistoryVisibility', payload)
       },
       getPostComments (dispatch, payload) {
-        return dispatch(this.commentsNamespace + '/getPostComments', payload)
+        return dispatch('comments' + '/getPostComments', payload)
       },
       postComment (dispatch, payload) {
-        return dispatch(this.commentsNamespace + '/postComment', payload)
+        return dispatch('comments' + '/postComment', payload)
       },
       updatePostHasComments (dispatch, payload) {
-        return dispatch(this.commentsNamespace + '/updatePostHasComments', payload)
+        return dispatch('comments' + '/updatePostHasComments', payload)
       }
     })
   },
