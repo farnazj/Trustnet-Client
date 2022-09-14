@@ -57,7 +57,6 @@ export default {
     return {
       post: null,
       initialTopLevelCommentsLimit: INITIAL_TOP_LEVEL_COMMENTS_LIMIT
-
     }
   },
   created() {
@@ -73,9 +72,6 @@ export default {
     ]),
     ...mapState('articleFilters', [
       'articles'
-    ]),
-    ...mapState('comments', [
-      'commentState'
     ])
   },
   beforeRouteLeave (to, from, next) {
@@ -87,19 +83,21 @@ export default {
   methods: {
     getArticle: function() {
       this.getSingleArticle({ postId: this.postid })
-      
       .then( () => {
         //this.showArticleDrawer(res.data);
         this.post = this.articles[0];
+
         this.getInitialComments();
         Promise.all(this.restructureAssessments())
+        .then( () => {
+          this.updateCommentsPostId( this.postid );
+        })
         .then(() => {
           this.showAssessments({
             assessments: this.assessments,
             postIdOfAssessments: this.postid
           });
         })
-
       })
     },
     hideAssessments: function() {
@@ -137,7 +135,8 @@ export default {
     ]),
     ...mapActions('comments', [
       'getPostComments',
-      'clearComments'
+      'clearComments',
+      'updateCommentsPostId'
     ])
   },
   watch: {

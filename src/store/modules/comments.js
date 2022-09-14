@@ -172,7 +172,7 @@ export default {
         //singleArticleview
     
     },
-
+    
     updateCommentsPostId: (context, payload) => {
       context.commit('update_comments_post_id', payload);
     }
