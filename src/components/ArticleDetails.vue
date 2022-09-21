@@ -66,6 +66,7 @@
 
           </v-menu>
 
+
           <v-tooltip bottom :disabled="!disableBoost" >
             <template v-slot:activator="{ on }">
 
@@ -75,7 +76,7 @@
 
                 <template v-slot:activator="{ on }">
                   <v-btn text icon color="blue darken-1" :class="['mr-4', {'reset-pointer-events': !disableBoost},
-                    {'v-btn--disabled': disableBoost }]" :v-on="on">
+                    {'v-btn--disabled': disableBoost }]" v-on="on">
                     <v-icon >{{icons.share}}</v-icon>
                   </v-btn>
                 </template>
@@ -85,8 +86,6 @@
                   <v-container fluid>
                     <v-row no-gutters>
                       <v-col cols="12">
-                        <!-- <span>Select your target audience or leave this empty to
-                          include everyone</span> -->
                         <source-selector ref="boostTargets" class="mt-2" population="downstream">
                         </source-selector>
                       </v-col>
