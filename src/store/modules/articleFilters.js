@@ -14,7 +14,7 @@ export default {
     filteredTags: [],
     articles: [],
     offset: 0,
-    limit: 10,
+    limit: 3,
     articlesFetched: false,
     articlesCommentOwnership: {} //mapping of post id to Boolean indicating whether the post has comments
   },
@@ -150,6 +150,7 @@ export default {
 
         context.dispatch('getArticles')
         .then(posts => {
+          console.log('posts', posts)
           context.commit('append_articles', posts);
           resolve();
         })

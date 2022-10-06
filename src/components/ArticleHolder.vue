@@ -121,6 +121,8 @@ export default {
       let preOffset = this.offset;
       return this.getMoreBoosts()
       .then(() => {
+        console.log('preOffset', preOffset)
+        console.log('this offset', this.offset)
         let postOffset = this.offset;
         if (preOffset == postOffset)
           this.endOfResults = true;

@@ -11,7 +11,7 @@ export default {
         let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight >= (document.documentElement.offsetHeight - 250);
 
         if (!this.scrollDisabled && !this.endOfResults && bottomOfWindow) {
-          // console.log('bottom of window')
+          console.log('bottom of window')
           this.scrollDisabled = true;
           this.extend()
           .then(() => {
