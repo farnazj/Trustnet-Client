@@ -391,7 +391,6 @@
     },
     watch: {
       post: function(val) {
-        console.log('triggering ths', val)
         /*
         For when the user deletes their boost in BoostersList
         */

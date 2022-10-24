@@ -69,11 +69,6 @@ div.vicp-preview-item.vicp-preview-item-circle {
   caret-color: #1976D2 !important;
 }
 
-
-.article-filters .v-list__tile {
-
-}
-
 .v-list-item__action:last-of-type:not(:only-child), .v-list-item__icon:last-of-type:not(:only-child) {
   margin-left: 0 !important;
 }
@@ -133,11 +128,11 @@ div.vicp-preview-item.vicp-preview-item-circle {
 
 .v-badge__badge .v-icon {
   font-size: 17px !important;
-  inset: calc(100% - 11px) auto auto calc(100% - 15px);
+  inset: calc(100% - 7px) auto auto calc(100% - 3px);
   color: #827717  !important;
 }
 .assessor .v-badge__badge .v-icon {
-  inset: calc(100% - 10px) auto auto calc(100% - 13px); 
+  inset: calc(100% - 5px) auto auto calc(100% - 3px); 
 }
 
 .v-chip__content .v-avatar {
