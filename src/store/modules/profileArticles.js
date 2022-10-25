@@ -8,7 +8,7 @@ export default {
     articles: [],
     filteredTags: [],
     offset: 0,
-    limit: 10,
+    limit: 12,
     articlesCommentOwnership: {} //mapping of post id to Boolean indicating whether the post has comments
   },
   getters: {

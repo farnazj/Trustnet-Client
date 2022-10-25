@@ -14,7 +14,7 @@ export default {
     filteredTags: [],
     articles: [],
     offset: 0,
-    limit: 3,
+    limit: 16,
     articlesFetched: false,
     articlesCommentOwnership: {} //mapping of post id to Boolean indicating whether the post has comments
   },
