@@ -8,9 +8,9 @@
 
     <div class="discussion-col">
       <template v-for="(dItem, index) in thread">
-          <inner-discussion :key="dItem.eId" :assessmentsNamespace="assessmentsNamespace" :commentsNamespace="commentsNamespace" 
+          <inner-discussion :key="dItem.engagementId" 
             :discussionObj="dItem" :depth="0"></inner-discussion>
-          <v-divider :key="`divider-${dItem.eId}`" v-if="index != thread.length - 1" class="mt-1"></v-divider>
+          <v-divider :key="`divider-${dItem.engagementId}`" v-if="index != thread.length - 1" class="mt-1"></v-divider>
       </template>
       <p
         @click="getTopLevels"
@@ -37,14 +37,7 @@ export default {
     'inner-discussion': innerDiscussion
   },
   props: {
-    assessmentsNamespace: {
-      type: String,
-      required: true
-    },
-    commentsNamespace: {
-      type: String,
-      required: true
-    }
+
   },
   data() {
     return {
@@ -70,10 +63,10 @@ export default {
     },
     ...mapState({
        assessmentState (state) {
-         return state[this.assessmentsNamespace];
+         return state['assessments'];
        },
        commentState (state) {
-         return state[this.commentsNamespace];
+         return state['comments'];
        }
     })
   },
@@ -107,54 +100,53 @@ export default {
         postIdOfComments: this.postId
       })
     },
-    preprocessAssessment(obj, aType) {
-      const ot = (obj.history != null && obj.history.length) ? obj.history[obj.history.length - 1].createdAt : obj.lastVersion.createdAt;
-      const newA = {
-        ...obj,
-        assessmentType: aType,
-        eType: 0,
-        eId: `a${obj.lastVersion.id}`,
+    preprocessAssessment(assessmentObj, assessmentType) {
+      const originTime = (assessmentObj.history != null && assessmentObj.history.length)
+                                   ? assessmentObj.history[assessmentObj.history.length - 1].createdAt
+                                   : assessmentObj.lastVersion.createdAt;
+      const newAssessment = {
+        ...assessmentObj,
+        assessmentType: assessmentType,
+        engagementType: 0, // assessment type constant
+        engagementId: `a${assessmentObj.lastVersion.id}`,
         parent: null,
-        originTime: ot,
+        originTime: originTime,
         replies: []
       };
-      return newA;
+      return newAssessment;
     },
-    preprocessComment(obj) {
-      const newC = {
-        ...obj,
-        eType: 1,
-        eId: `c${obj.id}`,
+    preprocessComment(commentObj) {
+      const newComment = {
+        ...commentObj,
+        engagementType: 1, // comment type constant
+        engagementId: `c${commentObj.id}`,
         parent: null,
-        originTime: obj.createdAt,
         replies: []
       };
-      return newC;
+      return newComment;
     },
     buildDiscussionMap() {
       const discussionMap = new Map();
 
-      for (const aType of ['confirmed', 'questioned', 'refuted']) {
-        for (const a of this.assessments[aType]) {
-          const newA = this.preprocessAssessment(a, aType);
-          discussionMap.set('' + newA.assessor.id, newA); //empty string prepended to convert sourceId from number to string
+      for (const assessmentType of ['confirmed', 'questioned', 'refuted']) {
+        for (const assessment of this.assessments[assessmentType]) {
+          const newAssessment = this.preprocessAssessment(assessment, assessmentType);
+          discussionMap.set(newAssessment.assessor.id.toString(), newAssessment);
         }
       }
 
-      for (const c of this.comments) {
-        const newC = this.preprocessComment(c);
-        discussionMap.set(newC.setId, newC);
+      for (const comment of this.comments) {
+        const newComment = this.preprocessComment(comment);
+        discussionMap.set(newComment.setId, newComment);
       }
 
       this.discussionMap = discussionMap;
-
-      // console.log(discussionMap)
     },
     buildDiscussionList() {
       const discussionList = []
 
-      for (const [id, e] of this.discussionMap) {
-        discussionList.push(e);
+      for (const [id, engagementObj] of this.discussionMap) {
+        discussionList.push(engagementObj);
       }
 
       // Sort the discussion chronologically
@@ -172,14 +164,14 @@ export default {
     processDiscussion() {   // Form the reply tree
       const discussionTree = [];
 
-      for (const d of this.discussionList) {
-        if (!d.eType || d.parentId === null) {
-          discussionTree.push(d);
+      for (const discussionObj of this.discussionList) {
+        if (!discussionObj.engagementType || discussionObj.parentId === null) {
+          discussionTree.push(discussionObj);
         }
         else {
-          let commentParent = this.discussionMap.get('' + d.parentSetId);
-          d.parent = commentParent;
-          commentParent.replies.push(d);
+          let commentParent = this.discussionMap.get(discussionObj.parentSetId.toString());
+          discussionObj.parent = commentParent;
+          commentParent.replies.push(discussionObj);
         }
       }
       
@@ -187,13 +179,13 @@ export default {
     },
     ...mapActions({
       postComment (dispatch, payload) {
-        return dispatch(this.commentsNamespace + '/postComment', payload)
+        return dispatch('comments' + '/postComment', payload)
       },
       getPostComments (dispatch, payload) {
-        return dispatch(this.commentsNamespace + '/getPostComments', payload)
+        return dispatch('comments' + '/getPostComments', payload)
       },
       updatePostHasComments (dispatch, payload) {
-        return dispatch(this.commentsNamespace + '/updatePostHasComments', payload)
+        return dispatch('comments' + '/updatePostHasComments', payload)
       }
     })
   },
@@ -232,6 +224,7 @@ export default {
 .discussion-col {
   /* overflow-y: auto;
   overflow-x: hidden; */
+  overflow-x: hidden;
   overflow-y: scroll;
   max-height: 85vh;
   min-height: 85vh;

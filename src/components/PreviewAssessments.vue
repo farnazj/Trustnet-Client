@@ -9,7 +9,7 @@
             <span>{{tooltipText}}</span>
         </v-tooltip>
 
-        <assessor v-for="assessment in assessmentsInCategory.slice(0, assessmentsOnCardCount)" :key="assessment.lastVersion.id"
+        <assessor v-for="assessment in uniqueAssessments" :key="assessment.lastVersion.id"
             :user="assessment.assessor" :isTransitive="assessment.lastVersion.isTransitive"
             :credibilityValue="assessment.lastVersion.postCredibility" :class="['mb-2', $vuetify.breakpoint.smAndDown ? 'mr-1' : 'mr-2']">
         </assessor>
@@ -67,6 +67,20 @@
                     return 'mr-4';
             } 
                 
+        },
+        uniqueAssessments: function() {
+            const origAssessments = this.assessmentsInCategory.slice(0, this.assessmentsOnCardCount);
+
+            const seen = new Set([]);
+            const uniques = [];
+            for (const assessment of origAssessments) {
+                const id = assessment.lastVersion.id;
+                if (!seen.has(id)) {
+                    seen.add(id);
+                    uniques.push(assessment);
+                }
+            }
+            return uniques;
         }
     },
     methods: {

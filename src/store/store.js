@@ -36,24 +36,30 @@ let store = new Vuex.Store({
     loader,
     sourceLists,
     preferences,
-    consent
+    consent,
+
+    articleDetails,
+    titles,
+
+    assessments,
+    comments
   }
 })
 
-store.registerModule('homeArticleDetails', articleDetails);
-store.registerModule('profileArticleDetails', articleDetails);
-store.registerModule('singleArticleDetails', articleDetails);
+// store.registerModule('homeArticleDetails', articleDetails);
+// store.registerModule('profileArticleDetails', articleDetails);
+// store.registerModule('singleArticleDetails', articleDetails);
 
-store.registerModule('homeAssessments', assessments);
-store.registerModule('profileAssessments', assessments);
-store.registerModule('singleArticleAssessments', assessments);
+// store.registerModule('homeAssessments', assessments);
+// store.registerModule('profileAssessments', assessments);
+// store.registerModule('singleArticleAssessments', assessments);
 
-store.registerModule('homeComments', comments);
-store.registerModule('profileComments', comments);
-store.registerModule('singleArticleComments', comments);
+// store.registerModule('homeComments', comments);
+// store.registerModule('profileComments', comments);
+// store.registerModule('singleArticleComments', comments);
 
-store.registerModule('homeTitles', titles);
-store.registerModule('profileTitles', titles);
-store.registerModule('singleArticleTitles', titles);
+// store.registerModule('homeTitles', titles);
+// store.registerModule('profileTitles', titles);
+// store.registerModule('singleArticleTitles', titles);
 
 export default store;

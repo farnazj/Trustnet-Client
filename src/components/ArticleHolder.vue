@@ -19,9 +19,8 @@
       </tags-container>
 
       <v-row v-for="article in articles" :key="article.id" no-gutters>
-        <article-preview :post="article" :detailsNamespace="detailsNamespace"
-        :filtersNamespace="filtersNamespace"
-          :assessmentsNamespace="assessmentsNamespace" :commentsNamespace="commentsNamespace" :titlesNamespace="titlesNamespace">
+        <article-preview :post="article"
+        :filtersNamespace="filtersNamespace">
         </article-preview>
       </v-row>
       
@@ -73,23 +72,7 @@ export default {
     'article-loading': articleLoading
   },
   props: {
-    detailsNamespace: {
-      type: String,
-      required: true
-    },
     filtersNamespace: {
-      type: String,
-      required: true
-    },
-    assessmentsNamespace: {
-      type: String,
-      required: true
-    },
-    commentsNamespace: {
-      type: String,
-      required: true
-    },
-    titlesNamespace: {
       type: String,
       required: true
     },

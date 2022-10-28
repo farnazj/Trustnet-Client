@@ -39,26 +39,22 @@
         </v-row>
       </v-col>
 
-      <v-textarea v-if="replying" placeholder="Add a reply here..." outlined auto-grow rows="1" :autofocus="true" 
-        dense v-model="replyText" hide-details="auto" color="blue" style="font-size: 14px; width: 500px" class="pt-5 assessment-text-inner">
-        <template slot="append">
-          <v-icon @click="sendReply" color="blue">mdi-send</v-icon>
-          <v-icon @click="replying = false; replyText = ''" color="red">clear</v-icon>
-        </template>
-      </v-textarea>
+      
 
-      <v-row :style="iconsActive && !replying ? 'visibility: visible' : 'visibility: hidden'" class="mt-n7 justify-end" align="center" wrap no-gutters>
-        <v-btn style="z-index: 5" @click.stop="replying = true; iconsActive = false" icon>
-          <v-icon style="z-index: 5" class="xs-icon-font" color="blue">fa-reply</v-icon>
-        </v-btn>
-        <!-- <v-btn v-if="isUser" style="z-index: 5" @click.stop="editing = true; iconsActive = false" icon>
-          <v-icon style="z-index: 5" class="s-icon-font" color="blue">edit</v-icon>
-        </v-btn>
-        <v-btn v-if="isUser" style="z-index: 5" @click.stop="sendDelete(); iconsActive = false" icon>
-          <v-icon style="z-index: 5" class="xs-icon-font" color="blue">fa-trash</v-icon>
-        </v-btn> -->
-      </v-row>
+    </v-row>
 
+    <v-textarea v-if="replying" placeholder="Add a reply here..." outlined auto-grow rows="1" :autofocus="true" 
+        dense v-model="replyText" hide-details="auto" color="blue" class="pt-5 assessment-text-inner new-assessment">
+      <template slot="append">
+        <v-icon @click="sendReply" color="blue">mdi-send</v-icon>
+        <v-icon @click="replying = false; replyText = ''" color="red">clear</v-icon>
+      </template>
+    </v-textarea>
+
+    <v-row :style="iconsActive && !replying && inDiscussion ? 'visibility: visible' : 'visibility: hidden'" class="mt-n7 justify-end" align="center" wrap no-gutters>
+        <v-btn class="elevated" @click.stop="replying = true; iconsActive = false" icon>
+          <v-icon class="xs-icon-font elevated" color="blue">fa-reply</v-icon>
+        </v-btn>
     </v-row>
 
     <!-- <v-divider></v-divider> -->
@@ -76,20 +72,16 @@ export default {
    'assessor': assessor
   },
   props: {
-    assessmentsNamespace: {
-      type: String,
-      required: true
-    },
-    commentsNamespace: {
-      type: String,
-      required: true
-    },
     assessmentObj: {
       type: Object,
       required: true
     },
     assessmentType: {
       type: String
+    },
+    inDiscussion: {
+      type: Boolean,
+      default() { return false }
     }
   },
   data () {
@@ -125,7 +117,7 @@ export default {
     },
     ...mapState({
        commentState (state) {
-         return state[this.commentsNamespace];
+         return state['comments'];
        }
     }),
     ...mapGetters('auth', [
@@ -164,19 +156,19 @@ export default {
     },
     ...mapActions({
       populateHistory (dispatch, payload) {
-        return dispatch(this.assessmentsNamespace + '/populateAssessmentHistory', payload)
+        return dispatch('assessments' + '/populateAssessmentHistory', payload)
       },
       sethistoryVisibility (dispatch, payload) {
-        return dispatch(this.assessmentsNamespace + '/setHistoryVisibility', payload)
+        return dispatch('assessments' + '/setHistoryVisibility', payload)
       },
       getPostComments (dispatch, payload) {
-        return dispatch(this.commentsNamespace + '/getPostComments', payload)
+        return dispatch('comments' + '/getPostComments', payload)
       },
       postComment (dispatch, payload) {
-        return dispatch(this.commentsNamespace + '/postComment', payload)
+        return dispatch('comments' + '/postComment', payload)
       },
       updatePostHasComments (dispatch, payload) {
-        return dispatch(this.commentsNamespace + '/updatePostHasComments', payload)
+        return dispatch('comments' + '/updatePostHasComments', payload)
       }
     })
   },
@@ -197,6 +189,15 @@ export default {
 .assessment-text-inner {
   white-space: pre-wrap;
   word-break: break-word;
+}
+
+.new-assessment {
+  font-size: 14px;
+  width: 500px;
+}
+
+.elevated {
+  z-index: 6;
 }
 
 .show-more-less {

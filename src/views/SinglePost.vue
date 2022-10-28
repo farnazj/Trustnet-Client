@@ -3,24 +3,23 @@
     <custom-toolbar></custom-toolbar>
 
     <v-row no-gutters>
-      <boosters-list detailsNamespace="singleArticleDetails" filtersNamespace="articleFilters"></boosters-list>
-      <custom-titles titlesNamespace="singleArticleTitles" filtersNamespace="articleFilters"></custom-titles>
-      <engagement-history assessmentsNamespace="singleArticleAssessments" commentsNamespace="singleArticleComments"></engagement-history>
+      <boosters-list filtersNamespace="articleFilters"></boosters-list>
+      <custom-titles filtersNamespace="articleFilters"></custom-titles>
+      <engagement-history></engagement-history>
 
       <v-col class="pt-12 ml-1" md="7" cols="8" >
-        <article-preview v-if="post" :post="post" detailsNamespace="singleArticleDetails"
-          filtersNamespace="articleFilters"
-          assessmentsNamespace="singleArticleAssessments" commentsNamespace="singleArticleComments" titlesNamespace="singleArticleTitles">
+        <article-preview v-if="post" :post="post"
+          filtersNamespace="articleFilters">
         </article-preview>
       </v-col>
 
       <v-col md="5" cols="4">
-        <engagement-container assessmentsNamespace="singleArticleAssessments" commentsNamespace="singleArticleComments" class="single-post-engagements frozen">
+        <engagement-container class="single-post-engagements frozen">
         </engagement-container>
       </v-col>
     </v-row>
 
-    <article-details detailsNamespace="singleArticleDetails"
+    <article-details
      filtersNamespace="articleFilters" @assessmentUpdate="getArticle"> </article-details>
 
   </v-container>
@@ -58,7 +57,6 @@ export default {
     return {
       post: null,
       initialTopLevelCommentsLimit: INITIAL_TOP_LEVEL_COMMENTS_LIMIT
-
     }
   },
   created() {
@@ -69,14 +67,11 @@ export default {
     this.fetchTrusteds();
   },
   computed: {
-    ...mapState('singleArticleAssessments', [
+    ...mapState('assessments', [
      'visible'
     ]),
     ...mapState('articleFilters', [
       'articles'
-    ]),
-    ...mapState('singleArticleComments', [
-      'commentState'
     ])
   },
   beforeRouteLeave (to, from, next) {
@@ -88,19 +83,21 @@ export default {
   methods: {
     getArticle: function() {
       this.getSingleArticle({ postId: this.postid })
-      
       .then( () => {
         //this.showArticleDrawer(res.data);
         this.post = this.articles[0];
+
         this.getInitialComments();
         Promise.all(this.restructureAssessments())
+        .then( () => {
+          this.updateCommentsPostId( this.postid );
+        })
         .then(() => {
           this.showAssessments({
             assessments: this.assessments,
             postIdOfAssessments: this.postid
           });
         })
-
       })
     },
     hideAssessments: function() {
@@ -118,15 +115,15 @@ export default {
       })
       
     },
-    ...mapActions('singleArticleAssessments', [
+    ...mapActions('assessments', [
       'hideContainer',
       'showAssessments'
     ]),
-    ...mapActions('singleArticleDetails', [
+    ...mapActions('articleDetails', [
       'showArticleDrawer',
       'setBoostersVisibility'
     ]),
-    ...mapActions('singleArticleTitles', [
+    ...mapActions('titles', [
       'setTitlesVisibility'
     ]),
     ...mapActions('relatedSources', [
@@ -136,9 +133,10 @@ export default {
     ...mapActions('articleFilters', [
       'getSingleArticle'
     ]),
-    ...mapActions('singleArticleComments', [
+    ...mapActions('comments', [
       'getPostComments',
-      'clearComments'
+      'clearComments',
+      'updateCommentsPostId'
     ])
   },
   watch: {

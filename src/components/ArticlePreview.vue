@@ -155,23 +155,7 @@
      'preview-assessments': previewAssessments
     },
     props: {
-      detailsNamespace: {
-        type: String,
-        required: true
-      },
       filtersNamespace: {
-        type: String,
-        required: true
-      },
-      assessmentsNamespace: {
-        type: String,
-        required: true
-      },
-      commentsNamespace: {
-        type: String,
-        required: true
-      },
-      titlesNamespace: {
         type: String,
         required: true
       },
@@ -240,10 +224,10 @@
       },
       ...mapState({
          assessmentState (state) {
-           return state[this.assessmentsNamespace];
+           return state['assessments'];
          },
          commentState (state) {
-           return state[this.commentsNamespace];
+           return state['comments'];
          },
       }),
       defaultView: function() {
@@ -372,34 +356,34 @@
       },
       ...mapActions({
         populateBoosters (dispatch, payload) {
-          return dispatch(this.detailsNamespace + '/populateBoosters', payload)
+          return dispatch('articleDetails' + '/populateBoosters', payload)
         },
         setBoostersVisibility (dispatch, payload) {
-          return dispatch(this.detailsNamespace + '/setBoostersVisibility', payload)
+          return dispatch('articleDetails' + '/setBoostersVisibility', payload)
         },
         showArticleDrawer (dispatch, payload) {
-          return dispatch(this.detailsNamespace + '/showArticleDrawer', payload)
+          return dispatch('articleDetails' + '/showArticleDrawer', payload)
         },
         showAssessments (dispatch, payload) {
-          return dispatch(this.assessmentsNamespace + '/showAssessments', payload)
+          return dispatch('assessments' + '/showAssessments', payload)
         },
         updateCommentsPostId (dispatch, payload) {
-          return dispatch(this.commentsNamespace + '/updateCommentsPostId', payload)
+          return dispatch('comments' + '/updateCommentsPostId', payload)
         },
         getPostComments (dispatch, payload) {
-          return dispatch(this.commentsNamespace + '/getPostComments', payload)
+          return dispatch('comments' + '/getPostComments', payload)
         },
         getReplyComments (dispatch, payload) {
-          return dispatch(this.commentsNamespace + '/getReplyComments', payload)
+          return dispatch('comments' + '/getReplyComments', payload)
         },
         clearComments (dispatch) {
-          return dispatch(this.commentsNamespace + '/clearComments')
+          return dispatch('comments' + '/clearComments')
         },
         updateHasComments (dispatch, payload) {
           return dispatch(this.filtersNamespace + '/updateHasComments', payload)
         },
         setInitialTab (dispatch, payload) {
-          return dispatch(this.assessmentsNamespace + '/setInitialTab', payload)
+          return dispatch('assessments' + '/setInitialTab', payload)
         }
 
       })
@@ -407,7 +391,6 @@
     },
     watch: {
       post: function(val) {
-        console.log('triggering ths', val)
         /*
         For when the user deletes their boost in BoostersList
         */

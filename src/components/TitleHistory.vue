@@ -62,10 +62,7 @@ export default {
    'custom-avatar': customAvatar
   },
   props: {
-    namespace: {
-      type: String,
-      required: true
-    },
+    
   },
   data: () => {
     return {
@@ -81,13 +78,11 @@ export default {
       }
     },
     titleHistoryState: function() {
-      return this.state.titleHistoryState;
+      return this.titleHistoryState;
     },
-    ...mapState({
-      state (state) {
-       return state[this.namespace];
-      }
-    })
+    ...mapState('titles', [
+        'titleHistoryState'
+    ])
   },
   methods: {
 
@@ -96,7 +91,7 @@ export default {
     },
     ...mapActions({
       setHistoryVisibility (dispatch, payload) {
-        return dispatch(this.namespace + '/setHistoryVisibility', payload)
+        return dispatch('titles' + '/setHistoryVisibility', payload)
       }
     })
   },

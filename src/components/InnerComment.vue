@@ -5,7 +5,7 @@
       <custom-avatar :user="commentObj.Source" :clickEnabled="false" :size="23" class="mb-1"></custom-avatar>
       
       <span class="ml-2 caption grey--text text--darken-3"> {{timestamp}} </span>
-      <!-- <span v-if="true" class="ml-2 caption grey--text text--darken-1 interactable" @click.stop="showHistory">Edited</span> -->
+      <span v-if="isEdited" class="ml-2 caption grey--text text--darken-1 interactable elevated" @click.stop="showHistory">Edited</span>
     </v-row>
 
     <v-row no-gutters class="pa-1 pb-0 body-2 assessment-text">
@@ -69,6 +69,7 @@
 <script>
 import customAvatar from '@/components/CustomAvatar'
 import timeHelpers from '@/mixins/timeHelpers'
+import commentServices from '@/services/commentServices'
 import { mapState, mapActions, mapGetters } from 'vuex'
 
 export default {
@@ -76,14 +77,6 @@ export default {
    'custom-avatar': customAvatar
   },
   props: {
-    assessmentsNamespace: {
-      type: String,
-      required: true
-    },
-    commentsNamespace: {
-      type: String,
-      required: true
-    },
     commentObj: {
       type: Object,
       required: true
@@ -100,6 +93,9 @@ export default {
     }
   },
   computed: {
+    isEdited() {
+      return this.commentObj.createdAt !== this.commentObj.originTime;
+    },
     isDeleted() {
       return this.commentObj.body === null;
     },
@@ -126,7 +122,7 @@ export default {
     },
     ...mapState({
        commentState (state) {
-         return state[this.commentsNamespace];
+         return state['comments'];
        }
     }),
     ...mapGetters('auth', [
@@ -135,11 +131,19 @@ export default {
   },
   methods: {
     showHistory() {
-      this.populateHistory({
-        history: [this.commentObj, ...([...this.commentObj.history].reverse())],
-        author: this.commentObj.Source
+      commentServices.getCommentHistory(this.commentObj.setId)
+      .then(rawCommentHistory => {
+        const commentHistory = rawCommentHistory.data.reverse();
+        this.populateHistory({
+          history: commentHistory,
+          author: this.commentObj.Source
+        });
+        this.sethistoryVisibility(true);
+      })
+      .catch(() => {
+        console.log("Comment history could not be obtained")
       });
-      this.sethistoryVisibility(true);
+      
     },
     resetEditText() {
       this.editText = this.commentObj.body !== null ? this.bodyText.slice() : "";
@@ -176,25 +180,25 @@ export default {
     },
     ...mapActions({
       populateHistory (dispatch, payload) {
-        return dispatch(this.commentsNamespace + '/populateCommentHistory', payload)
+        return dispatch('comments' + '/populateCommentHistory', payload)
       },
       sethistoryVisibility (dispatch, payload) {
-        return dispatch(this.commentsNamespace + '/setHistoryVisibility', payload)
+        return dispatch('comments' + '/setHistoryVisibility', payload)
       },
       getPostComments (dispatch, payload) {
-        return dispatch(this.commentsNamespace + '/getPostComments', payload)
+        return dispatch('comments' + '/getPostComments', payload)
       },
       postComment (dispatch, payload) {
-        return dispatch(this.commentsNamespace + '/postComment', payload)
+        return dispatch('comments' + '/postComment', payload)
       },
       editComment (dispatch, payload) {
-        return dispatch(this.commentsNamespace + '/editComment', payload)
+        return dispatch('comments' + '/editComment', payload)
       },
       deleteComment (dispatch, payload) {
-        return dispatch(this.commentsNamespace + '/deleteComment', payload)
+        return dispatch('comments' + '/deleteComment', payload)
       },
       updatePostHasComments (dispatch, payload) {
-        return dispatch(this.commentsNamespace + '/updatePostHasComments', payload)
+        return dispatch('comments' + '/updatePostHasComments', payload)
       }
     })
   },

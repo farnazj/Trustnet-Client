@@ -19,7 +19,7 @@
 
     <custom-toolbar></custom-toolbar>
 
-    <article-details detailsNamespace="profileArticleDetails"
+    <article-details
      filtersNamespace="profileArticles"> </article-details>
 
      <v-row no-gutters class="pt-9 flex-fixed-height-child">
@@ -133,16 +133,15 @@
           <v-tab-item value="history">
             <v-container fluid class="px-0">
               <v-row no-gutters>
-                <boosters-list detailsNamespace="profileArticleDetails" filtersNamespace="profileArticles"></boosters-list>
-                <custom-titles titlesNamespace="profileTitles" filtersNamespace="profileArticles"></custom-titles>
-                <engagement-history assessmentsNamespace="profileAssessments" commentsNamespace="profileComments"></engagement-history>
+                <boosters-list filtersNamespace="profileArticles"></boosters-list>
+                <custom-titles filtersNamespace="profileArticles"></custom-titles>
+                <engagement-history></engagement-history>
 
                 <v-col cols="7" class="ml-2">
-                  <article-holder detailsNamespace="profileArticleDetails" filtersNamespace="profileArticles"
-                  assessmentsNamespace="profileAssessments" commentsNamespace="profileComments" titlesNamespace="profileTitles" :loadLocked="tabs != 'history'"></article-holder>
+                  <article-holder filtersNamespace="profileArticles" :loadLocked="tabs != 'history'"></article-holder>
                 </v-col>
 
-                <engagement-container assessmentsNamespace="profileAssessments" commentsNamespace="profileComments" class="engagement-container">
+                <engagement-container class="engagement-container">
                 </engagement-container>
 
               </v-row>
@@ -346,7 +345,7 @@ export default {
     ...mapActions('auth', [
       'updateUser'
     ]),
-    ...mapActions('profileAssessments', [
+    ...mapActions('assessments', [
       'hideContainer'
     ]),
     ...mapActions('preferences', [

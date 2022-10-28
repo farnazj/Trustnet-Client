@@ -72,10 +72,6 @@ export default {
     'custom-avatar': customAvatar
   },
   props: {
-    detailsNamespace: {
-      type: String,
-      required: true
-    },
     filtersNamespace: {
       type: String,
       required: true
@@ -91,20 +87,19 @@ export default {
   computed: {
     visible: {
       get: function() {
-        return this.state.boosterListVisible;
+        return this.boosterListVisible;
       },
       set: function(newValue) {
         this.setBoostersVisibility(newValue);
       }
     },
     boosters: function() {
-      return this.state.boosters;
+      return this.boosters;
     },
-    ...mapState({
-       state (state) {
-         return state[this.detailsNamespace];
-       }
-     }),
+    ...mapState('articleDetails', [
+      'boosters',
+      'boosterListVisible'
+    ]),
    ...mapGetters('auth', [
      'user'
    ]),
@@ -123,7 +118,7 @@ export default {
     },
     ...mapActions({
       setBoostersVisibility (dispatch, payload) {
-        return dispatch(this.detailsNamespace + '/setBoostersVisibility', payload)
+        return dispatch('articleDetails' + '/setBoostersVisibility', payload)
       },
       updateStateArticle (dispatch, payload) {
         return dispatch(this.filtersNamespace + '/updateStateArticle', payload)

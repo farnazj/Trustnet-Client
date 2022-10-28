@@ -153,8 +153,8 @@
      </v-card>
      </v-slide-x-reverse-transition>
 
-      <title-history :namespace="titlesNamespace"></title-history>
-      <title-endorsers :namespace="titlesNamespace"></title-endorsers>
+      <title-history></title-history>
+      <title-endorsers></title-endorsers>
 
   </v-dialog>
 
@@ -180,10 +180,6 @@ export default {
   'title-endorsers': titleEndorsers
   },
   props: {
-    titlesNamespace: {
-      type: String,
-      required: true
-    },
     filtersNamespace: {
       type: String,
       required: true
@@ -230,7 +226,7 @@ export default {
     titleDialogVisible: {
 
       get: function() {
-        return this.state.customTitlesVisible;
+        return this.customTitlesVisible;
       },
       set: function(newValue) {
         this.sethistoryVisibility(false);
@@ -247,19 +243,20 @@ export default {
           return 3;
     },
     selectedCustomTitleSetId: function() {
-      return this.state.selectedCustomTitleSetId;
+      return this.selectedCustomTitleSetId;
     },
     titleHistoryState: function() {
-      return this.state.titleHistoryState;
+      return this.titleHistoryState;
     },
     titleEndorsersState: function() {
-      return this.state.titleEndorsersState;
+      return this.titleEndorsersState;
     },
-    ...mapState({
-      state (state) {
-       return state[this.titlesNamespace];
-      }
-    }),
+    ...mapState('titles', [
+      'customTitlesVisible',
+      'selectedCustomTitleSetId',
+      'titleHistoryState',
+      'titleEndorsersState'
+    ]),
     ...mapGetters('auth', [
       'user'
     ])
@@ -409,25 +406,24 @@ export default {
     },
     ...mapActions({
       setTitlesVisibility (dispatch, payload) {
-        return dispatch(this.titlesNamespace + '/setTitlesVisibility', payload)
+        return dispatch('titles' + '/setTitlesVisibility', payload)
       },
       populateTitleHistory (dispatch, payload) {
-        return dispatch(this.titlesNamespace + '/populateTitleHistory', payload)
+        return dispatch('titles' + '/populateTitleHistory', payload)
       },
       sethistoryVisibility (dispatch, payload) {
-        return dispatch(this.titlesNamespace + '/setHistoryVisibility', payload)
+        return dispatch('titles' + '/setHistoryVisibility', payload)
       },
       fetchPostTitles (dispatch) {
-        return dispatch(this.titlesNamespace + '/fetchPostTitles', { 
-          titlesNamespace: this.titlesNamespace,
+        return dispatch('titles' + '/fetchPostTitles', { 
           filtersNamespace: this.filtersNamespace
-          })
+        })
       },
       setEndorsersVisibility (dispatch, payload) {
-        return dispatch(this.titlesNamespace + '/setEndorsersVisibility', payload)
+        return dispatch('titles' + '/setEndorsersVisibility', payload)
       },
       setCustomTitleSetId (dispatch, payload) {
-        return dispatch(this.titlesNamespace + '/setCustomTitleSetId', payload)
+        return dispatch('titles' + '/setCustomTitleSetId', payload)
       }
 
     })

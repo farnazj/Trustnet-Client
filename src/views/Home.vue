@@ -28,9 +28,9 @@
     </v-row>
 
     <v-row no-gutters>
-      <boosters-list detailsNamespace="homeArticleDetails" filtersNamespace="articleFilters"></boosters-list>
-      <custom-titles titlesNamespace="homeTitles" filtersNamespace="articleFilters"></custom-titles>
-      <engagement-history assessmentsNamespace="homeAssessments" commentsNamespace="homeComments"></engagement-history>
+      <boosters-list filtersNamespace="articleFilters"></boosters-list>
+      <custom-titles filtersNamespace="articleFilters"></custom-titles>
+      <engagement-history></engagement-history>
 
       <v-col sm="3" md="2" v-show="filtersVisible">
         <filters class="frozen"></filters>
@@ -43,21 +43,19 @@
       </div>
 
       <v-col md="7" cols="8" :offset="$vuetify.breakpoint.smAndDown ? 0 : (($vuetify.breakpoint.mdAndDown && !assessmentsVisible) ? 2 : 1)">
-        <article-holder detailsNamespace="homeArticleDetails" filtersNamespace="articleFilters"
-          assessmentsNamespace="homeAssessments" commentsNamespace="homeComments" titlesNamespace="homeTitles"
+        <article-holder filtersNamespace="articleFilters"
           :class="{'pt-5': !$vuetify.breakpoint.smAndDown}">
        </article-holder>
       </v-col>
 
       <v-col v-if="assessmentsVisible">
-        <engagement-container assessmentsNamespace="homeAssessments" commentsNamespace="homeComments" class="frozen">
+        <engagement-container class="frozen">
         </engagement-container>
       </v-col>
 
     </v-row>
 
-    <article-details detailsNamespace="homeArticleDetails"
-     filtersNamespace="articleFilters"> </article-details>
+    <article-details filtersNamespace="articleFilters"> </article-details>
 
   </v-container>
 </template>
@@ -104,7 +102,7 @@ export default {
     assessmentsVisible: function() {
       return this.visible;
     },
-    ...mapState('homeAssessments', [
+    ...mapState('assessments', [
      'visible'
    ])
   },
@@ -133,14 +131,14 @@ export default {
       hideAssessments: function() {
         this.hideContainer();
       },
-      ...mapActions('homeAssessments', [
+      ...mapActions('assessments', [
         'hideContainer'
       ]),
-      ...mapActions('homeArticleDetails', [
+      ...mapActions('articleDetails', [
         'showArticleDrawer',
         'setBoostersVisibility'
       ]),
-      ...mapActions('homeTitles', [
+      ...mapActions('titles', [
         'setTitlesVisibility'
       ]),
       ...mapActions('preferences', [

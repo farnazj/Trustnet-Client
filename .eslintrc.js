@@ -15,9 +15,12 @@ module.exports = {
     'no-unused-components': 'off',
     'no-undef': 'off',
     'vue/no-unused-vars': 'off',
-    'vue/return-in-computed-property': 'off'
+    'vue/return-in-computed-property': 'off',
+    'vue/multi-word-component-names': 'off',
+    'vue/no-v-text-v-html-on-component': 'off',
+    'vue/no-useless-template-attributes': 'off'
   },
   parserOptions: {
-    parser: 'babel-eslint'
+    parser: "@babel/eslint-parser"
   }
 }

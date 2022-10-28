@@ -60,14 +60,7 @@ export default {
    'custom-avatar': customAvatar
   },
   props: {
-    assessmentsNamespace: {
-      type: String,
-      required: true
-    },
-    commentsNamespace: {
-      type: String,
-      required: true
-    },
+    
   },
   data: () => {
     return {
@@ -102,10 +95,10 @@ export default {
     },
     ...mapState({
        assessmentState (state) {
-         return state[this.assessmentsNamespace];
+         return state['assessments'];
        },
        commentState (state) {
-         return state[this.commentsNamespace];
+         return state['comments'];
        },
     })
   },
@@ -124,10 +117,10 @@ export default {
     },
     ...mapActions({
       setAssessmentHistoryVisibility (dispatch, payload) {
-        return dispatch(this.assessmentsNamespace + '/setHistoryVisibility', payload)
+        return dispatch('assessments' + '/setHistoryVisibility', payload)
       },
       setCommentHistoryVisibility (dispatch, payload) {
-        return dispatch(this.commentsNamespace + '/setHistoryVisibility', payload)
+        return dispatch('comments' + '/setHistoryVisibility', payload)
       }
     })
   },

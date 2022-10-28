@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div  :class="{'mt-2': true, 'assessment-background': !discussionObj.eType}">
+    <div  :class="{'mt-2': true, 'assessment-background': !discussionObj.engagementType}">
       <template v-if="deepNest">
 
         <v-row class="ml-9 mb-n6">
@@ -21,16 +21,15 @@
 
       </template>
 
-      <inner-comment v-if="discussionObj.eType" :assessmentsNamespace="assessmentsNamespace" 
-        :commentsNamespace="commentsNamespace" :commentObj="discussionObj" :class="{ 'ml-10' : depth }"></inner-comment>
-      <inner-assessment v-else :assessmentsNamespace="assessmentsNamespace" :commentsNamespace="commentsNamespace" 
-        :assessmentObj="discussionObj" :assessmentType="discussionObj.assessmentType" :class="{ 'ml-10' : depth }"></inner-assessment>
+      <inner-comment v-if="discussionObj.engagementType"
+        :commentObj="discussionObj" :class="{ 'ml-10' : depth }"></inner-comment>
+      <inner-assessment v-else
+        :assessmentObj="discussionObj" :assessmentType="discussionObj.assessmentType" inDiscussion :class="{ 'ml-10' : depth }"></inner-assessment>
 
     </div>
 
     <template>
-      <inner-discussion v-for="dItem in discussionObj.replies" :key="dItem.eId" 
-        :assessmentsNamespace="assessmentsNamespace" :commentsNamespace="commentsNamespace" 
+      <inner-discussion v-for="dItem in discussionObj.replies" :key="dItem.engagementId"
         :discussionObj="dItem" :depth="depth + 1"></inner-discussion>
       <p
         @click="getReplies(replyCommentsLimit)"
@@ -64,14 +63,6 @@ export default {
    'custom-avatar': customAvatar
   },
   props: {
-    assessmentsNamespace: {
-      type: String,
-      required: true
-    },
-    commentsNamespace: {
-      type: String,
-      required: true
-    },
     discussionObj: {
       type: Object,
       required: true
@@ -95,7 +86,7 @@ export default {
     },
     parentAuthor() {
       if (this.deepNest)
-        return !this.discussionObj.parent.eType ? this.discussionObj.parent.assessor : this.discussionObj.parent.Source;
+        return !this.discussionObj.parent.engagementType ? this.discussionObj.parent.assessor : this.discussionObj.parent.Source;
       else
         return null;
     },
@@ -108,7 +99,7 @@ export default {
   methods: {
     getReplies(lim) {
       this.getReplyComments({
-        rootSetId: this.discussionObj.eType ? this.discussionObj.setId : this.discussionObj.assessor.id,
+        rootSetId: this.discussionObj.engagementType ? this.discussionObj.setId : this.discussionObj.assessor.id,
         limit: lim,
         offset: this.repliesOffset
       })
@@ -122,7 +113,7 @@ export default {
     },
     ...mapActions({
       getReplyComments (dispatch, payload) {
-        return dispatch(this.commentsNamespace + '/getReplyComments', payload)
+        return dispatch('comments' + '/getReplyComments', payload)
       }
     })
   },

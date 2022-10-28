@@ -5,10 +5,7 @@ import { mapState, mapActions } from 'vuex'
 
 export default {
   props: {
-    titlesNamespace: {
-      type: String,
-      required: true
-    }
+
   },
   data: () => {
     return {
@@ -20,22 +17,23 @@ export default {
       return this.titleObjects.slice().sort(utils.compareTitles);
     },
     titles: function() {
-      return this.state.titles;
+      return this.titles;
     },
     postId: function() {
-      return this.state.postId;
+      return this.postId;
     },
     standaloneTitleIds: function() {
-      return this.state.standaloneTitleIds;
+      return this.standaloneTitleIds;
     },
     customTitlesVisible: function() {
-      return this.state.customTitlesVisible;
+      return this.customTitlesVisible;
     },
-    ...mapState({
-       state (state) {
-         return state[this.titlesNamespace];
-       }
-    })
+    ...mapState('titles', [
+      'titles',
+      'postId',
+      'standaloneTitleIds',
+      'customTitlesVisible'
+    ])
   },
   methods: {
 
@@ -85,16 +83,16 @@ export default {
 
     ...mapActions({
       setPostTitleIds(dispatch, payload) {
-        return dispatch(this.titlesNamespace + '/setPostTitleIds', payload)
+        return dispatch('titles' + '/setPostTitleIds', payload)
       },
       setTitleIds(dispatch, payload) {
-        return dispatch(this.titlesNamespace + '/setTitleIds', payload)
+        return dispatch('titles' + '/setTitleIds', payload)
       },
       populateTitles(dispatch, payload) {
-        return dispatch(this.titlesNamespace + '/populateTitles', payload)
+        return dispatch('titles' + '/populateTitles', payload)
       },
       setTitlesVisibility(dispatch, payload) {
-        return dispatch(this.titlesNamespace + '/setTitlesVisibility', payload)
+        return dispatch('titles' + '/setTitlesVisibility', payload)
       }
     })
 
