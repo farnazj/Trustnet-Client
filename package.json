@@ -11,7 +11,7 @@
     "@babel/eslint-parser": "^7.19.1",
     "@mdi/js": "^5.9.55",
     "ajv": "^6.12.6",
-    "axios": "^0.26.1",
+    "axios": "^1.6.0",
     "epic-spinners": "^1.1.0",
     "moment": "^2.29.4",
     "v-clipboard": "^2.2.3",
